@@ -1,1 +1,4 @@
 *~
+.stack-work/
+/haskell/src/
+/haskell/cdm.cabal
