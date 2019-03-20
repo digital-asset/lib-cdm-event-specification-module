@@ -1,0 +1,16 @@
+daml 1.2
+module Test.Date.Period where
+
+import DA.Assert
+import DA.Date as D
+import ISDA.CDM.Impl.Date.Period
+import ISDA.CDM.Types.All hiding (length)
+
+main = scenario do
+  (addPeriod (D.date 2018 Oct 01) (Period {periodMultiplier = 1, period = PeriodEnum_D, id = None}) === D.date 2018 Oct 02)
+  (addPeriod (D.date 2018 Oct 01) (Period {periodMultiplier = 1, period = PeriodEnum_W, id = None}) === D.date 2018 Oct 08)
+  (addPeriod (D.date 2018 Oct 01) (Period {periodMultiplier = 1, period = PeriodEnum_M, id = None}) === D.date 2018 Nov 01)
+  (addPeriod (D.date 2018 Oct 01) (Period {periodMultiplier = 1, period = PeriodEnum_Y, id = None}) === D.date 2019 Oct 01)
+  (addPeriod (D.date 2018 Oct 31) (Period {periodMultiplier = 1, period = PeriodEnum_M, id = None}) === D.date 2018 Nov 30)
+  (addPeriod (D.date 2018 Nov 30) (Period {periodMultiplier = -1, period = PeriodEnum_M, id = None}) === D.date 2018 Oct 30)
+  (addPeriod (D.date 2018 Jan 30) (Period {periodMultiplier = -1, period = PeriodEnum_M, id = None}) === D.date 2017 Dec 30)

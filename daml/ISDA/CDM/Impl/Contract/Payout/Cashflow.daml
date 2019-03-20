@@ -1,0 +1,44 @@
+daml 1.2
+module ISDA.CDM.Impl.Contract.Payout.Cashflow
+  ( buildEvent
+  ) where
+
+import ISDA.CDM.Impl.Date.AdjustableOrAdjustedOrRelativeDate
+import ISDA.CDM.Impl.Event.Event
+import ISDA.CDM.Impl.Utils
+import ISDA.CDM.Types.All
+
+-- | Build corresponding cash transfer (payment) event
+buildEvent : (Fetch f) => Optional Date -> Optional Date -> Cashflow -> f (Optional Event)
+buildEvent fromDate toDate cf = do
+  let cashflowDate = get "cashflowDate" cf.cashflowDate
+  let uDate = getUnadjustedDate cashflowDate
+  if fallsWithin fromDate toDate uDate
+  then do
+    aDate <- getAdjustedDate cashflowDate
+    let transfer = TransferPrimitive with
+                    cashTransfer =
+                      [ CashTransferComponent with
+                          amount = cf.cashflowAmount
+                          breakdown = []
+                          payerReceiver = cf.payerReceiver
+                          cashflowType = cf.cashflowType
+                          identifier = None
+                          transferCalculation = None
+                      ]
+                    commodityTransfer = []
+                    securityTransfer = []
+                    settlementDate = cashflowDate
+                    settlementReference = None
+                    status = None
+                    settlementType = None
+                    identifier = None
+
+    return $ Some $ emptyEvent with
+                      eventDate = uDate
+                      effectiveDate = Some aDate
+                      eventQualifier = Some "CashPayment"
+                      lineage = Some emptyLineage with cashflowReference = [cf.rosettaKey]
+                      primitive = emptyPrimitiveEvent with transfer = [transfer]
+  else
+    return None

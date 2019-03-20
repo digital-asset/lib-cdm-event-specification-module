@@ -1,0 +1,10 @@
+daml 1.2
+module Test.Date.DayCountFraction where
+
+import DA.Assert
+import DA.Date as D
+import ISDA.CDM.Impl.Date.DayCountFraction
+import ISDA.CDM.Types.All hiding (length)
+
+main = scenario do
+  calcDayCountFraction DayCountFractionEnum__30E_360 (D.date 2018 Feb 28) (D.date 2018 May 30) === (intToDecimal 92 / 360.0)

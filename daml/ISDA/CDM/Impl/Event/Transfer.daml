@@ -1,0 +1,11 @@
+daml 1.2
+module ISDA.CDM.Impl.Event.Transfer where
+
+import ISDA.CDM.Impl.Utils
+import ISDA.CDM.Types.All
+
+-- Check TransferPrimitive for non-supported features
+checkTransferPrimitive : TransferPrimitive -> TransferPrimitive
+checkTransferPrimitive transfer | not $ null transfer.securityTransfer = throwNotSupportedError "TransferPrimitive.securityTransfer"
+checkTransferPrimitive transfer | not $ null transfer.commodityTransfer = throwNotSupportedError "TransferPrimitive.commodityTransfer"
+checkTransferPrimitive transfer = transfer

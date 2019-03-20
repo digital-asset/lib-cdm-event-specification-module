@@ -1,0 +1,38 @@
+daml 1.2
+module ISDA.CDM.Impl.Date.BusinessDayAdjustments where
+
+import ISDA.CDM.Impl.Date.Base
+import ISDA.CDM.Impl.Date.BusinessCenters as BC
+import ISDA.CDM.Impl.Utils
+import ISDA.CDM.Types.All
+
+-- | Adjust date for BusinessDayAdjustments
+adjustDate : (Fetch f) => BusinessDayAdjustments -> Date -> f Date
+adjustDate bdAdj date =
+  case bdAdj.businessDayConvention of
+    BusinessDayConventionEnum_FOLLOWING       -> do
+      let bcs = get "businessCenters" bdAdj.businessCenters
+      cal <- BC.fetchHolidayCalendar bcs
+      return $ nextOrSameBusinessDay cal date
+
+    BusinessDayConventionEnum_MODFOLLOWING    -> do
+      let bcs = get "businessCenters" bdAdj.businessCenters
+      cal <- BC.fetchHolidayCalendar bcs
+      return $ nextSameOrLastInMonthBusinessDay cal date
+
+    BusinessDayConventionEnum_PRECEDING       -> do
+      let bcs = get "businessCenters" bdAdj.businessCenters
+      cal <- BC.fetchHolidayCalendar bcs
+      return $ previousOrSameBusinessDay cal date
+
+    BusinessDayConventionEnum_MODPRECEDING    -> do
+      let bcs = get "businessCenters" bdAdj.businessCenters
+      cal <- BC.fetchHolidayCalendar bcs
+      return $ previousSameOrFirstInMonthBusinessDay cal date
+
+    BusinessDayConventionEnum_NONE            -> return date
+
+    BusinessDayConventionEnum_NotApplicable   -> error "cannot adjust for 'NotApplicable'"
+
+    BusinessDayConventionEnum_NEAREST         -> throwNotSupportedError "businessDayConvention 'NEAREST'"
+    BusinessDayConventionEnum_FRN             -> throwNotSupportedError "businessDayConvention 'FRN'"

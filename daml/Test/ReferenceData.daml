@@ -1,0 +1,53 @@
+daml 1.2
+module Test.ReferenceData where
+
+import DA.Date as D
+import ISDA.CDM.Types.All hiding (length)
+
+instance Fetch Scenario where
+  fetchHolidayCalendar key = return $ fmap snd $ find ((== key) . fst) cals
+  fetchObservation key = return $ fmap snd $ find ((== key) . fst) observations
+
+cals : [(HolidayCalendarKey, HolidayCalendarData)]
+cals =
+  map (\d -> (getKey d, d))
+    [ HolidayCalendarData with
+        label = "USNY"
+        weekend = [Saturday, Sunday]
+        holidays = [D.date 2019 Dec 19]
+    ]
+
+observations : [(ObservationKey, ObservationPrimitive)]
+observations =
+    map (\d -> (getKey d, d))
+      [  ObservationPrimitive with
+          source =
+            ObservationSource with
+              curve = Some
+                Curve with
+                  commodityCurve = None
+                  interestRateCurve = Some
+                    InterestRateCurve with
+                      floatingRateIndex = FloatingRateIndexEnum_USD_LIBOR_BBA
+                      tenor = Period with period = PeriodEnum_M, periodMultiplier = 3, id = None
+              informationSource = None
+          date = D.date 2018 Nov 23
+          observation = 0.03
+          time = None
+          side = None
+      ,  ObservationPrimitive with
+          source =
+            ObservationSource with
+              curve = Some
+                Curve with
+                  commodityCurve = None
+                  interestRateCurve = Some
+                    InterestRateCurve with
+                      floatingRateIndex = FloatingRateIndexEnum_USD_LIBOR_BBA
+                      tenor = Period with period = PeriodEnum_M, periodMultiplier = 1, id = None
+              informationSource = None
+          date = D.date 2018 Nov 23
+          observation = 0.01
+          time = None
+          side = None
+      ]

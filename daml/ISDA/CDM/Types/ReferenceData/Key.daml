@@ -1,0 +1,7 @@
+daml 1.2
+module ISDA.CDM.Types.ReferenceData.Key where
+
+-- | A class for types that have a corresponding key.
+class Key v k where
+  -- | Obtain the corresponding key.
+  getKey : v -> k

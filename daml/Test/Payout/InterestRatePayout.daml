@@ -1,0 +1,125 @@
+daml 1.2
+module Test.Payout.InterestRatePayout where
+
+import DA.Assert
+import DA.Date as D
+import DA.List
+import DA.Optional
+import ISDA.CDM.Impl.Contract.Payout.InterestRatePayout.InterestRatePayout
+import ISDA.CDM.Impl.Event.Event
+import ISDA.CDM.Types.All hiding (length)
+import Test.Examples
+import Test.ReferenceData()
+
+genPayment : Decimal -> Date -> Date -> TransferPrimitive
+genPayment amount unadjustedDate adjustedDate =
+  TransferPrimitive with
+    cashTransfer =
+      [ CashTransferComponent with
+          amount =
+            Money with
+              id = None
+              amount = amount
+              currency = "USD"
+          breakdown = []
+          payerReceiver =
+            PayerReceiver with
+              payerAccountReference = None
+              payerPartyReference = "Party1"
+              receiverAccountReference = None
+              receiverPartyReference = "Party2"
+          cashflowType = Some CashflowTypeEnum_Interest
+          identifier = None
+          transferCalculation = None
+      ]
+    commodityTransfer = []
+    securityTransfer = []
+    settlementDate =
+      AdjustableOrAdjustedOrRelativeDate with
+        id = None
+        adjustedDate = Some $ adjustedDate
+        dateAdjustments = Some
+          BusinessDayAdjustments with
+            id = None
+            businessCenters = Some
+              BusinessCenters with
+                id = None
+                businessCenter = [BusinessCenterEnum_USNY]
+                businessCentersReference = None
+            businessDayConvention = BusinessDayConventionEnum_MODFOLLOWING
+        relativeDate = None
+        unadjustedDate = Some $ unadjustedDate
+    settlementReference = None
+    status = None
+    settlementType = None
+    identifier = None
+
+testFloating = scenario do
+  let irp = irpFloating3M with rosettaKey = "Test"
+  let payment1 = genPayment 2916.666669 (D.date 2018 Dec 5) (D.date 2018 Dec 5)
+  let reset2 = ResetPrimitive with date = D.date 2018 Nov 30, resetValue = 0.03, cashflow = None
+
+  let expectedED = [D.date 2018 Nov 30, D.date 2018 Dec 5, D.date 2019 Feb 28, D.date 2019 Mar 5, D.date 2019 May 30, D.date 2019 Jun 4, D.date 2019 Aug 30, D.date 2019 Sep 4, D.date 2019 Nov 29, D.date 2019 Dec 4, D.date 2019 Dec 20]
+  let expectedQ  = ["Reset", "InterestPayment", "Reset", "InterestPayment", "Reset", "InterestPayment", "Reset", "InterestPayment", "Reset", "InterestPayment", "InterestPayment"]
+  let expectedL  = replicate 11 emptyLineage with interestRatePayoutReference = ["Test"]
+  let expectedP  =
+        [ emptyPrimitiveEvent with reset = [reset2]
+        , emptyPrimitiveEvent with transfer = [payment1]
+        ] ++ replicate 9 emptyPrimitiveEvent
+
+  res <- buildEvents None None [] irp
+
+  mapOptional (\r -> r.effectiveDate) res   === expectedED
+  mapOptional (\r -> r.eventQualifier) res  === expectedQ
+  mapOptional (\r -> r.lineage) res         === expectedL
+  map (\p -> p.primitive) res               === expectedP
+
+  -- Include reset event
+  let resetEvent2 = (head res) with rosettaKey = "Test_0"
+  let payment2 = genPayment 12222.22222 (D.date 2019 Mar 5) (D.date 2019 Mar 5)
+
+  let expectedL =
+        [ emptyLineage with interestRatePayoutReference = ["Test"]
+        , emptyLineage with interestRatePayoutReference = ["Test"]
+        , emptyLineage with interestRatePayoutReference = ["Test"], eventReference = ["Test_0"]
+        ] ++ replicate 7 emptyLineage with interestRatePayoutReference = ["Test"]
+  let expectedP =
+        [ emptyPrimitiveEvent with transfer =  [payment1]
+        , emptyPrimitiveEvent
+        , emptyPrimitiveEvent with transfer =  [payment2]
+        ] ++ replicate 7 emptyPrimitiveEvent
+
+  res <- buildEvents None None [resetEvent2] irp
+
+  mapOptional (\r -> r.effectiveDate) res   === tail expectedED
+  mapOptional (\r -> r.eventQualifier) res  === tail expectedQ
+  mapOptional (\r -> r.lineage) res         === expectedL
+  map (\p -> p.primitive) res               === expectedP
+
+  -- Include payment event
+  let paymentEvent1 = head res
+
+  res <- buildEvents None None [resetEvent2, paymentEvent1] irp
+
+  mapOptional (\r -> r.effectiveDate) res   === drop 2 expectedED
+  mapOptional (\r -> r.eventQualifier) res  === drop 2 expectedQ
+  mapOptional (\r -> r.lineage) res         === tail expectedL
+  map (\p -> p.primitive) res               === tail expectedP
+
+testFixed = scenario do
+  let expectedP =
+        [ emptyPrimitiveEvent with transfer = [genPayment 833.333334 (D.date 2018 Dec 5) (D.date 2018 Dec 5)]
+        , emptyPrimitiveEvent with transfer = [genPayment 4888.888888 (D.date 2019 Mar 5) (D.date 2019 Mar 5)]
+        , emptyPrimitiveEvent with transfer = [genPayment 5111.111112 (D.date 2019 Jun 4) (D.date 2019 Jun 4)]
+        , emptyPrimitiveEvent with transfer = [genPayment 5000.0 (D.date 2019 Sep 4) (D.date 2019 Sep 4)]
+        , emptyPrimitiveEvent with transfer = [genPayment 4944.444444 (D.date 2019 Dec 4) (D.date 2019 Dec 4)]
+        , emptyPrimitiveEvent with transfer = [genPayment 944.444444 (D.date 2019 Dec 20) (D.date 2019 Dec 20)]
+        ]
+
+  res <- buildEvents None None [] irpFixed3M
+
+  map (\p -> p.primitive) res === expectedP
+
+main = scenario do
+  testFloating
+  testFixed

@@ -1,0 +1,13 @@
+daml 1.2
+module ISDA.CDM.Types.ReferenceData.Fetch where
+
+import ISDA.CDM.Types.ReferenceData.HolidayCalendar
+import ISDA.CDM.Types.ReferenceData.Observation
+import ISDA.CDM.Types.Classes
+
+-- | Instances of `Fetch` allow to fetch reference data. This can, e.g. be a database connection, a connection to a distributed ledger, or even a fixed set of reference data (for testing purposes).
+class (Action f) => Fetch f where
+  -- | Fetch holiday calendar by key.
+  fetchHolidayCalendar : HolidayCalendarKey -> f (Optional HolidayCalendarData)
+  -- | Fetch observation by key.
+  fetchObservation : ObservationKey -> f (Optional ObservationPrimitive)

@@ -1,0 +1,31 @@
+daml 1.2
+module Test.Date.BusinessDayAdjustments where
+
+import DA.Assert
+import DA.Date as D
+import ISDA.CDM.Impl.Date.BusinessDayAdjustments
+import ISDA.CDM.Types.All hiding (length)
+import Test.ReferenceData()
+
+main = scenario do
+  let bcs = BusinessCenters with businessCenter = [BusinessCenterEnum_USNY], businessCentersReference = None, id = None
+
+  let adjNone = BusinessDayAdjustments {businessCenters = Some bcs, businessDayConvention = BusinessDayConventionEnum_NONE, id = None}
+  res <- adjustDate adjNone (D.date 2018 Mar 31)
+  res === (D.date 2018 Mar 31)
+
+  let adjFollowing = adjNone with businessDayConvention = BusinessDayConventionEnum_FOLLOWING
+  res <- adjustDate adjFollowing (D.date 2018 Mar 31)
+  res === (D.date 2018 Apr 02)
+
+  let adjModFollowing = adjNone with businessDayConvention = BusinessDayConventionEnum_MODFOLLOWING
+  res <- adjustDate adjModFollowing (D.date 2018 Mar 31)
+  res === (D.date 2018 Mar 30)
+
+  let adjPreceeding = adjNone with businessDayConvention = BusinessDayConventionEnum_PRECEDING
+  res <- adjustDate adjPreceeding (D.date 2018 Apr 01)
+  res === (D.date 2018 Mar 30)
+
+  let adjModPreceeding = adjNone with businessDayConvention = BusinessDayConventionEnum_MODPRECEDING
+  res <- adjustDate adjModPreceeding (D.date 2018 Apr 01)
+  res === (D.date 2018 Apr 02)

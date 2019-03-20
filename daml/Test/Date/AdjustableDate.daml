@@ -1,0 +1,30 @@
+daml 1.2
+module Test.Date.AdjustableDate where
+
+import DA.Assert
+import DA.Date as D
+import ISDA.CDM.Impl.Date.AdjustableDate
+import ISDA.CDM.Types.All hiding (length)
+import Test.ReferenceData()
+
+main = scenario do
+  let ad = AdjustableDate with
+            id = None
+            adjustedDate = None
+            dateAdjustments = Some
+              BusinessDayAdjustments with
+                id = None
+                businessCenters = Some
+                  BusinessCenters with
+                    id = None
+                    businessCenter = [BusinessCenterEnum_USNY]
+                    businessCentersReference = None
+                businessDayConvention = BusinessDayConventionEnum_MODFOLLOWING
+            dateAdjustmentsReference = None
+            unadjustedDate = D.date 2017 Dec 31
+
+  resAdjustedDate <- getAdjustedDate ad
+  resAdjustedDate === D.date 2017 Dec 29
+
+  let resUnadjustedDate = getUnadjustedDate ad
+  resUnadjustedDate === D.date 2017 Dec 31
