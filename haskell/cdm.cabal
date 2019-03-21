@@ -44,24 +44,24 @@ library
       ISDA.CDM.Types.ReferenceData.Key
       ISDA.CDM.Types.ReferenceData.Observation
       ISDA.CDM.Types.ZonedDateTime
-      Test.Date.AdjustableDate
-      Test.Date.Base
-      Test.Date.BusinessDayAdjustments
-      Test.Date.DayCountFraction
-      Test.Date.Offset
-      Test.Date.Period
-      Test.Date.RollConvention
-      Test.Examples
-      Test.Main
-      Test.Payout.Cashflow
-      Test.Payout.ContractualQuantity
-      Test.Payout.FloatingRate
-      Test.Payout.InterestRatePayout
-      Test.Payout.Payout
-      Test.ReferenceData
-      Test.Schedule.CalculationPeriodDates
-      Test.Schedule.PaymentDates
-      Test.Schedule.ResetDates
+      -- Test.Date.AdjustableDate
+      -- Test.Date.Base
+      -- Test.Date.BusinessDayAdjustments
+      -- Test.Date.DayCountFraction
+      -- Test.Date.Offset
+      -- Test.Date.Period
+      -- Test.Date.RollConvention
+      -- Test.Examples
+      -- Test.Main
+      -- Test.Payout.Cashflow
+      -- Test.Payout.ContractualQuantity
+      -- Test.Payout.FloatingRate
+      -- Test.Payout.InterestRatePayout
+      -- Test.Payout.Payout
+      -- Test.ReferenceData
+      -- Test.Schedule.CalculationPeriodDates
+      -- Test.Schedule.PaymentDates
+      -- Test.Schedule.ResetDates
   hs-source-dirs:
       src
   default-extensions:
