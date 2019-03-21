@@ -1,5 +1,4 @@
 {-# LANGUAGE ScopedTypeVariables #-}
-{-# LANGUAGE NoImplicitPrelude #-}
 module Prelude
     ( module Base.Prelude
 
@@ -14,16 +13,18 @@ module Prelude
     , Date
 
     , Action(..)
+
+    , error
     ) where
 
-import "base" Prelude as Base.Prelude hiding (Maybe, Monad, (>>=))
+import "base" Prelude as Base.Prelude hiding (Maybe, Monad, (>>=), error)
+import qualified "base" Prelude as Base.Prelude
 
 import Data.Text
+import qualified Data.Text as Text
 
 import DA.Date
-
-data Optional a = None | Some a
-    deriving (Eq, Ord, Show)
+import DA.Optional
 
 type Decimal = Double
 
@@ -35,3 +36,6 @@ class Applicative m => Action m where
     -- | Sequentially compose two actions, passing any value produced
     -- by the first as an argument to the second.
     (>>=)       :: forall a b. m a -> (a -> m b) -> m b
+
+error :: Text -> a
+error = Base.Prelude.error . Text.unpack

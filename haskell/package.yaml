@@ -7,6 +7,7 @@ dependencies:
 default-extensions:
   - DuplicateRecordFields
   - MultiParamTypeClasses
+  - OverloadedStrings
   - RecordWildCards
 
 ghc-options:

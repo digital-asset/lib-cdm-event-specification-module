@@ -1,4 +1,3 @@
-{-# LANGUAGE NoImplicitPrelude #-}
 module DA.Date where
 
 import "base" Prelude
