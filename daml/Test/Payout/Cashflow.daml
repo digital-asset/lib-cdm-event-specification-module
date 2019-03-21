@@ -6,6 +6,7 @@ import DA.Date as D
 import DA.Optional
 import ISDA.CDM.Impl.Contract.Payout.Cashflow as CF
 import ISDA.CDM.Impl.Event.Event
+import ISDA.CDM.Impl.Utils
 import ISDA.CDM.Types.All
 import Test.Examples
 import Test.ReferenceData()
@@ -18,14 +19,14 @@ main = scenario do
                           Money with
                             id = None
                             amount = 1000.0
-                            currency = "USD"
+                            currency = fieldWithEmptyMeta "USD"
                         breakdown = []
                         payerReceiver =
                           PayerReceiver with
                             payerAccountReference = None
-                            payerPartyReference = "Party1"
+                            payerPartyReference = referenceWithEmptyMeta "Party1"
                             receiverAccountReference = None
-                            receiverPartyReference = "Party2"
+                            receiverPartyReference = referenceWithEmptyMeta "Party2"
                         cashflowType = None
                         transferCalculation = None
                         identifier = None
@@ -42,7 +43,7 @@ main = scenario do
                           businessCenters = Some
                             BusinessCenters with
                               id = None
-                              businessCenter = [BusinessCenterEnum_USNY]
+                              businessCenter = [fieldWithEmptyMeta BusinessCenterEnum_USNY]
                               businessCentersReference = None
                           businessDayConvention = BusinessDayConventionEnum_MODFOLLOWING
                       relativeDate = None
@@ -51,6 +52,7 @@ main = scenario do
                   status = None
                   settlementType = None
                   identifier = None
+                  rosettaKey = ""
 
   event <- fromSome <$> buildEvent None None cashflow20180101
   event.eventDate === D.date 2018 Jan 01

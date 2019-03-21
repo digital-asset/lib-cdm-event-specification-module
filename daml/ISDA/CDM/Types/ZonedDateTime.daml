@@ -1,0 +1,8 @@
+daml 1.2
+module ISDA.CDM.Types.ZonedDateTime
+    ( module ISDA.CDM.Types.ZonedDateTime ) where
+
+data ZonedDateTime = ZonedDateTime with
+    dateTime : Time
+    timezone : Text
+      deriving (Eq, Ord, Show)

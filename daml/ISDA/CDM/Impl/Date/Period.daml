@@ -29,4 +29,4 @@ addPeriod date Period{periodMultiplier, period = PeriodEnum_Y} = addYears date p
 
 -- | Revert Period (i.e. negate periodMultiplier)
 revert : Period -> Period
-revert period = period with periodMultiplier = -(period.periodMultiplier)
+revert period = period { periodMultiplier = -(period.periodMultiplier) }

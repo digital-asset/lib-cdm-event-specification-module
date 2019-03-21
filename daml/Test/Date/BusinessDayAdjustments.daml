@@ -4,11 +4,12 @@ module Test.Date.BusinessDayAdjustments where
 import DA.Assert
 import DA.Date as D
 import ISDA.CDM.Impl.Date.BusinessDayAdjustments
+import ISDA.CDM.Impl.Utils
 import ISDA.CDM.Types.All hiding (length)
 import Test.ReferenceData()
 
 main = scenario do
-  let bcs = BusinessCenters with businessCenter = [BusinessCenterEnum_USNY], businessCentersReference = None, id = None
+  let bcs = BusinessCenters with businessCenter = [fieldWithEmptyMeta BusinessCenterEnum_USNY], businessCentersReference = None, id = None
 
   let adjNone = BusinessDayAdjustments {businessCenters = Some bcs, businessDayConvention = BusinessDayConventionEnum_NONE, id = None}
   res <- adjustDate adjNone (D.date 2018 Mar 31)

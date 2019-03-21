@@ -29,7 +29,7 @@ checkContractualQuantity cQuantity = cQuantity
 -- | Get currency from ContractualQuantity
 getCurrency : ContractualQuantity -> Text
 getCurrency (checkContractualQuantity -> cQuantity)
-  | Some ns <- cQuantity.notionalSchedule = ns.notionalStepSchedule.currency
+  | Some ns <- cQuantity.notionalSchedule = ns.notionalStepSchedule.currency.value
   | otherwise = error "expecting some quantity in ContractualQuantity"
 
 -- | Calculate quantity from ContractualQuantity
@@ -51,6 +51,6 @@ subtract (checkContractualQuantity -> qc1) (checkContractualQuantity -> qc2) = d
   let n2 = get "qc2.notionalSchedule" qc2.notionalSchedule
   let ns2 = n2.notionalStepSchedule
 
-  let ns1New = ns1 with initialValue = ns1.initialValue - ns2.initialValue
-  let n1New = n1 with notionalStepSchedule = ns1New
-  qc1 with notionalSchedule = Some n1New
+  let ns1New = ns1 { initialValue = ns1.initialValue - ns2.initialValue }
+  let n1New = n1 { notionalStepSchedule = ns1New }
+  qc1 { notionalSchedule = Some n1New }

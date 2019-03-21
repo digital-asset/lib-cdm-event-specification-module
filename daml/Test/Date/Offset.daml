@@ -4,6 +4,7 @@ module Test.Date.Offset where
 import DA.Assert
 import DA.Date as D
 import ISDA.CDM.Impl.Date.Offset
+import ISDA.CDM.Impl.Utils
 import ISDA.CDM.Types.All hiding (length)
 import Test.ReferenceData()
 
@@ -23,7 +24,7 @@ main = scenario do
   let o4 = Offset with dayType = Some DayTypeEnum_Business, period = PeriodEnum_D, periodMultiplier = -6, id = None
   let bcs = BusinessCenters with
               id = None
-              businessCenter = [BusinessCenterEnum_USNY]
+              businessCenter = [fieldWithEmptyMeta BusinessCenterEnum_USNY]
               businessCentersReference = None
   res <- applyOffset o4 (Some bcs) (D.date 2017 Dec 31)
   res === (D.date 2017 Dec 22)
@@ -31,7 +32,7 @@ main = scenario do
   let o5 = Offset with dayType = Some DayTypeEnum_Business, period = PeriodEnum_D, periodMultiplier = 6, id = None
   let bcs = BusinessCenters with
               id = None
-              businessCenter = [BusinessCenterEnum_USNY]
+              businessCenter = [fieldWithEmptyMeta BusinessCenterEnum_USNY]
               businessCentersReference = None
   res <- applyOffset o5 (Some bcs) (D.date 2017 Dec 31)
   res === (D.date 2018 Jan 8)

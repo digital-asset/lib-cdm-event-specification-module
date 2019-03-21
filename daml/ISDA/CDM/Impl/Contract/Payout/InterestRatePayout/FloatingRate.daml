@@ -16,7 +16,7 @@ checkFloatingRateSpecification frSpec | isSome frSpec.floatingRateMultiplierSche
 checkFloatingRateSpecification frSpec | isSome frSpec.averagingMethod = throwNotSupportedError "FloatingRateSpecification.averagingMethod"
 checkFloatingRateSpecification frSpec | isSome frSpec.negativeInterestRateTreatment = throwNotSupportedError "FloatingRateSpecification.negativeInterestRateTreatment"
 checkFloatingRateSpecification frSpec | length frSpec.spreadSchedule > 1 = throwNotSupportedError "multiple FloatingRateSpecification.spreadSchedule(s)"
-checkFloatingRateSpecification frSpec | any (\sched -> isSome sched.type_) frSpec.spreadSchedule = throwNotSupportedError "FloatingRateSpecification.spreadSchedule.type_"
+checkFloatingRateSpecification frSpec | any (\sched -> isSome sched._type) frSpec.spreadSchedule = throwNotSupportedError "FloatingRateSpecification.spreadSchedule._type"
 checkFloatingRateSpecification frSpec | any (\sched -> not $ null sched.step) frSpec.spreadSchedule = throwNotSupportedError "FloatingRateSpecification.spreadSchedule.step"
 checkFloatingRateSpecification frSpec = frSpec
 
@@ -33,7 +33,11 @@ getInitialReset : Decimal -> FloatingRateDefinition -> ResetPrimitive
 getInitialReset initialRate frDef =
   let rateObs = getFirst "rateObservation" frDef.rateObservation
       date = get "resetDate" rateObs.resetDate
-  in ResetPrimitive with date, resetValue = initialRate, cashflow = None
+  in ResetPrimitive
+      { date = date
+      , resetValue = initialRate
+      , cashflow = None
+      }
 
 -- | Build reset events for a given floating rate definition
 buildResetEvents :
@@ -60,37 +64,39 @@ buildResetEvents fromDate toDate lineage existingResets frSpec frDef = mapA tryG
       let resetDate = get "resetDate" rateObs.resetDate
       let tenor = get "indexTenor" frSpec.indexTenor
       -- TODO: Look up correct observation e.g. in MasterAgreement reference data
-      let obsKey = ObservationKey with
-                      date = obsDate
-                      side = None
-                      source =
-                        ObservationSource with
-                          curve = Some
-                            Curve with
-                              commodityCurve = None
-                              interestRateCurve = Some
-                                InterestRateCurve with
-                                  floatingRateIndex = frSpec.floatingRateIndex
-                                  tenor = tenor
-                          informationSource = None
+      let obsKey = ObservationKey
+                      { date = obsDate
+                      , side = None
+                      , source = ObservationSource
+                          { curve = Some Curve
+                            { commodityCurve = None
+                            , interestRateCurve = Some InterestRateCurve
+                                { floatingRateIndex = frSpec.floatingRateIndex
+                                , tenor = tenor
+                                }
+                            }
+                          , informationSource = None
+                          }
+                      }
       obsOpt <- fetchObservation obsKey
       case obsOpt of
         None ->
-          return $ emptyEvent with
-                    eventDate = obsDate
-                    effectiveDate = Some resetDate
-                    eventQualifier = Some "Reset"
-                    lineage = Some lineage
-                    primitive = emptyPrimitiveEvent
+          return $ emptyEvent
+                    { eventDate = obsDate
+                    , effectiveDate = Some resetDate
+                    , eventQualifier = Some "Reset"
+                    , lineage = Some lineage
+                    , primitive = emptyPrimitiveEvent
+                    }
         Some obs -> do
-          let reset = ResetPrimitive with date = resetDate, resetValue = obs.observation, cashflow = None
-          return $ emptyEvent with
-                    eventDate = obsDate
-                    effectiveDate = Some resetDate
-                    eventQualifier = Some "Reset"
-                    lineage = Some lineage
-                    primitive = emptyPrimitiveEvent with reset = [reset]
-
+          let reset = ResetPrimitive { date = resetDate, resetValue = obs.observation, cashflow = None }
+          return $ emptyEvent
+                    { eventDate = obsDate
+                    , effectiveDate = Some resetDate
+                    , eventQualifier = Some "Reset"
+                    , lineage = Some lineage
+                    , primitive = emptyPrimitiveEvent { reset = [reset] }
+                    }
 -- | Calculate and set floating rate for a given floating rate definition if possible
 calcFloatingRate : [(Optional Text, ResetPrimitive)] -> FloatingRateSpecification -> FloatingRateDefinition -> ([Text], FloatingRateDefinition)
 calcFloatingRate resets (checkFloatingRateSpecification -> frSpec) (checkFloatingRateDefinition -> frDef) = do
@@ -101,8 +107,9 @@ calcFloatingRate resets (checkFloatingRateSpecification -> frSpec) (checkFloatin
   case find (\r -> (snd r).date == resetDate) resets of
     None       -> ([], frDef)
     Some reset -> ( optionalToList $ fst reset
-                  , frDef with
-                      calculatedRate = Some (snd reset).resetValue
-                      spread = Some spread
-                      rateObservation = [ rateObs with observedRate = Some (snd reset).resetValue ]
+                  , frDef
+                      { calculatedRate = Some (snd reset).resetValue
+                      , spread = Some spread
+                      , rateObservation = [ rateObs { observedRate = Some (snd reset).resetValue } ]
+                      }
                   )

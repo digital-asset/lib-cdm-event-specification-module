@@ -6,17 +6,17 @@ import ISDA.CDM.Types.All
 
 -- | Add suffix to all assigned identifier
 suffixIdentifier : Text -> Identifier -> Identifier
-suffixIdentifier suffix idt = idt with assignedIdentifier = map (suffixAssignedIdentifier suffix) idt.assignedIdentifier
+suffixIdentifier suffix idt = idt { assignedIdentifier = map (suffixAssignedIdentifier suffix) idt.assignedIdentifier }
 
 -- | Add suffix to assigned identifier
 suffixAssignedIdentifier : Text -> AssignedIdentifier -> AssignedIdentifier
-suffixAssignedIdentifier suffix aidt = aidt with identifier = aidt.identifier <> "_" <> suffix
+suffixAssignedIdentifier suffix aidt = aidt { identifier = aidt.identifier { value =  aidt.identifier.value <> "_" <> suffix } }
 
 -- | Increase version number
 increaseVersion : Identifier -> Identifier
-increaseVersion idt = idt with assignedIdentifier = map increaseAssignedIdentifier idt.assignedIdentifier
+increaseVersion idt = idt { assignedIdentifier = map increaseAssignedIdentifier idt.assignedIdentifier }
   where
     increaseAssignedIdentifier : AssignedIdentifier -> AssignedIdentifier
     increaseAssignedIdentifier aidt =
       let version = fromOptional 0 aidt.version
-      in aidt with version = Some $ version + 1
+      in aidt { version = Some $ version + 1 }

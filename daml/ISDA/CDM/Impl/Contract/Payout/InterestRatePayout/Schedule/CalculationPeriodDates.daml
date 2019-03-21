@@ -104,7 +104,7 @@ getImplicitStubType (Some stubType) hasExplInitStub hasExplFinalStub
 frequencyToPeriod : CalculationPeriodFrequency -> Period
 frequencyToPeriod frequency = do
   let period = fromSomeTry "expecting proper 'frequency'" $ fromExtended frequency.period
-  Period with period, periodMultiplier = frequency.periodMultiplier, id = None
+  Period { period = period, periodMultiplier = frequency.periodMultiplier, id = None }
 
 -- | Roll backwards (until previous date would be strictly before start date)
 rollBackwards : RollConventionEnum -> Period -> Date -> Date -> [Date] -> [Date]
@@ -135,17 +135,18 @@ defineCalculationPeriods uDates aDates =
   in zipWith definePeriod (init uaDates) (tail uaDates)
   where
     definePeriod (unadjustedStartDate, adjustedStartDate) (unadjustedEndDate, adjustedEndDate) =
-      CalculationPeriod with
-        id = None
-        adjustedEndDate = Some adjustedEndDate
-        adjustedStartDate = Some adjustedStartDate
-        calculationPeriodNumberOfDays = None
-        dayCountYearFraction = None
-        fixedRate = None
-        floatingRateDefinition = None
-        forecastAmount = None
-        forecastRate = None
-        fxLinkedNotionalAmount = None
-        notionalAmount = None
-        unadjustedEndDate = Some unadjustedEndDate
-        unadjustedStartDate = Some unadjustedStartDate
+      CalculationPeriod
+        { id = None
+        , adjustedEndDate = Some adjustedEndDate
+        , adjustedStartDate = Some adjustedStartDate
+        , calculationPeriodNumberOfDays = None
+        , dayCountYearFraction = None
+        , fixedRate = None
+        , floatingRateDefinition = None
+        , forecastAmount = None
+        , forecastRate = None
+        , fxLinkedNotionalAmount = None
+        , notionalAmount = None
+        , unadjustedEndDate = Some unadjustedEndDate
+        , unadjustedStartDate = Some unadjustedStartDate
+        }

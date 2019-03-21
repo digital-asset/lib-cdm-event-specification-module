@@ -35,7 +35,7 @@ buildResetEvents fromDate toDate lineage existingResets frSpec pcp = concatMapC 
     generatePerCP cp = do
       let frDef = get "floatingRateDefinition" cp.floatingRateDefinition
       resets <- FR.buildResetEvents fromDate toDate lineage existingResets frSpec frDef
-      return $ map (\r -> r with lineage = Some lineage) resets
+      return $ map (\r -> r { lineage = Some lineage }) resets
 
 -- | Build interest rate payment event from PaymentCalculationPeriod (features which are not added yet:
 -- discountingMethod, settlementProvision, compounding)
@@ -57,12 +57,14 @@ buildPaymentEvent fromDate toDate lineage ccy dateAdjustments payerReceiver pcp 
     then None
     else
       if (not . isPcpFixed) pcp
-      then Some emptyEvent with
-                  eventDate = uPayDate
-                  effectiveDate = Some aPayDate
-                  eventQualifier = Some "InterestPayment"
-                  lineage = Some lineage
-                  primitive = emptyPrimitiveEvent
+      then Some emptyEvent
+                  { eventDate = uPayDate
+                  , effectiveDate = Some aPayDate
+                  , eventQualifier = Some "InterestPayment"
+                  , lineage = Some lineage
+                  , primitive = emptyPrimitiveEvent
+                  }
+
 
       else
         let calcPeriod = getOne "calculationPeriod" pcp.calculationPeriod
@@ -79,43 +81,48 @@ buildPaymentEvent fromDate toDate lineage ccy dateAdjustments payerReceiver pcp 
                   in spread + rate
                 otherwise -> error "expecting fixed or floating rate"
 
-            paymentAmount = Money with
-                              id = None
-                              amount = notional * dcf * rate
-                              currency = ccy
+            paymentAmount = Money
+                              { id = None
+                              , amount = notional * dcf * rate
+                              , currency = fieldWithEmptyMeta ccy
+                              }
 
-            paymentDate = AdjustableOrAdjustedOrRelativeDate with
-                            id = None
-                            adjustedDate = pcp.adjustedPaymentDate
-                            dateAdjustments = dateAdjustments
-                            relativeDate = None
-                            unadjustedDate = pcp.unadjustedPaymentDate
+            paymentDate = AdjustableOrAdjustedOrRelativeDate
+                            { id = None
+                            , adjustedDate = fmap fieldWithEmptyMeta pcp.adjustedPaymentDate
+                            , dateAdjustments = dateAdjustments
+                            , relativeDate = None
+                            , unadjustedDate = pcp.unadjustedPaymentDate
+                            }
 
-            transfer = TransferPrimitive with
-                        cashTransfer =
-                          [ CashTransferComponent with
-                              amount = paymentAmount
-                              breakdown = []
-                              payerReceiver
-                              cashflowType = Some CashflowTypeEnum_Interest
-                              identifier = None
-                              transferCalculation = None
-                          ]
-                        commodityTransfer = []
-                        securityTransfer = []
-                        settlementDate = paymentDate
-                        settlementReference = None
-                        status = None
-                        settlementType = None
-                        identifier = None
+            transfer = TransferPrimitive
+                        { cashTransfer =
+                            [ CashTransferComponent
+                                { amount = paymentAmount
+                                , breakdown = []
+                                , payerReceiver
+                                , cashflowType = Some CashflowTypeEnum_Interest
+                                , identifier = None
+                                , transferCalculation = None
+                                }
+                            ]
+                        , commodityTransfer = []
+                        , securityTransfer = []
+                        , settlementDate = paymentDate
+                        , settlementReference = None
+                        , status = None
+                        , settlementType = None
+                        , identifier = None
+                        , rosettaKey = ""
+                        }
 
-        in Some emptyEvent with
-                  eventDate = uPayDate
-                  effectiveDate = Some aPayDate
-                  eventQualifier = Some "InterestPayment"
-                  lineage = Some lineage
-                  primitive = emptyPrimitiveEvent with transfer = [transfer]
-
+        in Some emptyEvent
+                  { eventDate = uPayDate
+                  , effectiveDate = Some aPayDate
+                  , eventQualifier = Some "InterestPayment"
+                  , lineage = Some lineage
+                  , primitive = emptyPrimitiveEvent { transfer = [transfer] }
+                  }
   where
     isPcpFixed : PaymentCalculationPeriod -> Bool
     isPcpFixed pcp = all isCpFixed pcp.calculationPeriod

@@ -5,6 +5,27 @@ import DA.List
 import DA.Optional
 import ISDA.CDM.Types.All hiding (length)
 
+fieldWithEmptyMeta : a -> FieldWithMeta a
+fieldWithEmptyMeta v = FieldWithMeta
+                        { value = v
+                        , meta = MetaFields
+                            { reference = None
+                            , scheme = None
+                            , id = None
+                            }
+                        }
+
+referenceWithEmptyMeta : Text -> ReferenceWithMeta a
+referenceWithEmptyMeta ref = ReferenceWithMeta
+                              { reference = Some ref
+                              , value = None
+                              , meta = MetaFields
+                                  { reference = None
+                                  , scheme = None
+                                  , id = None
+                                  }
+                              }
+
 -- | Throw a not supported error
 throwNotSupportedError : Text -> a
 throwNotSupportedError msg = error $ "'" <> msg <> "' not supported yet"
