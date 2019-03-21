@@ -4,3 +4,5 @@
 s/::/~~/g
 s/:/::/g
 s/~~/:/g
+# Replace with-syntax wildcards
+s/with \.\./{\.\.}/

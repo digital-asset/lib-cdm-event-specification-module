@@ -2,7 +2,15 @@ name: cdm
 version: 0.0.0
 
 dependencies:
-  - base
+  - daml-stdlib
+
+default-extensions:
+  - DuplicateRecordFields
+  - MultiParamTypeClasses
+  - RecordWildCards
+
+ghc-options:
+  - -O0
 
 library:
   source-dirs: src
