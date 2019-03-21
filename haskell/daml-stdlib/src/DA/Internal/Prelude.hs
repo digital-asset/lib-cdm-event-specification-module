@@ -1,25 +1,18 @@
-{-# LANGUAGE DeriveFunctor #-}
-{-# LANGUAGE ScopedTypeVariables #-}
+{-# LANGUAGE PatternSynonyms #-}
 module DA.Internal.Prelude
     ( Action(..)
     , (>>=)
     , (=<<)
     , Optional(..)
+    , pattern None
+    , pattern Some
     ) where
 
 import "base" Prelude
 
 type Action = Monad
 
-data Optional a = None | Some a
-    deriving (Eq, Ord, Show, Functor)
+type Optional = Maybe
 
-instance Applicative Optional where
-    pure = Some
-    None <*> _ = None
-    _ <*> None = None
-    Some f <*> Some x = Some (f x)
-
-instance Monad Optional where
-    None >>= _ = None
-    Some x >>= f = f x
+pattern None = Nothing
+pattern Some a = Just a

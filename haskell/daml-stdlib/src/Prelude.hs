@@ -1,5 +1,6 @@
 module Prelude
     ( module Base.Prelude
+    , module DA.Internal.Prelude
 
     , Optional(..)
 
