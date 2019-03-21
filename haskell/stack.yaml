@@ -4,3 +4,5 @@ packages:
   - daml-stdlib
 extra-deps:
   - record-hasfield-1.0
+  - time-1.9.2
+allow-newer: True

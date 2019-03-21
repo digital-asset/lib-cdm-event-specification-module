@@ -1,23 +1,27 @@
-module DA.Date where
+{-# LANGUAGE StandaloneDeriving #-}
+module DA.Date
+    ( Date
+    , Month(..)
+    , Time.DayOfWeek(..)
+    , date
+    , Time.dayOfWeek
+    , toGregorian
+    , addDays
+    , subDate
+    , monthDayCount
+    , Time
+    ) where
 
 import "base" Prelude
+import qualified Data.Time as Time
+import qualified Data.Time.Calendar as Time
 
--- | The `DayOfWeek` type represents one the seven days of the week.
-data DayOfWeek
-    = Monday
-    | Tuesday
-    | Wednesday
-    | Thursday
-    | Friday
-    | Saturday
-    | Sunday
-  deriving (Eq, Ord, Show, Enum, Bounded)
+deriving instance Ord Time.DayOfWeek
 
-data Date = Date
-  deriving (Eq, Ord, Show)
+type Date = Time.Day
 
 date :: Int -> Month -> Int -> Date
-date _ _ _ = Date
+date year month day = Time.fromGregorian (fromIntegral year) (fromEnum month + 1) day
 
 data Month
     = Jan
@@ -35,19 +39,17 @@ data Month
   deriving (Eq, Ord, Show, Enum, Bounded)
 
 toGregorian :: Date -> (Int, Month, Int)
-toGregorian _ = error "not implemented"
-
-dayOfWeek :: Date -> DayOfWeek
-dayOfWeek _ = error "not implemented"
+toGregorian d =
+    case Time.toGregorian d of
+        (year, month, day) -> (fromIntegral year, toEnum (month - 1), day)
 
 monthDayCount :: Int -> Month -> Int
-monthDayCount _ _ = error "not implemented"
+monthDayCount year month = Time.gregorianMonthLength (fromIntegral year) (fromEnum month + 1)
 
 addDays :: Date -> Int -> Date
-addDays _ _ = error "not implemented"
+addDays date days = Time.addDays (fromIntegral days) date
 
 subDate :: Date -> Date -> Int
-subDate _ _ = error "not implemented"
+subDate a b = fromIntegral (Time.diffDays a b)
 
-data Time = Time
-  deriving (Eq, Ord, Show)
+type Time = Time.UTCTime
