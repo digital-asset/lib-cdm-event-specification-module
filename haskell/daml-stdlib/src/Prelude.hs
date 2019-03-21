@@ -12,25 +12,36 @@ module Prelude
     , Date
 
     , Action(..)
+    , (>>)
+    , (=<<)
+    , return
 
     , error
     , show
 
     , optional
+    , ifThenElse
+    , fromString
+    , mapA
     ) where
 
 import "base" Prelude as Base.Prelude
   hiding
   ( Maybe
   , Monad
+  , (=<<)
   , (>>=)
+  , (>>)
   , error
-  , length
   , id
+  , length
+  , return
   , show
+  , subtract
   )
 import qualified "base" Prelude as Base.Prelude
 
+import Data.String
 import Data.Text
 import qualified Data.Text as Text
 
@@ -52,3 +63,15 @@ show = Text.pack . Base.Prelude.show
 optional :: b -> (a -> b) -> Optional a -> b
 optional n _ None  = n
 optional _ f (Some x) = f x
+
+ifThenElse :: Bool -> a -> a -> a
+ifThenElse b ifT ifF = if b then ifT else ifF
+
+return :: Applicative f => a -> f a
+return = pure
+
+(>>) :: Applicative m => m a -> m b -> m b
+(>>) = (*>)
+
+mapA :: (Applicative f, Traversable t) => (a -> f b) -> t a -> f (t b)
+mapA = traverse

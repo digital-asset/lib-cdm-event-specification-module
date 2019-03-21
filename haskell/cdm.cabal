@@ -71,7 +71,10 @@ library
       NamedFieldPuns
       OverloadedStrings
       RecordWildCards
+      ScopedTypeVariables
       ViewPatterns
+      RebindableSyntax
+      ImplicitPrelude
   ghc-options: -O0
   build-depends:
       daml-stdlib

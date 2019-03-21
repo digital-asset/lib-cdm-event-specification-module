@@ -51,6 +51,6 @@ subtract (checkContractualQuantity -> qc1) (checkContractualQuantity -> qc2) = d
   let n2 = get "qc2.notionalSchedule" qc2.notionalSchedule
   let ns2 = n2.notionalStepSchedule
 
-  let ns1New = ns1 { initialValue = ns1.initialValue - ns2.initialValue }
+  let ns1New : NonNegativeAmountSchedule = ns1 { initialValue = ns1.initialValue - ns2.initialValue }
   let n1New = n1 { notionalStepSchedule = ns1New }
   qc1 { notionalSchedule = Some n1New }

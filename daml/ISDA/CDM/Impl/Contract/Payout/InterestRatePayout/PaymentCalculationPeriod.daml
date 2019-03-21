@@ -35,7 +35,7 @@ buildResetEvents fromDate toDate lineage existingResets frSpec pcp = concatMapC 
     generatePerCP cp = do
       let frDef = get "floatingRateDefinition" cp.floatingRateDefinition
       resets <- FR.buildResetEvents fromDate toDate lineage existingResets frSpec frDef
-      return $ map (\r -> r { lineage = Some lineage }) resets
+      return $ map (\r -> r { lineage = Some lineage } : Event) resets
 
 -- | Build interest rate payment event from PaymentCalculationPeriod (features which are not added yet:
 -- discountingMethod, settlementProvision, compounding)
