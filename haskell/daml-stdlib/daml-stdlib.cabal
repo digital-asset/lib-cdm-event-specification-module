@@ -15,6 +15,7 @@ library
   hs-source-dirs:
       src
   default-extensions:
+      ConstraintKinds
       MultiParamTypeClasses
       NoImplicitPrelude
       PackageImports
