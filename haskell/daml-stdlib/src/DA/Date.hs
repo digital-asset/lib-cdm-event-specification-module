@@ -46,5 +46,8 @@ monthDayCount _ _ = error "not implemented"
 addDays :: Date -> Int -> Date
 addDays _ _ = error "not implemented"
 
+subDate :: Date -> Date -> Int
+subDate _ _ = error "not implemented"
+
 data Time = Time
   deriving (Eq, Ord, Show)
