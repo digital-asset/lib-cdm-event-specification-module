@@ -1,5 +1,6 @@
 module DA.List
-  ( groupBy
+  ( dedup
+  , groupBy
   , groupOn
   , length
   , mapA
@@ -13,3 +14,6 @@ import Data.List.Extra
 
 mapA :: (Applicative f, Traversable t) => (a -> f b) -> t a -> f (t b)
 mapA = traverse
+
+dedup :: Ord a => [a] -> [a]
+dedup = nubOrd

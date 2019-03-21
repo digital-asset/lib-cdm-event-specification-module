@@ -71,7 +71,8 @@ library
       NamedFieldPuns
       OverloadedStrings
       RecordWildCards
-  ghc-options: -O0 -j4
+      ViewPatterns
+  ghc-options: -O0
   build-depends:
       daml-stdlib
     , record-hasfield

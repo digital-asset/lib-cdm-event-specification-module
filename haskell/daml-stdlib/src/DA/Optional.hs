@@ -33,4 +33,8 @@ mapOptional f = catOptionals . map f
 
 isSome :: Optional a -> Bool
 isSome None = False
-isSome _ = True
+isSome (Some _) = True
+
+isNone :: Optional a -> Bool
+isNone None = True
+isNone (Some _) = False
