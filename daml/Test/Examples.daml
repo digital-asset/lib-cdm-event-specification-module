@@ -2,6 +2,7 @@ daml 1.2
 module Test.Examples where
 
 import DA.Date as D
+import ISDA.CDM.Impl.Utils
 import ISDA.CDM.Types.All hiding (length)
 
 cpdsBothStub3M : CalculationPeriodDates
@@ -13,7 +14,7 @@ cpdsBothStub3M = CalculationPeriodDates with
                       businessCenters = Some
                         BusinessCenters with
                           id = None
-                          businessCenter = [BusinessCenterEnum_USNY]
+                          businessCenter = [fieldWithEmptyMeta BusinessCenterEnum_USNY]
                           businessCentersReference = None
                       businessDayConvention = BusinessDayConventionEnum_MODFOLLOWING
                   calculationPeriodFrequency = Some
@@ -52,7 +53,7 @@ cpdsBothStub3M = CalculationPeriodDates with
                               businessCenters = Some
                                 BusinessCenters with
                                   id = None
-                                  businessCenter = [BusinessCenterEnum_USNY]
+                                  businessCenter = [fieldWithEmptyMeta BusinessCenterEnum_USNY]
                                   businessCentersReference = None
                               businessDayConvention = BusinessDayConventionEnum_MODFOLLOWING
                           dateAdjustmentsReference = None
@@ -70,7 +71,7 @@ rds3M = ResetDates with
                   businessCenters = Some
                     BusinessCenters with
                       id = None
-                      businessCenter = [BusinessCenterEnum_USNY]
+                      businessCenter = [fieldWithEmptyMeta BusinessCenterEnum_USNY]
                       businessCentersReference = None
                   businessCentersReference = None
                   businessDayConvention = BusinessDayConventionEnum_MODFOLLOWING
@@ -86,7 +87,7 @@ rds3M = ResetDates with
                   businessCenters = Some
                     BusinessCenters with
                       id = None
-                      businessCenter = [BusinessCenterEnum_USNY]
+                      businessCenter = [fieldWithEmptyMeta BusinessCenterEnum_USNY]
                       businessCentersReference = None
                   businessDayConvention = BusinessDayConventionEnum_MODFOLLOWING
               resetFrequency = Some
@@ -110,7 +111,7 @@ pds3M = PaymentDates with
                   businessCenters = Some
                     BusinessCenters with
                       id = None
-                      businessCenter = [BusinessCenterEnum_USNY]
+                      businessCenter = [fieldWithEmptyMeta BusinessCenterEnum_USNY]
                       businessCentersReference = None
                   businessDayConvention = BusinessDayConventionEnum_MODFOLLOWING
               paymentDaysOffset = Some
@@ -133,7 +134,7 @@ frc3M = FloatingRateSpecification with
           initialRate = Some 0.05
           negativeInterestRateTreatment = None
           capRateSchedule = []
-          floatingRateIndex = FloatingRateIndexEnum_USD_LIBOR_BBA
+          floatingRateIndex = fieldWithEmptyMeta FloatingRateIndexEnum_USD_LIBOR_BBA
           floatingRateMultiplierSchedule = None
           floorRateSchedule = []
           indexTenor = Some
@@ -145,7 +146,7 @@ frc3M = FloatingRateSpecification with
           spreadSchedule =
             [ SpreadSchedule with
                 id = None
-                type_ = None
+                _type = None
                 initialValue = 0.02
                 step = []
             ]
@@ -164,7 +165,7 @@ cq1m = ContractualQuantity with
             notionalStepSchedule =
               NonNegativeAmountSchedule with
                 id = None
-                currency = "USD"
+                currency = fieldWithEmptyMeta "USD"
                 initialValue = 1000000.0
                 step = []
         quantity = None
@@ -178,7 +179,7 @@ irpFloating3M = InterestRatePayout with
                   cashflowRepresentation = None
                   compoundingMethod = None
                   crossCurrencyTerms = None
-                  dayCountFraction = Some DayCountFractionEnum__30E_360
+                  dayCountFraction = Some $ fieldWithEmptyMeta DayCountFractionEnum__30E_360
                   discountingMethod = None
                   rateSpecification =
                     RateSpecification with
@@ -188,9 +189,9 @@ irpFloating3M = InterestRatePayout with
                   payerReceiver = Some
                     PayerReceiver with
                       payerAccountReference = None
-                      payerPartyReference = "Party1"
+                      payerPartyReference = referenceWithEmptyMeta "Party1"
                       receiverAccountReference = None
-                      receiverPartyReference = "Party2"
+                      receiverPartyReference = referenceWithEmptyMeta "Party2"
                   paymentDates = Some pds3M
                   quantity = Some cq1m
                   resetDates = Some rds3M
@@ -209,7 +210,7 @@ irpFixed3M = InterestRatePayout with
                 cashflowRepresentation = None
                 compoundingMethod = None
                 crossCurrencyTerms = None
-                dayCountFraction = Some DayCountFractionEnum__30E_360
+                dayCountFraction = Some $ fieldWithEmptyMeta DayCountFractionEnum__30E_360
                 discountingMethod = None
                 rateSpecification =
                   RateSpecification with
@@ -223,9 +224,9 @@ irpFixed3M = InterestRatePayout with
                 payerReceiver = Some
                   PayerReceiver with
                     payerAccountReference = None
-                    payerPartyReference = "Party1"
+                    payerPartyReference = referenceWithEmptyMeta "Party1"
                     receiverAccountReference = None
-                    receiverPartyReference = "Party2"
+                    receiverPartyReference = referenceWithEmptyMeta "Party2"
                 paymentDates = Some pds3M
                 quantity = Some cq1m
                 resetDates = None
@@ -243,7 +244,7 @@ cashflow20180101 = Cashflow with
                       Money with
                         id = None
                         amount = 1000.0
-                        currency = "USD"
+                        currency = fieldWithEmptyMeta "USD"
                     cashflowCalculation = None
                     cashflowDate = Some
                       AdjustableOrAdjustedOrRelativeDate with
@@ -255,7 +256,7 @@ cashflow20180101 = Cashflow with
                             businessCenters = Some
                               BusinessCenters with
                                 id = None
-                                businessCenter = [BusinessCenterEnum_USNY]
+                                businessCenter = [fieldWithEmptyMeta BusinessCenterEnum_USNY]
                                 businessCentersReference = None
                             businessDayConvention = BusinessDayConventionEnum_MODFOLLOWING
                         relativeDate = None
@@ -265,9 +266,9 @@ cashflow20180101 = Cashflow with
                     payerReceiver =
                       PayerReceiver with
                         payerAccountReference = None
-                        payerPartyReference = "Party1"
+                        payerPartyReference = referenceWithEmptyMeta "Party1"
                         receiverAccountReference = None
-                        receiverPartyReference = "Party2"
+                        receiverPartyReference = referenceWithEmptyMeta "Party2"
                     paymentDiscounting = None
                     premiumExpression = None
                     presentValueAmount = None
@@ -278,6 +279,7 @@ payoutBasisSwap = Payout with
                     creditDefaultPayout = None
                     optionPayout = []
                     equityPayout = []
+                    forwardPayout = []
                     interestRatePayout =
                       [ InterestRatePayout with
                           id = None
@@ -312,7 +314,7 @@ payoutBasisSwap = Payout with
                                           businessCenters = Some
                                             BusinessCenters with
                                               id = None
-                                              businessCenter = [BusinessCenterEnum_USNY]
+                                              businessCenter = [fieldWithEmptyMeta BusinessCenterEnum_USNY]
                                               businessCentersReference = None
                                           businessDayConvention = BusinessDayConventionEnum_MODFOLLOWING
                                       dateAdjustmentsReference = None
@@ -320,7 +322,7 @@ payoutBasisSwap = Payout with
                           cashflowRepresentation = None
                           compoundingMethod = None
                           crossCurrencyTerms = None
-                          dayCountFraction = Some DayCountFractionEnum__30E_360
+                          dayCountFraction = Some $ fieldWithEmptyMeta DayCountFractionEnum__30E_360
                           discountingMethod = None
                           rateSpecification =
                             RateSpecification with
@@ -330,9 +332,9 @@ payoutBasisSwap = Payout with
                           payerReceiver = Some
                             PayerReceiver with
                               payerAccountReference = None
-                              payerPartyReference = "Party1"
+                              payerPartyReference = referenceWithEmptyMeta "Party1"
                               receiverAccountReference = None
-                              receiverPartyReference = "Party2"
+                              receiverPartyReference = referenceWithEmptyMeta "Party2"
                           paymentDates = None
                           quantity = Some cq1m
                           resetDates = Some rds3M
@@ -374,7 +376,7 @@ payoutBasisSwap = Payout with
                                           businessCenters = Some
                                             BusinessCenters with
                                               id = None
-                                              businessCenter = [BusinessCenterEnum_USNY]
+                                              businessCenter = [fieldWithEmptyMeta BusinessCenterEnum_USNY]
                                               businessCentersReference = None
                                           businessDayConvention = BusinessDayConventionEnum_MODFOLLOWING
                                       dateAdjustmentsReference = None
@@ -388,7 +390,7 @@ payoutBasisSwap = Payout with
                           cashflowRepresentation = None
                           compoundingMethod = None
                           crossCurrencyTerms = None
-                          dayCountFraction = Some DayCountFractionEnum__30E_360
+                          dayCountFraction = Some $ fieldWithEmptyMeta DayCountFractionEnum__30E_360
                           discountingMethod = None
                           rateSpecification =
                             RateSpecification with
@@ -405,9 +407,9 @@ payoutBasisSwap = Payout with
                           payerReceiver = Some
                             PayerReceiver with
                               payerAccountReference = None
-                              payerPartyReference = "Party1"
+                              payerPartyReference = referenceWithEmptyMeta "Party1"
                               receiverAccountReference = None
-                              receiverPartyReference = "Party2"
+                              receiverPartyReference = referenceWithEmptyMeta "Party2"
                           paymentDates = None
                           quantity = Some cq1m
                           resetDates = Some
@@ -435,7 +437,7 @@ cds = Payout with
                 Money with
                   id = None
                   amount = 1000.0
-                  currency = "USD"
+                  currency = fieldWithEmptyMeta "USD"
               cashflowCalculation = None
               cashflowDate = None
               cashflowType = None
@@ -443,9 +445,9 @@ cds = Payout with
               payerReceiver =
                 PayerReceiver with
                   payerAccountReference = None
-                  payerPartyReference = "Party1"
+                  payerPartyReference = referenceWithEmptyMeta"Party1"
                   receiverAccountReference = None
-                  receiverPartyReference = "Party2"
+                  receiverPartyReference = referenceWithEmptyMeta "Party2"
               paymentDiscounting = None
               premiumExpression = None
               presentValueAmount = None
@@ -462,7 +464,7 @@ cds = Payout with
                       Money with
                         id = None
                         amount = 1000000.0
-                        currency = "USD"
+                        currency = fieldWithEmptyMeta $ "USD"
                     creditEvents = None
                     floatingAmountEvents = None
                     obligations = None]
@@ -482,7 +484,7 @@ cds = Payout with
                           indexId = []
                           settledEntityMatrix = None
                           indexAnnexDate = None
-                          indexName = Some "CDX.NA.IG"
+                          indexName = Some $ fieldWithEmptyMeta "CDX.NA.IG"
                       additionalTerm = []
                       dateAdjustments = Some
                         BusinessDayAdjustments with
@@ -490,15 +492,15 @@ cds = Payout with
                           businessCenters = Some
                             BusinessCenters with
                               id = None
-                              businessCenter = [BusinessCenterEnum_USNY]
+                              businessCenter = [fieldWithEmptyMeta $ BusinessCenterEnum_USNY]
                               businessCentersReference = None
                           businessDayConvention = BusinessDayConventionEnum_FOLLOWING
                       modifiedEquityDelivery = None
                       buyerSeller =
                         BuyerSeller with
-                          sellerPartyReference = "Party2"
+                          sellerPartyReference = referenceWithEmptyMeta "Party2"
                           buyerAccountReference = None
-                          buyerPartyReference = "Party1"
+                          buyerPartyReference = referenceWithEmptyMeta "Party1"
                           sellerAccountReference = None
                 rosettaKey = ""
                 cashSettlementTerms = []
@@ -542,7 +544,7 @@ cds = Payout with
                               businessCenters = Some
                                 BusinessCenters with
                                   id = None
-                                  businessCenter = [BusinessCenterEnum_USNY]
+                                  businessCenter = [fieldWithEmptyMeta $ BusinessCenterEnum_USNY]
                                   businessCentersReference = None
                               businessDayConvention = BusinessDayConventionEnum_MODFOLLOWING
                           dateAdjustmentsReference = None
@@ -550,7 +552,7 @@ cds = Payout with
               cashflowRepresentation = None
               compoundingMethod = None
               crossCurrencyTerms = None
-              dayCountFraction = Some DayCountFractionEnum__30E_360
+              dayCountFraction = Some $ fieldWithEmptyMeta DayCountFractionEnum__30E_360
               discountingMethod = None
               rateSpecification =
                 RateSpecification with
@@ -564,9 +566,9 @@ cds = Payout with
               payerReceiver = Some
                 PayerReceiver with
                   payerAccountReference = None
-                  payerPartyReference = "Party1"
+                  payerPartyReference = referenceWithEmptyMeta "Party1"
                   receiverAccountReference = None
-                  receiverPartyReference = "Party2"
+                  receiverPartyReference = referenceWithEmptyMeta "Party2"
               paymentDates = None
               quantity = Some cq1m
               resetDates = None
@@ -578,3 +580,4 @@ cds = Payout with
           ]
         optionPayout = []
         equityPayout = []
+        forwardPayout = []

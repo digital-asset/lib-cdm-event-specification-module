@@ -10,7 +10,7 @@ suffixIdentifier suffix idt = idt with assignedIdentifier = map (suffixAssignedI
 
 -- | Add suffix to assigned identifier
 suffixAssignedIdentifier : Text -> AssignedIdentifier -> AssignedIdentifier
-suffixAssignedIdentifier suffix aidt = aidt with identifier = aidt.identifier <> "_" <> suffix
+suffixAssignedIdentifier suffix aidt = aidt with identifier = aidt.identifier with value =  aidt.identifier.value <> "_" <> suffix
 
 -- | Increase version number
 increaseVersion : Identifier -> Identifier

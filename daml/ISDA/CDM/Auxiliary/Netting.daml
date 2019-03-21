@@ -23,6 +23,7 @@ netTransfers (map checkTransferPrimitive -> transfers) = combineOn (\t -> (t.set
           nettedCts = combineBy key criteria netCashTransfers cts
 
       in TransferPrimitive with
+          rosettaKey = ""
           cashTransfer = nettedCts
           securityTransfer = []
           commodityTransfer = []
@@ -30,7 +31,7 @@ netTransfers (map checkTransferPrimitive -> transfers) = combineOn (\t -> (t.set
           ..
 
     key : CashTransferComponent -> (Text, PayerReceiver)
-    key ct = (ct.amount.currency, ct.payerReceiver)
+    key ct = (ct.amount.currency.value, ct.payerReceiver)
 
     criteria : (Text, PayerReceiver) -> (Text, PayerReceiver) -> Bool
     criteria (c1, pr1) (c2, pr2) =

@@ -7,6 +7,7 @@ import DA.List
 import DA.Optional
 import ISDA.CDM.Impl.Contract.Payout.InterestRatePayout.InterestRatePayout
 import ISDA.CDM.Impl.Event.Event
+import ISDA.CDM.Impl.Utils
 import ISDA.CDM.Types.All hiding (length)
 import Test.Examples
 import Test.ReferenceData()
@@ -20,14 +21,14 @@ genPayment amount unadjustedDate adjustedDate =
             Money with
               id = None
               amount = amount
-              currency = "USD"
+              currency = fieldWithEmptyMeta "USD"
           breakdown = []
           payerReceiver =
             PayerReceiver with
               payerAccountReference = None
-              payerPartyReference = "Party1"
+              payerPartyReference = referenceWithEmptyMeta "Party1"
               receiverAccountReference = None
-              receiverPartyReference = "Party2"
+              receiverPartyReference = referenceWithEmptyMeta "Party2"
           cashflowType = Some CashflowTypeEnum_Interest
           identifier = None
           transferCalculation = None
@@ -37,14 +38,14 @@ genPayment amount unadjustedDate adjustedDate =
     settlementDate =
       AdjustableOrAdjustedOrRelativeDate with
         id = None
-        adjustedDate = Some $ adjustedDate
+        adjustedDate = Some $ fieldWithEmptyMeta adjustedDate
         dateAdjustments = Some
           BusinessDayAdjustments with
             id = None
             businessCenters = Some
               BusinessCenters with
                 id = None
-                businessCenter = [BusinessCenterEnum_USNY]
+                businessCenter = [fieldWithEmptyMeta BusinessCenterEnum_USNY]
                 businessCentersReference = None
             businessDayConvention = BusinessDayConventionEnum_MODFOLLOWING
         relativeDate = None
@@ -53,6 +54,7 @@ genPayment amount unadjustedDate adjustedDate =
     status = None
     settlementType = None
     identifier = None
+    rosettaKey = ""
 
 testFloating = scenario do
   let irp = irpFloating3M with rosettaKey = "Test"
@@ -61,7 +63,7 @@ testFloating = scenario do
 
   let expectedED = [D.date 2018 Nov 30, D.date 2018 Dec 5, D.date 2019 Feb 28, D.date 2019 Mar 5, D.date 2019 May 30, D.date 2019 Jun 4, D.date 2019 Aug 30, D.date 2019 Sep 4, D.date 2019 Nov 29, D.date 2019 Dec 4, D.date 2019 Dec 20]
   let expectedQ  = ["Reset", "InterestPayment", "Reset", "InterestPayment", "Reset", "InterestPayment", "Reset", "InterestPayment", "Reset", "InterestPayment", "InterestPayment"]
-  let expectedL  = replicate 11 emptyLineage with interestRatePayoutReference = ["Test"]
+  let expectedL  = replicate 11 emptyLineage with interestRatePayoutReference = [referenceWithEmptyMeta "Test"]
   let expectedP  =
         [ emptyPrimitiveEvent with reset = [reset2]
         , emptyPrimitiveEvent with transfer = [payment1]
@@ -79,10 +81,10 @@ testFloating = scenario do
   let payment2 = genPayment 12222.22222 (D.date 2019 Mar 5) (D.date 2019 Mar 5)
 
   let expectedL =
-        [ emptyLineage with interestRatePayoutReference = ["Test"]
-        , emptyLineage with interestRatePayoutReference = ["Test"]
-        , emptyLineage with interestRatePayoutReference = ["Test"], eventReference = ["Test_0"]
-        ] ++ replicate 7 emptyLineage with interestRatePayoutReference = ["Test"]
+        [ emptyLineage with interestRatePayoutReference = [referenceWithEmptyMeta "Test"]
+        , emptyLineage with interestRatePayoutReference = [referenceWithEmptyMeta "Test"]
+        , emptyLineage with interestRatePayoutReference = [referenceWithEmptyMeta "Test"], eventReference = [referenceWithEmptyMeta "Test_0"]
+        ] ++ replicate 7 emptyLineage with interestRatePayoutReference = [referenceWithEmptyMeta "Test"]
   let expectedP =
         [ emptyPrimitiveEvent with transfer =  [payment1]
         , emptyPrimitiveEvent

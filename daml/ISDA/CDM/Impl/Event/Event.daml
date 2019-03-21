@@ -111,6 +111,7 @@ emptyLineage = Lineage with
                 optionPayoutReference = []
                 equityPayoutReference = []
                 eventReference = []
+                legalDocument = []
 
 -- | Merge two lineages
 mergeLineages : Lineage -> Lineage -> Lineage
@@ -123,11 +124,12 @@ mergeLineages l1 l2 =
     optionPayoutReference         = l1.optionPayoutReference ++ l2.optionPayoutReference
     equityPayoutReference         = l1.equityPayoutReference ++ l2.equityPayoutReference
     eventReference                = l1.eventReference ++ l2.eventReference
+    legalDocument                 = l1.legalDocument ++ l2.legalDocument
 
 -- | Get list of cashflow references from event
 getCashflowReferences : Event -> [Text]
-getCashflowReferences event = optional [] (\l -> l.cashflowReference) event.lineage
+getCashflowReferences event = optional [] (\l -> mapOptional (\ref -> ref.reference) l.cashflowReference) event.lineage
 
 -- | Get list of interestRatePayout references from event
 getInterestRatePayoutReferences : Event -> [Text]
-getInterestRatePayoutReferences event = optional [] (\l -> l.interestRatePayoutReference) event.lineage
+getInterestRatePayoutReferences event = optional [] (\l -> mapOptional (\ref -> ref.reference) l.interestRatePayoutReference) event.lineage

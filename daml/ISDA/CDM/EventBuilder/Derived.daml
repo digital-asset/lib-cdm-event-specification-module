@@ -19,7 +19,7 @@ buildDerivedEvents spec =
     finalize event =
       let eventId = (get "eventQualifier" event.eventQualifier) <> "_" <> (show event.eventDate)
           eventIdentifier = map (suffixIdentifier eventId) spec.contract.contractIdentifier
-          lineage = fmap (\l -> l  with contractReference = [spec.contract.rosettaKey]) event.lineage
+          lineage = fmap (\l -> l with contractReference = [referenceWithEmptyMeta spec.contract.rosettaKey]) event.lineage
           account = if L.length event.primitive.transfer > 0 then spec.contract.account else []
       in event with
           eventIdentifier

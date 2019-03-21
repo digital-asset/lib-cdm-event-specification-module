@@ -5,6 +5,7 @@ import DA.Assert
 import DA.Date as D
 import DA.List
 import DA.Optional
+import ISDA.CDM.Impl.Utils
 import ISDA.CDM.Impl.Contract.Payout.Payout
 import ISDA.CDM.Impl.Event.Event
 import ISDA.CDM.Types.All hiding (length)
@@ -20,14 +21,14 @@ genPayment amount unadjustedDate adjustedDate cfType =
             Money with
               id = None
               amount = amount
-              currency = "USD"
+              currency = fieldWithEmptyMeta "USD"
           breakdown = []
           payerReceiver =
             PayerReceiver with
               payerAccountReference = None
-              payerPartyReference = "Party1"
+              payerPartyReference = referenceWithEmptyMeta "Party1"
               receiverAccountReference = None
-              receiverPartyReference = "Party2"
+              receiverPartyReference = referenceWithEmptyMeta "Party2"
           cashflowType = cfType
           identifier = None
           transferCalculation = None
@@ -37,7 +38,7 @@ genPayment amount unadjustedDate adjustedDate cfType =
     settlementDate =
       AdjustableOrAdjustedOrRelativeDate with
         id = None
-        adjustedDate = adjustedDate
+        adjustedDate = fmap fieldWithEmptyMeta adjustedDate
         dateAdjustments = None
         relativeDate = None
         unadjustedDate = Some $ unadjustedDate
@@ -45,6 +46,7 @@ genPayment amount unadjustedDate adjustedDate cfType =
     status = None
     settlementType = None
     identifier = None
+    rosettaKey = ""
 
 testBasisSwap = scenario do
   -- Calculate Events
@@ -55,12 +57,12 @@ testBasisSwap = scenario do
   let expectedED = [D.date 2018 Nov 30, D.date 2018 Dec 31, D.date 2018 Dec 31, D.date 2019 Jan 30, D.date 2019 Jan 30, D.date 2019 Feb 28]
   let expectedQ  = ["Reset", "Reset", "InterestPayment", "Reset", "InterestPayment", "InterestPayment"]
   let expectedL  =
-        [ emptyLineage with interestRatePayoutReference = ["Leg1", "Leg2"]
-        , emptyLineage with interestRatePayoutReference = ["Leg2"]
-        , emptyLineage with interestRatePayoutReference = ["Leg2"]
-        , emptyLineage with interestRatePayoutReference = ["Leg2"]
-        , emptyLineage with interestRatePayoutReference = ["Leg2"]
-        , emptyLineage with interestRatePayoutReference = ["Leg1", "Leg2"]
+        [ emptyLineage with interestRatePayoutReference = [referenceWithEmptyMeta "Leg1", referenceWithEmptyMeta "Leg2"]
+        , emptyLineage with interestRatePayoutReference = [referenceWithEmptyMeta "Leg2"]
+        , emptyLineage with interestRatePayoutReference = [referenceWithEmptyMeta "Leg2"]
+        , emptyLineage with interestRatePayoutReference = [referenceWithEmptyMeta "Leg2"]
+        , emptyLineage with interestRatePayoutReference = [referenceWithEmptyMeta "Leg2"]
+        , emptyLineage with interestRatePayoutReference = [referenceWithEmptyMeta "Leg1", referenceWithEmptyMeta "Leg2"]
         ]
   let expectedP =
         [ emptyPrimitiveEvent with reset = [reset3M_1, reset1M_1]
@@ -87,11 +89,11 @@ testBasisSwap = scenario do
         , emptyPrimitiveEvent
         ]
   let expectedL  =
-        [ emptyLineage with interestRatePayoutReference = ["Leg2"]
-        , emptyLineage with interestRatePayoutReference = ["Leg2"], eventReference = ["Test_0"]
-        , emptyLineage with interestRatePayoutReference = ["Leg2"]
-        , emptyLineage with interestRatePayoutReference = ["Leg2"]
-        , emptyLineage with interestRatePayoutReference = ["Leg1", "Leg2"], eventReference = ["Test_0"]
+        [ emptyLineage with interestRatePayoutReference = [referenceWithEmptyMeta "Leg2"]
+        , emptyLineage with interestRatePayoutReference = [referenceWithEmptyMeta "Leg2"], eventReference = [referenceWithEmptyMeta "Test_0"]
+        , emptyLineage with interestRatePayoutReference = [referenceWithEmptyMeta "Leg2"]
+        , emptyLineage with interestRatePayoutReference = [referenceWithEmptyMeta "Leg2"]
+        , emptyLineage with interestRatePayoutReference = [referenceWithEmptyMeta "Leg1", referenceWithEmptyMeta "Leg2"], eventReference = [referenceWithEmptyMeta "Test_0"]
         ]
 
   res <- buildEvents None None [(head res) with rosettaKey = "Test_0"] payoutBasisSwap
@@ -106,12 +108,12 @@ testCDS = scenario do
   let expectedED = [D.date 2018 Nov 15, D.date 2018 Dec 19, D.date 2019 Mar 19, D.date 2019 Jun 19, D.date 2019 Sep 19, D.date 2019 Dec 20]
   let expectedQ  = ["CashPayment", "InterestPayment", "InterestPayment", "InterestPayment", "InterestPayment", "InterestPayment"]
   let expectedL  =
-        [ emptyLineage with cashflowReference = ["w46sfdh34"]
-        , emptyLineage with interestRatePayoutReference = ["IrpLeg"]
-        , emptyLineage with interestRatePayoutReference = ["IrpLeg"]
-        , emptyLineage with interestRatePayoutReference = ["IrpLeg"]
-        , emptyLineage with interestRatePayoutReference = ["IrpLeg"]
-        , emptyLineage with interestRatePayoutReference = ["IrpLeg"]
+        [ emptyLineage with cashflowReference = [referenceWithEmptyMeta "w46sfdh34"]
+        , emptyLineage with interestRatePayoutReference = [referenceWithEmptyMeta "IrpLeg"]
+        , emptyLineage with interestRatePayoutReference = [referenceWithEmptyMeta "IrpLeg"]
+        , emptyLineage with interestRatePayoutReference = [referenceWithEmptyMeta "IrpLeg"]
+        , emptyLineage with interestRatePayoutReference = [referenceWithEmptyMeta "IrpLeg"]
+        , emptyLineage with interestRatePayoutReference = [referenceWithEmptyMeta "IrpLeg"]
         ]
   let expectedP  =
         [ emptyPrimitiveEvent with transfer = [genPayment 1000.0 (D.date 2018 Nov 15) None None]

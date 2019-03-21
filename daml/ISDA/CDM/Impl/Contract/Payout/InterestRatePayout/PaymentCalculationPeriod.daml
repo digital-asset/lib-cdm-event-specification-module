@@ -82,11 +82,11 @@ buildPaymentEvent fromDate toDate lineage ccy dateAdjustments payerReceiver pcp 
             paymentAmount = Money with
                               id = None
                               amount = notional * dcf * rate
-                              currency = ccy
+                              currency = fieldWithEmptyMeta ccy
 
             paymentDate = AdjustableOrAdjustedOrRelativeDate with
                             id = None
-                            adjustedDate = pcp.adjustedPaymentDate
+                            adjustedDate = fmap fieldWithEmptyMeta pcp.adjustedPaymentDate
                             dateAdjustments = dateAdjustments
                             relativeDate = None
                             unadjustedDate = pcp.unadjustedPaymentDate
@@ -108,6 +108,7 @@ buildPaymentEvent fromDate toDate lineage ccy dateAdjustments payerReceiver pcp 
                         status = None
                         settlementType = None
                         identifier = None
+                        rosettaKey = ""
 
         in Some emptyEvent with
                   eventDate = uPayDate

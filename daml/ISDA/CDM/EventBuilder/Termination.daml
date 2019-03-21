@@ -5,6 +5,7 @@ import ISDA.CDM.Impl.Contract.Contract
 import ISDA.CDM.Impl.Contract.Payout.ContractualQuantity
 import ISDA.CDM.Impl.Event.Event
 import ISDA.CDM.Impl.Identifier
+import ISDA.CDM.Impl.Utils
 import ISDA.CDM.Types.All
 
 -- | Build Termination event
@@ -18,7 +19,7 @@ buildTerminationEvent spec =
       quantity = getContractualQuantity spec.contract
       quantityChange = buildQuantityChangePrimitive quantity (Some closedState) spec.contract
       primitive = emptyPrimitiveEvent with quantityChange = [quantityChange], transfer = spec.base.transfer
-      lineage = emptyLineage with contractReference = [spec.contract.rosettaKey]
+      lineage = emptyLineage with contractReference = [referenceWithEmptyMeta spec.contract.rosettaKey]
       eventEffect = buildEventEffect primitive
 
   in Event with
@@ -45,7 +46,7 @@ buildPartialTerminationEvent : PartialTerminationSpec -> Event
 buildPartialTerminationEvent spec =
   let quantityChange = buildQuantityChangePrimitive spec.change None spec.contract
       primitive = emptyPrimitiveEvent with quantityChange = [quantityChange], transfer = spec.base.transfer
-      lineage = emptyLineage with contractReference = [spec.contract.rosettaKey]
+      lineage = emptyLineage with contractReference = [referenceWithEmptyMeta spec.contract.rosettaKey]
       eventEffect = buildEventEffect primitive
 
   in Event with

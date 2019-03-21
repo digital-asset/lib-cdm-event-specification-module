@@ -21,8 +21,8 @@ fetchHolidayCalendar (checkBusinessCenters -> bcs) = do
   else return $ fromSomeTry "expecting at least one calendar" $ mergeHCs $ catOptionals cals
 
   where
-    showShort : BusinessCenterEnum -> Text
-    showShort bc = Text.dropPrefix "BusinessCenterEnum_" $ show bc
+    showShort : FieldWithMeta BusinessCenterEnum -> Text
+    showShort bc = Text.dropPrefix "BusinessCenterEnum_" $ show bc.value
 
     mergeHCs : [HolidayCalendarData] -> Optional HolidayCalendarData
     mergeHCs [] = None

@@ -2,6 +2,7 @@ daml 1.2
 module Test.ReferenceData where
 
 import DA.Date as D
+import ISDA.CDM.Impl.Utils
 import ISDA.CDM.Types.All hiding (length)
 
 instance Fetch Scenario where
@@ -28,7 +29,7 @@ observations =
                   commodityCurve = None
                   interestRateCurve = Some
                     InterestRateCurve with
-                      floatingRateIndex = FloatingRateIndexEnum_USD_LIBOR_BBA
+                      floatingRateIndex = fieldWithEmptyMeta FloatingRateIndexEnum_USD_LIBOR_BBA
                       tenor = Period with period = PeriodEnum_M, periodMultiplier = 3, id = None
               informationSource = None
           date = D.date 2018 Nov 23
@@ -43,7 +44,7 @@ observations =
                   commodityCurve = None
                   interestRateCurve = Some
                     InterestRateCurve with
-                      floatingRateIndex = FloatingRateIndexEnum_USD_LIBOR_BBA
+                      floatingRateIndex = fieldWithEmptyMeta FloatingRateIndexEnum_USD_LIBOR_BBA
                       tenor = Period with period = PeriodEnum_M, periodMultiplier = 1, id = None
               informationSource = None
           date = D.date 2018 Nov 23

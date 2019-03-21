@@ -16,7 +16,7 @@ checkFloatingRateSpecification frSpec | isSome frSpec.floatingRateMultiplierSche
 checkFloatingRateSpecification frSpec | isSome frSpec.averagingMethod = throwNotSupportedError "FloatingRateSpecification.averagingMethod"
 checkFloatingRateSpecification frSpec | isSome frSpec.negativeInterestRateTreatment = throwNotSupportedError "FloatingRateSpecification.negativeInterestRateTreatment"
 checkFloatingRateSpecification frSpec | length frSpec.spreadSchedule > 1 = throwNotSupportedError "multiple FloatingRateSpecification.spreadSchedule(s)"
-checkFloatingRateSpecification frSpec | any (\sched -> isSome sched.type_) frSpec.spreadSchedule = throwNotSupportedError "FloatingRateSpecification.spreadSchedule.type_"
+checkFloatingRateSpecification frSpec | any (\sched -> isSome sched._type) frSpec.spreadSchedule = throwNotSupportedError "FloatingRateSpecification.spreadSchedule._type"
 checkFloatingRateSpecification frSpec | any (\sched -> not $ null sched.step) frSpec.spreadSchedule = throwNotSupportedError "FloatingRateSpecification.spreadSchedule.step"
 checkFloatingRateSpecification frSpec = frSpec
 

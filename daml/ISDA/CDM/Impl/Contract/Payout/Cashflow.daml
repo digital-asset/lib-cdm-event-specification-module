@@ -33,12 +33,13 @@ buildEvent fromDate toDate cf = do
                     status = None
                     settlementType = None
                     identifier = None
+                    rosettaKey = ""
 
     return $ Some $ emptyEvent with
                       eventDate = uDate
                       effectiveDate = Some aDate
                       eventQualifier = Some "CashPayment"
-                      lineage = Some emptyLineage with cashflowReference = [cf.rosettaKey]
+                      lineage = Some emptyLineage with cashflowReference = [referenceWithEmptyMeta cf.rosettaKey]
                       primitive = emptyPrimitiveEvent with transfer = [transfer]
   else
     return None

@@ -54,13 +54,11 @@ buildEvents fromDate toDate pastEvents (checkInterestRatePayout -> irp) = do
   newResetEvents <- case irp.rateSpecification.floatingRate of
                           None    -> return []
                           Some fr -> do
-                            let lineage = emptyLineage with interestRatePayoutReference = [irp.rosettaKey]
+                            let lineage = emptyLineage with interestRatePayoutReference = [referenceWithEmptyMeta irp.rosettaKey]
                             let resets = (map snd existingResets)
                             concatMapC (PCP.buildResetEvents fromDate toDate lineage resets fr) pcpsNotPaid
 
   return $ sortOn (\e -> e.eventDate) $ newResetEvents ++ paymentEvents
-
-  where
 
 -- | Get all known resets (including e.g. the initial reset)
 getExistingResets : PaymentCalculationPeriod -> [Event] -> InterestRatePayout -> [(Optional Text, ResetPrimitive)]
@@ -87,7 +85,9 @@ getExistingResets firstPcp resetEvents irp =
 populatePCP : [(Optional Text, ResetPrimitive)] -> InterestRatePayout -> PaymentCalculationPeriod -> (PaymentCalculationPeriod, Lineage)
 populatePCP existingResets irp pcp =
   let (resetReferences, cpsFull) = unzip $ map (setInterestRate . setDayCountFraction . setQuantity) pcp.calculationPeriod
-      lineage = emptyLineage with interestRatePayoutReference = [irp.rosettaKey], eventReference = concat resetReferences
+      lineage = emptyLineage with
+                  interestRatePayoutReference = [referenceWithEmptyMeta irp.rosettaKey]
+                  eventReference = map referenceWithEmptyMeta $ concat resetReferences
       pcpFull = pcp with calculationPeriod = cpsFull
   in (pcpFull, lineage)
   where
@@ -96,7 +96,7 @@ populatePCP existingResets irp pcp =
       let startDate = get "calcPeriod.adjustedStartDate" cp.adjustedStartDate
           endDate = get "calcPeriod.adjustedEndDate" cp.adjustedEndDate
           dcfEnum = get "dayCountFraction" irp.dayCountFraction
-          dayCountFraction = calcDayCountFraction dcfEnum startDate endDate
+          dayCountFraction = calcDayCountFraction dcfEnum.value startDate endDate
       in cp with dayCountYearFraction = Some dayCountFraction
 
     setQuantity : CalculationPeriod -> CalculationPeriod
