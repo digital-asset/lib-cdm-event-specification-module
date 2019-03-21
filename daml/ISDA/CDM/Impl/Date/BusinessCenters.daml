@@ -15,7 +15,7 @@ checkBusinessCenters bcs = bcs
 -- | Fetch HolidayCalendar for BusinessCenters
 fetchHolidayCalendar : (Fetch f) => BusinessCenters -> f HolidayCalendarData
 fetchHolidayCalendar (checkBusinessCenters -> bcs) = do
-  let calKeys = map (\bc -> HolidayCalendarKey with label = showShort bc) bcs.businessCenter
+  let calKeys = map (\bc -> HolidayCalendarKey { label = showShort bc }) bcs.businessCenter
   cals <- mapA A.fetchHolidayCalendar calKeys
   if any isNone cals then error "not all holiday calendars found"
   else return $ fromSomeTry "expecting at least one calendar" $ mergeHCs $ catOptionals cals
@@ -29,7 +29,8 @@ fetchHolidayCalendar (checkBusinessCenters -> bcs) = do
     mergeHCs cals = Some $ foldl1 mergeImpl cals
       where
         mergeImpl : HolidayCalendarData -> HolidayCalendarData -> HolidayCalendarData
-        mergeImpl cal1 cal2 = HolidayCalendarData with
-                                label = cal1.label <> "," <> cal2.label
-                                weekend = dedup $ cal1.weekend ++ cal2.weekend
-                                holidays = dedup $ cal1.holidays ++ cal2.holidays
+        mergeImpl cal1 cal2 = HolidayCalendarData
+                                { label = cal1.label <> "," <> cal2.label
+                                , weekend = dedup $ cal1.weekend ++ cal2.weekend
+                                , holidays = dedup $ cal1.holidays ++ cal2.holidays
+                                }

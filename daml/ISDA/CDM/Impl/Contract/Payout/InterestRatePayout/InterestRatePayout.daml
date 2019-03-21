@@ -54,7 +54,7 @@ buildEvents fromDate toDate pastEvents (checkInterestRatePayout -> irp) = do
   newResetEvents <- case irp.rateSpecification.floatingRate of
                           None    -> return []
                           Some fr -> do
-                            let lineage = emptyLineage with interestRatePayoutReference = [referenceWithEmptyMeta irp.rosettaKey]
+                            let lineage = emptyLineage { interestRatePayoutReference = [referenceWithEmptyMeta irp.rosettaKey] }
                             let resets = (map snd existingResets)
                             concatMapC (PCP.buildResetEvents fromDate toDate lineage resets fr) pcpsNotPaid
 
@@ -85,10 +85,11 @@ getExistingResets firstPcp resetEvents irp =
 populatePCP : [(Optional Text, ResetPrimitive)] -> InterestRatePayout -> PaymentCalculationPeriod -> (PaymentCalculationPeriod, Lineage)
 populatePCP existingResets irp pcp =
   let (resetReferences, cpsFull) = unzip $ map (setInterestRate . setDayCountFraction . setQuantity) pcp.calculationPeriod
-      lineage = emptyLineage with
-                  interestRatePayoutReference = [referenceWithEmptyMeta irp.rosettaKey]
-                  eventReference = map referenceWithEmptyMeta $ concat resetReferences
-      pcpFull = pcp with calculationPeriod = cpsFull
+      lineage = emptyLineage
+                  { interestRatePayoutReference = [referenceWithEmptyMeta irp.rosettaKey]
+                  , eventReference = map referenceWithEmptyMeta $ concat resetReferences
+                  }
+      pcpFull = pcp { calculationPeriod = cpsFull }
   in (pcpFull, lineage)
   where
     setDayCountFraction : CalculationPeriod -> CalculationPeriod
@@ -97,23 +98,23 @@ populatePCP existingResets irp pcp =
           endDate = get "calcPeriod.adjustedEndDate" cp.adjustedEndDate
           dcfEnum = get "dayCountFraction" irp.dayCountFraction
           dayCountFraction = calcDayCountFraction dcfEnum.value startDate endDate
-      in cp with dayCountYearFraction = Some dayCountFraction
+      in cp { dayCountYearFraction = Some dayCountFraction }
 
     setQuantity : CalculationPeriod -> CalculationPeriod
     setQuantity cp =
       let quantity = get "quantity" irp.quantity
           startDate = get "adjustedStartDate" cp.adjustedStartDate
           (notionalAmount, fxLinkedNotionalAmount) = calcQuantity startDate quantity
-      in cp with notionalAmount, fxLinkedNotionalAmount
+      in cp { notionalAmount, fxLinkedNotionalAmount }
 
     setInterestRate : CalculationPeriod -> ([Text], CalculationPeriod)
     setInterestRate cp
       | Some fixedRate <- irp.rateSpecification.fixedRate =
-          ([], cp with fixedRate = Some fixedRate.initialValue)
+          ([], cp { fixedRate = Some fixedRate.initialValue })
 
       | Some floatingRate <- irp.rateSpecification.floatingRate =
           let frDef = get "floatingRateDefinition" cp.floatingRateDefinition
               frdNew = FR.calcFloatingRate existingResets floatingRate frDef
-          in (fst frdNew, cp with floatingRateDefinition = Some (snd frdNew))
+          in (fst frdNew, cp { floatingRateDefinition = Some (snd frdNew) })
 
       | otherwise = error "expecting exactly one 'rateSpecification'"

@@ -43,10 +43,11 @@ generatePaymentCalculationPeriods cpds rds (fmap (checkPaymentDates cpds) -> pds
   mapA (generateSinglePeriod payRelativeTo offset adj . replicate 1) cps
 
   where
-    noAdj = BusinessDayAdjustments with
-              id = None
-              businessCenters = None
-              businessDayConvention = BusinessDayConventionEnum_NONE
+    noAdj = BusinessDayAdjustments
+              { id = None
+              , businessCenters = None
+              , businessDayConvention = BusinessDayConventionEnum_NONE
+              }
 
     generateSinglePeriod :
       (Fetch f)
@@ -65,12 +66,13 @@ generatePaymentCalculationPeriods cpds rds (fmap (checkPaymentDates cpds) -> pds
 
       uPayDate <- optional (pure baseDate) (\o -> applyOffset o adj.businessCenters baseDate) offset
       aPayDate <- adjustDate adj uPayDate
-      return PaymentCalculationPeriod with
-                id = None
-                adjustedPaymentDate = Some aPayDate
-                calculationPeriod = cps
-                discountFactor = None
-                fixedPaymentAmount = None
-                forecastPaymentAmount = None
-                presentValueAmount = None
-                unadjustedPaymentDate = Some uPayDate
+      return PaymentCalculationPeriod
+                { id = None
+                , adjustedPaymentDate = Some aPayDate
+                , calculationPeriod = cps
+                , discountFactor = None
+                , fixedPaymentAmount = None
+                , forecastPaymentAmount = None
+                , presentValueAmount = None
+                , unadjustedPaymentDate = Some uPayDate
+                }

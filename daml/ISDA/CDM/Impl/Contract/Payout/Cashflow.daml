@@ -16,30 +16,33 @@ buildEvent fromDate toDate cf = do
   if fallsWithin fromDate toDate uDate
   then do
     aDate <- getAdjustedDate cashflowDate
-    let transfer = TransferPrimitive with
-                    cashTransfer =
-                      [ CashTransferComponent with
-                          amount = cf.cashflowAmount
-                          breakdown = []
-                          payerReceiver = cf.payerReceiver
-                          cashflowType = cf.cashflowType
-                          identifier = None
-                          transferCalculation = None
-                      ]
-                    commodityTransfer = []
-                    securityTransfer = []
-                    settlementDate = cashflowDate
-                    settlementReference = None
-                    status = None
-                    settlementType = None
-                    identifier = None
-                    rosettaKey = ""
+    let transfer = TransferPrimitive
+                    { cashTransfer =
+                        [ CashTransferComponent
+                            { amount = cf.cashflowAmount
+                            , breakdown = []
+                            , payerReceiver = cf.payerReceiver
+                            , cashflowType = cf.cashflowType
+                            , identifier = None
+                            , transferCalculation = None
+                            }
+                        ]
+                    , commodityTransfer = []
+                    , securityTransfer = []
+                    , settlementDate = cashflowDate
+                    , settlementReference = None
+                    , status = None
+                    , settlementType = None
+                    , identifier = None
+                    , rosettaKey = ""
+                    }
 
-    return $ Some $ emptyEvent with
-                      eventDate = uDate
-                      effectiveDate = Some aDate
-                      eventQualifier = Some "CashPayment"
-                      lineage = Some emptyLineage with cashflowReference = [referenceWithEmptyMeta cf.rosettaKey]
-                      primitive = emptyPrimitiveEvent with transfer = [transfer]
+    return $ Some $ emptyEvent
+                      { eventDate = uDate
+                      , effectiveDate = Some aDate
+                      , eventQualifier = Some "CashPayment"
+                      , lineage = Some emptyLineage { cashflowReference = [referenceWithEmptyMeta cf.rosettaKey] }
+                      , primitive = emptyPrimitiveEvent { transfer = [transfer] }
+                      }
   else
     return None

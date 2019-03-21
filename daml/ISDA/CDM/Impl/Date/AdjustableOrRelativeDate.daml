@@ -27,11 +27,12 @@ getUnadjustedDate (checkAdjustableOrRelativeDate -> ar)
 toAdjustableOrAdjustedOrRelativeDate : AdjustableOrRelativeDate -> AdjustableOrAdjustedOrRelativeDate
 toAdjustableOrAdjustedOrRelativeDate (checkAdjustableOrRelativeDate -> ar)
   | Some (checkAdjustableDate -> ad) <- ar.adjustableDate = do
-      AdjustableOrAdjustedOrRelativeDate with
-        id = None
-        unadjustedDate =  Some ad.unadjustedDate
-        dateAdjustments = ad.dateAdjustments
-        adjustedDate = ad.adjustedDate
-        relativeDate = None
+      AdjustableOrAdjustedOrRelativeDate
+        { id = None
+        , unadjustedDate =  Some ad.unadjustedDate
+        , dateAdjustments = ad.dateAdjustments
+        , adjustedDate = ad.adjustedDate
+        , relativeDate = None
+        }
 
   | otherwise = error "either 'relativeDate' or 'adjustableDate' required for AdjustableOrRelativeDate"

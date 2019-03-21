@@ -22,13 +22,17 @@ netTransfers (map checkTransferPrimitive -> transfers) = combineOn (\t -> (t.set
           cts = concatMap (\t -> t.cashTransfer) transfers
           nettedCts = combineBy key criteria netCashTransfers cts
 
-      in TransferPrimitive with
-          rosettaKey = ""
-          cashTransfer = nettedCts
-          securityTransfer = []
-          commodityTransfer = []
-          identifier = None
-          ..
+      in TransferPrimitive
+          { cashTransfer = nettedCts
+          , commodityTransfer = []
+          , identifier = None
+          , rosettaKey = ""
+          , securityTransfer = []
+          , settlementDate = settlementDate
+          , settlementReference = settlementReference
+          , settlementType = settlementType
+          , status = status
+          }
 
     key : CashTransferComponent -> (Text, PayerReceiver)
     key ct = (ct.amount.currency.value, ct.payerReceiver)
@@ -49,16 +53,25 @@ netTransfers (map checkTransferPrimitive -> transfers) = combineOn (\t -> (t.set
       let breakdown = map buildBreakDown cts
           cashflowType = getType $ map (\ct -> ct.cashflowType) cts
           (payerReceiver, amount) = foldl1 netImpl $ zip (map (\ct -> ct.payerReceiver) cts) (map (\ct -> ct.amount) cts)
-      in  CashTransferComponent with
-              payerReceiver
-              amount
-              cashflowType
-              breakdown
-              identifier = None
-              transferCalculation = None
+      in CashTransferComponent
+          { payerReceiver = payerReceiver
+          , amount = amount
+          , cashflowType = cashflowType
+          , breakdown = breakdown
+          , identifier = None
+          , transferCalculation = None
+          }
+
       where
         buildBreakDown : CashTransferComponent -> CashTransferBreakdown
-        buildBreakDown CashTransferComponent{..} = CashTransferBreakdown with lineage = [], ..
+        buildBreakDown ctc = CashTransferBreakdown
+                              { amount = ctc.amount
+                              , cashflowType = ctc.cashflowType
+                              , identifier = ctc.identifier
+                              , lineage = []
+                              , payerReceiver = ctc.payerReceiver
+                              , transferCalculation = ctc.transferCalculation
+                              }
 
         getType : [Optional CashflowTypeEnum] -> Optional CashflowTypeEnum
         getType types
@@ -85,10 +98,11 @@ netTransfers (map checkTransferPrimitive -> transfers) = combineOn (\t -> (t.set
           | otherwise =
               let (pr1N, a1N) = normalize (pr1, a1)
                   (pr2N, a2N) = normalize (pr2, a2)
-                  amount = Money with
-                            id = None
-                            currency = a1.currency
-                            amount = if (pr1N.payerPartyReference == pr2N.payerPartyReference) then a1N.amount + a2N.amount else a1N.amount - a2N.amount
+                  amount = Money
+                            { id = None
+                            , currency = a1.currency
+                            , amount = if (pr1N.payerPartyReference == pr2N.payerPartyReference) then a1N.amount + a2N.amount else a1N.amount - a2N.amount
+                            }
               in normalize (pr1N, amount)
 
               where
@@ -96,10 +110,11 @@ netTransfers (map checkTransferPrimitive -> transfers) = combineOn (\t -> (t.set
                 normalize (pr, a)
                   | a.amount >= 0.0 = (pr, a)
                   | a.amount < 0.0 =
-                      let prNew = PayerReceiver with
-                                    payerAccountReference     = pr.receiverAccountReference
-                                    receiverAccountReference  = pr.payerAccountReference
-                                    payerPartyReference       = pr.receiverPartyReference
-                                    receiverPartyReference    = pr.payerPartyReference
+                      let prNew = PayerReceiver
+                                    { payerAccountReference     = pr.receiverAccountReference
+                                    , receiverAccountReference  = pr.payerAccountReference
+                                    , payerPartyReference       = pr.receiverPartyReference
+                                    , receiverPartyReference    = pr.payerPartyReference
+                                    }
                           amountNew = -(a.amount)
-                      in (prNew, a with amount = amountNew)
+                      in (prNew, a { amount = amountNew })

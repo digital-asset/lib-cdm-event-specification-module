@@ -50,23 +50,24 @@ getContractualQuantity contract =
 
     getCdpQuantity : ProtectionTerms -> ContractualQuantity
     getCdpQuantity pTerms =
-      ContractualQuantity with
-        futureValueNotional = None
-        fxLinkedNotional = None
-        notionalAmount = None
-        notionalSchedule =
-          Some NotionalSchedule with
-            id = None
-            notionalStepSchedule =
-              NonNegativeAmountSchedule with
-                id = None
-                currency = pTerms.notionalAmount.currency
-                initialValue = pTerms.notionalAmount.amount
-                step = []
-            notionalStepParameters = None
-        quantity = None
-        notionalReset = None
-        notionalAdjustments = None
+      ContractualQuantity
+        { futureValueNotional = None
+        , fxLinkedNotional = None
+        , notionalAmount = None
+        , notionalSchedule = Some NotionalSchedule
+            { id = None
+            , notionalStepSchedule = NonNegativeAmountSchedule
+                { id = None
+                , currency = pTerms.notionalAmount.currency
+                , initialValue = pTerms.notionalAmount.amount
+                , step = []
+                }
+            , notionalStepParameters = None
+            }
+        , quantity = None
+        , notionalReset = None
+        , notionalAdjustments = None
+        }
 
 -- | Set ContractualQuantity in Contract
 setContractualQuantity : [ContractualQuantity] -> Contract -> Contract
@@ -80,23 +81,23 @@ setContractualQuantity qc contract =
           None -> payout
           Some cdp ->
             let notionalSchedule = get "notionalSchedule" qcSingle.notionalSchedule
-                notionalAmountNew = Money with
-                                      id = None
-                                      currency = notionalSchedule.notionalStepSchedule.currency
-                                      amount = notionalSchedule.notionalStepSchedule.initialValue
+                notionalAmountNew = Money
+                                      { id = None
+                                      , currency = notionalSchedule.notionalStepSchedule.currency
+                                      , amount = notionalSchedule.notionalStepSchedule.initialValue
+                                      }
+                cdpNew = cdp { protectionTerms = map (setCdpQuantity notionalAmountNew) cdp.protectionTerms }
+            in payout { creditDefaultPayout = Some cdpNew }
 
-                cdpNew = cdp with protectionTerms = map (setCdpQuantity notionalAmountNew) cdp.protectionTerms
-            in payout with creditDefaultPayout = Some cdpNew
+      payoutIrp = payout { interestRatePayout = map (setIrpQuantity qcSingle) payout.interestRatePayout }
 
-      payoutIrp = payout with interestRatePayout = map (setIrpQuantity qcSingle) payout.interestRatePayout
-
-      economicTermsNew = contract.contractualProduct.economicTerms with payout = payoutIrp
-      contractualProductNew = contract.contractualProduct with economicTerms = economicTermsNew
-  in contract with contractualProduct = contractualProductNew
+      economicTermsNew = contract.contractualProduct.economicTerms { payout = payoutIrp }
+      contractualProductNew = contract.contractualProduct { economicTerms = economicTermsNew }
+  in contract { contractualProduct = contractualProductNew }
 
   where
     setCdpQuantity : Money -> ProtectionTerms -> ProtectionTerms
-    setCdpQuantity notionalAmount pTerms = pTerms with notionalAmount
+    setCdpQuantity notionalAmount pTerms = pTerms { notionalAmount }
 
     setIrpQuantity : ContractualQuantity -> InterestRatePayout -> InterestRatePayout
-    setIrpQuantity quantity irp = irp with quantity = Some quantity
+    setIrpQuantity quantity irp = irp { quantity = Some quantity }

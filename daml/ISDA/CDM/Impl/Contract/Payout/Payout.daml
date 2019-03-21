@@ -47,13 +47,15 @@ buildEvents fromDate toDate pastEvents (checkPayout -> payout) = do
         mergeImpl : [Event] -> Event
         mergeImpl events
           | any (\e -> e.primitive == emptyPrimitiveEvent) events =
-              (head events) with
-                lineage   = Some $ foldr1 mergeLineages $ mapOptional (\e -> e.lineage) events
-                primitive = emptyPrimitiveEvent
+              (head events)
+                { lineage   = Some $ foldr1 mergeLineages $ mapOptional (\e -> e.lineage) events
+                , primitive = emptyPrimitiveEvent
+                }
           | otherwise =
-              (head events) with
-                lineage   = Some $ foldr1 mergeLineages $ mapOptional (\e -> e.lineage) events
-                primitive = foldr1 mergePrimitives $ map (\e -> e.primitive) events
+              (head events)
+                { lineage   = Some $ foldr1 mergeLineages $ mapOptional (\e -> e.lineage) events
+                , primitive = foldr1 mergePrimitives $ map (\e -> e.primitive) events
+                }
 
 -- | Build interest rate payout events
 buildIrpEvents : (Fetch f) => Optional Date -> Optional Date -> [Event] -> Payout -> f [Event]
@@ -89,22 +91,25 @@ defaultCdsIrp cdp irp =
       rollConvention = implyRollConvention True uTerminationDate
       frequencyNew = fromOptional (defaultCalculationPeriodFrequency rollConvention) calcPeriodDates.calculationPeriodFrequency
 
-      caclPeriodDatesNew = calcPeriodDates with
-                              calculationPeriodFrequency = Some frequencyNew
-                              stubPeriodType = Some stubPeriodTypeNew
-                              calculationPeriodDatesAdjustments = Some adjNew
-  in irp with calculationPeriodDates = caclPeriodDatesNew
+      caclPeriodDatesNew = calcPeriodDates
+                              { calculationPeriodFrequency = Some frequencyNew
+                              , stubPeriodType = Some stubPeriodTypeNew
+                              , calculationPeriodDatesAdjustments = Some adjNew
+                              }
+  in irp { calculationPeriodDates = caclPeriodDatesNew }
 
   where
-    defaultCalculationPeriodFrequency rollConvention = CalculationPeriodFrequency with
-                                                        id = None
-                                                        rollConvention = rollConvention
-                                                        period = PeriodExtendedEnum_M
-                                                        periodMultiplier = 3
-    defaultAdj = BusinessDayAdjustments with
-                  id = None
-                  businessCenters = None
-                  businessDayConvention = BusinessDayConventionEnum_NONE
+    defaultCalculationPeriodFrequency rollConvention = CalculationPeriodFrequency
+                                                        { id = None
+                                                        , rollConvention = rollConvention
+                                                        , period = PeriodExtendedEnum_M
+                                                        , periodMultiplier = 3
+                                                        }
+    defaultAdj = BusinessDayAdjustments
+                  { id = None
+                  , businessCenters = None
+                  , businessDayConvention = BusinessDayConventionEnum_NONE
+                  }
 
     defaultStubPeriodType = StubPeriodTypeEnum_ShortInitial
 
@@ -116,4 +121,4 @@ defaultCashflowDate payout cashflow
       let irp = getOne "interestRatePayout" payout.interestRatePayout
           effectiveDate = get "effectiveDate" irp.calculationPeriodDates.effectiveDate
           cashflowDate = toAdjustableOrAdjustedOrRelativeDate effectiveDate
-      in cashflow with cashflowDate = Some cashflowDate
+      in cashflow { cashflowDate = Some cashflowDate }

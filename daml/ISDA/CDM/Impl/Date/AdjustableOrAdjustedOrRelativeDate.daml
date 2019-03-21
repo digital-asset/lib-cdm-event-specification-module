@@ -17,10 +17,11 @@ getAdjustedDate (checkAdjustableOrAdjustedOrRelativeDate -> aar)
   | Some adjustedDate <- aar.adjustedDate = return adjustedDate.value
   | otherwise = adjustDate (fromOptional defaultAdj aar.dateAdjustments) $ getUnadjustedDate aar
       where
-        defaultAdj = BusinessDayAdjustments with
-                      id = None
-                      businessCenters = None
-                      businessDayConvention = BusinessDayConventionEnum_NONE
+        defaultAdj = BusinessDayAdjustments
+                      { id = None
+                      , businessCenters = None
+                      , businessDayConvention = BusinessDayConventionEnum_NONE
+                      }
 
 -- | Get unadjusted date from AdjustableOrAdjustedOrRelativeDate
 getUnadjustedDate : AdjustableOrAdjustedOrRelativeDate -> Date

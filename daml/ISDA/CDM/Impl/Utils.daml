@@ -6,21 +6,25 @@ import DA.Optional
 import ISDA.CDM.Types.All hiding (length)
 
 fieldWithEmptyMeta : a -> FieldWithMeta a
-fieldWithEmptyMeta v = FieldWithMeta with
-                        value = v
-                        meta = MetaFields with
-                          reference = None
-                          scheme = None
-                          id = None
+fieldWithEmptyMeta v = FieldWithMeta
+                        { value = v
+                        , meta = MetaFields
+                            { reference = None
+                            , scheme = None
+                            , id = None
+                            }
+                        }
 
 referenceWithEmptyMeta : Text -> ReferenceWithMeta a
-referenceWithEmptyMeta ref = ReferenceWithMeta with
-                              reference = Some ref
-                              value = None
-                              meta = MetaFields with
-                                reference = None
-                                scheme = None
-                                id = None
+referenceWithEmptyMeta ref = ReferenceWithMeta
+                              { reference = Some ref
+                              , value = None
+                              , meta = MetaFields
+                                  { reference = None
+                                  , scheme = None
+                                  , id = None
+                                  }
+                              }
 
 -- | Throw a not supported error
 throwNotSupportedError : Text -> a

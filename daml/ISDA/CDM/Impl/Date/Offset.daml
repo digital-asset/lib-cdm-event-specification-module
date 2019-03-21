@@ -13,7 +13,7 @@ import ISDA.CDM.Types.All
 applyOffset : (Fetch f) => Offset -> Optional BusinessCenters -> Date -> f Date
 applyOffset Offset{..} bcs date
   | useDayType && dayType == Some DayTypeEnum_Calendar =
-      return $ addPeriod date (Period with id = None, ..)
+      return $ addPeriod date (Period { id = None, periodMultiplier = periodMultiplier, period = period })
 
   | useDayType && isSome dayType = do
       cal <- BC.fetchHolidayCalendar $ fromSomeTry "expecting 'BusinessCenters' to be provided for adjusted date" bcs
@@ -21,7 +21,7 @@ applyOffset Offset{..} bcs date
 
   | useDayType && isNone dayType = error "expecting 'dayType' to be set if date is offset by a number of days"
 
-  | otherwise = return $ addPeriod date (Period with id = None, ..)
+  | otherwise = return $ addPeriod date (Period { id = None, periodMultiplier = periodMultiplier, period = period })
 
   where
     useDayType = period == PeriodEnum_D && periodMultiplier /= 0
@@ -38,5 +38,14 @@ applyRelativeDateOffset (checkRelativeDateOffset -> RelativeDateOffset{..}) date
   adjustDate adj offsettedDate
 
   where
-    offset = Offset with id = None, ..
-    adj = BusinessDayAdjustments with id = None, ..
+    offset = Offset
+              { id = None
+              , dayType = dayType
+              , periodMultiplier = periodMultiplier
+              , period = period
+              }
+    adj = BusinessDayAdjustments
+            { id = None
+            , businessDayConvention = businessDayConvention
+            , businessCenters = businessCenters
+            }
