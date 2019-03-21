@@ -3,10 +3,13 @@ version: 0.0.0
 
 dependencies:
   - daml-stdlib
+  - record-hasfield
 
 default-extensions:
   - DuplicateRecordFields
+  - DisambiguateRecordFields
   - MultiParamTypeClasses
+  - NamedFieldPuns
   - OverloadedStrings
   - RecordWildCards
 

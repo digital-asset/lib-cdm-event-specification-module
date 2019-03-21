@@ -1,6 +1,7 @@
 module DA.List
   ( groupBy
   , groupOn
+  , length
   , mapA
   , sortOn
   ) where

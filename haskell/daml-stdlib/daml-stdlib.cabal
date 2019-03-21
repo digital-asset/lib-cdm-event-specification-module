@@ -9,12 +9,14 @@ library
       DA.List
       DA.Optional
       Prelude
+  other-modules:
+      DA.Internal.Prelude
   hs-source-dirs:
       src
   default-extensions:
-    MultiParamTypeClasses
-    NoImplicitPrelude
-    PackageImports
+      MultiParamTypeClasses
+      NoImplicitPrelude
+      PackageImports
   ghc-options: -O0
   build-depends:
       base

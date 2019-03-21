@@ -29,7 +29,7 @@ addYears date n = addMonths date (n * 12)
 
 -- | Check if Date is a holiday
 isHoliday : HolidayCalendarData -> Date -> Bool
-isHoliday cal date = date `elem` holidays cal || (dayOfWeek date) `elem` weekend cal
+isHoliday cal date = date `elem` cal.holidays || (dayOfWeek date) `elem` cal.weekend
 
 -- | Check if Date is a business day
 isBusinessDay : HolidayCalendarData -> Date -> Bool
