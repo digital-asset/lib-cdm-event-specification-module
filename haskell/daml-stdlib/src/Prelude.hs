@@ -14,10 +14,21 @@ module Prelude
     , Action(..)
 
     , error
+    , show
+
     , optional
     ) where
 
-import "base" Prelude as Base.Prelude hiding (Maybe, Monad, (>>=), error, length, id)
+import "base" Prelude as Base.Prelude
+  hiding
+  ( Maybe
+  , Monad
+  , (>>=)
+  , error
+  , length
+  , id
+  , show
+  )
 import qualified "base" Prelude as Base.Prelude
 
 import Data.Text
@@ -34,6 +45,9 @@ intToDecimal = fromIntegral
 
 error :: Text -> a
 error = Base.Prelude.error . Text.unpack
+
+show :: Show a => a -> Text
+show = Text.pack . Base.Prelude.show
 
 optional :: b -> (a -> b) -> Optional a -> b
 optional n _ None  = n
