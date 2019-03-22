@@ -13,9 +13,6 @@ module Prelude
     , Date
 
     , Action(..)
-    , (>>)
-    , (>>=)
-    , (=<<)
     , return
 
     , error
@@ -31,9 +28,6 @@ import "base" Prelude as Base.Prelude
   hiding
   ( Maybe
   , Monad
-  , (=<<)
-  , (>>=)
-  , (>>)
   , error
   , id
   , length

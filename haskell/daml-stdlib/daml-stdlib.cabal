@@ -5,6 +5,7 @@ build-type:     Simple
 
 library
   exposed-modules:
+      DA.Assert
       DA.Date
       DA.List
       DA.Optional
@@ -23,6 +24,8 @@ library
   build-depends:
       base
     , extra
+    , tasty
+    , tasty-hunit
     , text
     , time
   default-language: Haskell2010
