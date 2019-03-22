@@ -14,58 +14,63 @@ import Test.ReferenceData()
 
 genPayment : Decimal -> Date -> Optional Date -> Optional CashflowTypeEnum -> TransferPrimitive
 genPayment amount unadjustedDate adjustedDate cfType =
- TransferPrimitive with
+ TransferPrimitive {
     cashTransfer =
-      [ CashTransferComponent with
+      [ CashTransferComponent {
           amount =
-            Money with
-              id = None
-              amount = amount
+            Money {
+              id = None,
+              amount = amount,
               currency = fieldWithEmptyMeta "USD"
-          breakdown = []
+            },
+          breakdown = [],
           payerReceiver =
-            PayerReceiver with
-              payerAccountReference = None
-              payerPartyReference = referenceWithEmptyMeta "Party1"
-              receiverAccountReference = None
+            PayerReceiver {
+              payerAccountReference = None,
+              payerPartyReference = referenceWithEmptyMeta "Party1",
+              receiverAccountReference = None,
               receiverPartyReference = referenceWithEmptyMeta "Party2"
-          cashflowType = cfType
-          identifier = None
+            },
+          cashflowType = cfType,
+          identifier = None,
           transferCalculation = None
-      ]
-    commodityTransfer = []
-    securityTransfer = []
+        }
+      ],
+    commodityTransfer = [],
+    securityTransfer = [],
     settlementDate =
-      AdjustableOrAdjustedOrRelativeDate with
-        id = None
-        adjustedDate = fmap fieldWithEmptyMeta adjustedDate
-        dateAdjustments = None
-        relativeDate = None
+      AdjustableOrAdjustedOrRelativeDate {
+        id = None,
+        adjustedDate = fmap fieldWithEmptyMeta adjustedDate,
+        dateAdjustments = None,
+        relativeDate = None,
         unadjustedDate = Some $ unadjustedDate
-    settlementReference = None
-    status = None
-    settlementType = None
-    identifier = None
+      },
+    settlementReference = None,
+    status = None,
+    settlementType = None,
+    identifier = None,
     rosettaKey = ""
+ }
 
 testBasisSwap = scenario do
   -- Calculate Events
-  let reset1M_1 = ResetPrimitive with date = D.date 2018 Nov 30, resetValue = 0.01, cashflow = None
+  let reset1M_1 = ResetPrimitive { date = D.date 2018 Nov 30, resetValue = 0.01, cashflow = None }
   let payment1M_1 = genPayment 2499.999999 (D.date 2018 Dec 31) (Some $ D.date 2018 Dec 31) (Some CashflowTypeEnum_Interest)
-  let reset3M_1 = ResetPrimitive with date = D.date 2018 Nov 30, resetValue = 0.03, cashflow = None
+  let reset3M_1 = ResetPrimitive { date = D.date 2018 Nov 30, resetValue = 0.03, cashflow = None }
 
   let expectedED = [D.date 2018 Nov 30, D.date 2018 Dec 31, D.date 2018 Dec 31, D.date 2019 Jan 30, D.date 2019 Jan 30, D.date 2019 Feb 28]
   let expectedQ  = ["Reset", "Reset", "InterestPayment", "Reset", "InterestPayment", "InterestPayment"]
   let expectedL  =
-        [ emptyLineage with interestRatePayoutReference = [referenceWithEmptyMeta "Leg1", referenceWithEmptyMeta "Leg2"]
-        , emptyLineage with interestRatePayoutReference = [referenceWithEmptyMeta "Leg2"]
-        , emptyLineage with interestRatePayoutReference = [referenceWithEmptyMeta "Leg2"]
-        , emptyLineage with interestRatePayoutReference = [referenceWithEmptyMeta "Leg2"]
-        , emptyLineage with interestRatePayoutReference = [referenceWithEmptyMeta "Leg2"]
-        , emptyLineage with interestRatePayoutReference = [referenceWithEmptyMeta "Leg1", referenceWithEmptyMeta "Leg2"]
+        [ emptyLineage { interestRatePayoutReference = [referenceWithEmptyMeta "Leg1", referenceWithEmptyMeta "Leg2"] }
+        , emptyLineage { interestRatePayoutReference = [referenceWithEmptyMeta "Leg2"] }
+        , emptyLineage { interestRatePayoutReference = [referenceWithEmptyMeta "Leg2"] }
+        , emptyLineage { interestRatePayoutReference = [referenceWithEmptyMeta "Leg2"] }
+        , emptyLineage { interestRatePayoutReference = [referenceWithEmptyMeta "Leg2"] }
+        , emptyLineage { interestRatePayoutReference = [referenceWithEmptyMeta "Leg1", referenceWithEmptyMeta "Leg2"] }
         ]
   let expectedP =
-        [ emptyPrimitiveEvent with reset = [reset3M_1, reset1M_1]
+        [ emptyPrimitiveEvent { reset = [reset3M_1, reset1M_1] }
         , emptyPrimitiveEvent
         , emptyPrimitiveEvent
         , emptyPrimitiveEvent
@@ -83,20 +88,20 @@ testBasisSwap = scenario do
   -- Include reset
   let expectedP =
         [ emptyPrimitiveEvent
-        , emptyPrimitiveEvent with transfer = [payment1M_1]
+        , emptyPrimitiveEvent { transfer = [payment1M_1] } : PrimitiveEvent
         , emptyPrimitiveEvent
         , emptyPrimitiveEvent
         , emptyPrimitiveEvent
         ]
   let expectedL  =
-        [ emptyLineage with interestRatePayoutReference = [referenceWithEmptyMeta "Leg2"]
-        , emptyLineage with interestRatePayoutReference = [referenceWithEmptyMeta "Leg2"], eventReference = [referenceWithEmptyMeta "Test_0"]
-        , emptyLineage with interestRatePayoutReference = [referenceWithEmptyMeta "Leg2"]
-        , emptyLineage with interestRatePayoutReference = [referenceWithEmptyMeta "Leg2"]
-        , emptyLineage with interestRatePayoutReference = [referenceWithEmptyMeta "Leg1", referenceWithEmptyMeta "Leg2"], eventReference = [referenceWithEmptyMeta "Test_0"]
+        [ emptyLineage { interestRatePayoutReference = [referenceWithEmptyMeta "Leg2"] }
+        , emptyLineage { interestRatePayoutReference = [referenceWithEmptyMeta "Leg2"], eventReference = [referenceWithEmptyMeta "Test_0"] }
+        , emptyLineage { interestRatePayoutReference = [referenceWithEmptyMeta "Leg2"] }
+        , emptyLineage { interestRatePayoutReference = [referenceWithEmptyMeta "Leg2"] }
+        , emptyLineage { interestRatePayoutReference = [referenceWithEmptyMeta "Leg1", referenceWithEmptyMeta "Leg2"], eventReference = [referenceWithEmptyMeta "Test_0"] }
         ]
 
-  res <- buildEvents None None [(head res) with rosettaKey = "Test_0"] payoutBasisSwap
+  res <- buildEvents None None [(head res) { rosettaKey = "Test_0" }] payoutBasisSwap
 
   mapOptional (\r -> r.effectiveDate) res   === tail expectedED
   mapOptional (\r -> r.eventQualifier) res  === tail expectedQ
@@ -108,20 +113,20 @@ testCDS = scenario do
   let expectedED = [D.date 2018 Nov 15, D.date 2018 Dec 19, D.date 2019 Mar 19, D.date 2019 Jun 19, D.date 2019 Sep 19, D.date 2019 Dec 20]
   let expectedQ  = ["CashPayment", "InterestPayment", "InterestPayment", "InterestPayment", "InterestPayment", "InterestPayment"]
   let expectedL  =
-        [ emptyLineage with cashflowReference = [referenceWithEmptyMeta "w46sfdh34"]
-        , emptyLineage with interestRatePayoutReference = [referenceWithEmptyMeta "IrpLeg"]
-        , emptyLineage with interestRatePayoutReference = [referenceWithEmptyMeta "IrpLeg"]
-        , emptyLineage with interestRatePayoutReference = [referenceWithEmptyMeta "IrpLeg"]
-        , emptyLineage with interestRatePayoutReference = [referenceWithEmptyMeta "IrpLeg"]
-        , emptyLineage with interestRatePayoutReference = [referenceWithEmptyMeta "IrpLeg"]
+        [ emptyLineage { cashflowReference = [referenceWithEmptyMeta "w46sfdh34"] }
+        , emptyLineage { interestRatePayoutReference = [referenceWithEmptyMeta "IrpLeg"] }
+        , emptyLineage { interestRatePayoutReference = [referenceWithEmptyMeta "IrpLeg"] }
+        , emptyLineage { interestRatePayoutReference = [referenceWithEmptyMeta "IrpLeg"] }
+        , emptyLineage { interestRatePayoutReference = [referenceWithEmptyMeta "IrpLeg"] }
+        , emptyLineage { interestRatePayoutReference = [referenceWithEmptyMeta "IrpLeg"] }
         ]
   let expectedP  =
-        [ emptyPrimitiveEvent with transfer = [genPayment 1000.0 (D.date 2018 Nov 15) None None]
-        , emptyPrimitiveEvent with transfer = [genPayment 944.444444 (D.date 2018 Dec 19) (Some $ D.date 2018 Dec 19) (Some CashflowTypeEnum_Interest)]
-        , emptyPrimitiveEvent with transfer = [genPayment 2500.0 (D.date 2019 Mar 19) (Some $ D.date 2019 Mar 19) (Some CashflowTypeEnum_Interest)]
-        , emptyPrimitiveEvent with transfer = [genPayment 2500.0 (D.date 2019 Jun 19) (Some $ D.date 2019 Jun 19) (Some CashflowTypeEnum_Interest)]
-        , emptyPrimitiveEvent with transfer = [genPayment 2500.0 (D.date 2019 Sep 19) (Some $ D.date 2019 Sep 19) (Some CashflowTypeEnum_Interest)]
-        , emptyPrimitiveEvent with transfer = [genPayment 2527.777778 (D.date 2019 Dec 20) (Some $ D.date 2019 Dec 20) (Some CashflowTypeEnum_Interest)]
+        [ emptyPrimitiveEvent { transfer = [genPayment 1000.0 (D.date 2018 Nov 15) None None] } : PrimitiveEvent
+        , emptyPrimitiveEvent { transfer = [genPayment 944.444444 (D.date 2018 Dec 19) (Some $ D.date 2018 Dec 19) (Some CashflowTypeEnum_Interest)] } : PrimitiveEvent
+        , emptyPrimitiveEvent { transfer = [genPayment 2500.0 (D.date 2019 Mar 19) (Some $ D.date 2019 Mar 19) (Some CashflowTypeEnum_Interest)] } : PrimitiveEvent
+        , emptyPrimitiveEvent { transfer = [genPayment 2500.0 (D.date 2019 Jun 19) (Some $ D.date 2019 Jun 19) (Some CashflowTypeEnum_Interest)] } : PrimitiveEvent
+        , emptyPrimitiveEvent { transfer = [genPayment 2500.0 (D.date 2019 Sep 19) (Some $ D.date 2019 Sep 19) (Some CashflowTypeEnum_Interest)] } : PrimitiveEvent
+        , emptyPrimitiveEvent { transfer = [genPayment 2527.777778 (D.date 2019 Dec 20) (Some $ D.date 2019 Dec 20) (Some CashflowTypeEnum_Interest)] } : PrimitiveEvent
         ]
 
   res <- buildEvents None None [] cds

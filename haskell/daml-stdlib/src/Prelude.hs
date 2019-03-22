@@ -22,6 +22,9 @@ module Prelude
     , ifThenElse
     , fromString
     , mapA
+    , find
+
+    , Scenario
     ) where
 
 import "base" Prelude as Base.Prelude
@@ -38,11 +41,12 @@ import "base" Prelude as Base.Prelude
 import qualified "base" Prelude as Base.Prelude
 
 import Data.String
-import Data.Text
+import Data.Text (Text)
 import qualified Data.Text as Text
 
 import DA.Date
 import DA.Internal.Prelude
+import DA.List hiding (length)
 import DA.Optional
 
 type Decimal = Double
@@ -71,3 +75,5 @@ return = pure
 
 mapA :: (Applicative f, Traversable t) => (a -> f b) -> t a -> f (t b)
 mapA = traverse
+
+type Scenario = IO
