@@ -6,578 +6,666 @@ import ISDA.CDM.Impl.Utils
 import ISDA.CDM.Types.All hiding (length)
 
 cpdsBothStub3M : CalculationPeriodDates
-cpdsBothStub3M = CalculationPeriodDates with
-                  id = None
+cpdsBothStub3M = CalculationPeriodDates {
+                  id = None,
                   calculationPeriodDatesAdjustments = Some
-                    BusinessDayAdjustments with
-                      id = None
+                    BusinessDayAdjustments {
+                      id = None,
                       businessCenters = Some
-                        BusinessCenters with
-                          id = None
-                          businessCenter = [fieldWithEmptyMeta BusinessCenterEnum_USNY]
+                        BusinessCenters {
+                          id = None,
+                          businessCenter = [fieldWithEmptyMeta BusinessCenterEnum_USNY],
                           businessCentersReference = None
+                        },
                       businessDayConvention = BusinessDayConventionEnum_MODFOLLOWING
+                    },
                   calculationPeriodFrequency = Some
-                    CalculationPeriodFrequency with
-                      id = None
-                      rollConvention = RollConventionEnum__30
-                      period = PeriodExtendedEnum_M
+                    CalculationPeriodFrequency {
+                      id = None,
+                      rollConvention = RollConventionEnum__30,
+                      period = PeriodExtendedEnum_M,
                       periodMultiplier = 3
+                    },
                   effectiveDate = Some
-                    AdjustableOrRelativeDate with
-                      id = None
-                      relativeDate = None
+                    AdjustableOrRelativeDate {
+                      id = None,
+                      relativeDate = None,
                       adjustableDate = Some
-                        AdjustableDate with
-                          id = None
-                          adjustedDate = None
-                          dateAdjustments = None
-                          dateAdjustmentsReference = None
+                        AdjustableDate {
+                          id = None,
+                          adjustedDate = None,
+                          dateAdjustments = None,
+                          dateAdjustmentsReference = None,
                           unadjustedDate = D.date 2018 Nov 15
-                  firstCompoundingPeriodEndDate = None
-                  firstPeriodStartDate = None
-                  firstRegularPeriodStartDate = Some $ D.date 2018 Nov 30
-                  lastRegularPeriodEndDate = Some $ D.date 2019 Nov 30
-                  stubPeriodType = None
+                        }
+                    },
+                  firstCompoundingPeriodEndDate = None,
+                  firstPeriodStartDate = None,
+                  firstRegularPeriodStartDate = Some $ D.date 2018 Nov 30,
+                  lastRegularPeriodEndDate = Some $ D.date 2019 Nov 30,
+                  stubPeriodType = None,
                   terminationDate = Some
-                    AdjustableOrRelativeDate with
-                      id = None
-                      relativeDate = None
+                    AdjustableOrRelativeDate {
+                      id = None,
+                      relativeDate = None,
                       adjustableDate = Some
-                        AdjustableDate with
-                          id = None
-                          adjustedDate = None
+                        AdjustableDate {
+                          id = None,
+                          adjustedDate = None,
                           dateAdjustments = Some
-                            BusinessDayAdjustments with
-                              id = None
+                            BusinessDayAdjustments {
+                              id = None,
                               businessCenters = Some
-                                BusinessCenters with
-                                  id = None
-                                  businessCenter = [fieldWithEmptyMeta BusinessCenterEnum_USNY]
+                                BusinessCenters {
+                                  id = None,
+                                  businessCenter = [fieldWithEmptyMeta BusinessCenterEnum_USNY],
                                   businessCentersReference = None
+                                },
                               businessDayConvention = BusinessDayConventionEnum_MODFOLLOWING
-                          dateAdjustmentsReference = None
+                            },
+                          dateAdjustmentsReference = None,
                           unadjustedDate = D.date 2019 Dec 15
+                        }
+                    }
+                }
 
 rds3M : ResetDates
-rds3M = ResetDates with
-              id = None
-              calculationPeriodDatesReference = None
-              finalFixingDate = None
+rds3M = ResetDates {
+              id = None,
+              calculationPeriodDatesReference = None,
+              finalFixingDate = None,
               fixingDates = Some
-                RelativeDateOffset with
-                  id = None
-                  adjustedDate = None
+                RelativeDateOffset {
+                  id = None,
+                  adjustedDate = None,
                   businessCenters = Some
-                    BusinessCenters with
-                      id = None
-                      businessCenter = [fieldWithEmptyMeta BusinessCenterEnum_USNY]
+                    BusinessCenters {
+                      id = None,
+                      businessCenter = [fieldWithEmptyMeta BusinessCenterEnum_USNY],
                       businessCentersReference = None
-                  businessCentersReference = None
-                  businessDayConvention = BusinessDayConventionEnum_MODFOLLOWING
-                  dateRelativeTo = None
-                  dayType = Some DayTypeEnum_Business
-                  period = PeriodEnum_D
+                    },
+                  businessCentersReference = None,
+                  businessDayConvention = BusinessDayConventionEnum_MODFOLLOWING,
+                  dateRelativeTo = None,
+                  dayType = Some DayTypeEnum_Business,
+                  period = PeriodEnum_D,
                   periodMultiplier = -5
-              initialFixingDate = None
-              rateCutOffDaysOffset = None
+                },
+              initialFixingDate = None,
+              rateCutOffDaysOffset = None,
               resetDatesAdjustments = Some
-                BusinessDayAdjustments with
-                  id = None
+                BusinessDayAdjustments {
+                  id = None,
                   businessCenters = Some
-                    BusinessCenters with
-                      id = None
-                      businessCenter = [fieldWithEmptyMeta BusinessCenterEnum_USNY]
+                    BusinessCenters {
+                      id = None,
+                      businessCenter = [fieldWithEmptyMeta BusinessCenterEnum_USNY],
                       businessCentersReference = None
+                    },
                   businessDayConvention = BusinessDayConventionEnum_MODFOLLOWING
+                },
               resetFrequency = Some
-                ResetFrequency with
-                  id = None
-                  weeklyRollConvention = None
-                  period = PeriodExtendedEnum_M
+                ResetFrequency {
+                  id = None,
+                  weeklyRollConvention = None,
+                  period = PeriodExtendedEnum_M,
                   periodMultiplier = 3
+                },
               resetRelativeTo = Some ResetRelativeToEnum_CalculationPeriodStartDate
+        }
 
 pds3M : PaymentDates
-pds3M = PaymentDates with
-              id = None
-              dateRelativeTo = None
-              firstPaymentDate = None
-              lastPaymentDate = None
-              payRelativeTo = Some PayRelativeToEnum_CalculationPeriodEndDate
+pds3M = PaymentDates {
+              id = None,
+              dateRelativeTo = None,
+              firstPaymentDate = None,
+              lastPaymentDate = None,
+              payRelativeTo = Some PayRelativeToEnum_CalculationPeriodEndDate,
               paymentDatesAdjustments = Some
-                BusinessDayAdjustments with
-                  id = None
+                BusinessDayAdjustments {
+                  id = None,
                   businessCenters = Some
-                    BusinessCenters with
-                      id = None
-                      businessCenter = [fieldWithEmptyMeta BusinessCenterEnum_USNY]
+                    BusinessCenters {
+                      id = None,
+                      businessCenter = [fieldWithEmptyMeta BusinessCenterEnum_USNY],
                       businessCentersReference = None
+                    },
                   businessDayConvention = BusinessDayConventionEnum_MODFOLLOWING
+                },
               paymentDaysOffset = Some
-                Offset with
-                  id = None
-                  dayType = Some DayTypeEnum_Business
-                  period = PeriodEnum_D
+                Offset {
+                  id = None,
+                  dayType = Some DayTypeEnum_Business,
+                  period = PeriodEnum_D,
                   periodMultiplier = 3
+                },
               paymentFrequency = Some
-                Frequency with
-                  id = None
-                  period = PeriodExtendedEnum_M
+                Frequency {
+                  id = None,
+                  period = PeriodExtendedEnum_M,
                   periodMultiplier = 3
+                }
+        }
 
 frc3M : FloatingRateSpecification
-frc3M = FloatingRateSpecification with
-          id = None
-          averagingMethod = None
-          finalRateRounding = None
-          initialRate = Some 0.05
-          negativeInterestRateTreatment = None
-          capRateSchedule = []
-          floatingRateIndex = fieldWithEmptyMeta FloatingRateIndexEnum_USD_LIBOR_BBA
-          floatingRateMultiplierSchedule = None
-          floorRateSchedule = []
+frc3M = FloatingRateSpecification {
+          id = None,
+          averagingMethod = None,
+          finalRateRounding = None,
+          initialRate = Some 0.05,
+          negativeInterestRateTreatment = None,
+          capRateSchedule = [],
+          floatingRateIndex = fieldWithEmptyMeta FloatingRateIndexEnum_USD_LIBOR_BBA,
+          floatingRateMultiplierSchedule = None,
+          floorRateSchedule = [],
           indexTenor = Some
-            Period with
-              id = None
-              period = PeriodEnum_M
+            Period {
+              id = None,
+              period = PeriodEnum_M,
               periodMultiplier = 3
-          rateTreatment = None
+            },
+          rateTreatment = None,
           spreadSchedule =
-            [ SpreadSchedule with
-                id = None
-                _type = None
-                initialValue = 0.02
+            [ SpreadSchedule {
+                id = None,
+                _type = None,
+                initialValue = 0.02,
                 step = []
+              }
             ]
+        }
 
 cq1m : ContractualQuantity
-cq1m = ContractualQuantity with
-        futureValueNotional = None
-        fxLinkedNotional = None
-        notionalAmount = None
-        notionalReset = None
-        notionalAdjustments = None
+cq1m = ContractualQuantity {
+        futureValueNotional = None,
+        fxLinkedNotional = None,
+        notionalAmount = None,
+        notionalReset = None,
+        notionalAdjustments = None,
         notionalSchedule = Some
-          NotionalSchedule with
-            id = None
-            notionalStepParameters = None
+          NotionalSchedule {
+            id = None,
+            notionalStepParameters = None,
             notionalStepSchedule =
-              NonNegativeAmountSchedule with
-                id = None
-                currency = fieldWithEmptyMeta "USD"
-                initialValue = 1000000.0
+              NonNegativeAmountSchedule {
+                id = None,
+                currency = fieldWithEmptyMeta "USD",
+                initialValue = 1000000.0,
                 step = []
+              }
+          },
         quantity = None
+       }
 
 irpFloating3M : InterestRatePayout
-irpFloating3M = InterestRatePayout with
-                  id = None
-                  rosettaKey = ""
-                  bondReference = None
-                  calculationPeriodDates = cpdsBothStub3M
-                  cashflowRepresentation = None
-                  compoundingMethod = None
-                  crossCurrencyTerms = None
-                  dayCountFraction = Some $ fieldWithEmptyMeta DayCountFractionEnum__30E_360
-                  discountingMethod = None
+irpFloating3M = InterestRatePayout {
+                  id = None,
+                  rosettaKey = "",
+                  bondReference = None,
+                  calculationPeriodDates = cpdsBothStub3M,
+                  cashflowRepresentation = None,
+                  compoundingMethod = None,
+                  crossCurrencyTerms = None,
+                  dayCountFraction = Some $ fieldWithEmptyMeta DayCountFractionEnum__30E_360,
+                  discountingMethod = None,
                   rateSpecification =
-                    RateSpecification with
-                      fixedRate = None
-                      floatingRate = Some frc3M
+                    RateSpecification {
+                      fixedRate = None,
+                      floatingRate = Some frc3M,
                       inflationRate = None
+                    },
                   payerReceiver = Some
-                    PayerReceiver with
-                      payerAccountReference = None
-                      payerPartyReference = referenceWithEmptyMeta "Party1"
-                      receiverAccountReference = None
+                    PayerReceiver {
+                      payerAccountReference = None,
+                      payerPartyReference = referenceWithEmptyMeta "Party1",
+                      receiverAccountReference = None,
                       receiverPartyReference = referenceWithEmptyMeta "Party2"
-                  paymentDates = Some pds3M
-                  quantity = Some cq1m
-                  resetDates = Some rds3M
-                  stubPeriod = None
-                  paymentDate = None
-                  paymentDelay = None
-                  fixedAmount = None
+                    },
+                  paymentDates = Some pds3M,
+                  quantity = Some cq1m,
+                  resetDates = Some rds3M,
+                  stubPeriod = None,
+                  paymentDate = None,
+                  paymentDelay = None,
+                  fixedAmount = None,
                   floatingAmount = None
+                }
 
 irpFixed3M : InterestRatePayout
-irpFixed3M = InterestRatePayout with
-                id = None
-                rosettaKey = ""
-                bondReference = None
-                calculationPeriodDates = cpdsBothStub3M
-                cashflowRepresentation = None
-                compoundingMethod = None
-                crossCurrencyTerms = None
-                dayCountFraction = Some $ fieldWithEmptyMeta DayCountFractionEnum__30E_360
-                discountingMethod = None
+irpFixed3M = InterestRatePayout {
+                id = None,
+                rosettaKey = "",
+                bondReference = None,
+                calculationPeriodDates = cpdsBothStub3M,
+                cashflowRepresentation = None,
+                compoundingMethod = None,
+                crossCurrencyTerms = None,
+                dayCountFraction = Some $ fieldWithEmptyMeta DayCountFractionEnum__30E_360,
+                discountingMethod = None,
                 rateSpecification =
-                  RateSpecification with
+                  RateSpecification {
                     fixedRate = Some
-                      Schedule with
-                        id = None
-                        initialValue = 0.02
+                      Schedule {
+                        id = None,
+                        initialValue = 0.02,
                         step = []
-                    floatingRate = None
+                      },
+                    floatingRate = None,
                     inflationRate = None
+                  },
                 payerReceiver = Some
-                  PayerReceiver with
-                    payerAccountReference = None
-                    payerPartyReference = referenceWithEmptyMeta "Party1"
-                    receiverAccountReference = None
+                  PayerReceiver {
+                    payerAccountReference = None,
+                    payerPartyReference = referenceWithEmptyMeta "Party1",
+                    receiverAccountReference = None,
                     receiverPartyReference = referenceWithEmptyMeta "Party2"
-                paymentDates = Some pds3M
-                quantity = Some cq1m
-                resetDates = None
-                stubPeriod = None
-                paymentDate = None
-                paymentDelay = None
-                fixedAmount = None
+                  },
+                paymentDates = Some pds3M,
+                quantity = Some cq1m,
+                resetDates = None,
+                stubPeriod = None,
+                paymentDate = None,
+                paymentDelay = None,
+                fixedAmount = None,
                 floatingAmount = None
+             }
 
 cashflow20180101 : Cashflow
-cashflow20180101 = Cashflow with
-                    rosettaKey = "dh1235as"
-                    id = None
+cashflow20180101 = Cashflow {
+                    rosettaKey = "dh1235as",
+                    id = None,
                     cashflowAmount =
-                      Money with
-                        id = None
-                        amount = 1000.0
+                      Money {
+                        id = None,
+                        amount = 1000.0,
                         currency = fieldWithEmptyMeta "USD"
-                    cashflowCalculation = None
+                      },
+                    cashflowCalculation = None,
                     cashflowDate = Some
-                      AdjustableOrAdjustedOrRelativeDate with
-                        id = None
-                        adjustedDate = None
+                      AdjustableOrAdjustedOrRelativeDate {
+                        id = None,
+                        adjustedDate = None,
                         dateAdjustments = Some
-                          BusinessDayAdjustments with
-                            id = None
+                          BusinessDayAdjustments {
+                            id = None,
                             businessCenters = Some
-                              BusinessCenters with
-                                id = None
-                                businessCenter = [fieldWithEmptyMeta BusinessCenterEnum_USNY]
+                              BusinessCenters {
+                                id = None,
+                                businessCenter = [fieldWithEmptyMeta BusinessCenterEnum_USNY],
                                 businessCentersReference = None
+                              },
                             businessDayConvention = BusinessDayConventionEnum_MODFOLLOWING
-                        relativeDate = None
+                          },
+                        relativeDate = None,
                         unadjustedDate = Some $ D.date 2018 Jan 1
-                    cashflowType = None
-                    discountFactor = None
+                      },
+                    cashflowType = None,
+                    discountFactor = None,
                     payerReceiver =
-                      PayerReceiver with
-                        payerAccountReference = None
-                        payerPartyReference = referenceWithEmptyMeta "Party1"
-                        receiverAccountReference = None
+                      PayerReceiver {
+                        payerAccountReference = None,
+                        payerPartyReference = referenceWithEmptyMeta "Party1",
+                        receiverAccountReference = None,
                         receiverPartyReference = referenceWithEmptyMeta "Party2"
-                    paymentDiscounting = None
-                    premiumExpression = None
+                      },
+                    paymentDiscounting = None,
+                    premiumExpression = None,
                     presentValueAmount = None
+                   }
 
 payoutBasisSwap : Payout
-payoutBasisSwap = Payout with
-                    cashflow = []
-                    creditDefaultPayout = None
-                    optionPayout = []
-                    equityPayout = []
-                    forwardPayout = []
+payoutBasisSwap = Payout {
+                    cashflow = [],
+                    creditDefaultPayout = None,
+                    optionPayout = [],
+                    equityPayout = [],
+                    forwardPayout = [],
                     interestRatePayout =
-                      [ InterestRatePayout with
-                          id = None
-                          rosettaKey = "Leg1"
-                          bondReference = None
+                      [ InterestRatePayout {
+                          id = None,
+                          rosettaKey = "Leg1",
+                          bondReference = None,
                           calculationPeriodDates =
-                            cpdsBothStub3M with
+                            cpdsBothStub3M {
                               effectiveDate = Some
-                                AdjustableOrRelativeDate with
-                                  id = None
-                                  relativeDate = None
+                                AdjustableOrRelativeDate {
+                                  id = None,
+                                  relativeDate = None,
                                   adjustableDate = Some
-                                    AdjustableDate with
-                                      id = None
-                                      adjustedDate = None
-                                      dateAdjustments = None
-                                      dateAdjustmentsReference = None
+                                    AdjustableDate {
+                                      id = None,
+                                      adjustedDate = None,
+                                      dateAdjustments = None,
+                                      dateAdjustmentsReference = None,
                                       unadjustedDate = D.date 2018 Nov 30
-                              firstRegularPeriodStartDate = None
-                              lastRegularPeriodEndDate = None
+                                    }
+                                },
+                              firstRegularPeriodStartDate = None,
+                              lastRegularPeriodEndDate = None,
                               terminationDate = Some
-                                AdjustableOrRelativeDate with
-                                  id = None
-                                  relativeDate = None
+                                AdjustableOrRelativeDate {
+                                  id = None,
+                                  relativeDate = None,
                                   adjustableDate = Some
-                                    AdjustableDate with
-                                      id = None
-                                      adjustedDate = None
+                                    AdjustableDate {
+                                      id = None,
+                                      adjustedDate = None,
                                       dateAdjustments = Some
-                                        BusinessDayAdjustments with
-                                          id = None
+                                        BusinessDayAdjustments {
+                                          id = None,
                                           businessCenters = Some
-                                            BusinessCenters with
-                                              id = None
-                                              businessCenter = [fieldWithEmptyMeta BusinessCenterEnum_USNY]
+                                            BusinessCenters {
+                                              id = None,
+                                              businessCenter = [fieldWithEmptyMeta BusinessCenterEnum_USNY],
                                               businessCentersReference = None
+                                            },
                                           businessDayConvention = BusinessDayConventionEnum_MODFOLLOWING
-                                      dateAdjustmentsReference = None
+                                        },
+                                      dateAdjustmentsReference = None,
                                       unadjustedDate = D.date 2019 Feb 28
-                          cashflowRepresentation = None
-                          compoundingMethod = None
-                          crossCurrencyTerms = None
-                          dayCountFraction = Some $ fieldWithEmptyMeta DayCountFractionEnum__30E_360
-                          discountingMethod = None
+                                    }
+                                }
+                            },
+                          cashflowRepresentation = None,
+                          compoundingMethod = None,
+                          crossCurrencyTerms = None,
+                          dayCountFraction = Some $ fieldWithEmptyMeta DayCountFractionEnum__30E_360,
+                          discountingMethod = None,
                           rateSpecification =
-                            RateSpecification with
-                              fixedRate = None
-                              floatingRate = Some frc3M with initialRate = None
+                            RateSpecification {
+                              fixedRate = None,
+                              floatingRate = Some (frc3M : FloatingRateSpecification) { initialRate = None },
                               inflationRate = None
+                            },
                           payerReceiver = Some
-                            PayerReceiver with
-                              payerAccountReference = None
-                              payerPartyReference = referenceWithEmptyMeta "Party1"
-                              receiverAccountReference = None
+                            PayerReceiver {
+                              payerAccountReference = None,
+                              payerPartyReference = referenceWithEmptyMeta "Party1",
+                              receiverAccountReference = None,
                               receiverPartyReference = referenceWithEmptyMeta "Party2"
-                          paymentDates = None
-                          quantity = Some cq1m
-                          resetDates = Some rds3M
-                          stubPeriod = None
-                          paymentDate = None
-                          paymentDelay = None
-                          fixedAmount = None
+                            },
+                          paymentDates = None,
+                          quantity = Some cq1m,
+                          resetDates = Some rds3M,
+                          stubPeriod = None,
+                          paymentDate = None,
+                          paymentDelay = None,
+                          fixedAmount = None,
                           floatingAmount = None
-                      , InterestRatePayout with
-                          id = None
-                          rosettaKey = "Leg2"
-                          bondReference = None
+                        }
+                      , InterestRatePayout {
+                          id = None,
+                          rosettaKey = "Leg2",
+                          bondReference = None,
                           calculationPeriodDates =
-                            cpdsBothStub3M with
+                            cpdsBothStub3M {
                               effectiveDate = Some
-                                AdjustableOrRelativeDate with
-                                  id = None
-                                  relativeDate = None
+                                AdjustableOrRelativeDate {
+                                  id = None,
+                                  relativeDate = None,
                                   adjustableDate = Some
-                                    AdjustableDate with
-                                      id = None
-                                      adjustedDate = None
-                                      dateAdjustments = None
-                                      dateAdjustmentsReference = None
+                                    AdjustableDate {
+                                      id = None,
+                                      adjustedDate = None,
+                                      dateAdjustments = None,
+                                      dateAdjustmentsReference = None,
                                       unadjustedDate = D.date 2018 Nov 30
-                              firstRegularPeriodStartDate = None
-                              lastRegularPeriodEndDate = None
+                                    }
+                                },
+                              firstRegularPeriodStartDate = None,
+                              lastRegularPeriodEndDate = None,
                               terminationDate = Some
-                                AdjustableOrRelativeDate with
-                                  id = None
-                                  relativeDate = None
+                                AdjustableOrRelativeDate {
+                                  id = None,
+                                  relativeDate = None,
                                   adjustableDate = Some
-                                    AdjustableDate with
-                                      id = None
-                                      adjustedDate = None
+                                    AdjustableDate {
+                                      id = None,
+                                      adjustedDate = None,
                                       dateAdjustments = Some
-                                        BusinessDayAdjustments with
-                                          id = None
+                                        BusinessDayAdjustments {
+                                          id = None,
                                           businessCenters = Some
-                                            BusinessCenters with
-                                              id = None
-                                              businessCenter = [fieldWithEmptyMeta BusinessCenterEnum_USNY]
+                                            BusinessCenters {
+                                              id = None,
+                                              businessCenter = [fieldWithEmptyMeta BusinessCenterEnum_USNY],
                                               businessCentersReference = None
+                                            },
                                           businessDayConvention = BusinessDayConventionEnum_MODFOLLOWING
-                                      dateAdjustmentsReference = None
+                                        },
+                                      dateAdjustmentsReference = None,
                                       unadjustedDate = D.date 2019 Feb 28
+                                    }
+                                },
                               calculationPeriodFrequency = Some
-                                CalculationPeriodFrequency with
-                                  id = None
-                                  rollConvention = RollConventionEnum__30
-                                  period = PeriodExtendedEnum_M
+                                CalculationPeriodFrequency {
+                                  id = None,
+                                  rollConvention = RollConventionEnum__30,
+                                  period = PeriodExtendedEnum_M,
                                   periodMultiplier = 1
-                          cashflowRepresentation = None
-                          compoundingMethod = None
-                          crossCurrencyTerms = None
-                          dayCountFraction = Some $ fieldWithEmptyMeta DayCountFractionEnum__30E_360
-                          discountingMethod = None
+                                }
+                            },
+                          cashflowRepresentation = None,
+                          compoundingMethod = None,
+                          crossCurrencyTerms = None,
+                          dayCountFraction = Some $ fieldWithEmptyMeta DayCountFractionEnum__30E_360,
+                          discountingMethod = None,
                           rateSpecification =
-                            RateSpecification with
-                              fixedRate = None
+                            RateSpecification {
+                              fixedRate = None,
                               floatingRate = Some
-                                frc3M with
-                                  initialRate = None
+                                (frc3M : FloatingRateSpecification) {
+                                  initialRate = None,
                                   indexTenor = Some
-                                    Period with
-                                      id = None
-                                      period = PeriodEnum_M
+                                    Period {
+                                      id = None,
+                                      period = PeriodEnum_M,
                                       periodMultiplier = 1
+                                    }
+                                },
                               inflationRate = None
+                            },
                           payerReceiver = Some
-                            PayerReceiver with
-                              payerAccountReference = None
-                              payerPartyReference = referenceWithEmptyMeta "Party1"
-                              receiverAccountReference = None
+                            PayerReceiver {
+                              payerAccountReference = None,
+                              payerPartyReference = referenceWithEmptyMeta "Party1",
+                              receiverAccountReference = None,
                               receiverPartyReference = referenceWithEmptyMeta "Party2"
-                          paymentDates = None
-                          quantity = Some cq1m
+                            },
+                          paymentDates = None,
+                          quantity = Some cq1m,
                           resetDates = Some
-                            rds3M with
+                            rds3M {
                               resetFrequency = Some
-                                ResetFrequency with
-                                  id = None
-                                  weeklyRollConvention = None
-                                  period = PeriodExtendedEnum_M
+                                ResetFrequency {
+                                  id = None,
+                                  weeklyRollConvention = None,
+                                  period = PeriodExtendedEnum_M,
                                   periodMultiplier = 1
-                          stubPeriod = None
-                          paymentDate = None
-                          paymentDelay = None
-                          fixedAmount = None
+                                }
+                            },
+                          stubPeriod = None,
+                          paymentDate = None,
+                          paymentDelay = None,
+                          fixedAmount = None,
                           floatingAmount = None
+                        }
                       ]
+                  }
 
 cds : Payout
-cds = Payout with
+cds = Payout {
         cashflow =
-          [ Cashflow with
-              rosettaKey = "w46sfdh34"
-              id = None
+          [ Cashflow {
+              rosettaKey = "w46sfdh34",
+              id = None,
               cashflowAmount =
-                Money with
-                  id = None
-                  amount = 1000.0
+                Money {
+                  id = None,
+                  amount = 1000.0,
                   currency = fieldWithEmptyMeta "USD"
-              cashflowCalculation = None
-              cashflowDate = None
-              cashflowType = None
-              discountFactor = None
+                },
+              cashflowCalculation = None,
+              cashflowDate = None,
+              cashflowType = None,
+              discountFactor = None,
               payerReceiver =
-                PayerReceiver with
-                  payerAccountReference = None
-                  payerPartyReference = referenceWithEmptyMeta"Party1"
-                  receiverAccountReference = None
+                PayerReceiver {
+                  payerAccountReference = None,
+                  payerPartyReference = referenceWithEmptyMeta"Party1",
+                  receiverAccountReference = None,
                   receiverPartyReference = referenceWithEmptyMeta "Party2"
-              paymentDiscounting = None
-              premiumExpression = None
+                },
+              paymentDiscounting = None,
+              premiumExpression = None,
               presentValueAmount = None
-          ]
+            }
+          ],
         creditDefaultPayout = Some
-          CreditDefaultPayout with
-                id = None
-                physicalSettlementTerms = []
-                transactedPrice = None
+          CreditDefaultPayout {
+                id = None,
+                physicalSettlementTerms = [],
+                transactedPrice = None,
                 protectionTerms = [
-                  ProtectionTerms with
-                    id = None
+                  ProtectionTerms {
+                    id = None,
                     notionalAmount =
-                      Money with
-                        id = None
-                        amount = 1000000.0
+                      Money {
+                        id = None,
+                        amount = 1000000.0,
                         currency = fieldWithEmptyMeta $ "USD"
-                    creditEvents = None
-                    floatingAmountEvents = None
-                    obligations = None]
+                      },
+                    creditEvents = None,
+                    floatingAmountEvents = None,
+                    obligations = None}],
                 generalTerms =
-                  GeneralTerms with
-                      substitution = None
-                      referenceInformation = None
-                      basketReferenceInformation = None
+                  GeneralTerms {
+                      substitution = None,
+                      referenceInformation = None,
+                      basketReferenceInformation = None,
                       indexReferenceInformation = Some
-                        IndexReferenceInformation with
-                          id = None
-                          tranche = None
-                          indexAnnexSource = None
-                          excludedReferenceEntity = []
-                          indexSeries = Some 30
-                          indexAnnexVersion = None
-                          indexId = []
-                          settledEntityMatrix = None
-                          indexAnnexDate = None
+                        IndexReferenceInformation {
+                          id = None,
+                          tranche = None,
+                          indexAnnexSource = None,
+                          excludedReferenceEntity = [],
+                          indexSeries = Some 30,
+                          indexAnnexVersion = None,
+                          indexId = [],
+                          settledEntityMatrix = None,
+                          indexAnnexDate = None,
                           indexName = Some $ fieldWithEmptyMeta "CDX.NA.IG"
-                      additionalTerm = []
+                        },
+                      additionalTerm = [],
                       dateAdjustments = Some
-                        BusinessDayAdjustments with
-                          id = None
+                        BusinessDayAdjustments {
+                          id = None,
                           businessCenters = Some
-                            BusinessCenters with
-                              id = None
-                              businessCenter = [fieldWithEmptyMeta $ BusinessCenterEnum_USNY]
+                            BusinessCenters {
+                              id = None,
+                              businessCenter = [fieldWithEmptyMeta $ BusinessCenterEnum_USNY],
                               businessCentersReference = None
+                            },
                           businessDayConvention = BusinessDayConventionEnum_FOLLOWING
-                      modifiedEquityDelivery = None
+                        },
+                      modifiedEquityDelivery = None,
                       buyerSeller =
-                        BuyerSeller with
-                          sellerPartyReference = referenceWithEmptyMeta "Party2"
-                          buyerAccountReference = None
-                          buyerPartyReference = referenceWithEmptyMeta "Party1"
+                        BuyerSeller {
+                          sellerPartyReference = referenceWithEmptyMeta "Party2",
+                          buyerAccountReference = None,
+                          buyerPartyReference = referenceWithEmptyMeta "Party1",
                           sellerAccountReference = None
-                rosettaKey = ""
+                        }
+                  },
+                rosettaKey = "",
                 cashSettlementTerms = []
+          },
         interestRatePayout =
-          [ InterestRatePayout with
-              id = None
-              rosettaKey = "IrpLeg"
-              bondReference = None
+          [ InterestRatePayout {
+              id = None,
+              rosettaKey = "IrpLeg",
+              bondReference = None,
               calculationPeriodDates =
-                CalculationPeriodDates with
-                  id = None
-                  calculationPeriodDatesAdjustments = None
-                  calculationPeriodFrequency = None
+                CalculationPeriodDates {
+                  id = None,
+                  calculationPeriodDatesAdjustments = None,
+                  calculationPeriodFrequency = None,
                   effectiveDate = Some
-                    AdjustableOrRelativeDate with
-                      id = None
-                      relativeDate = None
+                    AdjustableOrRelativeDate {
+                      id = None,
+                      relativeDate = None,
                       adjustableDate = Some
-                        AdjustableDate with
-                          id = None
-                          adjustedDate = None
-                          dateAdjustments = None
-                          dateAdjustmentsReference = None
+                        AdjustableDate {
+                          id = None,
+                          adjustedDate = None,
+                          dateAdjustments = None,
+                          dateAdjustmentsReference = None,
                           unadjustedDate = D.date 2018 Nov 15
-                  firstCompoundingPeriodEndDate = None
-                  firstPeriodStartDate = None
-                  firstRegularPeriodStartDate = None
-                  lastRegularPeriodEndDate = None
-                  stubPeriodType = None
+                        }
+                    },
+                  firstCompoundingPeriodEndDate = None,
+                  firstPeriodStartDate = None,
+                  firstRegularPeriodStartDate = None,
+                  lastRegularPeriodEndDate = None,
+                  stubPeriodType = None,
                   terminationDate = Some
-                    AdjustableOrRelativeDate with
-                      id = None
-                      relativeDate = None
+                    AdjustableOrRelativeDate {
+                      id = None,
+                      relativeDate = None,
                       adjustableDate = Some
-                        AdjustableDate with
-                          id = None
-                          adjustedDate = None
+                        AdjustableDate {
+                          id = None,
+                          adjustedDate = None,
                           dateAdjustments = Some
-                            BusinessDayAdjustments with
-                              id = None
+                            BusinessDayAdjustments {
+                              id = None,
                               businessCenters = Some
-                                BusinessCenters with
-                                  id = None
-                                  businessCenter = [fieldWithEmptyMeta $ BusinessCenterEnum_USNY]
+                                BusinessCenters {
+                                  id = None,
+                                  businessCenter = [fieldWithEmptyMeta $ BusinessCenterEnum_USNY],
                                   businessCentersReference = None
+                                },
                               businessDayConvention = BusinessDayConventionEnum_MODFOLLOWING
-                          dateAdjustmentsReference = None
+                            },
+                          dateAdjustmentsReference = None,
                           unadjustedDate = D.date 2019 Dec 19
-              cashflowRepresentation = None
-              compoundingMethod = None
-              crossCurrencyTerms = None
-              dayCountFraction = Some $ fieldWithEmptyMeta DayCountFractionEnum__30E_360
-              discountingMethod = None
+                        }
+                    }
+                },
+              cashflowRepresentation = None,
+              compoundingMethod = None,
+              crossCurrencyTerms = None,
+              dayCountFraction = Some $ fieldWithEmptyMeta DayCountFractionEnum__30E_360,
+              discountingMethod = None,
               rateSpecification =
-                RateSpecification with
+                RateSpecification {
                   fixedRate = Some
-                    Schedule with
-                      id = None
-                      initialValue = 0.01
+                    Schedule {
+                      id = None,
+                      initialValue = 0.01,
                       step = []
-                  floatingRate = None
+                    },
+                  floatingRate = None,
                   inflationRate = None
+                },
               payerReceiver = Some
-                PayerReceiver with
-                  payerAccountReference = None
-                  payerPartyReference = referenceWithEmptyMeta "Party1"
-                  receiverAccountReference = None
+                PayerReceiver {
+                  payerAccountReference = None,
+                  payerPartyReference = referenceWithEmptyMeta "Party1",
+                  receiverAccountReference = None,
                   receiverPartyReference = referenceWithEmptyMeta "Party2"
-              paymentDates = None
-              quantity = Some cq1m
-              resetDates = None
-              stubPeriod = None
-              paymentDate = None
-              paymentDelay = None
-              fixedAmount = None
+                },
+              paymentDates = None,
+              quantity = Some cq1m,
+              resetDates = None,
+              stubPeriod = None,
+              paymentDate = None,
+              paymentDelay = None,
+              fixedAmount = None,
               floatingAmount = None
-          ]
-        optionPayout = []
-        equityPayout = []
+            }
+          ],
+        optionPayout = [],
+        equityPayout = [],
         forwardPayout = []
+      }
