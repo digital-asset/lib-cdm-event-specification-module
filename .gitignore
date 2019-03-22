@@ -1,4 +1,5 @@
 *~
 .stack-work/
 /haskell/src/
-/haskell/test/
+/haskell/test/**/*.hs
+!/haskell/test/Main.hs

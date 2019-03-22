@@ -9,20 +9,23 @@ import ISDA.CDM.Types.All hiding (length)
 import Test.ReferenceData()
 
 main = scenario do
-  let ad = AdjustableDate with
-            id = None
-            adjustedDate = None
+  let ad = AdjustableDate {
+            id = None,
+            adjustedDate = None,
             dateAdjustments = Some
-              BusinessDayAdjustments with
-                id = None
+              BusinessDayAdjustments {
+                id = None,
                 businessCenters = Some
-                  BusinessCenters with
-                    id = None
-                    businessCenter = [fieldWithEmptyMeta BusinessCenterEnum_USNY]
+                  BusinessCenters {
+                    id = None,
+                    businessCenter = [fieldWithEmptyMeta BusinessCenterEnum_USNY],
                     businessCentersReference = None
+                  },
                 businessDayConvention = BusinessDayConventionEnum_MODFOLLOWING
-            dateAdjustmentsReference = None
+              },
+            dateAdjustmentsReference = None,
             unadjustedDate = D.date 2017 Dec 31
+           }
 
   resAdjustedDate <- getAdjustedDate ad
   resAdjustedDate === D.date 2017 Dec 29

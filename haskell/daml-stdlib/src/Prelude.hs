@@ -26,6 +26,7 @@ module Prelude
     , find
 
     , Scenario
+    , scenario
     ) where
 
 import "base" Prelude as Base.Prelude
@@ -46,6 +47,7 @@ import Data.String
 import Data.Text (Text)
 import qualified Data.Text as Text
 
+import DA.Assert
 import DA.Date
 import DA.Internal.Prelude
 import DA.List hiding (length)

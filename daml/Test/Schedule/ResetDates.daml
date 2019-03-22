@@ -10,100 +10,120 @@ import Test.ReferenceData()
 import Test.Schedule.CalculationPeriodDates
 
 emptyFloatingRateDefinition : FloatingRateDefinition
-emptyFloatingRateDefinition = FloatingRateDefinition with
-                                calculatedRate = None
-                                capRate = []
-                                floatingRateMultiplier = None
-                                floorRate = []
-                                rateObservation = []
+emptyFloatingRateDefinition = FloatingRateDefinition {
+                                calculatedRate = None,
+                                capRate = [],
+                                floatingRateMultiplier = None,
+                                floorRate = [],
+                                rateObservation = [],
                                 spread = None
+                              }
 
 emptyRateObservation : RateObservation
-emptyRateObservation = RateObservation with
-                        id = None
-                        adjustedFixingDate = None
-                        forecastRate = None
-                        observationWeight = Some 0
-                        observedRate = None
-                        rateReference = None
-                        resetDate = None
-                        treatedForecastRate = None
+emptyRateObservation = RateObservation {
+                        id = None,
+                        adjustedFixingDate = None,
+                        forecastRate = None,
+                        observationWeight = Some 0,
+                        observedRate = None,
+                        rateReference = None,
+                        resetDate = None,
+                        treatedForecastRate = None,
                         treatedRate = None
+                      }
 
 main = scenario do
   let expectedResult =
-        [ emptyCalculationPeriod with
-            unadjustedStartDate = Some $ D.date 2018 Nov 15
-            unadjustedEndDate = Some $ D.date 2018 Nov 30
-            adjustedStartDate = Some $ D.date 2018 Nov 15
-            adjustedEndDate = Some $ D.date 2018 Nov 30
+        [ emptyCalculationPeriod {
+            unadjustedStartDate = Some $ D.date 2018 Nov 15,
+            unadjustedEndDate = Some $ D.date 2018 Nov 30,
+            adjustedStartDate = Some $ D.date 2018 Nov 15,
+            adjustedEndDate = Some $ D.date 2018 Nov 30,
             floatingRateDefinition = Some
-              emptyFloatingRateDefinition with
+              emptyFloatingRateDefinition {
                 rateObservation =
-                  [ emptyRateObservation with
-                      adjustedFixingDate = Some $ D.date 2018 Nov 8
+                  [ emptyRateObservation {
+                      adjustedFixingDate = Some $ D.date 2018 Nov 8,
                       resetDate = Some $ D.date 2018 Nov 15
+                    }
                   ]
-        , emptyCalculationPeriod with
-            unadjustedStartDate = Some $ D.date 2018 Nov 30
-            unadjustedEndDate = Some $ D.date 2019 Feb 28
-            adjustedStartDate = Some $ D.date 2018 Nov 30
-            adjustedEndDate = Some $ D.date 2019 Feb 28
+              }
+          }
+        , emptyCalculationPeriod {
+            unadjustedStartDate = Some $ D.date 2018 Nov 30,
+            unadjustedEndDate = Some $ D.date 2019 Feb 28,
+            adjustedStartDate = Some $ D.date 2018 Nov 30,
+            adjustedEndDate = Some $ D.date 2019 Feb 28,
             floatingRateDefinition = Some
-              emptyFloatingRateDefinition with
+              emptyFloatingRateDefinition {
                 rateObservation =
-                  [ emptyRateObservation with
-                      adjustedFixingDate = Some $ D.date 2018 Nov 23
+                  [ emptyRateObservation {
+                      adjustedFixingDate = Some $ D.date 2018 Nov 23,
                       resetDate = Some $ D.date 2018 Nov 30
+                    }
                   ]
-        , emptyCalculationPeriod with
-            unadjustedStartDate = Some $ D.date 2019 Feb 28
-            unadjustedEndDate = Some $ D.date 2019 May 30
-            adjustedStartDate = Some $ D.date 2019 Feb 28
-            adjustedEndDate = Some $ D.date 2019 May 30
+              }
+          }
+        , emptyCalculationPeriod {
+            unadjustedStartDate = Some $ D.date 2019 Feb 28,
+            unadjustedEndDate = Some $ D.date 2019 May 30,
+            adjustedStartDate = Some $ D.date 2019 Feb 28,
+            adjustedEndDate = Some $ D.date 2019 May 30,
             floatingRateDefinition = Some
-              emptyFloatingRateDefinition with
+              emptyFloatingRateDefinition {
                 rateObservation =
-                  [ emptyRateObservation with
-                      adjustedFixingDate = Some $ D.date 2019 Feb 21
+                  [ emptyRateObservation {
+                      adjustedFixingDate = Some $ D.date 2019 Feb 21,
                       resetDate = Some $ D.date 2019 Feb 28
+                    }
                   ]
-        , emptyCalculationPeriod with
-            unadjustedStartDate = Some $ D.date 2019 May 30
-            unadjustedEndDate = Some $ D.date 2019 Aug 30
-            adjustedStartDate = Some $ D.date 2019 May 30
-            adjustedEndDate = Some $ D.date 2019 Aug 30
+              }
+          }
+        , emptyCalculationPeriod {
+            unadjustedStartDate = Some $ D.date 2019 May 30,
+            unadjustedEndDate = Some $ D.date 2019 Aug 30,
+            adjustedStartDate = Some $ D.date 2019 May 30,
+            adjustedEndDate = Some $ D.date 2019 Aug 30,
             floatingRateDefinition = Some
-              emptyFloatingRateDefinition with
+              emptyFloatingRateDefinition {
                 rateObservation =
-                  [ emptyRateObservation with
-                      adjustedFixingDate = Some $ D.date 2019 May 23
+                  [ emptyRateObservation {
+                      adjustedFixingDate = Some $ D.date 2019 May 23,
                       resetDate = Some $ D.date 2019 May 30
+                    }
                   ]
-        , emptyCalculationPeriod with
-            unadjustedStartDate = Some $ D.date 2019 Aug 30
-            unadjustedEndDate = Some $ D.date 2019 Nov 30
-            adjustedStartDate = Some $ D.date 2019 Aug 30
-            adjustedEndDate = Some $ D.date 2019 Nov 29
+              }
+          }
+        , emptyCalculationPeriod {
+            unadjustedStartDate = Some $ D.date 2019 Aug 30,
+            unadjustedEndDate = Some $ D.date 2019 Nov 30,
+            adjustedStartDate = Some $ D.date 2019 Aug 30,
+            adjustedEndDate = Some $ D.date 2019 Nov 29,
             floatingRateDefinition = Some
-              emptyFloatingRateDefinition with
+              emptyFloatingRateDefinition {
                 rateObservation =
-                  [ emptyRateObservation with
-                      adjustedFixingDate = Some $ D.date 2019 Aug 23
+                  [ emptyRateObservation {
+                      adjustedFixingDate = Some $ D.date 2019 Aug 23,
                       resetDate = Some $ D.date 2019 Aug 30
+                    }
                   ]
-        , emptyCalculationPeriod with
-            unadjustedStartDate = Some $ D.date 2019 Nov 30
-            unadjustedEndDate = Some $ D.date 2019 Dec 15
-            adjustedStartDate = Some $ D.date 2019 Nov 29
-            adjustedEndDate = Some $ D.date 2019 Dec 16
+              }
+          }
+        , emptyCalculationPeriod {
+            unadjustedStartDate = Some $ D.date 2019 Nov 30,
+            unadjustedEndDate = Some $ D.date 2019 Dec 15,
+            adjustedStartDate = Some $ D.date 2019 Nov 29,
+            adjustedEndDate = Some $ D.date 2019 Dec 16,
             floatingRateDefinition = Some
-              emptyFloatingRateDefinition with
+              emptyFloatingRateDefinition {
                 rateObservation =
-                  [ emptyRateObservation with
-                      adjustedFixingDate = Some $ D.date 2019 Nov 22
+                  [ emptyRateObservation {
+                      adjustedFixingDate = Some $ D.date 2019 Nov 22,
                       resetDate = Some $ D.date 2019 Nov 29
+                    }
                   ]
+              }
+          }
         ]
   res <- generateResetPeriods cpdsBothStub3M (Some rds3M)
   res === expectedResult
