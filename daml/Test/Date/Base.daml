@@ -7,7 +7,7 @@ import ISDA.CDM.Impl.Date.Base
 import ISDA.CDM.Types.ReferenceData.HolidayCalendar
 
 main = scenario do
-  let hc = HolidayCalendarData with label = "USNY", weekend = [Saturday, Sunday], holidays = [date 2018 Jan 02, date 2018 Jan 31, date 2018 Feb 1]
+  let hc = HolidayCalendarData { label = "USNY", weekend = [Saturday, Sunday], holidays = [date 2018 Jan 02, date 2018 Jan 31, date 2018 Feb 1] }
 
   isHoliday hc (date 2018 Jan 02) === True
   isBusinessDay hc (date 2018 Jan 02) === False
