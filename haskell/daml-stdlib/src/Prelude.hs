@@ -53,7 +53,9 @@ import DA.Internal.Prelude
 import DA.List hiding (length)
 import DA.Optional
 
-type Decimal = Double
+import qualified Numeric.Decimal
+
+type Decimal = Numeric.Decimal.Decimal Numeric.Decimal.P38 Numeric.Decimal.RoundHalfEven
 
 intToDecimal :: Int -> Decimal
 intToDecimal = fromIntegral

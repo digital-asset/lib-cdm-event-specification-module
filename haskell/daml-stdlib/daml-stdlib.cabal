@@ -23,6 +23,7 @@ library
   ghc-options: -O0
   build-depends:
       base
+    , decimal-arithmetic
     , extra
     , tasty
     , tasty-hunit
