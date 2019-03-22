@@ -14,59 +14,66 @@ import Test.ReferenceData()
 
 genPayment : Decimal -> Date -> Date -> TransferPrimitive
 genPayment amount unadjustedDate adjustedDate =
-  TransferPrimitive with
+  TransferPrimitive {
     cashTransfer =
-      [ CashTransferComponent with
+      [ CashTransferComponent {
           amount =
-            Money with
-              id = None
-              amount = amount
+            Money {
+              id = None,
+              amount = amount,
               currency = fieldWithEmptyMeta "USD"
-          breakdown = []
+            },
+          breakdown = [],
           payerReceiver =
-            PayerReceiver with
-              payerAccountReference = None
-              payerPartyReference = referenceWithEmptyMeta "Party1"
-              receiverAccountReference = None
+            PayerReceiver {
+              payerAccountReference = None,
+              payerPartyReference = referenceWithEmptyMeta "Party1",
+              receiverAccountReference = None,
               receiverPartyReference = referenceWithEmptyMeta "Party2"
-          cashflowType = Some CashflowTypeEnum_Interest
-          identifier = None
+            },
+          cashflowType = Some CashflowTypeEnum_Interest,
+          identifier = None,
           transferCalculation = None
-      ]
-    commodityTransfer = []
-    securityTransfer = []
+        }
+      ],
+    commodityTransfer = [],
+    securityTransfer = [],
     settlementDate =
-      AdjustableOrAdjustedOrRelativeDate with
-        id = None
-        adjustedDate = Some $ fieldWithEmptyMeta adjustedDate
+      AdjustableOrAdjustedOrRelativeDate {
+        id = None,
+        adjustedDate = Some $ fieldWithEmptyMeta adjustedDate,
         dateAdjustments = Some
-          BusinessDayAdjustments with
-            id = None
+          BusinessDayAdjustments {
+            id = None,
             businessCenters = Some
-              BusinessCenters with
-                id = None
-                businessCenter = [fieldWithEmptyMeta BusinessCenterEnum_USNY]
+              BusinessCenters {
+                id = None,
+                businessCenter = [fieldWithEmptyMeta BusinessCenterEnum_USNY],
                 businessCentersReference = None
+              },
             businessDayConvention = BusinessDayConventionEnum_MODFOLLOWING
-        relativeDate = None
+          },
+        relativeDate = None,
         unadjustedDate = Some $ unadjustedDate
-    settlementReference = None
-    status = None
-    settlementType = None
-    identifier = None
+      },
+    settlementReference = None,
+    status = None,
+    settlementType = None,
+    identifier = None,
     rosettaKey = ""
+  }
 
 testFloating = scenario do
-  let irp = irpFloating3M with rosettaKey = "Test"
+  let irp = irpFloating3M { rosettaKey = "Test" } : InterestRatePayout
   let payment1 = genPayment 2916.666669 (D.date 2018 Dec 5) (D.date 2018 Dec 5)
-  let reset2 = ResetPrimitive with date = D.date 2018 Nov 30, resetValue = 0.03, cashflow = None
+  let reset2 = ResetPrimitive { date = D.date 2018 Nov 30, resetValue = 0.03, cashflow = None }
 
   let expectedED = [D.date 2018 Nov 30, D.date 2018 Dec 5, D.date 2019 Feb 28, D.date 2019 Mar 5, D.date 2019 May 30, D.date 2019 Jun 4, D.date 2019 Aug 30, D.date 2019 Sep 4, D.date 2019 Nov 29, D.date 2019 Dec 4, D.date 2019 Dec 20]
   let expectedQ  = ["Reset", "InterestPayment", "Reset", "InterestPayment", "Reset", "InterestPayment", "Reset", "InterestPayment", "Reset", "InterestPayment", "InterestPayment"]
-  let expectedL  = replicate 11 emptyLineage with interestRatePayoutReference = [referenceWithEmptyMeta "Test"]
+  let expectedL  = replicate 11 emptyLineage { interestRatePayoutReference = [referenceWithEmptyMeta "Test"] }
   let expectedP  =
-        [ emptyPrimitiveEvent with reset = [reset2]
-        , emptyPrimitiveEvent with transfer = [payment1]
+        [ emptyPrimitiveEvent { reset = [reset2] }
+        , emptyPrimitiveEvent { transfer = [payment1] } : PrimitiveEvent
         ] ++ replicate 9 emptyPrimitiveEvent
 
   res <- buildEvents None None [] irp
@@ -77,18 +84,18 @@ testFloating = scenario do
   map (\p -> p.primitive) res               === expectedP
 
   -- Include reset event
-  let resetEvent2 = (head res) with rosettaKey = "Test_0"
+  let resetEvent2 = (head res : Event) { rosettaKey = "Test_0" }
   let payment2 = genPayment 12222.22222 (D.date 2019 Mar 5) (D.date 2019 Mar 5)
 
   let expectedL =
-        [ emptyLineage with interestRatePayoutReference = [referenceWithEmptyMeta "Test"]
-        , emptyLineage with interestRatePayoutReference = [referenceWithEmptyMeta "Test"]
-        , emptyLineage with interestRatePayoutReference = [referenceWithEmptyMeta "Test"], eventReference = [referenceWithEmptyMeta "Test_0"]
-        ] ++ replicate 7 emptyLineage with interestRatePayoutReference = [referenceWithEmptyMeta "Test"]
+        [ emptyLineage { interestRatePayoutReference = [referenceWithEmptyMeta "Test"] }
+        , emptyLineage { interestRatePayoutReference = [referenceWithEmptyMeta "Test"] }
+        , emptyLineage { interestRatePayoutReference = [referenceWithEmptyMeta "Test"], eventReference = [referenceWithEmptyMeta "Test_0"] }
+        ] ++ replicate 7 emptyLineage { interestRatePayoutReference = [referenceWithEmptyMeta "Test"] }
   let expectedP =
-        [ emptyPrimitiveEvent with transfer =  [payment1]
+        [ emptyPrimitiveEvent { transfer =  [payment1] } : PrimitiveEvent
         , emptyPrimitiveEvent
-        , emptyPrimitiveEvent with transfer =  [payment2]
+        , emptyPrimitiveEvent { transfer =  [payment2] } : PrimitiveEvent
         ] ++ replicate 7 emptyPrimitiveEvent
 
   res <- buildEvents None None [resetEvent2] irp
@@ -110,12 +117,12 @@ testFloating = scenario do
 
 testFixed = scenario do
   let expectedP =
-        [ emptyPrimitiveEvent with transfer = [genPayment 833.333334 (D.date 2018 Dec 5) (D.date 2018 Dec 5)]
-        , emptyPrimitiveEvent with transfer = [genPayment 4888.888888 (D.date 2019 Mar 5) (D.date 2019 Mar 5)]
-        , emptyPrimitiveEvent with transfer = [genPayment 5111.111112 (D.date 2019 Jun 4) (D.date 2019 Jun 4)]
-        , emptyPrimitiveEvent with transfer = [genPayment 5000.0 (D.date 2019 Sep 4) (D.date 2019 Sep 4)]
-        , emptyPrimitiveEvent with transfer = [genPayment 4944.444444 (D.date 2019 Dec 4) (D.date 2019 Dec 4)]
-        , emptyPrimitiveEvent with transfer = [genPayment 944.444444 (D.date 2019 Dec 20) (D.date 2019 Dec 20)]
+        [ emptyPrimitiveEvent { transfer = [genPayment 833.333334 (D.date 2018 Dec 5) (D.date 2018 Dec 5)] } : PrimitiveEvent
+        , emptyPrimitiveEvent { transfer = [genPayment 4888.888888 (D.date 2019 Mar 5) (D.date 2019 Mar 5)] } : PrimitiveEvent
+        , emptyPrimitiveEvent { transfer = [genPayment 5111.111112 (D.date 2019 Jun 4) (D.date 2019 Jun 4)] } : PrimitiveEvent
+        , emptyPrimitiveEvent { transfer = [genPayment 5000.0 (D.date 2019 Sep 4) (D.date 2019 Sep 4)] } : PrimitiveEvent
+        , emptyPrimitiveEvent { transfer = [genPayment 4944.444444 (D.date 2019 Dec 4) (D.date 2019 Dec 4)] } : PrimitiveEvent
+        , emptyPrimitiveEvent { transfer = [genPayment 944.444444 (D.date 2019 Dec 20) (D.date 2019 Dec 20)] } : PrimitiveEvent
         ]
 
   res <- buildEvents None None [] irpFixed3M

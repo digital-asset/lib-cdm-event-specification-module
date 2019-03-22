@@ -19,6 +19,7 @@ module Prelude
     , show
 
     , optional
+    , fromSome
     , ifThenElse
     , fromString
     , mapA
@@ -40,6 +41,7 @@ import "base" Prelude as Base.Prelude
   )
 import qualified "base" Prelude as Base.Prelude
 
+import Data.Maybe
 import Data.String
 import Data.Text (Text)
 import qualified Data.Text as Text
@@ -61,8 +63,10 @@ show :: Show a => a -> Text
 show = Text.pack . Base.Prelude.show
 
 optional :: b -> (a -> b) -> Optional a -> b
-optional n _ None  = n
-optional _ f (Some x) = f x
+optional = maybe
+
+fromSome :: Optional a -> a
+fromSome = fromJust
 
 ifThenElse :: Bool -> a -> a -> a
 ifThenElse b ifT ifF = if b then ifT else ifF

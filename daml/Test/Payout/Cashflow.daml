@@ -12,50 +12,57 @@ import Test.Examples
 import Test.ReferenceData()
 
 main = scenario do
-  let payment = TransferPrimitive with
+  let payment = TransferPrimitive {
                   cashTransfer =
-                    [ CashTransferComponent with
+                    [ CashTransferComponent {
                         amount =
-                          Money with
-                            id = None
-                            amount = 1000.0
+                          Money {
+                            id = None,
+                            amount = 1000.0,
                             currency = fieldWithEmptyMeta "USD"
-                        breakdown = []
+                          },
+                        breakdown = [],
                         payerReceiver =
-                          PayerReceiver with
-                            payerAccountReference = None
-                            payerPartyReference = referenceWithEmptyMeta "Party1"
-                            receiverAccountReference = None
+                          PayerReceiver {
+                            payerAccountReference = None,
+                            payerPartyReference = referenceWithEmptyMeta "Party1",
+                            receiverAccountReference = None,
                             receiverPartyReference = referenceWithEmptyMeta "Party2"
-                        cashflowType = None
-                        transferCalculation = None
+                          },
+                        cashflowType = None,
+                        transferCalculation = None,
                         identifier = None
-                    ]
-                  commodityTransfer = []
-                  securityTransfer = []
+                      }
+                    ],
+                  commodityTransfer = [],
+                  securityTransfer = [],
                   settlementDate =
-                    AdjustableOrAdjustedOrRelativeDate with
-                      id = None
-                      adjustedDate = None
+                    AdjustableOrAdjustedOrRelativeDate {
+                      id = None,
+                      adjustedDate = None,
                       dateAdjustments = Some
-                        BusinessDayAdjustments with
-                          id = None
+                        BusinessDayAdjustments {
+                          id = None,
                           businessCenters = Some
-                            BusinessCenters with
-                              id = None
-                              businessCenter = [fieldWithEmptyMeta BusinessCenterEnum_USNY]
+                            BusinessCenters {
+                              id = None,
+                              businessCenter = [fieldWithEmptyMeta BusinessCenterEnum_USNY],
                               businessCentersReference = None
+                            },
                           businessDayConvention = BusinessDayConventionEnum_MODFOLLOWING
-                      relativeDate = None
+                        },
+                      relativeDate = None,
                       unadjustedDate = Some $ D.date 2018 Jan 1
-                  settlementReference = None
-                  status = None
-                  settlementType = None
-                  identifier = None
+                    },
+                  settlementReference = None,
+                  status = None,
+                  settlementType = None,
+                  identifier = None,
                   rosettaKey = ""
+                }
 
   event <- fromSome <$> buildEvent None None cashflow20180101
   event.eventDate === D.date 2018 Jan 01
   event.effectiveDate === (Some $ D.date 2018 Jan 01)
   event.eventQualifier === Some "CashPayment"
-  event.primitive === emptyPrimitiveEvent with transfer = [payment]
+  event.primitive === (emptyPrimitiveEvent { transfer = [payment] } : PrimitiveEvent)
