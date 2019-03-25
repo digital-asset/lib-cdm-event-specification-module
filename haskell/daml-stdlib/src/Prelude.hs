@@ -27,6 +27,7 @@ module Prelude
 
     , Scenario
     , scenario
+    , describe
     ) where
 
 import "base" Prelude as Base.Prelude

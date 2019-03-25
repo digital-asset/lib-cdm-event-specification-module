@@ -1,9 +1,8 @@
 module Main where
 
-import Test.Tasty
-import Test.Tasty.HUnit
+import Test.Hspec
 
 import qualified Test.Main
 
 main :: IO ()
-main = defaultMain $ testCase "CDM" Test.Main.main
+main = hspec Test.Main.main

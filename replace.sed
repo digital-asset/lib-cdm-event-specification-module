@@ -6,3 +6,4 @@ s/:/::/g
 s/~~/:/g
 # Replace with-syntax wildcards
 s/with \.\./{\.\.}/
+/^main =/!s/\(.*\) = scenario/\1 = scenario "\1"/
