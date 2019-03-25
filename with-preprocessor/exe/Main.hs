@@ -10,10 +10,11 @@ import Text.Megaparsec
 
 main :: IO ()
 main = do
-    content <- Text.getContents
+    (inFile : outFile : _) <- getArgs
+    content <- Text.readFile inFile
     case parse (file <* eof) "" content of
         Left err -> do
             hPutStrLn stderr $ errorBundlePretty err
             exitFailure
         Right r -> do
-            Text.putStr $ printFile r
+            Text.writeFile outFile $ printFile r

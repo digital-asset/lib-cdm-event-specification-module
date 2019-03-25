@@ -102,6 +102,5 @@ test-suite tests
       cdm
     , daml-stdlib
     , record-hasfield
-    , tasty
-    , tasty-hunit
+    , hspec
   default-language: Haskell2010
