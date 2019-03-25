@@ -7,6 +7,7 @@ module DA.Assert
   ) where
 
 import "base" Prelude
+import "base" Control.Exception
 
 import Data.Text (Text)
 import Test.Hspec
@@ -22,6 +23,5 @@ data Party = Party
 getParty :: Text -> IO Party
 getParty _ = pure Party
 
--- TODO This looks weird, do we need this?
 submitMustFail :: Party -> IO a -> Expectation
-submitMustFail _ _ = pure ()
+submitMustFail _ x = (evaluate =<< x) `shouldThrow` anyErrorCall

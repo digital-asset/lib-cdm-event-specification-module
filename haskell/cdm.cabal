@@ -94,6 +94,8 @@ test-suite tests
       OverloadedStrings
       RecordWildCards
       ScopedTypeVariables
+      Strict
+      StrictData
       ViewPatterns
       RebindableSyntax
       ImplicitPrelude
