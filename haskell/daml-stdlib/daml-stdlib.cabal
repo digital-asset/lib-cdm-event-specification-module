@@ -20,10 +20,10 @@ library
       MultiParamTypeClasses
       NoImplicitPrelude
       PackageImports
-  ghc-options: -O0
+  ghc-options: -O0 -Wall
   build-depends:
       base
-    , decimal-arithmetic
+    , Decimal
     , extra
     , hspec
     , text
