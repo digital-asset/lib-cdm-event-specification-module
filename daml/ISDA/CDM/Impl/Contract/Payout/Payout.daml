@@ -27,10 +27,10 @@ checkPayout payout = payout
 buildEvents : (Fetch f) => Optional Date -> Optional Date -> [Event] -> Payout -> f [Event]
 buildEvents fromDate toDate pastEvents (checkPayout -> payout) = do
   -- build events
-  let irpPastEvents = filter (\e -> e.eventQualifier == Some "InterestPayment" || e.eventQualifier == Some "Reset") pastEvents
+  let irpPastEvents = filter (\e -> e.eventQualifier == Some "CashTransfer" || e.eventQualifier == Some "Reset") pastEvents
   irpEvents <- buildIrpEvents fromDate toDate irpPastEvents payout
 
-  let cfPastEvents = filter (\e -> e.eventQualifier == Some "CashPayment") pastEvents
+  let cfPastEvents = filter (\e -> e.eventQualifier == Some "CashTransfer") pastEvents
   cfEvents  <- buildCfEvents fromDate toDate cfPastEvents payout
 
   -- merge events happening on the same date having the same event qualifier
@@ -85,18 +85,18 @@ defaultCdsIrp cdp irp =
       stubPeriodTypeNew = fromOptional defaultStubPeriodType calcPeriodDates.stubPeriodType
       adjNew = fromOptional (fromOptional defaultAdj cdp.generalTerms.dateAdjustments) calcPeriodDates.calculationPeriodDatesAdjustments
 
-      -- Detrmine rollConvention
+      -- Determine rollConvention
       terminationDate = get "terminationDate" calcPeriodDates.terminationDate
       uTerminationDate = getUnadjustedDate terminationDate
       rollConvention = implyRollConvention True uTerminationDate
       frequencyNew = fromOptional (defaultCalculationPeriodFrequency rollConvention) calcPeriodDates.calculationPeriodFrequency
 
-      caclPeriodDatesNew = calcPeriodDates
+      calcPeriodDatesNew = calcPeriodDates
                               { calculationPeriodFrequency = Some frequencyNew
                               , stubPeriodType = Some stubPeriodTypeNew
                               , calculationPeriodDatesAdjustments = Some adjNew
                               }
-  in irp { calculationPeriodDates = caclPeriodDatesNew }
+  in irp { calculationPeriodDates = calcPeriodDatesNew }
 
   where
     defaultCalculationPeriodFrequency rollConvention = CalculationPeriodFrequency

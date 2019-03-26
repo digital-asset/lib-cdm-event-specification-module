@@ -60,7 +60,7 @@ testBasisSwap = scenario do
   let reset3M_1 = ResetPrimitive { date = D.date 2018 Nov 30, resetValue = 0.03, cashflow = None }
 
   let expectedED = [D.date 2018 Nov 30, D.date 2018 Dec 31, D.date 2018 Dec 31, D.date 2019 Jan 30, D.date 2019 Jan 30, D.date 2019 Feb 28]
-  let expectedQ  = ["Reset", "Reset", "InterestPayment", "Reset", "InterestPayment", "InterestPayment"]
+  let expectedQ  = ["Reset", "Reset", "CashTransfer", "Reset", "CashTransfer", "CashTransfer"]
   let expectedL  =
         [ emptyLineage { interestRatePayoutReference = [referenceWithEmptyMeta "Leg1", referenceWithEmptyMeta "Leg2"] }
         , emptyLineage { interestRatePayoutReference = [referenceWithEmptyMeta "Leg2"] }
@@ -111,7 +111,7 @@ testBasisSwap = scenario do
 
 testCDS = scenario do
   let expectedED = [D.date 2018 Nov 15, D.date 2018 Dec 19, D.date 2019 Mar 19, D.date 2019 Jun 19, D.date 2019 Sep 19, D.date 2019 Dec 20]
-  let expectedQ  = ["CashPayment", "InterestPayment", "InterestPayment", "InterestPayment", "InterestPayment", "InterestPayment"]
+  let expectedQ  = ["CashTransfer", "CashTransfer", "CashTransfer", "CashTransfer", "CashTransfer", "CashTransfer"]
   let expectedL  =
         [ emptyLineage { cashflowReference = [referenceWithEmptyMeta "w46sfdh34"] }
         , emptyLineage { interestRatePayoutReference = [referenceWithEmptyMeta "IrpLeg"] }

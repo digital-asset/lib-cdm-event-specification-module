@@ -40,7 +40,7 @@ buildEvent fromDate toDate cf = do
     return $ Some $ emptyEvent
                       { eventDate = uDate
                       , effectiveDate = Some aDate
-                      , eventQualifier = Some "CashPayment"
+                      , eventQualifier = Some "CashTransfer"
                       , lineage = Some emptyLineage { cashflowReference = [referenceWithEmptyMeta cf.rosettaKey] }
                       , primitive = emptyPrimitiveEvent { transfer = [transfer] }
                       }

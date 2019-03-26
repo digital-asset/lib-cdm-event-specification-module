@@ -15,6 +15,7 @@ import ISDA.CDM.Types.All
 checkPaymentDates : CalculationPeriodDates -> PaymentDates -> PaymentDates
 checkPaymentDates _ pds | isSome pds.firstPaymentDate = throwNotSupportedError "PaymentDates.firstPaymentDate"
 checkPaymentDates _ pds | isSome pds.lastPaymentDate = throwNotSupportedError "PaymentDates.lastPaymentDate"
+checkPaymentDates _ pds | isSome pds.dateRelativeTo = throwNotSupportedError "PaymentDates.dateRelativeTo"
 checkPaymentDates cpds pds | checkFrequency cpds pds = throwNotSupportedError "paymentFrequency not equal to calculationPeriodFrequency"
   where
     checkFrequency : CalculationPeriodDates -> PaymentDates -> Bool

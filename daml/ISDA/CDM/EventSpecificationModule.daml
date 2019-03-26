@@ -3,6 +3,8 @@ module ISDA.CDM.EventSpecificationModule
   ( buildDerivedEvents
   , buildNewTradeEvent
   , buildPartialTerminationEvent
+  , buildPartialNovationEvent
+  , buildNovationEvent
   , buildTerminationEvent
   , getAfterContracts
   , netTransfers
@@ -13,5 +15,6 @@ import ISDA.CDM.Auxiliary.Event
 import ISDA.CDM.Auxiliary.Netting
 import ISDA.CDM.EventBuilder.Derived
 import ISDA.CDM.EventBuilder.NewTrade
+import ISDA.CDM.EventBuilder.Novation
 import ISDA.CDM.EventBuilder.Termination
 import ISDA.CDM.Types.All

@@ -3,6 +3,8 @@ module ISDA.CDM.Types.All
   ( module ISDA.CDM.Types.Classes
   , module ISDA.CDM.Types.Enums
   , module ISDA.CDM.Types.EventSpec
+  , module ISDA.CDM.Types.MetaClasses
+  , module ISDA.CDM.Types.MetaFields
   , module ISDA.CDM.Types.ReferenceData.Fetch
   , module ISDA.CDM.Types.ReferenceData.HolidayCalendar
   , module ISDA.CDM.Types.ReferenceData.Key
@@ -12,6 +14,8 @@ module ISDA.CDM.Types.All
 import ISDA.CDM.Types.Classes
 import ISDA.CDM.Types.Enums
 import ISDA.CDM.Types.EventSpec
+import ISDA.CDM.Types.MetaClasses
+import ISDA.CDM.Types.MetaFields
 import ISDA.CDM.Types.ReferenceData.Fetch
 import ISDA.CDM.Types.ReferenceData.HolidayCalendar
 import ISDA.CDM.Types.ReferenceData.Key

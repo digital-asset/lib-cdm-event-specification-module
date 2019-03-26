@@ -8,7 +8,7 @@ import ISDA.CDM.Types.All
 buildNewTradeEvent :  NewTradeSpec -> Event
 buildNewTradeEvent spec =
   let primitive = emptyPrimitiveEvent
-                    { inception = [ Inception { after = spec.inception } ]
+                    { inception = [ Inception { after = spec.after, before = [] } ]
                     , transfer = spec.base.transfer
                     }
       eventEffect = buildEventEffect primitive
@@ -27,7 +27,7 @@ buildNewTradeEvent spec =
       , intent = None
       , lineage = None
       , messageInformation = spec.base.messageInformation
-      , party = spec.inception.contract.party
+      , party = spec.after.contract.party
       , primitive = primitive
       , timestamp = spec.base.timestamp
       , eventWorkflow = None

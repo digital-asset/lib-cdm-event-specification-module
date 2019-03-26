@@ -25,6 +25,8 @@ checkInterestRatePayout irp | isSome irp.discountingMethod = throwNotSupportedEr
 checkInterestRatePayout irp | isSome irp.compoundingMethod = throwNotSupportedError "InterestRatePayout.compoundingMethod"
 checkInterestRatePayout irp | isSome irp.rateSpecification.inflationRate = throwNotSupportedError "InterestRatePayout.rateSpecification.inflationRate"
 checkInterestRatePayout irp | not $ null $optional [] (\fr -> fr.step) irp.rateSpecification.fixedRate = throwNotSupportedError "InterestRatePayout.rateSpecification.inflationRate"
+checkInterestRatePayout irp | isSome resetReference && resetReference /= irp.calculationPeriodDates.id = throwNotSupportedError "cross referenced schedules"
+  where resetReference = irp.resetDates >>= (\rd -> rd.calculationPeriodDatesReference) >>= (\ref -> ref.reference)
 checkInterestRatePayout irp = irp
 
 -- | Build all reset and cash transfer (payment) primitive events that haven't been processed yet
@@ -40,7 +42,7 @@ buildEvents fromDate toDate pastEvents (checkInterestRatePayout -> irp) = do
   let existingResets = getExistingResets firstPcp pastResetEvents irp
 
   -- Build new payment events
-  let pastPaymentEvents = filter (\e -> e.eventQualifier == Some "InterestPayment") pastEvents
+  let pastPaymentEvents = filter (\e -> e.eventQualifier == Some "CashTransfer") pastEvents
   let pcpsNotPaid = drop (length pastPaymentEvents) pcps
   let pcpsFullWithLineage = map (populatePCP existingResets irp) pcpsNotPaid
 

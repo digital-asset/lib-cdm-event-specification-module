@@ -60,12 +60,10 @@ buildPaymentEvent fromDate toDate lineage ccy dateAdjustments payerReceiver pcp 
       then Some emptyEvent
                   { eventDate = uPayDate
                   , effectiveDate = Some aPayDate
-                  , eventQualifier = Some "InterestPayment"
+                  , eventQualifier = Some "CashTransfer"
                   , lineage = Some lineage
                   , primitive = emptyPrimitiveEvent
                   }
-
-
       else
         let calcPeriod = getOne "calculationPeriod" pcp.calculationPeriod
 
@@ -81,9 +79,23 @@ buildPaymentEvent fromDate toDate lineage ccy dateAdjustments payerReceiver pcp 
                   in spread + rate
                 otherwise -> error "expecting fixed or floating rate"
 
+            amount = notional * dcf * rate
+
+            (amountNonNegative, payerReceiverFinal) =
+                if (amount > 0.0) then (amount, payerReceiver)
+                else
+                  (-amount
+                  , PayerReceiver
+                      { payerPartyReference = payerReceiver.receiverPartyReference
+                      , payerAccountReference = payerReceiver.receiverAccountReference
+                      , receiverPartyReference = payerReceiver.payerPartyReference
+                      , receiverAccountReference = payerReceiver.payerAccountReference
+                      }
+                  )
+
             paymentAmount = Money
                               { id = None
-                              , amount = notional * dcf * rate
+                              , amount = amountNonNegative
                               , currency = fieldWithEmptyMeta ccy
                               }
 
@@ -100,7 +112,7 @@ buildPaymentEvent fromDate toDate lineage ccy dateAdjustments payerReceiver pcp 
                             [ CashTransferComponent
                                 { amount = paymentAmount
                                 , breakdown = []
-                                , payerReceiver
+                                , payerReceiver = payerReceiverFinal
                                 , cashflowType = Some CashflowTypeEnum_Interest
                                 , identifier = None
                                 , transferCalculation = None
@@ -119,7 +131,7 @@ buildPaymentEvent fromDate toDate lineage ccy dateAdjustments payerReceiver pcp 
         in Some emptyEvent
                   { eventDate = uPayDate
                   , effectiveDate = Some aPayDate
-                  , eventQualifier = Some "InterestPayment"
+                  , eventQualifier = Some "CashTransfer"
                   , lineage = Some lineage
                   , primitive = emptyPrimitiveEvent { transfer = [transfer] }
                   }

@@ -8,23 +8,18 @@ import ISDA.CDM.Types.All hiding (length)
 fieldWithEmptyMeta : a -> FieldWithMeta a
 fieldWithEmptyMeta v = FieldWithMeta
                         { value = v
-                        , meta = MetaFields
-                            { reference = None
-                            , scheme = None
-                            , id = None
-                            }
+                        , meta = emptyMeta
                         }
 
 referenceWithEmptyMeta : Text -> ReferenceWithMeta a
 referenceWithEmptyMeta ref = ReferenceWithMeta
                               { reference = Some ref
                               , value = None
-                              , meta = MetaFields
-                                  { reference = None
-                                  , scheme = None
-                                  , id = None
-                                  }
+                              , meta = emptyMeta
                               }
+
+emptyMeta : MetaFields
+emptyMeta = MetaFields { reference = None, scheme = None, id = None }
 
 -- | Throw a not supported error
 throwNotSupportedError : Text -> a
