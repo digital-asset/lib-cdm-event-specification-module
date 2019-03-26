@@ -1,7 +1,7 @@
 resolver: lts-13.13
 packages:
   - .
-  - daml-stdlib
+  - libs/daml-stdlib
 extra-deps:
   - decimal-arithmetic-0.5.1.0
   - record-hasfield-1.0

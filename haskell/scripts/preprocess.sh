@@ -14,5 +14,5 @@ if grep 'scenario' "$HS_FILE" | grep -q -v "main" || [[ "$HS_FILE" == *Main.hs ]
 else
     sed -i "" "s|main = scenario|main = scenario \"${MODULE_NAME}\"|" "$HS_FILE"
 fi
-stack exec --stack-yaml with-preprocessor/stack.yaml with-preprocessor "$HS_FILE" "$HS_FILE"
-stack exec --stack-yaml with-preprocessor/stack.yaml record-dot-preprocessor "$HS_FILE" "$HS_FILE"
+stack exec --stack-yaml ../libs/with-preprocessor/stack.yaml with-preprocessor "$HS_FILE" "$HS_FILE"
+stack exec --stack-yaml ../libs/with-preprocessor/stack.yaml record-dot-preprocessor "$HS_FILE" "$HS_FILE"
