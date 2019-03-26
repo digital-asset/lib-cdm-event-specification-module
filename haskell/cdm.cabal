@@ -9,6 +9,7 @@ library
       ISDA.CDM.Auxiliary.Netting
       ISDA.CDM.EventBuilder.Derived
       ISDA.CDM.EventBuilder.NewTrade
+      ISDA.CDM.EventBuilder.Novation
       ISDA.CDM.EventBuilder.Termination
       ISDA.CDM.EventSpecificationModule
       ISDA.CDM.Impl.Contract.Contract
@@ -39,6 +40,8 @@ library
       ISDA.CDM.Types.Classes
       ISDA.CDM.Types.Enums
       ISDA.CDM.Types.EventSpec
+      ISDA.CDM.Types.MetaClasses
+      ISDA.CDM.Types.MetaFields
       ISDA.CDM.Types.ReferenceData.Fetch
       ISDA.CDM.Types.ReferenceData.HolidayCalendar
       ISDA.CDM.Types.ReferenceData.Key

@@ -29,6 +29,7 @@ applyOffset Offset{..} bcs date
 -- | Check RelativeDateOffset for non-supported features
 checkRelativeDateOffset : RelativeDateOffset -> RelativeDateOffset
 checkRelativeDateOffset relOffset | isSome relOffset.businessCentersReference = throwNotSupportedError "RelativeDateOffset.businessCentersReference"
+checkRelativeDateOffset relOffset | isSome relOffset.dateRelativeTo = throwNotSupportedError "RelativeDateOffset.dateRelativeTo"
 checkRelativeDateOffset relOffset = relOffset
 
 -- | Apply RelativeDateOffset to date

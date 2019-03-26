@@ -64,5 +64,5 @@ main = scenario do
   event <- fromSome <$> buildEvent None None cashflow20180101
   event.eventDate === D.date 2018 Jan 01
   event.effectiveDate === (Some $ D.date 2018 Jan 01)
-  event.eventQualifier === Some "CashPayment"
+  event.eventQualifier === Some "CashTransfer"
   event.primitive === (emptyPrimitiveEvent { transfer = [payment] } : PrimitiveEvent)

@@ -1,25 +1,33 @@
 daml 1.2
-module ISDA.CDM.EventBuilder.Termination where
+module ISDA.CDM.EventBuilder.Novation where
 
+import DA.List
 import ISDA.CDM.Impl.Contract.Contract
 import ISDA.CDM.Impl.Contract.Payout.ContractualQuantity
 import ISDA.CDM.Impl.Event.Event
 import ISDA.CDM.Impl.Identifier
 import ISDA.CDM.Impl.Utils
 import ISDA.CDM.Types.All
+import Prelude hiding (Party)
 
--- | Build Termination event
-buildTerminationEvent : TerminationSpec -> Event
-buildTerminationEvent spec =
+-- | Build Novation event
+buildNovationEvent : NovationSpec -> Event
+buildNovationEvent spec =
+  -- Quantity Change
   let closedState = ClosedState
-                      { state = ClosedStateEnum_Terminated
+                      { state = ClosedStateEnum_Novated
                       , activityDate = spec.base.eventDate
                       , effectiveDate = spec.base.effectiveDate
                       , lastPaymentDate = None
                       }
       quantity = getContractualQuantity spec.contract
       quantityChange = buildQuantityChangePrimitive quantity (Some closedState) spec.contract
-      primitive = emptyPrimitiveEvent { quantityChange = [quantityChange], transfer = spec.base.transfer }
+
+  -- Inception
+      inception = buildInception spec.contractNew
+
+  -- Combine
+      primitive = emptyPrimitiveEvent { quantityChange = [quantityChange], inception = [inception], transfer = spec.base.transfer }
       lineage = emptyLineage { contractReference = [referenceWithEmptyMeta spec.contract.rosettaKey] }
       eventEffect = buildEventEffect primitive
 
@@ -32,22 +40,28 @@ buildTerminationEvent spec =
       , eventDate = spec.base.eventDate
       , eventEffect = Some eventEffect
       , eventIdentifier = spec.base.eventIdentifier
-      , eventQualifier = Some "Termination"
+      , eventQualifier = Some "Novation"
       , functionCall = None
-      , intent = Some IntentEnum_Termination
+      , intent = None
       , lineage = Some lineage
       , messageInformation = spec.base.messageInformation
-      , party = spec.contract.party
+      , party = dedup $ spec.contract.party ++ spec.contractNew.party
       , primitive = primitive
       , timestamp = spec.base.timestamp
       , eventWorkflow = None
       }
 
--- | Build PartialTermination event
-buildPartialTerminationEvent : PartialTerminationSpec -> Event
-buildPartialTerminationEvent spec =
+-- | Build Partial Novation event
+buildPartialNovationEvent : PartialNovationSpec -> Event
+buildPartialNovationEvent spec =
+  -- Quantity Change
   let quantityChange = buildQuantityChangePrimitive spec.change None spec.contract
-      primitive = emptyPrimitiveEvent { quantityChange = [quantityChange], transfer = spec.base.transfer }
+
+  -- Inception
+      inception = buildInception spec.contractNew
+
+  -- Combine
+      primitive = emptyPrimitiveEvent { quantityChange = [quantityChange], inception = [inception], transfer = spec.base.transfer }
       lineage = emptyLineage { contractReference = [referenceWithEmptyMeta spec.contract.rosettaKey] }
       eventEffect = buildEventEffect primitive
 
@@ -60,12 +74,12 @@ buildPartialTerminationEvent spec =
       , eventDate = spec.base.eventDate
       , eventEffect = Some eventEffect
       , eventIdentifier = spec.base.eventIdentifier
-      , eventQualifier = Some "PartialTermination"
+      , eventQualifier = Some "PartialNovation"
       , functionCall = None
-      , intent = Some IntentEnum_PartialTermination
+      , intent = None
       , lineage = Some lineage
       , messageInformation = spec.base.messageInformation
-      , party = spec.contract.party
+      , party = dedup $ spec.contract.party ++ spec.contractNew.party
       , primitive = primitive
       , timestamp = spec.base.timestamp
       , eventWorkflow = None
@@ -91,3 +105,15 @@ buildQuantityChangePrimitive change closedState contract =
         , contract = Some afterContract
         }
       }
+
+-- | HIDE
+buildInception : Contract -> Inception
+buildInception contract =
+  Inception
+    { after = PostInceptionState
+        { creditLimitInformation = None
+        , tradeWarehouseWorkflow = None
+        , contract = contract
+        }
+    , before = []
+    }

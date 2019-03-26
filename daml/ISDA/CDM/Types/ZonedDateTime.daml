@@ -1,8 +1,12 @@
 daml 1.2
+
+-- | This file is auto-generated from the ISDA Common
+--   Domain Model, do not edit.
+--   @version 0.0.0.master
 module ISDA.CDM.Types.ZonedDateTime
-    ( module ISDA.CDM.Types.ZonedDateTime ) where
+  ( module ISDA.CDM.Types.ZonedDateTime ) where
 
 data ZonedDateTime = ZonedDateTime with
-    dateTime : Time
-    timezone : Text
-      deriving (Eq, Ord, Show)
+  dateTime : Time
+  timezone : Text
+    deriving (Eq, Ord, Show)

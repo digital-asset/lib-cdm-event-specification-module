@@ -54,7 +54,8 @@ data NewTradeSpec = NewTradeSpec
   with
     base      : BaseEvent
       -- ^ The base event used to build the event.
-    inception : PostInceptionState
+    after : PostInceptionState
+      -- ^ The post inception state
   deriving (Eq, Show)
 
 -- | The spec for a termination event.
@@ -75,4 +76,28 @@ data PartialTerminationSpec = PartialTerminationSpec
       -- ^ The contract the termination is applied to.
     change  : [ContractualQuantity]
       -- ^ The change in quantity applied in the partial termination.
+  deriving (Eq, Show)
+
+-- | The spec for a novation event.
+data NovationSpec = NovationSpec
+  with
+    base        : BaseEvent
+      -- ^ The base event used to build the event.
+    contract    : Contract
+      -- ^ The contract the novation is applied to.
+    contractNew : Contract
+      -- ^ The contract that results from the novation.
+  deriving (Eq, Show)
+
+-- | The spec for a partial novation event.
+data PartialNovationSpec = PartialNovationSpec
+  with
+    base        : BaseEvent
+      -- ^ The base event used to build the event.
+    contract    : Contract
+      -- ^ The contract the partial novation is applied to.
+    change      : [ContractualQuantity]
+      -- ^ The change in quantity applied in the partial novation.
+    contractNew : Contract
+      -- ^ The contract that results from the novation.
   deriving (Eq, Show)
