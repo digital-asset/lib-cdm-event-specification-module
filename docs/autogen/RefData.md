@@ -1,3 +1,20 @@
+# Module ISDA.CDM.Types.ReferenceData.Fetch
+============
+
+
+
+## Typeclasses
+
+### `class` `(` `Action` `f` `)` => Fetch f where
+
+  Instances of `Fetch` allow to fetch reference data. This can, e.g. be a database connection, a connection to a distributed ledger, or even a fixed set of reference data (for testing purposes).
+  * `fetchHolidayCalendar` : `HolidayCalendarKey` `->` `f` `(` `Optional` `HolidayCalendarData` `)`  
+    Fetch holiday calendar by key.
+  * `fetchObservation` : `ObservationKey` `->` `f` `(` `Optional` `ObservationPrimitive` `)`  
+    Fetch observation by key.
+
+
+
 # Module ISDA.CDM.Types.ReferenceData.HolidayCalendar
 ============
 
@@ -28,6 +45,21 @@
   | :------ | :----------------
   | `label` | `Text`
   |         | The label of the holiday calendar.
+
+
+
+# Module ISDA.CDM.Types.ReferenceData.Key
+============
+
+
+
+## Typeclasses
+
+### `class` Key v k where
+
+  A class for types that have a corresponding key.
+  * `getKey` : `v` `->` `k`  
+    Obtain the corresponding key.
 
 
 

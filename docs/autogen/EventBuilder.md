@@ -5,7 +5,7 @@
 
 ## Functions
 
-* `buildDerivedEvents` : `Fetch` `f` `=>` `DerivedSpec` `->` `f` `[` `Event` `]`
+* `buildDerivedEvents` : `DerivedSpec` `->` `f` `[` `Event` `]`  
   Build derived events (e.g. interest rate payments, resets, etc.). Returns all events that
   have not been applied yet. If the event is not fully known yet (e.g. an observation for a reset is not
   available yet or a reset for a floating rate coupon), then an empty primitive is returned.
@@ -17,8 +17,20 @@
 
 ## Functions
 
-* `buildNewTradeEvent` : `NewTradeSpec` `->` `Event`
+* `buildNewTradeEvent` : `NewTradeSpec` `->` `Event`  
   Build NewTrade event
+
+# Module ISDA.CDM.EventBuilder.Novation
+============
+
+
+
+## Functions
+
+* `buildNovationEvent` : `NovationSpec` `->` `Event`  
+  Build Novation event
+* `buildPartialNovationEvent` : `PartialNovationSpec` `->` `Event`  
+  Build Partial Novation event
 
 # Module ISDA.CDM.EventBuilder.Termination
 ============
@@ -27,9 +39,9 @@
 
 ## Functions
 
-* `buildTerminationEvent` : `TerminationSpec` `->` `Event`
+* `buildTerminationEvent` : `TerminationSpec` `->` `Event`  
   Build Termination event
-* `buildPartialTerminationEvent` : `PartialTerminationSpec` `->` `Event`
+* `buildPartialTerminationEvent` : `PartialTerminationSpec` `->` `Event`  
   Build PartialTermination event
 
 # Module ISDA.CDM.Types.EventSpec
@@ -94,11 +106,42 @@
   The spec for a new trade event.
 * `NewTradeSpec`
 
-  | Field       | Type/Description |
-  | :---------- | :----------------
-  | `base`      | `BaseEvent`
-  |             | The base event used to build the event.
-  | `inception` | `PostInceptionState`
+  | Field   | Type/Description |
+  | :------ | :----------------
+  | `base`  | `BaseEvent`
+  |         | The base event used to build the event.
+  | `after` | `PostInceptionState`
+  |         | The post inception state
+
+### `data` `NovationSpec`
+
+  The spec for a novation event.
+* `NovationSpec`
+
+  | Field         | Type/Description |
+  | :------------ | :----------------
+  | `base`        | `BaseEvent`
+  |               | The base event used to build the event.
+  | `contract`    | `Contract`
+  |               | The contract the novation is applied to.
+  | `contractNew` | `Contract`
+  |               | The contract that results from the novation.
+
+### `data` `PartialNovationSpec`
+
+  The spec for a partial novation event.
+* `PartialNovationSpec`
+
+  | Field         | Type/Description |
+  | :------------ | :----------------
+  | `base`        | `BaseEvent`
+  |               | The base event used to build the event.
+  | `contract`    | `Contract`
+  |               | The contract the partial novation is applied to.
+  | `change`      | `[` `ContractualQuantity` `]`
+  |               | The change in quantity applied in the partial novation.
+  | `contractNew` | `Contract`
+  |               | The contract that results from the novation.
 
 ### `data` `PartialTerminationSpec`
 

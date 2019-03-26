@@ -1,7 +1,9 @@
 # Module ISDA.CDM.Types.Classes
 ============
 
-
+This file is auto-generated from the ISDA Common
+Domain Model, do not edit.
+@version 0.0.0.master
 
 ## Data Types
 
@@ -12,16 +14,16 @@
 
   | Field                | Type/Description |
   | :------------------- | :----------------
-  | `accountBeneficiary` | `Optional` `Text`
+  | `accountBeneficiary` | `Optional` `(` `ReferenceWithMeta` `Party` `)`
   |                      | A reference to the party beneficiary of the account.
-  | `accountName`        | `Optional` `Text`
+  | `accountName`        | `Optional` `(` `FieldWithMeta` `Text` `)`
   |                      | The name by which the account is known.
-  | `accountNumber`      | `Text`
+  | `accountNumber`      | `FieldWithMeta` `Text`
   |                      | The account number.
-  | `accountType`        | `Optional` `AccountTypeEnum`
+  | `accountType`        | `Optional` `(` `FieldWithMeta` `AccountTypeEnum` `)`
   |                      | The type of account, e.g. client, house.
   | `id`                 | `Optional` `Text`
-  | `servicingParty`     | `Optional` `Text`
+  | `servicingParty`     | `Optional` `(` `ReferenceWithMeta` `Party` `)`
   |                      | The reference to the legal entity that services the
   |                      | account, i.e. in the books of which the account is
   |                      | held.
@@ -33,7 +35,7 @@
   | Field             | Type/Description |
   | :---------------- | :----------------
   | `amount`          | `Decimal`
-  | `currency`        | `Optional` `Text`
+  | `currency`        | `Optional` `(` `FieldWithMeta` `Text` `)`
   |                   | Specifies the currency associated with the net price.
   |                   | This element is not present if the price is expressed
   |                   | in percentage terms (as specified through the
@@ -54,7 +56,7 @@
   |                              | Law | 2018 ISDA CDM Equity Confirmation for Security
   |                              | Equity Swap: Change In Law | If true, then change in
   |                              | law is applicable.
-  | `determiningPartyReference`  | `Optional` `Text`
+  | `determiningPartyReference`  | `Optional` `(` `ReferenceWithMeta` `Party` `)`
   |                              | A reference to the party which determines additional
   |                              | disruption events.
   | `failureToDeliver`           | `Optional` `Bool`
@@ -124,6 +126,69 @@
   |                                   | the prior writedowns. ISDA 2003 Term: Writedown
   |                                   | Reimbursement.
 
+### `data` `AdditionalRegime`
+
+  A class to specify the additional regulatory
+  regime(s) that might be specified by the parties to a
+  legal agreement, such as the ISDA 2016 and 2018 CSA
+  for Initial Margin.
+* `AdditionalRegime`
+
+  | Field                 | Type/Description |
+  | :-------------------- | :----------------
+  | `additionalType`      | `AdditionalTypeEnum`
+  |                       | The Additional Type of transaction that can require
+  |                       | the collection or delivery of initial margin under
+  |                       | the specified regulatory regime for the purposes of
+  |                       | Covered Transactions, as specified in ISDA 2016
+  |                       | Credit Support Annex for Initial Margin, paragraph
+  |                       | 13, General Principles, (b)(B).
+  | `isApplicable`        | `Bool`
+  |                       | A boolean flag to specify whether the regulatory
+  |                       | regime is applicable.
+  | `regime`              | `Text`
+  |                       | The additional regulatory regime as specified by the
+  |                       | parties.
+  | `retrospectiveEffect` | `Bool`
+  |                       | ISDA 2016 CSA for Initial Margin, paragraph 13
+  |                       | (b)(i): if `Retrospective Effect` is specified as
+  |                       | applicable to a Regime (a `Retrospective Regime`)
+  |                       | then all Covered Transactions (IM) under all other
+  |                       | Regimes with an earlier Regime Effective Time will,
+  |                       | to the extent that they would have been Covered
+  |                       | Transactions (IM) under such Retrospective Regime had
+  |                       | such Transactions been entered into at or after the
+  |                       | Regime Effective Time of the Retrospective Regime, be
+  |                       | deemed to be Covered Transactions (IM) for such
+  |                       | Retrospective Regime.
+  | `simmException`       | `SimmException`
+  |                       | The specified exception to the ISDA Standard Initial
+  |                       | Margin Model.
+
+### `data` `AdditionalType`
+
+  The specification of the Additional Type of
+  transaction that can require the collection or
+  delivery of initial margin under a given regulatory
+  regime for the purposes of Covered Transactions, as
+  specified in ISDA 2016 Credit Support Annex for
+  Initial Margin, paragraph 13, General Principles,
+  (b)(B).
+* `AdditionalType`
+
+  | Field           | Type/Description |
+  | :-------------- | :----------------
+  | `customValue`   | `Optional` `Text`
+  |                 | The qualification of the Additional Type of
+  |                 | transaction that can require the collection or
+  |                 | delivery of initial margin when specified as a custom
+  |                 | value by the parties to the legal agreement.
+  | `standardValue` | `AdditionalTypeEnum`
+  |                 | The qualification of the Additional Type of
+  |                 | transaction that can require the collection or
+  |                 | delivery of initial margin when specified as a
+  |                 | standard value.
+
 ### `data` `AdjustableDate`
 
   A class for defining a date that shall be subject to
@@ -135,7 +200,7 @@
 
   | Field                      | Type/Description |
   | :------------------------- | :----------------
-  | `adjustedDate`             | `Optional` `Date`
+  | `adjustedDate`             | `Optional` `(` `FieldWithMeta` `Date` `)`
   |                            | The date once the adjustment has been performed.
   |                            | (Note that this date may change if the business
   |                            | center holidays change).
@@ -144,7 +209,7 @@
   |                            | centers used for adjusting the date if it would
   |                            | otherwise fall on a day that is not a business date
   |                            | in the specified business centers.
-  | `dateAdjustmentsReference` | `Optional` `Text`
+  | `dateAdjustmentsReference` | `Optional` `(` `ReferenceWithMeta` `BusinessDayAdjustments` `)`
   |                            | A pointer style reference to date adjustments defined
   |                            | elsewhere in the document.
   | `id`                       | `Optional` `Text`
@@ -162,7 +227,7 @@
 
   | Field             | Type/Description |
   | :---------------- | :----------------
-  | `adjustedDate`    | `[` `Date` `]`
+  | `adjustedDate`    | `[` `FieldWithMeta` `Date` `]`
   |                   | The date(s) once the adjustment has been performed.
   |                   | (Note that this date may change if the business
   |                   | center holidays change).
@@ -186,7 +251,7 @@
 
   | Field             | Type/Description |
   | :---------------- | :----------------
-  | `adjustedDate`    | `Optional` `Date`
+  | `adjustedDate`    | `Optional` `(` `FieldWithMeta` `Date` `)`
   |                   | The date once the adjustment has been performed.
   |                   | (Note that this date may change if the business
   |                   | center holidays change).
@@ -210,7 +275,7 @@
 
   | Field             | Type/Description |
   | :---------------- | :----------------
-  | `adjustedDate`    | `Optional` `Date`
+  | `adjustedDate`    | `Optional` `(` `FieldWithMeta` `Date` `)`
   |                   | The date once the adjustment has been performed.
   |                   | (Note that this date may change if the business
   |                   | center holidays change).
@@ -280,7 +345,7 @@
   |                            | (Note that this date may change if the business
   |                            | center holidays change).
   | `businessCenters`          | `Optional` `BusinessCenters`
-  | `businessCentersReference` | `Optional` `Text`
+  | `businessCentersReference` | `Optional` `(` `ReferenceWithMeta` `BusinessCenters` `)`
   |                            | A pointer style reference to a set of financial
   |                            | business centers defined elsewhere in the document.
   |                            | This set of business centers is used to determine
@@ -290,7 +355,7 @@
   |                            | otherwise fall on a day that is not a business day,
   |                            | as specified by an ISDA convention (e.g. Following,
   |                            | Precedent).
-  | `dateRelativeTo`           | `Optional` `Text`
+  | `dateRelativeTo`           | `Optional` `(` `BasicReferenceWithMeta` `Date` `)`
   |                            | Specifies the anchor as an href attribute. The href
   |                            | attribute value is a pointer style reference to the
   |                            | element or component elsewhere in the document where
@@ -326,9 +391,9 @@
 
   A class to specify the allocated outcome as the
   combination of an execution which state is specified
-  as 'Allocated' and a contract or set of contract(s).
-  (The allocation to one single contract is deemed
-  appropriate.)
+  as &#39;Allocated&#39; and a contract or set of
+  contract(s). (The allocation to one single contract
+  is deemed appropriate.)
 * `AllocationOutcome`
 
   | Field       | Type/Description |
@@ -363,8 +428,8 @@
   |                          | style option.
   | `earliestExerciseTime`   | `BusinessCenterTime`
   |                          | The earliest time at which notice of exercise can be
-  |                          | given by the buyer to the seller (or seller's agent)
-  |                          | to, and including, the expiration date.
+  |                          | given by the buyer to the seller (or seller&#39;s
+  |                          | agent) to, and including, the expiration date.
   | `exerciseFeeSchedule`    | `Optional` `ExerciseFeeSchedule`
   |                          | The fees associated with an exercise date. The fees
   |                          | are conditional on the exercise occurring. The fees
@@ -382,9 +447,9 @@
   |                          | time on an exercise business day (excluding the
   |                          | expiration date) within the exercise period that
   |                          | notice can be given by the buyer to the seller or
-  |                          | seller's agent. Notice of exercise given after this
-  |                          | time will be deemed to have been given on the next
-  |                          | exercise business day.
+  |                          | seller&#39;s agent. Notice of exercise given after
+  |                          | this time will be deemed to have been given on the
+  |                          | next exercise business day.
   | `multipleExercise`       | `Optional` `MultipleExercise`
   |                          | As defined in the 2000 ISDA Definitions, Section
   |                          | 12.4. Multiple Exercise, the buyer of the option has
@@ -412,7 +477,7 @@
 
   | Field          | Type/Description |
   | :------------- | :----------------
-  | `currency`     | `[` `Text` `]`
+  | `currency`     | `[` `FieldWithMeta` `Text` `]`
   |                | The currency in which the amount schedule is
   |                | denominated. The currency is specified outside of the
   |                | actual schedule in order to be applied uniformly to
@@ -436,24 +501,42 @@
 
 ### `data` `ApplicableRegime`
 
-  A class to specify the regulatory regime applicable
-  to the parties to an ISDA 2018 CSA for Initial Margin
-  as the combination of a the regulatory regime
-  specification, a boolean value as an exception to the
-  ISDA Standard Initial Margin Model.
+  A class to specify the applicable regulatory
+  regime(s) that parties to a legal agreement, such as
+  the ISDA 2016 and 2018 CSA for Initial Margin, might
+  be subject to.
 * `ApplicableRegime`
 
-  | Field           | Type/Description |
-  | :-------------- | :----------------
-  | `applicable`    | `Bool`
-  |                 | A boolean flag to specify whether the regulatory
-  |                 | regime is applicable.
-  | `regime`        | `RegulatoryRegimeEnum`
-  |                 | The regulatory regime, as specified through an
-  |                 | enumeration.
-  | `simmException` | `SimmException`
-  |                 | The specified exception to the ISDA Standard Initial
-  |                 | Margin Model.
+  | Field                 | Type/Description |
+  | :-------------------- | :----------------
+  | `additionalType`      | `AdditionalTypeEnum`
+  |                       | The Additional Type of transaction that can require
+  |                       | the collection or delivery of initial margin under
+  |                       | the specified regulatory regime for the purposes of
+  |                       | Covered Transactions, as specified in ISDA 2016
+  |                       | Credit Support Annex for Initial Margin, paragraph
+  |                       | 13, General Principles, (b)(B).
+  | `isApplicable`        | `Bool`
+  |                       | A boolean flag to specify whether the regulatory
+  |                       | regime is applicable.
+  | `regime`              | `RegulatoryRegimeEnum`
+  |                       | The applicable regulatory regime, as specified
+  |                       | through an enumeration.
+  | `retrospectiveEffect` | `Bool`
+  |                       | ISDA 2016 CSA for Initial Margin, paragraph 13
+  |                       | (b)(i): if `Retrospective Effect` is specified as
+  |                       | applicable to a Regime (a `Retrospective Regime`)
+  |                       | then all Covered Transactions (IM) under all other
+  |                       | Regimes with an earlier Regime Effective Time will,
+  |                       | to the extent that they would have been Covered
+  |                       | Transactions (IM) under such Retrospective Regime had
+  |                       | such Transactions been entered into at or after the
+  |                       | Regime Effective Time of the Retrospective Regime, be
+  |                       | deemed to be Covered Transactions (IM) for such
+  |                       | Retrospective Regime.
+  | `simmException`       | `SimmException`
+  |                       | The specified exception to the ISDA Standard Initial
+  |                       | Margin Model.
 
 ### `data` `Asian`
 
@@ -482,10 +565,10 @@
   |                 | The part of the mortgage that is currently
   |                 | outstanding. It is expressed similarly to the initial
   |                 | factor, as factor multiplier to the mortgage. This
-  |                 | term is formally defined as part of the 'ISDA
+  |                 | term is formally defined as part of the &#39;ISDA
   |                 | Standard Terms Supplement for use with credit
   |                 | derivatives transactions on mortgage-backed security
-  |                 | with pas-as-you-go or physical settlement'.
+  |                 | with pas-as-you-go or physical settlement&#39;.
   | `effectiveDate` | `Optional` `Date`
   |                 | Optionally it is possible to specify a version
   |                 | effective date when a version is supplied.
@@ -506,7 +589,7 @@
 
   | Field        | Type/Description |
   | :----------- | :----------------
-  | `identifier` | `Text`
+  | `identifier` | `FieldWithMeta` `Text`
   |              | The identifier value.
   | `version`    | `Optional` `Int`
   |              | The identifier version, which is specified as an
@@ -555,7 +638,7 @@
   | `averagingObservations` | `Optional` `AveragingObservationList`
   |                         | A weighted list of averaging observation date and
   |                         | times.
-  | `marketDisruption`      | `Optional` `MarketDisruptionEnum`
+  | `marketDisruption`      | `Optional` `(` `FieldWithMeta` `MarketDisruptionEnum` `)`
   |                         | The market disruption event as defined by ISDA 2002
   |                         | Definitions.
   | `schedule`              | `[` `AveragingSchedule` `]`
@@ -604,9 +687,9 @@
 
   | Field           | Type/Description |
   | :-------------- | :----------------
-  | `basketId`      | `[` `Text` `]`
+  | `basketId`      | `[` `FieldWithMeta` `Text` `]`
   |                 | A CDS basket identifier.
-  | `basketName`    | `Optional` `Text`
+  | `basketName`    | `Optional` `(` `FieldWithMeta` `Text` `)`
   |                 | The name of the basket expressed as a free format
   |                 | string. FpML does not define usage rules for this
   |                 | element.
@@ -646,8 +729,8 @@
   |                          | specified.
   | `earliestExerciseTime`   | `BusinessCenterTime`
   |                          | The earliest time at which notice of exercise can be
-  |                          | given by the buyer to the seller (or seller's agent)
-  |                          | on each Bermuda option exercise date and the
+  |                          | given by the buyer to the seller (or seller&#39;s
+  |                          | agent) on each Bermuda option exercise date and the
   |                          | expiration date.
   | `exerciseFeeSchedule`    | `Optional` `ExerciseFeeSchedule`
   |                          | The fees associated with an exercise date. The fees
@@ -662,9 +745,9 @@
   |                          | time on an exercise business day (excluding the
   |                          | expiration date) within the exercise period that
   |                          | notice can be given by the buyer to the seller or
-  |                          | seller's agent. Notice of exercise given after this
-  |                          | time will be deemed to have been given on the next
-  |                          | exercise business day.
+  |                          | seller&#39;s agent. Notice of exercise given after
+  |                          | this time will be deemed to have been given on the
+  |                          | next exercise business day.
   | `multipleExercise`       | `Optional` `MultipleExercise`
   |                          | As defined in the 2000 ISDA Definitions, Section
   |                          | 12.4. Multiple Exercise, the buyer of the option has
@@ -744,7 +827,7 @@
 
   | Field                    | Type/Description |
   | :----------------------- | :----------------
-  | `brokerConfirmationType` | `BrokerConfirmationTypeEnum`
+  | `brokerConfirmationType` | `FieldWithMeta` `BrokerConfirmationTypeEnum`
   |                          | The type of broker confirmation executed between the
   |                          | parties.
 
@@ -757,14 +840,14 @@
 
   | Field            | Type/Description |
   | :--------------- | :----------------
-  | `businessCenter` | `BusinessCenterEnum`
+  | `businessCenter` | `FieldWithMeta` `BusinessCenterEnum`
   |                  | A code identifying a business day calendar location.
   |                  | A business day calendar location is drawn from the
   |                  | list identified by the business day calendar location
   |                  | enumeration.
   | `hourMinuteTime` | `Text`
   |                  | A time specified in hh:mm:ss format where the second
-  |                  | component must be '00', e.g. 11am would be
+  |                  | component must be &#39;00&#39;, e.g. 11am would be
   |                  | represented as 11:00:00.
 
 ### `data` `BusinessCenters`
@@ -782,13 +865,13 @@
 
   | Field                      | Type/Description |
   | :------------------------- | :----------------
-  | `businessCenter`           | `[` `BusinessCenterEnum` `]`
+  | `businessCenter`           | `[` `FieldWithMeta` `BusinessCenterEnum` `]`
   |                            | A code identifying one or several business day
   |                            | calendar location(s). The set of business day
   |                            | calendar locations are specified by the business day
   |                            | calendar location enumeration which is maintained by
   |                            | the FpML standard.
-  | `businessCentersReference` | `Optional` `Text`
+  | `businessCentersReference` | `Optional` `(` `ReferenceWithMeta` `BusinessCenters` `)`
   |                            | A reference to a financial business center location
   |                            | specified elsewhere in the instance document.
   | `id`                       | `Optional` `Text`
@@ -849,49 +932,49 @@
 
   | Field                    | Type/Description |
   | :----------------------- | :----------------
-  | `buyerAccountReference`  | `Optional` `Text`
+  | `buyerAccountReference`  | `Optional` `(` `ReferenceWithMeta` `Account` `)`
   |                          | A reference to the account that buys this instrument.
-  | `buyerPartyReference`    | `Text`
+  | `buyerPartyReference`    | `ReferenceWithMeta` `Party`
   |                          | A reference to the party that buys this instrument,
   |                          | i.e. pays for this instrument and receives the rights
   |                          | defined by it. ISDA 2002 Equity Definitions section
   |                          | 1.18: `Buyer` means the party specified as such in
   |                          | the related Confirmation. | ISDA 2006 Definitions
-  |                          | article 12.1 (b)(i) relating to a Swaption: 'Buyer'
-  |                          | means the party that will, on each Premium Payment
-  |                          | Date, pay to Seller the Premium | ISDA 2006
-  |                          | Definitions article 12.1 (b)(ii) relating to Swap
-  |                          | Transactions with applicable Early Termination: the
-  |                          | party specified as such in the related Confirmation,
-  |                          | or the Exercising Party if neither party is specified
-  |                          | | ISDA 2006 Definitions article 12.1 (b)(iii)
-  |                          | relating to any other Option Transaction: the party
-  |                          | specified as such in the related Confirmation. | ISDA
-  |                          | 2014 Credit Definition article 1.4: `Buyer` means the
-  |                          | Fixed Rate Payer.
-  | `sellerAccountReference` | `Optional` `Text`
+  |                          | article 12.1 (b)(i) relating to a Swaption:
+  |                          | &#39;Buyer&#39; means the party that will, on each
+  |                          | Premium Payment Date, pay to Seller the Premium |
+  |                          | ISDA 2006 Definitions article 12.1 (b)(ii) relating
+  |                          | to Swap Transactions with applicable Early
+  |                          | Termination: the party specified as such in the
+  |                          | related Confirmation, or the Exercising Party if
+  |                          | neither party is specified | ISDA 2006 Definitions
+  |                          | article 12.1 (b)(iii) relating to any other Option
+  |                          | Transaction: the party specified as such in the
+  |                          | related Confirmation. | ISDA 2014 Credit Definition
+  |                          | article 1.4: `Buyer` means the Fixed Rate Payer.
+  | `sellerAccountReference` | `Optional` `(` `ReferenceWithMeta` `Account` `)`
   |                          | A reference to the account that sells this
   |                          | instrument.
-  | `sellerPartyReference`   | `Text`
-  |                          | A reference to the party that sells ('writes') this
-  |                          | instrument, i.e. that grants the rights defined by
-  |                          | this instrument and in return receives a payment for
-  |                          | it. ISDA 2002 Equity Definitions section 1.19:
-  |                          | `Seller` means the party specified as such in the
-  |                          | related Confirmation. | ISDA 2006 Definitions article
-  |                          | 12.1 (a)(i) relating to a Swaption: 'Seller' means
-  |                          | the party the party specified as such or as writer in
-  |                          | the related Confirmation | ISDA 2006 Definitions
-  |                          | article 12.1 (a)(ii) relating to Swap Transactions
-  |                          | with applicable Early Termination: the party
+  | `sellerPartyReference`   | `ReferenceWithMeta` `Party`
+  |                          | A reference to the party that sells
+  |                          | (&#39;writes&#39;) this instrument, i.e. that grants
+  |                          | the rights defined by this instrument and in return
+  |                          | receives a payment for it. ISDA 2002 Equity
+  |                          | Definitions section 1.19: `Seller` means the party
+  |                          | specified as such in the related Confirmation. | ISDA
+  |                          | 2006 Definitions article 12.1 (a)(i) relating to a
+  |                          | Swaption: &#39;Seller&#39; means the party the party
   |                          | specified as such or as writer in the related
-  |                          | Confirmation or, if neither party is specified as
-  |                          | such, the Non-exercising Party | ISDA 2006
-  |                          | Definitions article 12.1 (a)(iii) relating to any
-  |                          | other Option Transaction: the party specified as such
-  |                          | in the related Confirmation. | ISDA 2014 Credit
-  |                          | Definition article 1.4: `Seller` means the Floating
-  |                          | Rate Payer.
+  |                          | Confirmation | ISDA 2006 Definitions article 12.1
+  |                          | (a)(ii) relating to Swap Transactions with applicable
+  |                          | Early Termination: the party specified as such or as
+  |                          | writer in the related Confirmation or, if neither
+  |                          | party is specified as such, the Non-exercising Party
+  |                          | | ISDA 2006 Definitions article 12.1 (a)(iii)
+  |                          | relating to any other Option Transaction: the party
+  |                          | specified as such in the related Confirmation. | ISDA
+  |                          | 2014 Credit Definition article 1.4: `Seller` means
+  |                          | the Floating Rate Payer.
 
 ### `data` `CalculationAgent`
 
@@ -902,7 +985,7 @@
 
   | Field                            | Type/Description |
   | :------------------------------- | :----------------
-  | `calculationAgentBusinessCenter` | `Optional` `BusinessCenterEnum`
+  | `calculationAgentBusinessCenter` | `Optional` `(` `FieldWithMeta` `BusinessCenterEnum` `)`
   |                                  | The city in which the office through which ISDA
   |                                  | Calculation Agent is acting for purposes of the
   |                                  | transaction is located The short-form confirm for a
@@ -918,7 +1001,7 @@
   |                                  | duties as defined in the applicable product
   |                                  | definitions. For example, the Calculation Agent may
   |                                  | be defined as being the Non-exercising Party.
-  | `calculationAgentPartyReference` | `[` `Text` `]`
+  | `calculationAgentPartyReference` | `[` `ReferenceWithMeta` `Party` `]`
   |                                  | In FpML, a pointer style reference to a party
   |                                  | identifier defined elsewhere in the document. The
   |                                  | party referenced is the ISDA Calculation Agent for
@@ -958,7 +1041,7 @@
   | :--------- | :----------------
   | `amount`   | `Decimal`
   |            | The monetary quantity in currency units.
-  | `currency` | `Text`
+  | `currency` | `FieldWithMeta` `Text`
   |            | The currency in which the associated amount is
   |            | denominated. The list of valid currencies is not
   |            | presently positioned as an enumeration as part of the
@@ -974,6 +1057,39 @@
   |            | ascending step date. FpML specifies that an FpML
   |            | document containing an unordered list of steps is
   |            | still regarded as a conformant document.
+
+### `data` `CalculationDateLocation`
+
+  A class to specify the Calculation Date Location
+  election for the respective parties to the legal
+  agreement. ISDA 2016 Credit Support Annex for Initial
+  Margin, paragraph 13, General Principles, (d)(i).
+* `CalculationDateLocation`
+
+  | Field            | Type/Description |
+  | :--------------- | :----------------
+  | `partyElections` | `[` `CalculationDateLocationElection` `]`
+  |                  | The parties&#39; calculation date location elections.
+
+### `data` `CalculationDateLocationElection`
+
+  A class to specify each of the party elections with
+  respect to the Calculation Date Location.
+* `CalculationDateLocationElection`
+
+  | Field            | Type/Description |
+  | :--------------- | :----------------
+  | `businessCenter` | `Optional` `(` `FieldWithMeta` `BusinessCenterEnum` `)`
+  |                  | The Calculation Date Location when specified as a
+  |                  | business center which corresponds to the FpML list of
+  |                  | business centers or can be mapped to it.
+  | `customLocation` | `Optional` `Text`
+  |                  | The Calculation Date Location when specified a
+  |                  | location which doesn&#39;t correspond to the FpML
+  |                  | list of business centers or cannot be mapped to it.
+  | `party`          | `ReferenceWithMeta` `Party`
+  |                  | The party which the Calculation Date Location
+  |                  | election pertains to.
 
 ### `data` `CalculationPeriod`
 
@@ -1168,11 +1284,11 @@
 
   A class defining the right of a party to cancel a
   swap transaction on the specified exercise dates. The
-  provision is for 'walk-away' cancellation (i.e. the
-  fair value of the swap is not paid). A fee payable on
-  exercise can be specified. As a difference from the
-  FpML construct, the canonical model extends the
-  BuyerSeller class.
+  provision is for &#39;walk-away&#39; cancellation
+  (i.e. the fair value of the swap is not paid). A fee
+  payable on exercise can be specified. As a difference
+  from the FpML construct, the canonical model extends
+  the BuyerSeller class.
 * `CancelableProvision`
 
   | Field                                  | Type/Description |
@@ -1183,26 +1299,26 @@
   | `bermudaExercise`                      | `Optional` `BermudaExercise`
   |                                        | Bermuda exercise. FpML implementations consists in an
   |                                        | exercise substitution group.
-  | `buyerAccountReference`                | `Optional` `Text`
+  | `buyerAccountReference`                | `Optional` `(` `ReferenceWithMeta` `Account` `)`
   |                                        | A reference to the account that buys this instrument.
-  | `buyerPartyReference`                  | `Text`
+  | `buyerPartyReference`                  | `ReferenceWithMeta` `Party`
   |                                        | A reference to the party that buys this instrument,
   |                                        | i.e. pays for this instrument and receives the rights
   |                                        | defined by it. ISDA 2002 Equity Definitions section
   |                                        | 1.18: `Buyer` means the party specified as such in
   |                                        | the related Confirmation. | ISDA 2006 Definitions
-  |                                        | article 12.1 (b)(i) relating to a Swaption: 'Buyer'
-  |                                        | means the party that will, on each Premium Payment
-  |                                        | Date, pay to Seller the Premium | ISDA 2006
-  |                                        | Definitions article 12.1 (b)(ii) relating to Swap
-  |                                        | Transactions with applicable Early Termination: the
-  |                                        | party specified as such in the related Confirmation,
-  |                                        | or the Exercising Party if neither party is specified
-  |                                        | | ISDA 2006 Definitions article 12.1 (b)(iii)
-  |                                        | relating to any other Option Transaction: the party
-  |                                        | specified as such in the related Confirmation. | ISDA
-  |                                        | 2014 Credit Definition article 1.4: `Buyer` means the
-  |                                        | Fixed Rate Payer.
+  |                                        | article 12.1 (b)(i) relating to a Swaption:
+  |                                        | &#39;Buyer&#39; means the party that will, on each
+  |                                        | Premium Payment Date, pay to Seller the Premium |
+  |                                        | ISDA 2006 Definitions article 12.1 (b)(ii) relating
+  |                                        | to Swap Transactions with applicable Early
+  |                                        | Termination: the party specified as such in the
+  |                                        | related Confirmation, or the Exercising Party if
+  |                                        | neither party is specified | ISDA 2006 Definitions
+  |                                        | article 12.1 (b)(iii) relating to any other Option
+  |                                        | Transaction: the party specified as such in the
+  |                                        | related Confirmation. | ISDA 2014 Credit Definition
+  |                                        | article 1.4: `Buyer` means the Fixed Rate Payer.
   | `cancelableProvisionAdjustedDates`     | `Optional` `CancelableProvisionAdjustedDates`
   |                                        | The adjusted dates associated with a cancelable
   |                                        | provision. These dates have been adjusted for any
@@ -1216,38 +1332,38 @@
   | `finalCalculationPeriodDateAdjustment` | `[` `FinalCalculationPeriodDateAdjustment` `]`
   |                                        | Business date convention adjustment to final payment
   |                                        | period per leg (swapStream) upon exercise event. The
-  |                                        | adjustments can be made in-line with leg level BDC's
-  |                                        | or they can be specified separately.
+  |                                        | adjustments can be made in-line with leg level
+  |                                        | BDC&#39;s or they can be specified separately.
   | `followUpConfirmation`                 | `Bool`
   |                                        | A flag to indicate whether follow-up confirmation of
   |                                        | exercise (written or electronic) is required
   |                                        | following telephonic notice by the buyer to the
-  |                                        | seller or seller's agent.
+  |                                        | seller or seller&#39;s agent.
   | `initialFee`                           | `Optional` `SimplePayment`
   |                                        | An initial fee for the cancelable option.
-  | `sellerAccountReference`               | `Optional` `Text`
+  | `sellerAccountReference`               | `Optional` `(` `ReferenceWithMeta` `Account` `)`
   |                                        | A reference to the account that sells this
   |                                        | instrument.
-  | `sellerPartyReference`                 | `Text`
-  |                                        | A reference to the party that sells ('writes') this
-  |                                        | instrument, i.e. that grants the rights defined by
-  |                                        | this instrument and in return receives a payment for
-  |                                        | it. ISDA 2002 Equity Definitions section 1.19:
-  |                                        | `Seller` means the party specified as such in the
-  |                                        | related Confirmation. | ISDA 2006 Definitions article
-  |                                        | 12.1 (a)(i) relating to a Swaption: 'Seller' means
-  |                                        | the party the party specified as such or as writer in
-  |                                        | the related Confirmation | ISDA 2006 Definitions
-  |                                        | article 12.1 (a)(ii) relating to Swap Transactions
-  |                                        | with applicable Early Termination: the party
+  | `sellerPartyReference`                 | `ReferenceWithMeta` `Party`
+  |                                        | A reference to the party that sells
+  |                                        | (&#39;writes&#39;) this instrument, i.e. that grants
+  |                                        | the rights defined by this instrument and in return
+  |                                        | receives a payment for it. ISDA 2002 Equity
+  |                                        | Definitions section 1.19: `Seller` means the party
+  |                                        | specified as such in the related Confirmation. | ISDA
+  |                                        | 2006 Definitions article 12.1 (a)(i) relating to a
+  |                                        | Swaption: &#39;Seller&#39; means the party the party
   |                                        | specified as such or as writer in the related
-  |                                        | Confirmation or, if neither party is specified as
-  |                                        | such, the Non-exercising Party | ISDA 2006
-  |                                        | Definitions article 12.1 (a)(iii) relating to any
-  |                                        | other Option Transaction: the party specified as such
-  |                                        | in the related Confirmation. | ISDA 2014 Credit
-  |                                        | Definition article 1.4: `Seller` means the Floating
-  |                                        | Rate Payer.
+  |                                        | Confirmation | ISDA 2006 Definitions article 12.1
+  |                                        | (a)(ii) relating to Swap Transactions with applicable
+  |                                        | Early Termination: the party specified as such or as
+  |                                        | writer in the related Confirmation or, if neither
+  |                                        | party is specified as such, the Non-exercising Party
+  |                                        | | ISDA 2006 Definitions article 12.1 (a)(iii)
+  |                                        | relating to any other Option Transaction: the party
+  |                                        | specified as such in the related Confirmation. | ISDA
+  |                                        | 2014 Credit Definition article 1.4: `Seller` means
+  |                                        | the Floating Rate Payer.
 
 ### `data` `CancelableProvisionAdjustedDates`
 
@@ -1289,7 +1405,7 @@
 
   | Field                          | Type/Description |
   | :----------------------------- | :----------------
-  | `cashSettlementCurrency`       | `Text`
+  | `cashSettlementCurrency`       | `FieldWithMeta` `Text`
   |                                | The currency in which the cash settlement amount will
   |                                | be calculated and settled. The list of valid
   |                                | currencies is not presently positioned as an
@@ -1457,7 +1573,7 @@
   |                              | Rate Payer Calculation Amount. The currency will be
   |                              | derived from the Floating Rate Payer Calculation
   |                              | Amount.
-  | `settlementCurrency`         | `Optional` `Text`
+  | `settlementCurrency`         | `Optional` `(` `FieldWithMeta` `Text` `)`
   |                              | The settlement currency is to be specified when the
   |                              | Settlement Amount cannot be known in advance. The
   |                              | list of valid currencies is not presently positioned
@@ -1497,7 +1613,7 @@
   |                       | The qualification of the type of cashflow, when not
   |                       | inferred from a derived through lineage e.g.
   |                       | brokerage fee, premium, upfront fee etc.
-  | `identifier`          | `Optional` `Text`
+  | `identifier`          | `Optional` `(` `FieldWithMeta` `Text` `)`
   |                       | The identifier that can be associated with each of
   |                       | the transfer components
   | `lineage`             | `[` `Lineage` `]`
@@ -1527,7 +1643,7 @@
   |                       | The qualification of the type of cashflow, when not
   |                       | inferred from a derived through lineage e.g.
   |                       | brokerage fee, premium, upfront fee etc.
-  | `identifier`          | `Optional` `Text`
+  | `identifier`          | `Optional` `(` `FieldWithMeta` `Text` `)`
   |                       | The identifier that can be associated with each of
   |                       | the transfer components
   | `payerReceiver`       | `PayerReceiver`
@@ -1539,7 +1655,7 @@
 ### `data` `Cashflow`
 
   A class to specify a cashflow, i.e. the outcome of
-  either of computation (e.g. interest accrual) or and
+  either of computation (e.g. interest accrual) or an
   assessment of some sort (e.g. a fee). The cashflow
   can then be turned into a cash transfer, artefact to
   be used as the input to a payment system or the
@@ -1585,7 +1701,6 @@
   |                       | The amount representing the present value of the
   |                       | forecast payment.
   | `rosettaKey`          | `Text`
-  |                       | field added by metagen
 
 ### `data` `CashflowRepresentation`
 
@@ -1664,9 +1779,9 @@
   |                     | Independent Amount is an amount that usually less
   |                     | creditworthy counterparties are asked to provide. It
   |                     | can either be a fixed amount or a percentage of the
-  |                     | Transaction's value. The Independent Amount can be:
-  |                     | (i) transferred before any trading between the
-  |                     | parties occurs (as a deposit at a third party's
+  |                     | Transaction&#39;s value. The Independent Amount can
+  |                     | be: (i) transferred before any trading between the
+  |                     | parties occurs (as a deposit at a third party&#39;s
   |                     | account or with the counterparty) or (ii) callable
   |                     | after trading has occurred (typically because a
   |                     | downgrade has occurred). In situation (i), the
@@ -1675,10 +1790,31 @@
   |                     | the calculation of Exposure. Thus, for situation
   |                     | (ii), the Independent Amount may be transferred along
   |                     | with any collateral call. Independent Amount is a
-  |                     | defined term in the ISDA Credit Support Annex. ('with
-  |                     | respect to a party, the amount specified as such for
-  |                     | that party in Paragraph 13; if no amount is
-  |                     | specified, zero').
+  |                     | defined term in the ISDA Credit Support Annex.
+  |                     | (&#39;with respect to a party, the amount specified
+  |                     | as such for that party in Paragraph 13; if no amount
+  |                     | is specified, zero&#39;).
+
+### `data` `CollateralRounding`
+
+  A class to specify the rounding methodology
+  applicable to the Delivery Amount and the Return
+  Amount in terms of nearest integral multiple of Base
+  Currency units. ISDA 2016 Credit Support Annex for
+  Initial Margin, paragraph 13, General Principles,
+  (c)(vi)(C): Rounding.
+* `CollateralRounding`
+
+  | Field            | Type/Description |
+  | :--------------- | :----------------
+  | `deliveryAmount` | `Decimal`
+  |                  | The rounding methodology applicable to the Delivery
+  |                  | Amount in terms of nearest integral multiple of Base
+  |                  | Currency units.
+  | `returnAmount`   | `Decimal`
+  |                  | The rounding methodology applicable to the Return
+  |                  | Amount in terms of nearest integral multiple of Base
+  |                  | Currency units.
 
 ### `data` `Commodity`
 
@@ -1706,7 +1842,7 @@
   | Field                  | Type/Description |
   | :--------------------- | :----------------
   | `commodity`            | `Commodity`
-  | `identifier`           | `Optional` `Text`
+  | `identifier`           | `Optional` `(` `FieldWithMeta` `Text` `)`
   |                        | The identifier that can be associated with each of
   |                        | the transfer components
   | `lineage`              | `[` `Lineage` `]`
@@ -1737,7 +1873,7 @@
   |                        | the net security transfer related to several
   |                        | contracts).
   | `commodity`            | `Commodity`
-  | `identifier`           | `Optional` `Text`
+  | `identifier`           | `Optional` `(` `FieldWithMeta` `Text` `)`
   |                        | The identifier that can be associated with each of
   |                        | the transfer components
   | `quantity`             | `Decimal`
@@ -1780,7 +1916,7 @@
   | :------------- | :----------------
   | `amount`       | `Decimal`
   | `callFunction` | `Text`
-  | `currency`     | `Optional` `Text`
+  | `currency`     | `Optional` `(` `FieldWithMeta` `Text` `)`
   |                | The currency in which the computed amount is
   |                | denominated. The list of valid currencies is not
   |                | presently positioned as an enumeration as part of the
@@ -1844,11 +1980,13 @@
   | `collateral`               | `Optional` `Collateral`
   |                            | Defines the collateral obligations of a party.
   | `contractIdentifier`       | `[` `Identifier` `]`
-  |                            | The identifier(s) that uniquely identify a contract.
-  |                            | There can be several contract identifier, an example
-  |                            | of such being a contract is reportable to both the
-  |                            | CFTC and ESMA and then has an associated USI (Unique
-  |                            | Swap Identifier) UTI (Unique Trade Identifier).
+  |                            | The identifier(s) that uniquely identify a contract,
+  |                            | and which can be qualified by referencing or defining
+  |                            | the issuer(s) of such identifier(s). There can be
+  |                            | several contract identifier, an example of such being
+  |                            | a contract is reportable to both the CFTC and ESMA
+  |                            | and then has an associated USI (Unique Swap
+  |                            | Identifier) UTI (Unique Trade Identifier).
   | `contractualProduct`       | `ContractualProduct`
   |                            | The contractual product information that is
   |                            | associated with the contract, which combines the
@@ -1862,7 +2000,7 @@
   |                            | referenced, along with any relevant documentation
   |                            | (such as master agreement) and the date it was
   |                            | signed.
-  | `governingLaw`             | `Optional` `GoverningLawEnum`
+  | `governingLaw`             | `Optional` `(` `FieldWithMeta` `GoverningLawEnum` `)`
   |                            | Identification of the law governing the contract.
   | `id`                       | `Optional` `Text`
   | `party`                    | `[` `Party` `]`
@@ -1881,7 +2019,6 @@
   |                            | the contract, further to the principal parties (i.e
   |                            | payer/receive or buyer/seller) to it.
   | `rosettaKey`               | `Text`
-  |                            | field added by metagen
   | `tradeDate`                | `TradeDate`
   |                            | The date on which the contract has been executed.
 
@@ -1902,14 +2039,14 @@
 
   | Field             | Type/Description |
   | :---------------- | :----------------
-  | `matrixTerm`      | `Optional` `MatrixTermEnum`
+  | `matrixTerm`      | `Optional` `(` `FieldWithMeta` `MatrixTermEnum` `)`
   |                   | Defines any applicable key into the relevant matrix.
   |                   | For example, the Transaction Type would be the single
   |                   | term required for the Credit Derivatives Physical
   |                   | Settlement Matrix. This element should be omitted in
   |                   | the case of the 2000 ISDA Definitions Settlement
   |                   | Matrix for Early Termination and Swaptions.
-  | `matrixType`      | `MatrixTypeEnum`
+  | `matrixType`      | `FieldWithMeta` `MatrixTypeEnum`
   |                   | Identifies the form of applicable matrix.
   | `publicationDate` | `Optional` `Date`
   |                   | Specifies the publication date of the applicable
@@ -1920,12 +2057,12 @@
 
 ### `data` `ContractualProduct`
 
-  A class to specify the contractual products' economic
-  terms, alongside their product identification and
-  product taxonomy. The contractual product class is
-  meant to be used across the pre-execution, execution
-  and (as part of the Contract) post-execution
-  lifecycle contexts.
+  A class to specify the contractual products&#39;
+  economic terms, alongside their product
+  identification and product taxonomy. The contractual
+  product class is meant to be used across the
+  pre-execution, execution and (as part of the
+  Contract) post-execution lifecycle contexts.
 * `ContractualProduct`
 
   | Field                   | Type/Description |
@@ -1945,12 +2082,14 @@
 
 ### `data` `ContractualQuantity`
 
-  The quantity or notional amount that is associated
-  with a contractual product. The quantity attribute
-  applies to products relating to securities or
-  tangible assets (such as equities or commodities),
-  while the notional amount applies to products
-  pertaining to interest rate, FX or credit products.
+  A class to specify the quantity or notional amount
+  that is associated with a contractual product and
+  that is the base for the payout calculation. The
+  quantity attribute applies to products relating to
+  securities or tangible assets (such as equities or
+  commodities), while the notional amount applies to
+  products pertaining to interest rate, FX or credit
+  products.
 * `ContractualQuantity`
 
   | Field                 | Type/Description |
@@ -1972,7 +2111,7 @@
   |                       | the adjustment to the number of units of the return
   |                       | swap, e.g. execution, portfolio rebalancing. It is
   |                       | typically used in the context of equity swaps.
-  | `notionalAmount`      | `Optional` `Money`
+  | `notionalAmount`      | `Optional` `(` `ReferenceWithMeta` `Money` `)`
   |                       | The contractual quantity when specified as an amount
   |                       | and a currency units without associated schedule or
   |                       | FX terms. When applied to Credit default Swaps, this
@@ -2008,7 +2147,7 @@
   | `publicationDate` | `Optional` `Date`
   |                   | Specifies the publication date of the applicable
   |                   | version of the contractual supplement.
-  | `type_`           | `ContractualSupplementEnum`
+  | `_type`           | `FieldWithMeta` `ContractualSupplementEnum`
   |                   | Identifies the form of applicable contractual
   |                   | supplement.
 
@@ -2032,17 +2171,15 @@
 
 ### `data` `CreditDefaultPayout`
 
-  The credit default payout specification terms
-  encompasses the General Terms (except for the
-  date-related paradigms), the Protection Terms, the
-  Cash Settlement Terms, the Physical Settlement Terms
-  and the transacted price attributes such as the
-  initial points and market price. The associated
-  rosettaKey denotes the ability to associate a hash
-  value to the CreditDefaultPayout instantiations for
-  the purpose of model cross-referencing, in support of
-  functionality such as the event effect and the
-  lineage.
+  The credit default payout specification provides the
+  details necessary for determining when a credit
+  payout will be triggered as well as the parameters
+  for calculating the payout and the settlement terms.
+  The associated rosettaKey denotes the ability to
+  associate a hash value to the CreditDefaultPayout
+  instantiations for the purpose of model
+  cross-referencing, in support of functionality such
+  as the event effect and the lineage.
 * `CreditDefaultPayout`
 
   | Field                     | Type/Description |
@@ -2051,23 +2188,23 @@
   |                           | Specifies the terms applicable to the cash settlement
   |                           | of a credit event.
   | `generalTerms`            | `GeneralTerms`
-  |                           | Specifies the terms defined as part of the General
-  |                           | Terms section of the ISDA 2003 Credit Definitions,
-  |                           | except for the date adjustments provisions, i.e. the
-  |                           | reference information, the additional terms, the
-  |                           | substitution and the modified equity delivery
-  |                           | qualification.
+  |                           | The specification of the non-monetary terms for the
+  |                           | Credit Derivative Transaction, including the buyer
+  |                           | and seller and selected items from the ISDA 2014
+  |                           | Credit Definition article II, such as the reference
+  |                           | obligation and related terms.
   | `id`                      | `Optional` `Text`
   | `physicalSettlementTerms` | `[` `PhysicalSettlementTerms` `]`
   |                           | Specifies the terms applicable to the physical
   |                           | settlement of a credit event.
   | `protectionTerms`         | `[` `ProtectionTerms` `]`
-  |                           | Specifies the notional amount, the credit events, the
-  |                           | underlying obligations of the reference entity and
-  |                           | the floating amount events applicable to
-  |                           | mortgage-backed securities.
+  |                           | Specifies the terms for calculating a payout to
+  |                           | protect the buyer of the swap in the case of a
+  |                           | qualified credit event.  These terms include the
+  |                           | notional amount, the applicable credit events, the
+  |                           | reference obligation, and in the case of a CDS on
+  |                           | mortgage-backed securities, the floatingAmountEvents.
   | `rosettaKey`              | `Text`
-  |                           | field added by metagen
   | `transactedPrice`         | `Optional` `TransactedPrice`
   |                           | The qualification of the price at which the contract
   |                           | has been transacted, in terms of market fixed rate,
@@ -2109,15 +2246,10 @@
 
 ### `data` `CreditEvents`
 
-  A class to specify the applicable Credit Events
-  applicable to the Credit Derivative Transaction. ISDA
-  2014 Credit Definition article IV section 4.1: Credit
-  Event means, with respect to a Credit Derivative
-  Transaction, one or more of Bankruptcy, Failure to
-  Pay, Obligation Acceleration, Obligation Default,
-  Repudiation/Moratorium, Restructuring, or
-  Governmental Intervention, as specified in the
-  related Confirmation.
+  A class to specify the applicable Credit Events that
+  would trigger a settlement, as specified in the
+  related Confirmation and defined in the ISDA 2014
+  Credit Definition article IV section 4.1.
 * `CreditEvents`
 
   | Field                        | Type/Description |
@@ -2128,8 +2260,8 @@
   |                              | events that may be a precursor to insolvency such as
   |                              | instigation of bankruptcy or insolvency proceedings.
   |                              | Sovereign trades are not subject to Bankruptcy as
-  |                              | 'technically' a Sovereign cannot become bankrupt.
-  |                              | ISDA 2003 Term: Bankruptcy.
+  |                              | &#39;technically&#39; a Sovereign cannot become
+  |                              | bankrupt. ISDA 2003 Term: Bankruptcy.
   | `creditEventNotice`          | `Optional` `CreditEventNotice`
   |                              | A specified condition to settlement. An irrevocable
   |                              | written or verbal notice that describes a credit
@@ -2178,7 +2310,7 @@
   |                              | A credit event. A governmental intervention is an
   |                              | event resulting from an action by a governmental
   |                              | authority that materially impacts the reference
-  |                              | entity's obligations, such as an interest rate
+  |                              | entity&#39;s obligations, such as an interest rate
   |                              | reduction, principal reduction, deferral of interest
   |                              | or principal, change in priority ranking, or change
   |                              | in currency or composition of payment. ISDA 2014
@@ -2224,7 +2356,7 @@
   |                              | Repudiation/Moratorium.
   | `restructuring`              | `Optional` `Restructuring`
   |                              | A credit event. A restructuring is an event that
-  |                              | materially impacts the reference entity's
+  |                              | materially impacts the reference entity&#39;s
   |                              | obligations, such as an interest rate reduction,
   |                              | principal reduction, deferral of interest or
   |                              | principal, change in priority ranking, or change in
@@ -2247,7 +2379,7 @@
   |                      | Further to the FpML standard, the CDM
   |                      | ProductIdentification provides the ability to
   |                      | associate a CDM qualified product.
-  | `currency`           | `Optional` `Text`
+  | `currency`           | `Optional` `(` `FieldWithMeta` `Text` `)`
   |                      | The currency in which the credit limit is
   |                      | denominated. The list of valid currencies is not
   |                      | presently positioned as an enumeration as part of the
@@ -2263,7 +2395,7 @@
   |                      | specified by reference to a timezone, with that class
   |                      | being deemed the proper implementation.
   | `limitApplicable`    | `[` `LimitApplicable` `]`
-  | `limitId`            | `Optional` `Text`
+  | `limitId`            | `Optional` `(` `FieldWithMeta` `Text` `)`
   | `tenor`              | `Optional` `Period`
   |                      | The maximum allowed tenor for a trade under this
   |                      | limit. When this structure is used as part of a
@@ -2320,21 +2452,22 @@
 
   | Field      | Type/Description |
   | :--------- | :----------------
-  | `agency`   | `CreditRatingAgencyEnum`
+  | `agency`   | `FieldWithMeta` `CreditRatingAgencyEnum`
   |            | The credit agency to which the other variables
   |            | (notation, scale, debt type) refer to.
   | `debt`     | `Optional` `CreditRatingDebt`
   |            | The credit rating debt type (e.g. long term, high
   |            | yield, deposits, ...) associated with the credit
   |            | rating notation and scale.
-  | `notation` | `Text`
+  | `notation` | `FieldWithMeta` `Text`
   |            | The credit rating notation. As it varies among credit
-  |            | rating agencies, FpML doesn't specify a default
+  |            | rating agencies, FpML doesn&#39;t specify a default
   |            | scheme.
-  | `scale`    | `Optional` `Text`
+  | `scale`    | `Optional` `(` `FieldWithMeta` `Text` `)`
   |            | The credit rating scale, with a typical distinction
-  |            | between short term, long term. FpML doesn't specify a
-  |            | default scheme.
+  |            | between short term, long term. FpML doesn&#39;t
+  |            | specify a default scheme, which is hence not
+  |            | specified as an enumeration as part of the CDM.
 
 ### `data` `CreditNotations`
 
@@ -2350,28 +2483,30 @@
   |                   | notation is determined.
   | `creditNotations` | `[` `MultipleCreditNotations` `]`
   |                   | This attribute provides the ability to specify
-  |                   | several credit notations, alongside an 'any' or 'all'
-  |                   | or all condition.
+  |                   | several credit notations, alongside an &#39;any&#39;
+  |                   | or &#39;all&#39; or all condition.
 
 ### `data` `CreditRatingDebt`
 
   The credit rating debt type(s) associated with the
   credit rating notation and scale. When several debt
   types are specified, they must be qualified through
-  an 'any' or 'all'.
+  an &#39;any&#39; or &#39;all&#39;.
 * `CreditRatingDebt`
 
   | Field       | Type/Description |
   | :---------- | :----------------
-  | `debtType`  | `Optional` `Text`
+  | `debtType`  | `Optional` `(` `FieldWithMeta` `Text` `)`
   |             | This attribute is to be specified when only one debt
-  |             | type is specified. FpML doesn't specify values in
-  |             | relation to the associated scheme.
+  |             | type is specified. FpML doesn&#39;t specify values in
+  |             | relation to the associated scheme, which is hence not
+  |             | specified as an enumeration as part of the CDM.
   | `debtTypes` | `Optional` `MultipleDebtTypes`
   |             | This attribute provides the ability to specify
-  |             | several debt types, alongside an 'any' or 'all' or
-  |             | all condition. As an example, Baa1 rating is required
-  |             | for any long term debt and deposit.
+  |             | several debt types, alongside an &#39;any&#39; or
+  |             | &#39;all&#39; or all condition. As an example, Baa1
+  |             | rating is required for any long term debt and
+  |             | deposit.
 
 ### `data` `CreditSupportAgreement`
 
@@ -2390,10 +2525,10 @@
   | `identifierValue` | `Optional` `Text`
   |                   | An identifier used to uniquely identify the CSA. FpML
   |                   | specifies the type as creditSupportAgreementIdScheme,
-  |                   | but without proposing any value. As far as e
+  |                   | but without proposing any value.  As far as e
   |                   | understand, no scheme has yet been developed at this
   |                   | point.
-  | `type_`           | `CreditSupportAgreementTypeEnum`
+  | `_type`           | `FieldWithMeta` `CreditSupportAgreementTypeEnum`
   |                   | The type of ISDA Credit Support Agreement.
 
 ### `data` `CrossCurrencyMethod`
@@ -2406,7 +2541,7 @@
 
   | Field                          | Type/Description |
   | :----------------------------- | :----------------
-  | `cashSettlementCurrency`       | `[` `Text` `]`
+  | `cashSettlementCurrency`       | `[` `FieldWithMeta` `Text` `]`
   |                                | The currency, or currencies, in which the cash
   |                                | settlement amount(s) will be calculated and settled.
   |                                | While the order in which the currencies are stated is
@@ -2445,271 +2580,252 @@
   | `principalExchanges`  | `Optional` `PrincipalExchanges`
   | `settlementProvision` | `Optional` `SettlementProvision`
 
-### `data` `CsaInitialMargin2018`
+### `data` `CrossRate`
 
-  An abstract class to specify the provisions that are
-  common among the respective governing laws.
-* `CsaInitialMargin2018`
+  A type that is used for including the currency
+  exchange rates used to cross between the traded
+  currencies for non-base currency FX contracts.
+* `CrossRate`
 
-  | Field                             | Type/Description |
-  | :-------------------------------- | :----------------
-  | `alternativeCommoditySensitivity` | `Optional` `Text`
-  |                                   | The alternative sensitivities to commodity products
-  |                                   | as determined by the ISDA 2018 CSA for Initial
-  |                                   | Margin, Paragraph 13, General Principles (gg) (2)
-  |                                   | (B). If specified, defines the alternative
-  |                                   | sensitivity calculation, with the delta being then
-  |                                   | allocated back to individual commodities in commodity
-  |                                   | indices.
-  | `alternativeEquitySensitivity`    | `Optional` `Text`
-  |                                   | The alternative sensitivities to equity products as
-  |                                   | determined by the ISDA 2018 CSA for Initial Margin,
-  |                                   | Paragraph 13, General Principles (gg) (2) (A). If
-  |                                   | specified, defines the alternative sensitivity
-  |                                   | calculation, with the delta being then allocated back
-  |                                   | to individual equities in equity indices, funds and
-  |                                   | ETFs.
-  | `baseCurrency`                    | `Text`
-  |                                   | The base currency as specified by the ISDA 2018 CSA
-  |                                   | for Initial Margin, Paragraph 13 (a). The list of
-  |                                   | valid currencies is not presently positioned as an
-  |                                   | enumeration as part of the CDM because that scope is
-  |                                   | limited to the values specified by ISDA and FpML. As
-  |                                   | a result, implementers have to make reference to the
-  |                                   | relevant standard, such as the ISO 4217 standard for
-  |                                   | currency codes.
-  | `calculationAgent`                | `InitialMarginCalculationAgent`
-  |                                   | The initial margin designated calculation agent, as
-  |                                   | specified by the ISDA 2018 CSA for Initial Margin,
-  |                                   | Paragraph 13 (c) (ii).
-  | `custodyArrangement`              | `[` `CustodyArrangement` `]`
-  |                                   | The custodian in respect to each party as the
-  |                                   | Pledgor/Chargor, as specified by the ISDA 2018 CSA
-  |                                   | for Initial Margin, Paragraph 13 (m). This attribute
-  |                                   | is optional as the parties may not specify such
-  |                                   | custodians as part of the CSA.
-  | `eligibleCollateral`              | `[` `IndependentAmountEligibleCollateral` `]`
-  |                                   | The eligible collateral as specified in relation to
-  |                                   | each pledgor/chargor's obligation as determined by
-  |                                   | the ISDA 2018 CSA for Initial Margin, Paragraph 13,
-  |                                   | General Principles (ii) and the associated Eligible
-  |                                   | Collateral (IM) Schedule.
-  | `marginApproach`                  | `MarginApproachEnum`
-  |                                   | The Margin Approach applicable to the CSA, as
-  |                                   | specified by the ISDA 2018 CSA for Initial Margin,
-  |                                   | Paragraph 13 (c) (i).
-  | `method`                          | `Method`
-  |                                   | The specification of the ISDA SIMM Method as
-  |                                   | specified by ISDA 2018 CSA for Initial Margin,
-  |                                   | Paragraph 13, General Principles (ee).
-  | `oneWayProvisions`                | `OneWayProvisions`
-  |                                   | The determination of whether the One Way Provisions
-  |                                   | are applicable (true) or not applicable (false) as
-  |                                   | specified by ISDA 2018 CSA for Initial Margin,
-  |                                   | Paragraph 13 (aa).
-  | `regime`                          | `[` `Regime` `]`
-  |                                   | The Regime Table provision as specified by the ISDA
-  |                                   | 2018 CSA for Initial Margin, Paragraph 13 Regime
-  |                                   | Table provision, which determines the regulatory
-  |                                   | regime(s) applicable to each of the parties to the
-  |                                   | CSA in their capacity as Secured Party, with one set
-  |                                   | of values per counterparty. As specified in the CSA,
-  |                                   | the applicability of a regime shall not be construed
-  |                                   | as a representation, admission or acknowledgement
-  |                                   | that either party is actually regulated under such
-  |                                   | regime.
-  | `substitutedRegime`               | `[` `SubstitutedRegime` `]`
-  |                                   | The set of substituted regulatory regimes that can be
-  |                                   | specified for a party in accordance to ISDA 2018 CSA
-  |                                   | for Initial Margin, Paragraph 13, General Principles
-  |                                   | (ll). Notwithstanding that a regulatory regime is
-  |                                   | specified as not applicable in the Regime clauses and
-  |                                   | that no initial margin amounts will be calculated for
-  |                                   | such regime under this agreement, the parties agree
-  |                                   | that, with respect to a party, Regime for the
-  |                                   | purposes of the definition of Regulatory Event and
-  |                                   | the proviso in the definition of ISDA SIMM will
-  |                                   | include such Regime if it is specified as a
-  |                                   | Substituted Regime for that party as part of this
-  |                                   | provision.
+  | Field           | Type/Description |
+  | :-------------- | :----------------
+  | `currency1`     | `FieldWithMeta` `Text`
+  |                 | The first currency specified when a pair of
+  |                 | currencies is to be evaluated.
+  | `currency2`     | `FieldWithMeta` `Text`
+  |                 | The second currency specified when a pair of
+  |                 | currencies is to be evaluated.
+  | `forwardPoints` | `Optional` `Decimal`
+  |                 | An optional element used for deals consummated in the
+  |                 | FX Forwards market. Forward points represent the
+  |                 | interest rate differential between the two currencies
+  |                 | traded and are quoted as a premium or a discount.
+  |                 | Forward points are added to, or subtracted from, the
+  |                 | spot rate to create the rate of the forward trade.
+  | `quoteBasis`    | `QuoteBasisEnum`
+  |                 | The method by which the exchange rate is quoted.
+  | `rate`          | `Decimal`
+  |                 | The exchange rate used to cross between the traded
+  |                 | currencies.
+  | `spotRate`      | `Optional` `Decimal`
+  |                 | An optional element used for FX forwards and certain
+  |                 | types of FX OTC options. For deals consummated in the
+  |                 | FX Forwards Market, this represents the current
+  |                 | market rate for a particular currency pair.
 
-### `data` `CsaInitialMargin2018EnglishLaw`
+### `data` `CsaInitialMargin2016`
 
-  A class to specify the provisions that are specific
-  to the English Law version of the ISDA 2018 Credit
-  Support Annex for Initial Margin.
-* `CsaInitialMargin2018EnglishLaw`
+  An abstract class to specify the provisions for the
+  2016 ISDA Credit Support Annex for Initial Margin
+  that are common among the corresponding governing
+  laws.
+* `CsaInitialMargin2016`
 
-  | Field                             | Type/Description |
-  | :-------------------------------- | :----------------
-  | `alternativeCommoditySensitivity` | `Optional` `Text`
-  |                                   | The alternative sensitivities to commodity products
-  |                                   | as determined by the ISDA 2018 CSA for Initial
-  |                                   | Margin, Paragraph 13, General Principles (gg) (2)
-  |                                   | (B). If specified, defines the alternative
-  |                                   | sensitivity calculation, with the delta being then
-  |                                   | allocated back to individual commodities in commodity
-  |                                   | indices.
-  | `alternativeEquitySensitivity`    | `Optional` `Text`
-  |                                   | The alternative sensitivities to equity products as
-  |                                   | determined by the ISDA 2018 CSA for Initial Margin,
-  |                                   | Paragraph 13, General Principles (gg) (2) (A). If
-  |                                   | specified, defines the alternative sensitivity
-  |                                   | calculation, with the delta being then allocated back
-  |                                   | to individual equities in equity indices, funds and
-  |                                   | ETFs.
-  | `baseCurrency`                    | `Text`
-  |                                   | The base currency as specified by the ISDA 2018 CSA
-  |                                   | for Initial Margin, Paragraph 13 (a). The list of
-  |                                   | valid currencies is not presently positioned as an
-  |                                   | enumeration as part of the CDM because that scope is
-  |                                   | limited to the values specified by ISDA and FpML. As
-  |                                   | a result, implementers have to make reference to the
-  |                                   | relevant standard, such as the ISO 4217 standard for
-  |                                   | currency codes.
-  | `calculationAgent`                | `InitialMarginCalculationAgent`
-  |                                   | The initial margin designated calculation agent, as
-  |                                   | specified by the ISDA 2018 CSA for Initial Margin,
-  |                                   | Paragraph 13 (c) (ii).
-  | `custodyArrangement`              | `[` `CustodyArrangement` `]`
-  |                                   | The custodian in respect to each party as the
-  |                                   | Pledgor/Chargor, as specified by the ISDA 2018 CSA
-  |                                   | for Initial Margin, Paragraph 13 (m). This attribute
-  |                                   | is optional as the parties may not specify such
-  |                                   | custodians as part of the CSA.
-  | `eligibleCollateral`              | `[` `IndependentAmountEligibleCollateral` `]`
-  |                                   | The eligible collateral as specified in relation to
-  |                                   | each pledgor/chargor's obligation as determined by
-  |                                   | the ISDA 2018 CSA for Initial Margin, Paragraph 13,
-  |                                   | General Principles (ii) and the associated Eligible
-  |                                   | Collateral (IM) Schedule.
-  | `marginApproach`                  | `MarginApproachEnum`
-  |                                   | The Margin Approach applicable to the CSA, as
-  |                                   | specified by the ISDA 2018 CSA for Initial Margin,
-  |                                   | Paragraph 13 (c) (i).
-  | `method`                          | `Method`
-  |                                   | The specification of the ISDA SIMM Method as
-  |                                   | specified by ISDA 2018 CSA for Initial Margin,
-  |                                   | Paragraph 13, General Principles (ee).
-  | `oneWayProvisions`                | `OneWayProvisions`
-  |                                   | The determination of whether the One Way Provisions
-  |                                   | are applicable (true) or not applicable (false) as
-  |                                   | specified by ISDA 2018 CSA for Initial Margin,
-  |                                   | Paragraph 13 (aa).
-  | `regime`                          | `[` `Regime` `]`
-  |                                   | The Regime Table provision as specified by the ISDA
-  |                                   | 2018 CSA for Initial Margin, Paragraph 13 Regime
-  |                                   | Table provision, which determines the regulatory
-  |                                   | regime(s) applicable to each of the parties to the
-  |                                   | CSA in their capacity as Secured Party, with one set
-  |                                   | of values per counterparty. As specified in the CSA,
-  |                                   | the applicability of a regime shall not be construed
-  |                                   | as a representation, admission or acknowledgement
-  |                                   | that either party is actually regulated under such
-  |                                   | regime.
-  | `substitutedRegime`               | `[` `SubstitutedRegime` `]`
-  |                                   | The set of substituted regulatory regimes that can be
-  |                                   | specified for a party in accordance to ISDA 2018 CSA
-  |                                   | for Initial Margin, Paragraph 13, General Principles
-  |                                   | (ll). Notwithstanding that a regulatory regime is
-  |                                   | specified as not applicable in the Regime clauses and
-  |                                   | that no initial margin amounts will be calculated for
-  |                                   | such regime under this agreement, the parties agree
-  |                                   | that, with respect to a party, Regime for the
-  |                                   | purposes of the definition of Regulatory Event and
-  |                                   | the proviso in the definition of ISDA SIMM will
-  |                                   | include such Regime if it is specified as a
-  |                                   | Substituted Regime for that party as part of this
-  |                                   | provision.
+  | Field                       | Type/Description |
+  | :-------------------------- | :----------------
+  | `additionalObligations`     | `Optional` `Text`
+  |                             | The additional obligations as specified in the ISDA
+  |                             | 2016 Credit Support Annex for Initial Margin,
+  |                             | paragraph 13, General Principles, (b)(ii).
+  | `baseCurrency`              | `FieldWithMeta` `Text`
+  |                             | The base currency as specified by the ISDA 2016 CSA
+  |                             | for Initial Margin, Paragraph 13 (a). The list of
+  |                             | valid currencies is not presently positioned as an
+  |                             | enumeration as part of the CDM because that scope is
+  |                             | limited to the values specified by ISDA and FpML. As
+  |                             | a result, implementers have to make reference to the
+  |                             | relevant standard, such as the ISO 4217 standard for
+  |                             | currency codes.
+  | `calculationDateLocation`   | `CalculationDateLocation`
+  |                             | The specified location where the credit exposure will
+  |                             | be calculated by the respective parties.
+  | `conditionPrecedent`        | `Optional` `Text`
+  |                             | When specified, this attribute overwrites the default
+  |                             | Condition Precedent provision as specified in ISDA
+  |                             | 2016 Credit Support Annex for Initial Margin,
+  |                             | paragraph 4, (a).
+  | `method`                    | `Method`
+  |                             | The specification of the ISDA SIMM Method as
+  |                             | specified by ISDA CSA for Initial Margin, Paragraph
+  |                             | 13, General Principles (ee).
+  | `minimumTransferAmount`     | `MinimumTransferAmount`
+  |                             | The amount above which collateral has to be
+  |                             | posted/returned.
+  | `notificationTime`          | `NotificationTime`
+  |                             | The time by which a demand for the Transfer of
+  |                             | Eligible Credit Support (IM) or Posted Credit Support
+  |                             | (IM) needs to be made in order for the transfer to
+  |                             | take place in accordance with the Transfer Timing
+  |                             | provisions. ISDA 2016 Credit Support Annex for
+  |                             | Initial Margin, paragraph 13, General Principles,
+  |                             | (d)(iii).
+  | `oneWayProvisions`          | `OneWayProvisions`
+  |                             | The determination of whether the One Way Provisions
+  |                             | are applicable (true) or not applicable (false) as
+  |                             | specified by ISDA 2016 CSA for Initial Margin,
+  |                             | Paragraph 13 (aa).
+  | `otherEligibleSupport`      | `Optional` `Text`
+  |                             | The items that qualify as Other Eligible Support in
+  |                             | accordance with the ISDA 2016 Credit Support Annex
+  |                             | for Initial Margin, paragraph 13, General Principles,
+  |                             | (c)(iv). ISDA 2016 Credit Support Annex for Initial
+  |                             | Margin, paragraph 13, General Principles, (vi)(C):
+  |                             | Rounding.
+  | `pledgorPostingObligations` | `PledgorPostingObligations`
+  |                             | The pledgor&#39;s posting obligations as specified in
+  |                             | the ISDA 2016 Credit Support Annex for Initial
+  |                             | Margin, paragraph 13, General Principles, (ii).
+  | `regime`                    | `Regime`
+  |                             | The Regime Table provision as specified by the ISDA
+  |                             | 2016 CSA for Initial Margin, Paragraph 13 General
+  |                             | Principles, which determines the regulatory regime(s)
+  |                             | applicable to each of the parties to the CSA in their
+  |                             | capacity as Secured Party, with one set of values per
+  |                             | counterparty. As specified in the CSA, the
+  |                             | applicability of a regime shall not be construed as a
+  |                             | representation, admission or acknowledgement that
+  |                             | either party is actually regulated under such regime.
+  | `rounding`                  | `CollateralRounding`
+  |                             | The rounding methodology applicable to the Delivery
+  |                             | Amount and the Return Amount in terms of nearest
+  |                             | integral multiple of Base Currency units. ISDA 2016
+  |                             | Credit Support Annex for Initial Margin, paragraph
+  |                             | 13, General Principles, (c)(vi)(C): Rounding
+  | `sensitivityToCommodity`    | `SensitivityMethodology`
+  |                             | The methodology the compute sensitivities to
+  |                             | commodity indices for the purpose of the ISDA 2016
+  |                             | and 2018 CSA for Initial Margin. ISDA 2016 Credit
+  |                             | Support Annex for Initial Margin, paragraph 13,
+  |                             | General Principles (gg)(2)(B).
+  | `sensitivityToEquity`       | `SensitivityMethodology`
+  |                             | The methodology the compute sensitivities to equity
+  |                             | indices, funds and ETFs for the purpose of the ISDA
+  |                             | 2016 and 2018 CSA for Initial Margin. ISDA 2016
+  |                             | Credit Support Annex for Initial Margin, paragraph
+  |                             | 13, General Principles (gg)(2)(A).
+  | `threshold`                 | `Threshold`
+  |                             | The unsecured credit exposure that the parties are
+  |                             | prepared to accept before asking for collateral.
+  | `transferTiming`            | `Optional` `Text`
+  |                             | The time by which the transfer of collateral must
+  |                             | take place when different from the Regular Settlement
+  |                             | Day as a result of parties&#39; election. ISDA 2016
+  |                             | Credit Support Annex for Initial Margin, paragraph
+  |                             | 13, General Principles, (c)(vii): Transfer Timing.
 
-### `data` `CsaInitialMargin2018NewYorkLaw`
+### `data` `CsaInitialMargin2016NewYorkLaw`
 
   A class to specify the provisions that are specific
-  to the New York Law version of the ISDA 2018 Credit
+  to the New York Law version of the ISDA 2016 Credit
   Support Annex for Initial Margin.
-* `CsaInitialMargin2018NewYorkLaw`
+* `CsaInitialMargin2016NewYorkLaw`
 
-  | Field                             | Type/Description |
-  | :-------------------------------- | :----------------
-  | `alternativeCommoditySensitivity` | `Optional` `Text`
-  |                                   | The alternative sensitivities to commodity products
-  |                                   | as determined by the ISDA 2018 CSA for Initial
-  |                                   | Margin, Paragraph 13, General Principles (gg) (2)
-  |                                   | (B). If specified, defines the alternative
-  |                                   | sensitivity calculation, with the delta being then
-  |                                   | allocated back to individual commodities in commodity
-  |                                   | indices.
-  | `alternativeEquitySensitivity`    | `Optional` `Text`
-  |                                   | The alternative sensitivities to equity products as
-  |                                   | determined by the ISDA 2018 CSA for Initial Margin,
-  |                                   | Paragraph 13, General Principles (gg) (2) (A). If
-  |                                   | specified, defines the alternative sensitivity
-  |                                   | calculation, with the delta being then allocated back
-  |                                   | to individual equities in equity indices, funds and
-  |                                   | ETFs.
-  | `baseCurrency`                    | `Text`
-  |                                   | The base currency as specified by the ISDA 2018 CSA
-  |                                   | for Initial Margin, Paragraph 13 (a). The list of
-  |                                   | valid currencies is not presently positioned as an
-  |                                   | enumeration as part of the CDM because that scope is
-  |                                   | limited to the values specified by ISDA and FpML. As
-  |                                   | a result, implementers have to make reference to the
-  |                                   | relevant standard, such as the ISO 4217 standard for
-  |                                   | currency codes.
-  | `calculationAgent`                | `InitialMarginCalculationAgent`
-  |                                   | The initial margin designated calculation agent, as
-  |                                   | specified by the ISDA 2018 CSA for Initial Margin,
-  |                                   | Paragraph 13 (c) (ii).
-  | `custodyArrangement`              | `[` `CustodyArrangement` `]`
-  |                                   | The custodian in respect to each party as the
-  |                                   | Pledgor/Chargor, as specified by the ISDA 2018 CSA
-  |                                   | for Initial Margin, Paragraph 13 (m). This attribute
-  |                                   | is optional as the parties may not specify such
-  |                                   | custodians as part of the CSA.
-  | `eligibleCollateral`              | `[` `IndependentAmountEligibleCollateral` `]`
-  |                                   | The eligible collateral as specified in relation to
-  |                                   | each pledgor/chargor's obligation as determined by
-  |                                   | the ISDA 2018 CSA for Initial Margin, Paragraph 13,
-  |                                   | General Principles (ii) and the associated Eligible
-  |                                   | Collateral (IM) Schedule.
-  | `marginApproach`                  | `MarginApproachEnum`
-  |                                   | The Margin Approach applicable to the CSA, as
-  |                                   | specified by the ISDA 2018 CSA for Initial Margin,
-  |                                   | Paragraph 13 (c) (i).
-  | `method`                          | `Method`
-  |                                   | The specification of the ISDA SIMM Method as
-  |                                   | specified by ISDA 2018 CSA for Initial Margin,
-  |                                   | Paragraph 13, General Principles (ee).
-  | `oneWayProvisions`                | `OneWayProvisions`
-  |                                   | The determination of whether the One Way Provisions
-  |                                   | are applicable (true) or not applicable (false) as
-  |                                   | specified by ISDA 2018 CSA for Initial Margin,
-  |                                   | Paragraph 13 (aa).
-  | `regime`                          | `[` `Regime` `]`
-  |                                   | The Regime Table provision as specified by the ISDA
-  |                                   | 2018 CSA for Initial Margin, Paragraph 13 Regime
-  |                                   | Table provision, which determines the regulatory
-  |                                   | regime(s) applicable to each of the parties to the
-  |                                   | CSA in their capacity as Secured Party, with one set
-  |                                   | of values per counterparty. As specified in the CSA,
-  |                                   | the applicability of a regime shall not be construed
-  |                                   | as a representation, admission or acknowledgement
-  |                                   | that either party is actually regulated under such
-  |                                   | regime.
-  | `substitutedRegime`               | `[` `SubstitutedRegime` `]`
-  |                                   | The set of substituted regulatory regimes that can be
-  |                                   | specified for a party in accordance to ISDA 2018 CSA
-  |                                   | for Initial Margin, Paragraph 13, General Principles
-  |                                   | (ll). Notwithstanding that a regulatory regime is
-  |                                   | specified as not applicable in the Regime clauses and
-  |                                   | that no initial margin amounts will be calculated for
-  |                                   | such regime under this agreement, the parties agree
-  |                                   | that, with respect to a party, Regime for the
-  |                                   | purposes of the definition of Regulatory Event and
-  |                                   | the proviso in the definition of ISDA SIMM will
-  |                                   | include such Regime if it is specified as a
-  |                                   | Substituted Regime for that party as part of this
-  |                                   | provision.
+  | Field                       | Type/Description |
+  | :-------------------------- | :----------------
+  | `additionalObligations`     | `Optional` `Text`
+  |                             | The additional obligations as specified in the ISDA
+  |                             | 2016 Credit Support Annex for Initial Margin,
+  |                             | paragraph 13, General Principles, (b)(ii).
+  | `baseCurrency`              | `FieldWithMeta` `Text`
+  |                             | The base currency as specified by the ISDA 2016 CSA
+  |                             | for Initial Margin, Paragraph 13 (a). The list of
+  |                             | valid currencies is not presently positioned as an
+  |                             | enumeration as part of the CDM because that scope is
+  |                             | limited to the values specified by ISDA and FpML. As
+  |                             | a result, implementers have to make reference to the
+  |                             | relevant standard, such as the ISO 4217 standard for
+  |                             | currency codes.
+  | `calculationDateLocation`   | `CalculationDateLocation`
+  |                             | The specified location where the credit exposure will
+  |                             | be calculated by the respective parties.
+  | `conditionPrecedent`        | `Optional` `Text`
+  |                             | When specified, this attribute overwrites the default
+  |                             | Condition Precedent provision as specified in ISDA
+  |                             | 2016 Credit Support Annex for Initial Margin,
+  |                             | paragraph 4, (a).
+  | `method`                    | `Method`
+  |                             | The specification of the ISDA SIMM Method as
+  |                             | specified by ISDA CSA for Initial Margin, Paragraph
+  |                             | 13, General Principles (ee).
+  | `minimumTransferAmount`     | `MinimumTransferAmount`
+  |                             | The amount above which collateral has to be
+  |                             | posted/returned.
+  | `notificationTime`          | `NotificationTime`
+  |                             | The time by which a demand for the Transfer of
+  |                             | Eligible Credit Support (IM) or Posted Credit Support
+  |                             | (IM) needs to be made in order for the transfer to
+  |                             | take place in accordance with the Transfer Timing
+  |                             | provisions. ISDA 2016 Credit Support Annex for
+  |                             | Initial Margin, paragraph 13, General Principles,
+  |                             | (d)(iii).
+  | `oneWayProvisions`          | `OneWayProvisions`
+  |                             | The determination of whether the One Way Provisions
+  |                             | are applicable (true) or not applicable (false) as
+  |                             | specified by ISDA 2016 CSA for Initial Margin,
+  |                             | Paragraph 13 (aa).
+  | `otherEligibleSupport`      | `Optional` `Text`
+  |                             | The items that qualify as Other Eligible Support in
+  |                             | accordance with the ISDA 2016 Credit Support Annex
+  |                             | for Initial Margin, paragraph 13, General Principles,
+  |                             | (c)(iv). ISDA 2016 Credit Support Annex for Initial
+  |                             | Margin, paragraph 13, General Principles, (vi)(C):
+  |                             | Rounding.
+  | `pledgorPostingObligations` | `PledgorPostingObligations`
+  |                             | The pledgor&#39;s posting obligations as specified in
+  |                             | the ISDA 2016 Credit Support Annex for Initial
+  |                             | Margin, paragraph 13, General Principles, (ii).
+  | `regime`                    | `Regime`
+  |                             | The Regime Table provision as specified by the ISDA
+  |                             | 2016 CSA for Initial Margin, Paragraph 13 General
+  |                             | Principles, which determines the regulatory regime(s)
+  |                             | applicable to each of the parties to the CSA in their
+  |                             | capacity as Secured Party, with one set of values per
+  |                             | counterparty. As specified in the CSA, the
+  |                             | applicability of a regime shall not be construed as a
+  |                             | representation, admission or acknowledgement that
+  |                             | either party is actually regulated under such regime.
+  | `rounding`                  | `CollateralRounding`
+  |                             | The rounding methodology applicable to the Delivery
+  |                             | Amount and the Return Amount in terms of nearest
+  |                             | integral multiple of Base Currency units. ISDA 2016
+  |                             | Credit Support Annex for Initial Margin, paragraph
+  |                             | 13, General Principles, (c)(vi)(C): Rounding
+  | `sensitivityToCommodity`    | `SensitivityMethodology`
+  |                             | The methodology the compute sensitivities to
+  |                             | commodity indices for the purpose of the ISDA 2016
+  |                             | and 2018 CSA for Initial Margin. ISDA 2016 Credit
+  |                             | Support Annex for Initial Margin, paragraph 13,
+  |                             | General Principles (gg)(2)(B).
+  | `sensitivityToEquity`       | `SensitivityMethodology`
+  |                             | The methodology the compute sensitivities to equity
+  |                             | indices, funds and ETFs for the purpose of the ISDA
+  |                             | 2016 and 2018 CSA for Initial Margin. ISDA 2016
+  |                             | Credit Support Annex for Initial Margin, paragraph
+  |                             | 13, General Principles (gg)(2)(A).
+  | `threshold`                 | `Threshold`
+  |                             | The unsecured credit exposure that the parties are
+  |                             | prepared to accept before asking for collateral.
+  | `transferTiming`            | `Optional` `Text`
+  |                             | The time by which the transfer of collateral must
+  |                             | take place when different from the Regular Settlement
+  |                             | Day as a result of parties&#39; election. ISDA 2016
+  |                             | Credit Support Annex for Initial Margin, paragraph
+  |                             | 13, General Principles, (c)(vii): Transfer Timing.
+
+### `data` `CurrencyValueDates`
+
+  Currency settlement dates for each currency of a
+  Foreign Exchange product.
+* `CurrencyValueDates`
+
+  | Field                | Type/Description |
+  | :------------------- | :----------------
+  | `currency1ValueDate` | `Date`
+  |                      | The date on which the currency1 amount will be
+  |                      | settled. To be used in a split value date scenario.
+  | `currency2ValueDate` | `Date`
+  |                      | The date on which the currency2 amount will be
+  |                      | settled. To be used in a split value date scenario.
 
 ### `data` `Curve`
 
@@ -2717,37 +2833,8 @@
 
   | Field               | Type/Description |
   | :------------------ | :----------------
-  | `commodityCurve`    | `Optional` `CommodityReferencePriceEnum`
+  | `commodityCurve`    | `Optional` `(` `FieldWithMeta` `CommodityReferencePriceEnum` `)`
   | `interestRateCurve` | `Optional` `InterestRateCurve`
-
-### `data` `CustodianDesignation`
-
-  A class to specify the custodian agent as a reference
-  to two parties: the party that designates a custody
-  agent, and that custody agent.
-* `CustodianDesignation`
-
-  | Field                | Type/Description |
-  | :------------------- | :----------------
-  | `custodianReference` | `Text`
-  |                      | A reference to the party that is designated as the
-  |                      | custody agent.
-  | `partyReference`     | `Text`
-  |                      | A reference to the party to which the custodian
-  |                      | specification applies.
-
-### `data` `CustodyArrangement`
-
-  A class to specify the Custody Arrangement as a
-  reference to two parties: the party that designates a
-  custody agent, and that custody agent.
-* `CustodyArrangement`
-
-  | Field       | Type/Description |
-  | :---------- | :----------------
-  | `custodian` | `CustodianDesignation`
-  |             | The Custodian (IM) as specified by ISDA 2018 CSA for
-  |             | Initial Margin, Paragraph 13 (m).
 
 ### `data` `CustomisedWorkflow`
 
@@ -2797,7 +2884,7 @@
 
   | Field                             | Type/Description |
   | :-------------------------------- | :----------------
-  | `calculationPeriodDatesReference` | `[` `Text` `]`
+  | `calculationPeriodDatesReference` | `[` `ReferenceWithMeta` `CalculationPeriodDates` `]`
   |                                   | A set of href pointers to calculation period dates
   |                                   | defined somewhere else in the document.
 
@@ -2810,7 +2897,7 @@
 
   | Field                   | Type/Description |
   | :---------------------- | :----------------
-  | `paymentDatesReference` | `[` `Text` `]`
+  | `paymentDatesReference` | `[` `ReferenceWithMeta` `PaymentDates` `]`
   |                         | A set of href pointers to payment dates defined
   |                         | somewhere else in the document.
 
@@ -2821,7 +2908,7 @@
 
   | Field      | Type/Description |
   | :--------- | :----------------
-  | `dateTime` | `[` `Time` `]`
+  | `dateTime` | `[` `ZonedDateTime` `]`
   |            | The CDM specifies that the zoned date time is to be
   |            | expressed in accordance with ISO 8601, either as UTC
   |            | as an offset to UTC.
@@ -3018,7 +3105,7 @@
   |                                | A discount rate, expressed as a decimal, to be used
   |                                | in the calculation of a discounted amount. A discount
   |                                | amount of 5% would be represented as 0.05.
-  | `discountRateDayCountFraction` | `Optional` `DayCountFractionEnum`
+  | `discountRateDayCountFraction` | `Optional` `(` `FieldWithMeta` `DayCountFractionEnum` `)`
   |                                | A discount day count fraction to be used in the
   |                                | calculation of a discounted amount.
   | `discountingType`              | `DiscountingTypeEnum`
@@ -3034,7 +3121,7 @@
 
   | Field                 | Type/Description |
   | :-------------------- | :----------------
-  | `currency`            | `Optional` `Text`
+  | `currency`            | `Optional` `(` `FieldWithMeta` `Text` `)`
   |                       | The currency in which the dividend is denominated.
   |                       | The list of valid currencies is not presently
   |                       | positioned as an enumeration as part of the CDM
@@ -3042,7 +3129,7 @@
   |                       | by ISDA and FpML. As a result, implementers have to
   |                       | make reference to the relevant standard, such as the
   |                       | ISO 4217 standard for currency codes.
-  | `currencyReference`   | `Optional` `Text`
+  | `currencyReference`   | `Optional` `(` `BasicReferenceWithMeta` `Text` `)`
   |                       | Reference to a currency specified elsewhere in the
   |                       | document
   | `determinationMethod` | `Optional` `DeterminationMethodEnum`
@@ -3053,7 +3140,7 @@
 
   A class to specify the dividend date by reference to
   another date, with the ability to apply and offset.
-  This class doesn't exist in FpML and is meant to
+  This class doesn&#39;t exist in FpML and is meant to
   simplify the choice constraint associated with the
   DividendPaymentDate class.
 * `DividendDateReference`
@@ -3147,11 +3234,11 @@
   |                               | 2002 ISDA Equity Derivatives Definitions: Dividend
   |                               | Period as either the First Period or the Second
   |                               | Period. |
-  | `dividendPeriodEffectiveDate` | `Optional` `Text`
+  | `dividendPeriodEffectiveDate` | `Optional` `(` `BasicReferenceWithMeta` `Date` `)`
   |                               | 2002 ISDA Equity Derivatives Definitions: Dividend
   |                               | Period as such other period determined as provided in
   |                               | the related Confirmation. |
-  | `dividendPeriodEndDate`       | `Optional` `Text`
+  | `dividendPeriodEndDate`       | `Optional` `(` `BasicReferenceWithMeta` `Date` `)`
   |                               | 002 ISDA Equity Derivatives Definitions: Dividend
   |                               | Period as such other period determined as provided in
   |                               | the related Confirmation. |
@@ -3160,32 +3247,9 @@
   |                               | will be reinvested or not.
   | `excessDividendAmount`        | `Optional` `DividendAmountTypeEnum`
   |                               | Determination of Gross Cash Dividend per Share.
-  | `extraordinaryDividendsParty` | `Optional` `Text`
+  | `extraordinaryDividendsParty` | `Optional` `(` `ReferenceWithMeta` `Party` `)`
   |                               | Reference to the party which determines if dividends
   |                               | are extraordinary in relation to normal levels.
-
-### `data` `DocumentIdentity`
-
-* `DocumentIdentity`
-
-  | Field               | Type/Description |
-  | :------------------ | :----------------
-  | `agreementDate`     | `Date`
-  |                     | The date on which the legal document has been agreed
-  |                     | between the parties.
-  | `documentAmendment` | `[` `LegalDocumentAmendment` `]`
-  |                     | A class to specify a document identity, which
-  |                     | combines the legal document identity and a possible
-  |                     | set of amendments.
-  | `documentType`      | `LegalDocumentType`
-  |                     | The recognisable attributes of the particular legal
-  |                     | document.
-  | `id`                | `Optional` `Text`
-  | `identifier`        | `[` `Identifier` `]`
-  |                     | The legal document identifier. Several identifiers
-  |                     | can be specified.
-  | `partyReference`    | `[` `Text` `]`
-  |                     | The parties to the legal document.
 
 ### `data` `Documentation`
 
@@ -3203,7 +3267,7 @@
   |                              | transaction, for example a confirmation.
   | `brokerConfirmation`         | `Optional` `BrokerConfirmation`
   |                              | Specifies the details for a broker confirm.
-  | `contractualDefinitions`     | `[` `ContractualDefinitionsEnum` `]`
+  | `contractualDefinitions`     | `[` `FieldWithMeta` `ContractualDefinitionsEnum` `]`
   |                              | The definitions such as those published by ISDA that
   |                              | will define the terms of the trade.
   | `contractualMatrix`          | `[` `ContractualMatrix` `]`
@@ -3297,11 +3361,11 @@
   implications. A rosettaKeyValue is associated to the
   contractual product economic terms for the purpose of
   supporting hash-based reconciliations thanks to the
-  fact that its computation doesn't include meta data,
-  such as identifiers, references, schemes and other
-  rosettaKey artefacts. The rosettaKeyValue default
-  implementation is available as part of the generated
-  code as
+  fact that its computation doesn&#39;t include meta
+  data, such as identifiers, references, schemes and
+  other rosettaKey artefacts. The rosettaKeyValue
+  default implementation is available as part of the
+  generated code as
   org.isda.cdm.rosettakey.RosettaKeyValueHashFunction.
 * `EconomicTerms`
 
@@ -3328,8 +3392,16 @@
   |                             | The payout specifies the future cashflow computation
   |                             | methodology which characterizes a financial product.
   | `quantity`                  | `[` `ContractualQuantity` `]`
+  |                             | The specification of the notional amount that is the
+  |                             | base for the payout calculation, through the
+  |                             | ContractualQuantity class which provides a generic
+  |                             | approach that is applicable across all asset classes.
+  |                             | The quantity attribute applies to products relating
+  |                             | to securities or tangible assets (such as equities or
+  |                             | commodities), while the notional amount applies to
+  |                             | products pertaining to interest rate, FX or credit
+  |                             | products.
   | `rosettaKeyValue`           | `Text`
-  |                             | field added by metagen
 
 ### `data` `EligibleCollateral`
 
@@ -3440,7 +3512,6 @@
   |                          | Specifies the type of return associated with the
   |                          | equity payout.
   | `rosettaKey`             | `Text`
-  |                          | field added by metagen
   | `settlementTerms`        | `SettlementTerms`
   |                          | 2018 ISDA CDM Equity Confirmation for Security Equity
   |                          | Swap: Settlement |
@@ -3491,8 +3562,8 @@
   | :----------------------- | :----------------
   | `earliestExerciseTime`   | `BusinessCenterTime`
   |                          | The earliest time at which notice of exercise can be
-  |                          | given by the buyer to the seller (or seller's agent)
-  |                          | on the expiration date.
+  |                          | given by the buyer to the seller (or seller&#39;s
+  |                          | agent) on the expiration date.
   | `exerciseFee`            | `Optional` `ExerciseFee`
   |                          | A fee to be paid on exercise. This could be
   |                          | represented as an amount or a rate and notional
@@ -3550,7 +3621,7 @@
   |                      | The set of effects associated with the lifecycle
   |                      | event, i.e. generated cashflows, contracts (from,
   |                      | say, novation events), listed products (from, say, a
-  |                      | bond option exercise event) values and more. Those
+  |                      | bond option exercise event)  values and more. Those
   |                      | are represented through a set of rosettaKey
   |                      | references. This attribute is optional in order to
   |                      | provide implementers with the ability not to make use
@@ -3614,12 +3685,13 @@
   |                      | attribute is optional, as not applicable to certain
   |                      | events (e.g. most of the observations).
   | `primitive`          | `PrimitiveEvent`
-  |                      | The primitive (or set of primitives) associated with
-  |                      | the event, such as quantityChange, transfer, ...
-  |                      | Those primitives are specified through the
-  |                      | PrimitiveEvent class.
+  |                      | The elemental component(s) that specify the lifecycle
+  |                      | events. Each of the primitive/elemental components
+  |                      | listed as part of the PrimitiveEvent class has
+  |                      | distinctive features that allow to specify the
+  |                      | lifecycle event, either by itself or in combination
+  |                      | with some other of such components.
   | `rosettaKey`         | `Text`
-  |                      | field added by metagen
   | `timestamp`          | `[` `EventTimestamp` `]`
   |                      | The set of timestamp(s) associated with the event as
   |                      | a collection of [dateTime, qualifier].
@@ -3677,7 +3749,7 @@
 
   | Field           | Type/Description |
   | :-------------- | :----------------
-  | `dateTime`      | `Time`
+  | `dateTime`      | `ZonedDateTime`
   |                 | The CDM specifies that the zoned date time is to be
   |                 | expressed in accordance with ISO 8601, either as UTC
   |                 | as an offset to UTC.
@@ -3698,12 +3770,58 @@
   | `partyCustomisedWorkflow` | `[` `PartyCustomisedWorkflow` `]`
   |                           | Workflow data that is specific to certain market
   |                           | participants and is expressed as part of the CDM in a
-  |                           | very generic manner, which can be part-specific. The
+  |                           | very generic manner, which can be party-specific. The
   |                           | initial use cases have been derived from the CME
   |                           | clearing and the DTCC TIW submissions.
   | `workflowStatus`          | `Optional` `WorkflowStatusEnum`
   |                           | The workflow status indicator, e.g. Accepted,
   |                           | Rejected, ...
+
+### `data` `ExchangeRate`
+
+  A type that is used for describing the exchange rate
+  for a particular transaction.
+* `ExchangeRate`
+
+  | Field                | Type/Description |
+  | :------------------- | :----------------
+  | `crossRate`          | `[` `CrossRate` `]`
+  |                      | An optional element that allow for definition of the
+  |                      | currency exchange rates used to cross between the
+  |                      | traded currencies for non-base currency FX contracts.
+  | `forwardPoints`      | `Optional` `Decimal`
+  |                      | An optional element used for deals consummated in the
+  |                      | FX Forwards market. Forward points represent the
+  |                      | interest rate differential between the two currencies
+  |                      | traded and are quoted as a premium or a discount.
+  |                      | Forward points are added to, or subtracted from, the
+  |                      | spot rate to create the rate of the forward trade.
+  | `pointValue`         | `Optional` `Decimal`
+  |                      | An optional element that documents the size of point
+  |                      | (pip) in which a rate was quoted (or in this case,
+  |                      | forwardPoints are calculated). Point (pip) size
+  |                      | varies by currency pair: major currencies are all
+  |                      | traded in points of 0.0001, with the exception of JPY
+  |                      | which has a point size of 0.01. The FpML PointValue
+  |                      | type is constrained such that the factor can only be
+  |                      | values of 10^n, where n &lt;= 0, this constraint is
+  |                      | not enforced here and is left to the implementor.
+  | `quotedCurrencyPair` | `QuotedCurrencyPair`
+  |                      | Defines the two currencies for an FX trade and the
+  |                      | quotation relationship between the two currencies.
+  | `rate`               | `Decimal`
+  |                      | The rate of exchange between the two currencies of
+  |                      | the leg of a deal. Must be specified with a quote
+  |                      | basis.
+  | `spotRate`           | `Optional` `Decimal`
+  |                      | An element used for FX forwards and certain types of
+  |                      | FX OTC options. For deals consummated in the FX
+  |                      | Forwards Market, this represents the current market
+  |                      | rate for a particular currency pair. For barrier and
+  |                      | digital/binary options, it can be useful to include
+  |                      | the spot rate at the time the option was executed to
+  |                      | make it easier to know whether the option needs to
+  |                      | move &#39;up&#39; or &#39;down&#39; to be triggered.
 
 ### `data` `ExchangeTradedFund`
 
@@ -3759,8 +3877,7 @@
   |                      | the execution, further to the principal parties (i.e
   |                      | payer/receive or buyer/seller) to it.
   | `rosettaKey`         | `Text`
-  |                      | field added by metagen
-  | `tradeDate`          | `Date`
+  | `tradeDate`          | `FieldWithMeta` `Date`
   |                      | The trade/execution date.
 
 ### `data` `ExecutionState`
@@ -3815,26 +3932,26 @@
 
   | Field                    | Type/Description |
   | :----------------------- | :----------------
-  | `buyerAccountReference`  | `Optional` `Text`
+  | `buyerAccountReference`  | `Optional` `(` `ReferenceWithMeta` `Account` `)`
   |                          | A reference to the account that buys this instrument.
-  | `buyerPartyReference`    | `Text`
+  | `buyerPartyReference`    | `ReferenceWithMeta` `Party`
   |                          | A reference to the party that buys this instrument,
   |                          | i.e. pays for this instrument and receives the rights
   |                          | defined by it. ISDA 2002 Equity Definitions section
   |                          | 1.18: `Buyer` means the party specified as such in
   |                          | the related Confirmation. | ISDA 2006 Definitions
-  |                          | article 12.1 (b)(i) relating to a Swaption: 'Buyer'
-  |                          | means the party that will, on each Premium Payment
-  |                          | Date, pay to Seller the Premium | ISDA 2006
-  |                          | Definitions article 12.1 (b)(ii) relating to Swap
-  |                          | Transactions with applicable Early Termination: the
-  |                          | party specified as such in the related Confirmation,
-  |                          | or the Exercising Party if neither party is specified
-  |                          | | ISDA 2006 Definitions article 12.1 (b)(iii)
-  |                          | relating to any other Option Transaction: the party
-  |                          | specified as such in the related Confirmation. | ISDA
-  |                          | 2014 Credit Definition article 1.4: `Buyer` means the
-  |                          | Fixed Rate Payer.
+  |                          | article 12.1 (b)(i) relating to a Swaption:
+  |                          | &#39;Buyer&#39; means the party that will, on each
+  |                          | Premium Payment Date, pay to Seller the Premium |
+  |                          | ISDA 2006 Definitions article 12.1 (b)(ii) relating
+  |                          | to Swap Transactions with applicable Early
+  |                          | Termination: the party specified as such in the
+  |                          | related Confirmation, or the Exercising Party if
+  |                          | neither party is specified | ISDA 2006 Definitions
+  |                          | article 12.1 (b)(iii) relating to any other Option
+  |                          | Transaction: the party specified as such in the
+  |                          | related Confirmation. | ISDA 2014 Credit Definition
+  |                          | article 1.4: `Buyer` means the Fixed Rate Payer.
   | `feeAmount`              | `Optional` `Decimal`
   |                          | The amount of fee to be paid on exercise. The fee
   |                          | currency is that of the referenced notional.
@@ -3845,32 +3962,32 @@
   |                          | A fee represented as a percentage of some referenced
   |                          | notional. A percentage of 5% would be represented as
   |                          | 0.05.
-  | `notionalReference`      | `Text`
+  | `notionalReference`      | `ReferenceWithMeta` `Money`
   |                          | A pointer style reference to the associated notional
   |                          | schedule defined elsewhere in the document.
-  | `sellerAccountReference` | `Optional` `Text`
+  | `sellerAccountReference` | `Optional` `(` `ReferenceWithMeta` `Account` `)`
   |                          | A reference to the account that sells this
   |                          | instrument.
-  | `sellerPartyReference`   | `Text`
-  |                          | A reference to the party that sells ('writes') this
-  |                          | instrument, i.e. that grants the rights defined by
-  |                          | this instrument and in return receives a payment for
-  |                          | it. ISDA 2002 Equity Definitions section 1.19:
-  |                          | `Seller` means the party specified as such in the
-  |                          | related Confirmation. | ISDA 2006 Definitions article
-  |                          | 12.1 (a)(i) relating to a Swaption: 'Seller' means
-  |                          | the party the party specified as such or as writer in
-  |                          | the related Confirmation | ISDA 2006 Definitions
-  |                          | article 12.1 (a)(ii) relating to Swap Transactions
-  |                          | with applicable Early Termination: the party
+  | `sellerPartyReference`   | `ReferenceWithMeta` `Party`
+  |                          | A reference to the party that sells
+  |                          | (&#39;writes&#39;) this instrument, i.e. that grants
+  |                          | the rights defined by this instrument and in return
+  |                          | receives a payment for it. ISDA 2002 Equity
+  |                          | Definitions section 1.19: `Seller` means the party
+  |                          | specified as such in the related Confirmation. | ISDA
+  |                          | 2006 Definitions article 12.1 (a)(i) relating to a
+  |                          | Swaption: &#39;Seller&#39; means the party the party
   |                          | specified as such or as writer in the related
-  |                          | Confirmation or, if neither party is specified as
-  |                          | such, the Non-exercising Party | ISDA 2006
-  |                          | Definitions article 12.1 (a)(iii) relating to any
-  |                          | other Option Transaction: the party specified as such
-  |                          | in the related Confirmation. | ISDA 2014 Credit
-  |                          | Definition article 1.4: `Seller` means the Floating
-  |                          | Rate Payer.
+  |                          | Confirmation | ISDA 2006 Definitions article 12.1
+  |                          | (a)(ii) relating to Swap Transactions with applicable
+  |                          | Early Termination: the party specified as such or as
+  |                          | writer in the related Confirmation or, if neither
+  |                          | party is specified as such, the Non-exercising Party
+  |                          | | ISDA 2006 Definitions article 12.1 (a)(iii)
+  |                          | relating to any other Option Transaction: the party
+  |                          | specified as such in the related Confirmation. | ISDA
+  |                          | 2014 Credit Definition article 1.4: `Seller` means
+  |                          | the Floating Rate Payer.
 
 ### `data` `ExerciseFeeSchedule`
 
@@ -3896,19 +4013,19 @@
   |                            | expressed as percentage rates of the notional being
   |                            | exercised. The currency of the fee is assumed to be
   |                            | that of the notional schedule referenced.
-  | `notionalReference`        | `Text`
+  | `notionalReference`        | `ReferenceWithMeta` `Money`
   |                            | A pointer style reference to the associated notional
   |                            | schedule defined elsewhere in the document.
-  | `payerAccountReference`    | `Optional` `Text`
+  | `payerAccountReference`    | `Optional` `(` `ReferenceWithMeta` `Account` `)`
   |                            | A reference to the account responsible for making the
   |                            | payments defined by this structure.
-  | `payerPartyReference`      | `Text`
+  | `payerPartyReference`      | `ReferenceWithMeta` `Party`
   |                            | A reference to the party responsible for making the
   |                            | payments defined by this structure.
-  | `receiverAccountReference` | `Optional` `Text`
+  | `receiverAccountReference` | `Optional` `(` `ReferenceWithMeta` `Account` `)`
   |                            | A reference to the account that receives the payments
   |                            | corresponding to this structure.
-  | `receiverPartyReference`   | `Text`
+  | `receiverPartyReference`   | `ReferenceWithMeta` `Party`
   |                            | A reference to the party that receives the payments
   |                            | corresponding to this structure.
 
@@ -3924,22 +4041,22 @@
 
   | Field                          | Type/Description |
   | :----------------------------- | :----------------
-  | `businessCenter`               | `BusinessCenterEnum`
+  | `businessCenter`               | `FieldWithMeta` `BusinessCenterEnum`
   |                                | The business center.
-  | `exerciseNoticePartyReference` | `Optional` `Text`
+  | `exerciseNoticePartyReference` | `Optional` `(` `ReferenceWithMeta` `Party` `)`
   |                                | The party referenced is the party to which notice of
   |                                | exercise should be given by the buyer.
-  | `partyReference`               | `Text`
+  | `partyReference`               | `ReferenceWithMeta` `Party`
   |                                | The party referenced has allocated the trade
   |                                | identifier.
 
 ### `data` `ExerciseOutcome`
 
   The exercise outcome combines the option contract
-  (which states would be 'Exercised' in case of a full
-  exercise and which would have a reduced notional in
-  case of partial exercise) and either a physical or
-  partial exercise.
+  (which states would be &#39;Exercised&#39; in case of
+  a full exercise and which would have a reduced
+  notional in case of partial exercise) and either a
+  physical or partial exercise.
 * `ExerciseOutcome`
 
   | Field              | Type/Description |
@@ -4008,7 +4125,7 @@
   |                         | A flag to indicate whether follow-up confirmation of
   |                         | exercise (written or electronic) is required
   |                         | following telephonic notice by the buyer to the
-  |                         | seller or seller's agent.
+  |                         | seller or seller&#39;s agent.
   | `limitedRightToConfirm` | `Optional` `Bool`
   |                         | Has the meaning defined as part of the 1997 ISDA
   |                         | Government Bond Option Definitions, section 4.5
@@ -4019,7 +4136,7 @@
   |                         | in relation to the settlement mode.
   | `manualExercise`        | `Optional` `ManualExercise`
   |                         | Specifies that the notice of exercise must be given
-  |                         | by the buyer to the seller or seller's agent.
+  |                         | by the buyer to the seller or seller&#39;s agent.
   | `splitTicket`           | `Optional` `Bool`
   |                         | Typically applicable to the physical settlement of
   |                         | bond and convertible bond options. If present, means
@@ -4044,26 +4161,26 @@
   | `bermudaExercise`                  | `Optional` `BermudaExercise`
   |                                    | Bermuda exercise. FpML implementations consists in an
   |                                    | exercise substitution group.
-  | `buyerAccountReference`            | `Optional` `Text`
+  | `buyerAccountReference`            | `Optional` `(` `ReferenceWithMeta` `Account` `)`
   |                                    | A reference to the account that buys this instrument.
-  | `buyerPartyReference`              | `Text`
+  | `buyerPartyReference`              | `ReferenceWithMeta` `Party`
   |                                    | A reference to the party that buys this instrument,
   |                                    | i.e. pays for this instrument and receives the rights
   |                                    | defined by it. ISDA 2002 Equity Definitions section
   |                                    | 1.18: `Buyer` means the party specified as such in
   |                                    | the related Confirmation. | ISDA 2006 Definitions
-  |                                    | article 12.1 (b)(i) relating to a Swaption: 'Buyer'
-  |                                    | means the party that will, on each Premium Payment
-  |                                    | Date, pay to Seller the Premium | ISDA 2006
-  |                                    | Definitions article 12.1 (b)(ii) relating to Swap
-  |                                    | Transactions with applicable Early Termination: the
-  |                                    | party specified as such in the related Confirmation,
-  |                                    | or the Exercising Party if neither party is specified
-  |                                    | | ISDA 2006 Definitions article 12.1 (b)(iii)
-  |                                    | relating to any other Option Transaction: the party
-  |                                    | specified as such in the related Confirmation. | ISDA
-  |                                    | 2014 Credit Definition article 1.4: `Buyer` means the
-  |                                    | Fixed Rate Payer.
+  |                                    | article 12.1 (b)(i) relating to a Swaption:
+  |                                    | &#39;Buyer&#39; means the party that will, on each
+  |                                    | Premium Payment Date, pay to Seller the Premium |
+  |                                    | ISDA 2006 Definitions article 12.1 (b)(ii) relating
+  |                                    | to Swap Transactions with applicable Early
+  |                                    | Termination: the party specified as such in the
+  |                                    | related Confirmation, or the Exercising Party if
+  |                                    | neither party is specified | ISDA 2006 Definitions
+  |                                    | article 12.1 (b)(iii) relating to any other Option
+  |                                    | Transaction: the party specified as such in the
+  |                                    | related Confirmation. | ISDA 2014 Credit Definition
+  |                                    | article 1.4: `Buyer` means the Fixed Rate Payer.
   | `europeanExercise`                 | `Optional` `EuropeanExercise`
   |                                    | European exercise. FpML implementations consists in
   |                                    | an exercise substitution group.
@@ -4078,30 +4195,30 @@
   |                                    | A flag to indicate whether follow-up confirmation of
   |                                    | exercise (written or electronic) is required
   |                                    | following telephonic notice by the buyer to the
-  |                                    | seller or seller's agent.
-  | `sellerAccountReference`           | `Optional` `Text`
+  |                                    | seller or seller&#39;s agent.
+  | `sellerAccountReference`           | `Optional` `(` `ReferenceWithMeta` `Account` `)`
   |                                    | A reference to the account that sells this
   |                                    | instrument.
-  | `sellerPartyReference`             | `Text`
-  |                                    | A reference to the party that sells ('writes') this
-  |                                    | instrument, i.e. that grants the rights defined by
-  |                                    | this instrument and in return receives a payment for
-  |                                    | it. ISDA 2002 Equity Definitions section 1.19:
-  |                                    | `Seller` means the party specified as such in the
-  |                                    | related Confirmation. | ISDA 2006 Definitions article
-  |                                    | 12.1 (a)(i) relating to a Swaption: 'Seller' means
-  |                                    | the party the party specified as such or as writer in
-  |                                    | the related Confirmation | ISDA 2006 Definitions
-  |                                    | article 12.1 (a)(ii) relating to Swap Transactions
-  |                                    | with applicable Early Termination: the party
+  | `sellerPartyReference`             | `ReferenceWithMeta` `Party`
+  |                                    | A reference to the party that sells
+  |                                    | (&#39;writes&#39;) this instrument, i.e. that grants
+  |                                    | the rights defined by this instrument and in return
+  |                                    | receives a payment for it. ISDA 2002 Equity
+  |                                    | Definitions section 1.19: `Seller` means the party
+  |                                    | specified as such in the related Confirmation. | ISDA
+  |                                    | 2006 Definitions article 12.1 (a)(i) relating to a
+  |                                    | Swaption: &#39;Seller&#39; means the party the party
   |                                    | specified as such or as writer in the related
-  |                                    | Confirmation or, if neither party is specified as
-  |                                    | such, the Non-exercising Party | ISDA 2006
-  |                                    | Definitions article 12.1 (a)(iii) relating to any
-  |                                    | other Option Transaction: the party specified as such
-  |                                    | in the related Confirmation. | ISDA 2014 Credit
-  |                                    | Definition article 1.4: `Seller` means the Floating
-  |                                    | Rate Payer.
+  |                                    | Confirmation | ISDA 2006 Definitions article 12.1
+  |                                    | (a)(ii) relating to Swap Transactions with applicable
+  |                                    | Early Termination: the party specified as such or as
+  |                                    | writer in the related Confirmation or, if neither
+  |                                    | party is specified as such, the Non-exercising Party
+  |                                    | | ISDA 2006 Definitions article 12.1 (a)(iii)
+  |                                    | relating to any other Option Transaction: the party
+  |                                    | specified as such in the related Confirmation. | ISDA
+  |                                    | 2014 Credit Definition article 1.4: `Seller` means
+  |                                    | the Floating Rate Payer.
 
 ### `data` `ExtendibleProvisionAdjustedDates`
 
@@ -4225,7 +4342,7 @@
   | :------------------------------------ | :----------------
   | `calculationAgentDetermination`       | `Optional` `CalculationAgent`
   |                                       | The calculation agent will decide the rate.
-  | `fallBackSettlementRateOption`        | `[` `SettlementRateOptionEnum` `]`
+  | `fallBackSettlementRateOption`        | `[` `FieldWithMeta` `SettlementRateOptionEnum` `]`
   |                                       | This settlement rate option will be used in its
   |                                       | place.
   | `fallbackSurveyValuationPostponement` | `Optional` `Bool`
@@ -4246,13 +4363,13 @@
   | :---------------- | :----------------
   | `amount`          | `Optional` `Decimal`
   |                   | The monetary quantity in currency units.
-  | `currency`        | `Optional` `Text`
+  | `currency`        | `Optional` `(` `FieldWithMeta` `Text` `)`
   |                   | The currency in which an amount is denominated.
   | `id`              | `Optional` `Text`
   | `levelPercentage` | `Optional` `Decimal`
   |                   | The trigger level percentage.
   | `payerReceiver`   | `PayerReceiver`
-  |                   | This attribute doesn't exist as part of the FpML
+  |                   | This attribute doesn&#39;t exist as part of the FpML
   |                   | construct, which makes use of the PayerReceiver.model
   |                   | group.
   | `paymentDate`     | `Optional` `AdjustableOrRelativeDate`
@@ -4271,10 +4388,10 @@
   | `businessDayConvention`           | `BusinessDayConventionEnum`
   |                                   | Override business date convention. This takes
   |                                   | precedence over leg level information.
-  | `relevantUnderlyingDateReference` | `Text`
+  | `relevantUnderlyingDateReference` | `ReferenceWithMeta` `AdjustableOrRelativeDates`
   |                                   | Reference to the unadjusted cancellation effective
   |                                   | dates.
-  | `swapStreamReference`             | `Text`
+  | `swapStreamReference`             | `ReferenceWithMeta` `InterestRatePayout`
   |                                   | Reference to the leg, where date adjustments may
   |                                   | apply.
 
@@ -4328,27 +4445,27 @@
   | `stepUpProvision`         | `Optional` `Bool`
   |                           | As specified by the ISDA Standard Terms Supplement
   |                           | for use with trades on mortgage-backed securities.
-  |                           | The presence of the element with value set to 'true'
-  |                           | signifies that the provision is applicable. If
-  |                           | applicable, the applicable step-up terms are
-  |                           | specified as part of that ISDA Standard Terms
-  |                           | Supplement. From a usage standpoint, this provision
-  |                           | is typically applicable in the case of RMBS and not
-  |                           | applicable in case of CMBS trades.
+  |                           | The presence of the element with value set to
+  |                           | &#39;true&#39; signifies that the provision is
+  |                           | applicable. If applicable, the applicable step-up
+  |                           | terms are specified as part of that ISDA Standard
+  |                           | Terms Supplement. From a usage standpoint, this
+  |                           | provision is typically applicable in the case of RMBS
+  |                           | and not applicable in case of CMBS trades.
   | `wacCapInterestProvision` | `Optional` `Bool`
   |                           | As specified by the ISDA Supplement for use with
-  |                           | trades on mortgage-backed securities, 'WAC Cap' means
-  |                           | a weighted average coupon or weighted average rate
-  |                           | cap provision (however defined in the Underlying
-  |                           | Instruments) of the Underlying Instruments that
-  |                           | limits, increases or decreases the interest rate or
-  |                           | interest entitlement, as set out in the Underlying
+  |                           | trades on mortgage-backed securities, &#39;WAC
+  |                           | Cap&#39; means a weighted average coupon or weighted
+  |                           | average rate cap provision (however defined in the
+  |                           | Underlying Instruments) of the Underlying Instruments
+  |                           | that limits, increases or decreases the interest rate
+  |                           | or interest entitlement, as set out in the Underlying
   |                           | Instruments on the Effective Date without regard to
   |                           | any subsequent amendment The presence of the element
-  |                           | with value set to 'true' signifies that the provision
-  |                           | is applicable. From a usage standpoint, this
-  |                           | provision is typically applicable in the case of CMBS
-  |                           | and not applicable in case of RMBS trades.
+  |                           | with value set to &#39;true&#39; signifies that the
+  |                           | provision is applicable. From a usage standpoint,
+  |                           | this provision is typically applicable in the case of
+  |                           | CMBS and not applicable in case of RMBS trades.
 
 ### `data` `FloatingRate`
 
@@ -4373,10 +4490,10 @@
   |                                  | assumed to be exclusive of any spread and is a per
   |                                  | annum rate, expressed as a decimal. A cap rate of 5%
   |                                  | would be represented as 0.05.
-  | `floatingRateIndex`              | `FloatingRateIndexEnum`
+  | `floatingRateIndex`              | `FieldWithMeta` `FloatingRateIndexEnum`
   |                                  | The reference index that is used to specify the
   |                                  | floating interest rate. The FpML standard maintains
-  |                                  | the list of such index, which are positioned as
+  |                                  | the list of such indices, which are positioned as
   |                                  | enumeration values as part of the CDM.
   | `floatingRateMultiplierSchedule` | `Optional` `Schedule`
   |                                  | A rate multiplier or multiplier schedule to apply to
@@ -4513,10 +4630,10 @@
   | `finalRateRounding`              | `Optional` `Rounding`
   |                                  | The rounding convention to apply to the final rate
   |                                  | used in determination of a calculation period amount.
-  | `floatingRateIndex`              | `FloatingRateIndexEnum`
+  | `floatingRateIndex`              | `FieldWithMeta` `FloatingRateIndexEnum`
   |                                  | The reference index that is used to specify the
   |                                  | floating interest rate. The FpML standard maintains
-  |                                  | the list of such index, which are positioned as
+  |                                  | the list of such indices, which are positioned as
   |                                  | enumeration values as part of the CDM.
   | `floatingRateMultiplierSchedule` | `Optional` `Schedule`
   |                                  | A rate multiplier or multiplier schedule to apply to
@@ -4583,6 +4700,50 @@
   |                                  | from the floating rate. A positive 10 basis point
   |                                  | (0.1%) spread would be represented as 0.001.
 
+### `data` `ForeignExchange`
+
+  From FpML: A type defining either a spot or forward
+  FX transactions.
+* `ForeignExchange`
+
+  | Field                      | Type/Description |
+  | :------------------------- | :----------------
+  | `currencyValueDates`       | `Optional` `CurrencyValueDates`
+  |                            | The dates on which each currency amount will be
+  |                            | settled
+  | `exchangeRate`             | `ExchangeRate`
+  |                            | The rate of exchange between the two currencies.
+  | `exchangedCurrency1`       | `Cashflow`
+  |                            | This is the first of the two currency flows that
+  |                            | define a single leg of a standard foreign exchange
+  |                            | transaction.
+  | `exchangedCurrency2`       | `Cashflow`
+  |                            | This is the second of the two currency flows that
+  |                            | define a single leg of a standard foreign exchange
+  |                            | transaction.
+  | `nonDeliverableSettlement` | `Optional` `FxCashSettlement`
+  |                            | Used to describe a particular type of FX forward
+  |                            | transaction that is settled in a single currency (for
+  |                            | example, a non-deliverable forward).
+  | `tenorPeriod`              | `Optional` `Period`
+  |                            | A tenor expressed as a period type and multiplier
+  |                            | (e.g. 1D, 1Y, etc.)
+
+### `data` `ForwardPayout`
+
+  Whether the payout is classified as spot or forward
+  is done using product qualification, see isProduct
+  ForeignExchange_Forward
+* `ForwardPayout`
+
+  | Field            | Type/Description |
+  | :--------------- | :----------------
+  | `product`        | `Product`
+  |                  | The product underlying the forward contract
+  | `settlementDate` | `Optional` `Date`
+  |                  | For FX Forward, the settlement date (or value date)
+  |                  | for each currency leg can be set individually.
+
 ### `data` `Frequency`
 
   A class for defining a date frequency, e.g. one day,
@@ -4617,7 +4778,7 @@
   |                                 | period start date to the adjusted value date,
   |                                 | calculated in accordance with the applicable day
   |                                 | count fraction.
-  | `currency`                      | `Text`
+  | `currency`                      | `FieldWithMeta` `Text`
   |                                 | The currency in which the associated amount is
   |                                 | denominated. The list of valid currencies is not
   |                                 | presently positioned as an enumeration as part of the
@@ -4629,6 +4790,49 @@
   | `valueDate`                     | `Date`
   |                                 | Adjusted value date of the future value amount.
 
+### `data` `FxCashSettlement`
+
+  A type that is used for describing cash settlement of
+  an option / non deliverable forward. It includes the
+  currency to settle into together with the fixings
+  required to calculate the currency amount.
+* `FxCashSettlement`
+
+  | Field                | Type/Description |
+  | :------------------- | :----------------
+  | `fixing`             | `[` `FxFixing` `]`
+  |                      | Specifies the source for and timing of a fixing of an
+  |                      | exchange rate. This is used in the agreement of
+  |                      | non-deliverable forward trades as well as various
+  |                      | types of FX OTC options that require observations
+  |                      | against a particular rate. This element is optional,
+  |                      | permitting it to be omitted where fixing details are
+  |                      | unavailable at the point of message creation. It has
+  |                      | multiple occurrence to support the case where fixing
+  |                      | details must be specified for more than one currency
+  |                      | pair e.g. on an option settled into a third currency
+  |                      | (that is not one of the option currencies).
+  | `notionalAmount`     | `Optional` `Money`
+  |                      | The amount of money that the settlement will be
+  |                      | derived from.
+  | `rateSourceFixing`   | `[` `FxRateSourceFixing` `]`
+  |                      | Specifies the source for and timing of a fixing of an
+  |                      | exchange rate. This is used in the agreement of
+  |                      | non-deliverable forward trades as well as various
+  |                      | types of FX OTC options that require observations
+  |                      | against a particular rate. This element is optional,
+  |                      | permitting it to be omitted where fixing details are
+  |                      | unavailable at the point of message creation. It has
+  |                      | multiple occurrence to support the case where fixing
+  |                      | details must be specified for more than one currency
+  |                      | pair e.g. on an option settled into a third currency
+  |                      | (that is not one of the option currencies).
+  | `referenceCurrency`  | `Optional` `(` `FieldWithMeta` `Text` `)`
+  | `settlementCurrency` | `FieldWithMeta` `Text`
+  |                      | The currency in which cash settlement occurs for
+  |                      | non-deliverable forwards and cash-settled options
+  |                      | (non-deliverable or otherwise).
+
 ### `data` `FxFeature`
 
   A type for defining FX Features.
@@ -4637,36 +4841,66 @@
   | Field               | Type/Description |
   | :------------------ | :----------------
   | `composite`         | `Optional` `Composite`
-  |                     | If 'Composite' is specified as the Settlement Type in
-  |                     | the relevant Transaction Supplement, an amount in the
-  |                     | Settlement Currency, determined by the Calculation
-  |                     | Agent as being equal to the number of Options
-  |                     | exercised or deemed exercised, multiplied by:
-  |                     | (Settlement Price – Strike Price) / (Strike Price –
-  |                     | Settlement Price) x Multiplier provided that if the
-  |                     | above is equal to a negative amount the Option Cash
-  |                     | Settlement Amount shall be deemed to be zero.
-  | `crossCurrency`     | `Optional` `Composite`
-  |                     | If 'Cross-Currency' is specified as the Settlement
+  |                     | If &#39;Composite&#39; is specified as the Settlement
   |                     | Type in the relevant Transaction Supplement, an
   |                     | amount in the Settlement Currency, determined by the
   |                     | Calculation Agent as being equal to the number of
   |                     | Options exercised or deemed exercised, multiplied by:
   |                     | (Settlement Price – Strike Price) / (Strike Price –
-  |                     | Settlement Price) x Multiplier x one unit of the
-  |                     | Reference Currency converted into an amount in the
-  |                     | Settlement Currency using the rate of exchange of the
-  |                     | Settlement Currency as quoted on the Reference Price
-  |                     | Source on the Valuation Date, provided that if the
+  |                     | Settlement Price) x Multiplier provided that if the
   |                     | above is equal to a negative amount the Option Cash
   |                     | Settlement Amount shall be deemed to be zero.
+  | `crossCurrency`     | `Optional` `Composite`
+  |                     | If &#39;Cross-Currency&#39; is specified as the
+  |                     | Settlement Type in the relevant Transaction
+  |                     | Supplement, an amount in the Settlement Currency,
+  |                     | determined by the Calculation Agent as being equal to
+  |                     | the number of Options exercised or deemed exercised,
+  |                     | multiplied by: (Settlement Price – Strike Price) /
+  |                     | (Strike Price – Settlement Price) x Multiplier x one
+  |                     | unit of the Reference Currency converted into an
+  |                     | amount in the Settlement Currency using the rate of
+  |                     | exchange of the Settlement Currency as quoted on the
+  |                     | Reference Price Source on the Valuation Date,
+  |                     | provided that if the above is equal to a negative
+  |                     | amount the Option Cash Settlement Amount shall be
+  |                     | deemed to be zero.
   | `quanto`            | `Optional` `Quanto`
-  |                     | If 'Quanto' is specified as the Settlement Type in
-  |                     | the relevant Transaction Supplement, an amount, as
-  |                     | determined by the Calculation Agent in accordance
-  |                     | with the Section 8.2 of the Equity Definitions.
-  | `referenceCurrency` | `Text`
+  |                     | If &#39;Quanto&#39; is specified as the Settlement
+  |                     | Type in the relevant Transaction Supplement, an
+  |                     | amount, as determined by the Calculation Agent in
+  |                     | accordance with the Section 8.2 of the Equity
+  |                     | Definitions.
+  | `referenceCurrency` | `FieldWithMeta` `Text`
   |                     | Specifies the reference currency of the trade.
+
+### `data` `FxFixing`
+
+  A type that specifies the source for and timing of a
+  fixing of an exchange rate. This is used in the
+  agreement of non-deliverable forward trades as well
+  as various types of FX OTC options that require
+  observations against a particular rate.
+* `FxFixing`
+
+  | Field                | Type/Description |
+  | :------------------- | :----------------
+  | `fixingDate`         | `Optional` `Date`
+  |                      | Describes the specific date when a non-deliverable
+  |                      | forward or cash-settled option will &#39;fix&#39;
+  |                      | against a particular rate, which will be used to
+  |                      | compute the ultimate cash settlement. This element
+  |                      | should be omitted where a single, discrete fixing
+  |                      | date cannot be identified e.g. on an american option,
+  |                      | where fixing may occur at any date on a continuous
+  |                      | range.
+  | `fxSpotRateSource`   | `Optional` `FxSpotRateSource`
+  |                      | Specifies the methodology (reference source and,
+  |                      | optionally, fixing time) to be used for determining a
+  |                      | currency conversion rate.
+  | `quotedCurrencyPair` | `QuotedCurrencyPair`
+  |                      | Defines the two currencies for an FX trade and the
+  |                      | quotation relationship between the two currencies.
 
 ### `data` `FxFixingDate`
 
@@ -4679,7 +4913,7 @@
   | Field                                  | Type/Description |
   | :------------------------------------- | :----------------
   | `businessCenters`                      | `Optional` `BusinessCenters`
-  | `businessCentersReference`             | `Optional` `Text`
+  | `businessCentersReference`             | `Optional` `(` `ReferenceWithMeta` `BusinessCenters` `)`
   |                                        | A reference to a set of financial business centers
   |                                        | defined elsewhere in the document. This set of
   |                                        | business centers is used to determine whether a
@@ -4725,6 +4959,28 @@
   |                                        | negative value can be used when specifying an offset
   |                                        | relative to another date, e.g. -2 days.
 
+### `data` `FxInformationSource`
+
+  Information source specific to Foreign Exchange
+  products.
+* `FxInformationSource`
+
+  | Field               | Type/Description |
+  | :------------------ | :----------------
+  | `fixingTime`        | `Optional` `BusinessCenterTime`
+  |                     | The time that the fixing will be taken along with a
+  |                     | business center to define the time zone.
+  | `sourcePage`        | `Optional` `(` `FieldWithMeta` `Text` `)`
+  |                     | A specific page for the source for obtaining a market
+  |                     | data point. In FpML, this is specified as a scheme,
+  |                     | rateSourcePageScheme, for which no coding Scheme or
+  |                     | URI is specified.
+  | `sourcePageHeading` | `Optional` `Text`
+  |                     | The heading for the source on a given source page.
+  | `sourceProvider`    | `FieldWithMeta` `InformationProviderEnum`
+  |                     | An information source for obtaining a market data
+  |                     | point. For example Bloomberg, Reuters, Telerate, etc.
+
 ### `data` `FxLinkedNotionalAmount`
 
   A class to describe the cashflow representation for
@@ -4756,7 +5012,7 @@
 
   | Field                                        | Type/Description |
   | :------------------------------------------- | :----------------
-  | `constantNotionalScheduleReference`          | `Text`
+  | `constantNotionalScheduleReference`          | `ReferenceWithMeta` `NotionalSchedule`
   |                                              | A pointer style reference to the associated constant
   |                                              | notional schedule defined elsewhere in the document
   |                                              | which contains the currency amounts which will be
@@ -4770,7 +5026,7 @@
   |                                              | This may be omitted for a forward starting swap if
   |                                              | the FX-linked notional value is not known at deal
   |                                              | inception.
-  | `varyingNotionalCurrency`                    | `Text`
+  | `varyingNotionalCurrency`                    | `FieldWithMeta` `Text`
   |                                              | The currency of the varying notional amount, i.e. the
   |                                              | notional amount being determined periodically based
   |                                              | on observation of a spot currency exchange rate. The
@@ -4808,6 +5064,32 @@
   |                      | the leg of a deal. Must be specified with a quote
   |                      | basis.
 
+### `data` `FxRateSourceFixing`
+
+  Describes a rate source to be fixed and the date the
+  fixing occurs
+* `FxRateSourceFixing`
+
+  | Field                  | Type/Description |
+  | :--------------------- | :----------------
+  | `fixingDate`           | `AdjustableDate`
+  |                        | The date on which the fixing is scheduled to occur.
+  | `settlementRateSource` | `FxSettlementRateSource`
+
+### `data` `FxSettlementRateSource`
+
+  The source of the Foreign Exchange settlement rate.
+* `FxSettlementRateSource`
+
+  | Field                       | Type/Description |
+  | :-------------------------- | :----------------
+  | `nonstandardSettlementRate` | `Optional` `FxInformationSource`
+  |                             | Indicates that a non-standard rate source will be
+  |                             | used for the fixing.
+  | `settlementRateOption`      | `Optional` `(` `FieldWithMeta` `Text` `)`
+  |                             | Indicates that an officially defined rate settlement
+  |                             | rate option will be the used for the fixing.
+
 ### `data` `FxSpotRateSource`
 
   A class defining the rate source and fixing time for
@@ -4832,19 +5114,21 @@
 
 ### `data` `GeneralTerms`
 
-  A class specifying the general terms of the credit
-  default payout, and corresponding to some the data
-  that appears in the section entitled '1. General
-  Terms' in the 2003 ISDA Credit Derivatives
-  Confirmation. It corresponds to the FpML GeneralTerms
-  complex type, except for the date-related attributes,
-  which have been positioned as part of the
-  InterestRatePayout class.
+  A class specifying a set of non-monetary terms for
+  the Credit Derivative Transaction, including the
+  buyer and seller and selected items from the ISDA
+  2014 Credit Definition article II, such as the
+  reference obligation and related terms. The CDM
+  GeneralTerms class corresponds to the FpML
+  GeneralTerms complex type, except that the
+  effectiveDate and scheduledTerminationDate have been
+  positioned as part of the InterestRatePayout class in
+  the CDM instead of in GeneralTerms.
 * `GeneralTerms`
 
   | Field                        | Type/Description |
   | :--------------------------- | :----------------
-  | `additionalTerm`             | `[` `Text` `]`
+  | `additionalTerm`             | `[` `FieldWithMeta` `Text` `]`
   |                              | This attribute is used for representing information
   |                              | contained in the Additional Terms field of the 2003
   |                              | Master Credit Derivatives confirm.
@@ -4860,15 +5144,16 @@
   |                              | This attribute contains all the terms relevant to
   |                              | defining the Credit DefaultSwap Index.
   | `modifiedEquityDelivery`     | `Optional` `Bool`
-  |                              | Value of this attribute set to 'true' indicates that
-  |                              | modified equity delivery is applicable.
+  |                              | Value of this attribute set to &#39;true&#39;
+  |                              | indicates that modified equity delivery is
+  |                              | applicable.
   | `referenceInformation`       | `Optional` `ReferenceInformation`
   |                              | This attribute contains all the terms relevant to
   |                              | defining the reference entity and reference
   |                              | obligation(s).
   | `substitution`               | `Optional` `Bool`
-  |                              | Value of this attribute set to 'true' indicates that
-  |                              | substitution is applicable.
+  |                              | Value of this attribute set to &#39;true&#39;
+  |                              | indicates that substitution is applicable.
 
 ### `data` `GracePeriodExtension`
 
@@ -4899,8 +5184,10 @@
 ### `data` `Identifier`
 
   A class to specify a generic identifier, applicable
-  to CDM artefacts such as executions, contracts and
-  lifecycle events.
+  to CDM artefacts such as executions, contracts,
+  lifecycle events and legal documents. An issuer can
+  be associated with the actual identifier value as a
+  way to properly qualify it.
 * `Identifier`
 
   | Field                | Type/Description |
@@ -4912,11 +5199,11 @@
   |                      | identifiers to one issuer, consistently with the FpML
   |                      | PartyTradeIdentifier.
   | `id`                 | `Optional` `Text`
-  | `issuer`             | `Optional` `Text`
+  | `issuer`             | `Optional` `(` `FieldWithMeta` `Text` `)`
   |                      | The identifier issuer, when specified explicitly
   |                      | alongside the identifier value (instead of being
   |                      | specified by reference to a party).
-  | `issuerReference`    | `Optional` `Text`
+  | `issuerReference`    | `Optional` `(` `ReferenceWithMeta` `Party` `)`
   |                      | The identifier issuer, when specified by reference to
   |                      | a party specified as part of the transaction.
 
@@ -4928,11 +5215,17 @@
   scope is extended to the pre-execution space.
 * `Inception`
 
-  | Field   | Type/Description |
-  | :------ | :----------------
-  | `after` | `PostInceptionState`
-  |         | The after state corresponds to the new contract
-  |         | between the parties.
+  | Field    | Type/Description |
+  | :------- | :----------------
+  | `after`  | `PostInceptionState`
+  |          | The after state corresponds to the new contract
+  |          | between the parties.
+  | `before` | `[` `ContractState` `]`
+  |          | The (0..0) cardinality reflects the fact that there
+  |          | is no contract in the before state of an inception
+  |          | primitive. As noted in the definition associated with
+  |          | the class, this is expected to change once the CDM
+  |          | scope is extended to the pre-execution space.
 
 ### `data` `IndependentAmount`
 
@@ -4944,20 +5237,20 @@
 
   | Field                      | Type/Description |
   | :------------------------- | :----------------
-  | `payerAccountReference`    | `Optional` `Text`
+  | `payerAccountReference`    | `Optional` `(` `ReferenceWithMeta` `Account` `)`
   |                            | A reference to the account responsible for making the
   |                            | payments defined by this structure.
-  | `payerPartyReference`      | `Text`
+  | `payerPartyReference`      | `ReferenceWithMeta` `Party`
   |                            | A reference to the party responsible for making the
   |                            | payments defined by this structure.
   | `paymentDetail`            | `[` `PaymentDetail` `]`
   |                            | An attribute that specifies a payment as the
   |                            | combination of a payment amount, a payment date and
   |                            | an associated payment calculation rule.
-  | `receiverAccountReference` | `Optional` `Text`
+  | `receiverAccountReference` | `Optional` `(` `ReferenceWithMeta` `Account` `)`
   |                            | A reference to the account that receives the payments
   |                            | corresponding to this structure.
-  | `receiverPartyReference`   | `Text`
+  | `receiverPartyReference`   | `ReferenceWithMeta` `Party`
   |                            | A reference to the party that receives the payments
   |                            | corresponding to this structure.
 
@@ -4966,7 +5259,7 @@
   A class to specify the eligible collateral for
   initial margin purposes. Those features go beyond
   what is required for meeting the terms specified by
-  the ISDA 2018 CSA for Initial Margin.
+  the ISDA 2016 CSA for Initial Margin.
 * `IndependentAmountEligibleCollateral`
 
   | Field                          | Type/Description |
@@ -4975,16 +5268,16 @@
   |                                | The eligible collateral assets.
   | `fxHaircut`                    | `Optional` `Decimal`
   |                                | The ISDA 2018 CSA specifies the FX haircut with
-  |                                | respect to each party's posting obligation to be
+  |                                | respect to each party&#39;s posting obligation to be
   |                                | equal to 8% if the eligible collateral is denominated
   |                                | in a currency that is distinct from the Termination
   |                                | Currency specified with respect to the Secured Party,
   |                                | and 0% if the same.
-  | `independentAmountEligibility` | `Optional` `IndependentAmountEligibilityEnum`
+  | `independentAmountEligibility` | `Optional` `(` `FieldWithMeta` `IndependentAmountEligibilityEnum` `)`
   |                                | The terms when no collateral assets are specified.
-  | `partyReference`               | `Text`
-  |                                | A reference to the party to the agreement to which
-  |                                | the eligible collateral qualification applies to.
+  | `party`                        | `ReferenceWithMeta` `Party`
+  |                                | The party which the eligible collateral election
+  |                                | applies to.
   | `terminationCurrency`          | `[` `TerminationCurrency` `]`
   |                                | The Termination Currency as specified by each of the
   |                                | parties to the agreement as determined by the ISDA
@@ -5037,14 +5330,14 @@
   | `id`                      | `Optional` `Text`
   | `indexAnnexDate`          | `Optional` `Date`
   |                           | A CDS index series annex date.
-  | `indexAnnexSource`        | `Optional` `IndexAnnexSourceEnum`
+  | `indexAnnexSource`        | `Optional` `(` `FieldWithMeta` `IndexAnnexSourceEnum` `)`
   |                           | A CDS index series annex source.
   | `indexAnnexVersion`       | `Optional` `Int`
   |                           | A CDS index series version identifier, e.g. 1, 2, 3
   |                           | etc.
-  | `indexId`                 | `[` `Text` `]`
+  | `indexId`                 | `[` `FieldWithMeta` `Text` `]`
   |                           | A CDS index identifier (e.g. RED pair code).
-  | `indexName`               | `Optional` `Text`
+  | `indexName`               | `Optional` `(` `FieldWithMeta` `Text` `)`
   |                           | The name of the index expressed as a free format
   |                           | string with an associated scheme.
   | `indexSeries`             | `Optional` `Int`
@@ -5087,10 +5380,10 @@
   | `finalRateRounding`              | `Optional` `Rounding`
   |                                  | The rounding convention to apply to the final rate
   |                                  | used in determination of a calculation period amount.
-  | `floatingRateIndex`              | `FloatingRateIndexEnum`
+  | `floatingRateIndex`              | `FieldWithMeta` `FloatingRateIndexEnum`
   |                                  | The reference index that is used to specify the
   |                                  | floating interest rate. The FpML standard maintains
-  |                                  | the list of such index, which are positioned as
+  |                                  | the list of such indices, which are positioned as
   |                                  | enumeration values as part of the CDM.
   | `floatingRateMultiplierSchedule` | `Optional` `Schedule`
   |                                  | A rate multiplier or multiplier schedule to apply to
@@ -5115,7 +5408,7 @@
   |                                  | and is a per annum rate, expressed as a decimal. A
   |                                  | floor rate of 5% would be represented as 0.05.
   | `id`                             | `Optional` `Text`
-  | `indexSource`                    | `Text`
+  | `indexSource`                    | `FieldWithMeta` `Text`
   |                                  | The reference source such as Reuters or Bloomberg.
   |                                  | FpML specifies indexSource to be of type
   |                                  | rateSourcePageScheme, but without specifying actual
@@ -5139,11 +5432,11 @@
   |                                  | published on the source implied by the floating rate
   |                                  | index. An initial rate of 5% would be represented as
   |                                  | 0.05.
-  | `interpolationMethod`            | `InterpolationMethodEnum`
+  | `interpolationMethod`            | `FieldWithMeta` `InterpolationMethodEnum`
   |                                  | The method used when calculating the Inflation Index
   |                                  | Level from multiple points. The most common is
   |                                  | Linear.
-  | `mainPublication`                | `Text`
+  | `mainPublication`                | `FieldWithMeta` `Text`
   |                                  | The current main publication source such as relevant
   |                                  | web site or a government body. FpML specifies
   |                                  | mainPublication to be of type mainPublicationSource,
@@ -5189,14 +5482,14 @@
 
   | Field               | Type/Description |
   | :------------------ | :----------------
-  | `sourcePage`        | `Optional` `Text`
+  | `sourcePage`        | `Optional` `(` `FieldWithMeta` `Text` `)`
   |                     | A specific page for the source for obtaining a market
   |                     | data point. In FpML, this is specified as a scheme,
   |                     | rateSourcePageScheme, for which no coding Scheme or
   |                     | URI is specified.
   | `sourcePageHeading` | `Optional` `Text`
   |                     | The heading for the source on a given source page.
-  | `sourceProvider`    | `InformationProviderEnum`
+  | `sourceProvider`    | `FieldWithMeta` `InformationProviderEnum`
   |                     | An information source for obtaining a market data
   |                     | point. For example Bloomberg, Reuters, Telerate, etc.
 
@@ -5214,44 +5507,30 @@
   | `initialFixingDate`  | `Optional` `Date`
   | `relativeDateOffset` | `Optional` `RelativeDateOffset`
 
-### `data` `InitialMarginCalculationAgent`
-
-  A class to specify the initial margin calculation
-  amount according to the ISDA 2018 CSA for Initial
-  Margin, either as a reference to one of the parties
-  to the agreement, or the party making the collateral
-  demand / Secured Party.
-* `InitialMarginCalculationAgent`
-
-  | Field             | Type/Description |
-  | :---------------- | :----------------
-  | `designatedParty` | `Optional` `InitialAmountCalculationAgentEnum`
-  |                   | The party when specified as a function of its role.
-  |                   | The ISDA 2018 CSA for Initial Margin specifies that
-  |                   | the calculation can be 'the party making the demand
-  |                   | for purposes of Paragraphs 3, 4(d) and 5 and the
-  |                   | Secured Party for the purposes of Paragraph 4(e)'.
-  | `partyReference`  | `Optional` `Text`
-  |                   | A reference to the party to the agreement when
-  |                   | designated as the Calculation Agent.
-
 ### `data` `InterestRateCurve`
 
 * `InterestRateCurve`
 
   | Field               | Type/Description |
   | :------------------ | :----------------
-  | `floatingRateIndex` | `FloatingRateIndexEnum`
+  | `floatingRateIndex` | `FieldWithMeta` `FloatingRateIndexEnum`
   | `tenor`             | `Period`
 
 ### `data` `InterestRatePayout`
 
-  The interest rate payout specification terms. The
-  associated rosettaKey denotes the ability to
-  associate a hash value to the InterestRatePayout
-  instantiations for the purpose of model
-  cross-referencing, in support of functionality such
-  as the event effect and the lineage.
+  A class to specify all of the terms necessary to
+  define and calculate a cash flow based on a fixed, a
+  floating or an inflation index rate. The interest
+  rate payout can be applied to interest rate swaps and
+  FRA (which both have two associated interest rate
+  payouts), credit default swaps (to represent the fee
+  leg when subject to periodic payments) and equity
+  swaps (to represent the funding leg). The associated
+  rosettaKey denotes the ability to associate a hash
+  value to the InterestRatePayout instantiations for
+  the purpose of model cross-referencing, in support of
+  functionality such as the event effect and the
+  lineage.
 * `InterestRatePayout`
 
   | Field                    | Type/Description |
@@ -5260,7 +5539,9 @@
   |                          | Reference to a bond underlier to represent an asset
   |                          | swap or Condition Precedent Bond.
   | `calculationPeriodDates` | `CalculationPeriodDates`
-  |                          | The calculation period dates schedule.
+  |                          | The parameters used to generate the calculation
+  |                          | period dates schedule, including the specification of
+  |                          | any initial or final stub calculation periods.
   | `cashflowRepresentation` | `Optional` `CashflowRepresentation`
   |                          | The cashflow representation of the swap stream.
   | `compoundingMethod`      | `Optional` `CompoundingMethodEnum`
@@ -5273,7 +5554,7 @@
   | `crossCurrencyTerms`     | `Optional` `CrossCurrencyTerms`
   |                          | The specification of the principle exchange and
   |                          | settlement provision terms.
-  | `dayCountFraction`       | `Optional` `DayCountFractionEnum`
+  | `dayCountFraction`       | `Optional` `(` `FieldWithMeta` `DayCountFractionEnum` `)`
   |                          | The day count fraction. The cardinality has been
   |                          | relaxed when compared with the FpML interest rate
   |                          | swap for the purpose of accommodating standardized
@@ -5311,20 +5592,26 @@
   |                          | the other hand, with both payment dates being on the
   |                          | 25th of each month.
   | `quantity`               | `Optional` `ContractualQuantity`
-  |                          | The quantity can be expressed in different formats,
-  |                          | depending upon the product, e.g. notional amount for
-  |                          | credit and interest rate products, quantity for some
-  |                          | of the equity products. The CDM uses the generic term
-  |                          | quantity rather than notional amount.
+  |                          | The specification of the notional amount that is
+  |                          | associated with a contractual product and that is the
+  |                          | base for the payout calculation, through the
+  |                          | ContractualQuantity class which provides a generic
+  |                          | approach that is applicable across all asset classes.
+  |                          | The quantity attribute applies to products relating
+  |                          | to securities or tangible assets (such as equities or
+  |                          | commodities), while the notional amount applies to
+  |                          | products pertaining to interest rate, FX or credit
+  |                          | products.
   | `rateSpecification`      | `RateSpecification`
-  |                          | The rate specification: a floating rate, a fixed rate
-  |                          | or an inflation rate.
+  |                          | The specification of the rate value(s) applicable to
+  |                          | the contract using either a floating rate
+  |                          | calculation, a single fixed rate, a fixed rate
+  |                          | schedule, or an inflation rate calculation.
   | `resetDates`             | `Optional` `ResetDates`
   |                          | The reset dates schedule, i.e. the dates on which the
   |                          | new observed index value is applied for each period
   |                          | and the interest rate hence begins to accrue.
   | `rosettaKey`             | `Text`
-  |                          | field added by metagen
   | `stubPeriod`             | `Optional` `StubPeriod`
   |                          | The stub calculation period amount parameters. This
   |                          | element must only be included if there is an initial
@@ -5350,7 +5637,7 @@
   |                        | (i.e. Fixed Cap or Variable Cap) in the case where it
   |                        | is applicable. ISDA 2003 Term: Interest Shortfall
   |                        | Cap.
-  | `rateSource`           | `Optional` `FloatingRateIndexEnum`
+  | `rateSource`           | `Optional` `(` `FieldWithMeta` `FloatingRateIndexEnum` `)`
   |                        | The rate source in the case of a variable cap.
 
 ### `data` `IssuerTradeId`
@@ -5360,13 +5647,13 @@
 
   | Field        | Type/Description |
   | :----------- | :----------------
-  | `identifier` | `Optional` `Text`
+  | `identifier` | `Optional` `(` `FieldWithMeta` `Text` `)`
   |              | The identifier value. The CDM uses a neutral
   |              | identifier attribute name rather than the FpML trade
   |              | qualifier because of the focus that includes the
   |              | pre-execution lifecycle, at which point a trade
-  |              | doesn't exist yet.
-  | `issuer`     | `Text`
+  |              | doesn&#39;t exist yet.
+  | `issuer`     | `FieldWithMeta` `Text`
   |              | The party that assigns the trade identifier.
 
 ### `data` `Knock`
@@ -5404,8 +5691,8 @@
 
 ### `data` `LegalDocument`
 
-  A class to specify the elections and variables
-  associated to a legal document.
+  A class to specify the elections and variables that
+  characterize a legal document.
 * `LegalDocument`
 
   | Field                            | Type/Description |
@@ -5413,43 +5700,43 @@
   | `agreementDate`                  | `Date`
   |                                  | The date on which the legal document has been agreed
   |                                  | between the parties.
-  | `amendedDocument`                | `Text`
-  |                                  | The reference to the document that is amended by this
-  |                                  | legal document.
-  | `csaInitialMargin2018EnglishLaw` | `Optional` `CsaInitialMargin2018EnglishLaw`
+  | `contractualparty`               | `[` `ReferenceWithMeta` `Party` `]`
+  |                                  | The contractual parties to the legal document, which
+  |                                  | reference information is positioned as part of the
+  |                                  | partInformation attribute.
+  | `csaInitialMargin2016NewYorkLaw` | `Optional` `CsaInitialMargin2016NewYorkLaw`
   |                                  | The elections and variables specified in Paragraph 13
-  |                                  | of the ISDA 2018 Credit Support Annex for Initial
-  |                                  | Margin, English Law.
-  | `csaInitialMargin2018NewYorkLaw` | `Optional` `CsaInitialMargin2018NewYorkLaw`
-  |                                  | The elections and variables specified in Paragraph 13
-  |                                  | of the ISDA 2018 Credit Support Annex for Initial
+  |                                  | of the ISDA 2016 Credit Support Annex for Initial
   |                                  | Margin, New York Law.
-  | `documentHistory`                | `Optional` `LegalDocumentHistory`
-  |                                  | The legal document history.
   | `documentType`                   | `LegalDocumentType`
   |                                  | The type of legal document, identified via a set of
   |                                  | distinct attributes: name, publisher, governing law
   |                                  | and version, e.g. ISDA 2013 Standard Credit Support
   |                                  | Annex English Law.
-  | `effectiveDate`                  | `Date`
-  |                                  | The date on which the agreement is effective. It is
-  |                                  | expected that it will most often correspond to the
-  |                                  | agreement date, although there could be situations
-  |                                  | where the parties will explicitly agree on a distinct
-  |                                  | effective date.
+  | `effectiveDate`                  | `Optional` `Date`
+  |                                  | The date on which the agreement is effective, if
+  |                                  | different from the agreement date. It is expected
+  |                                  | that it will most often correspond to the agreement
+  |                                  | date, although there could be situations where the
+  |                                  | parties will explicitly agree on a distinct effective
+  |                                  | date.
   | `identifier`                     | `[` `Identifier` `]`
   |                                  | The legal document identifier. Several identifiers
   |                                  | can be specified.
-  | `party`                          | `[` `Party` `]`
-  |                                  | The parties associated with the legal document. While
-  |                                  | the FpML provides an optional cardinality and the
-  |                                  | ability to specify an account as a result of the use
-  |                                  | of the PartyAndAccounts.model for consistency
-  |                                  | purposes with the trade representation, the CDM
-  |                                  | specify a minimal cardinality of 2 and does not
-  |                                  | provides the ability to specify an account.
-  | `partyRole`                      | `[` `PartyRole` `]`
-  |                                  | The roles of the parties to the document.
+  | `lineage`                        | `Optional` `Lineage`
+  |                                  | The lineage into prior versions of this legal
+  |                                  | document or into other legal documents that might be
+  |                                  | referenced by it.
+  | `otherParty`                     | `[` `PartyRole` `]`
+  |                                  | The role(s) that other party(ies) may have in
+  |                                  | relation to the legal agreement, further to the
+  |                                  | contractual parties.
+  | `partyInformation`               | `[` `Party` `]`
+  |                                  | The set of parties associated with the legal
+  |                                  | documents, which consists of both the contractual
+  |                                  | parties as the parties that might be involved in
+  |                                  | relation to some other roles (e.g. custody agent).
+  | `rosettaKey`                     | `Text`
 
 ### `data` `LegalDocumentAmendment`
 
@@ -5472,80 +5759,54 @@
 
   A class describing the legal document. The purpose of
   this abstract class is to provide the ability to
-  associate a 'one of' feature to the LegalDocument
-  class as a way to enforce a systematic choice between
-  its attributes.
+  associate a &#39;one of&#39; feature to the
+  LegalDocument class as a way to enforce a systematic
+  choice between its attributes.
 * `LegalDocumentBase`
-
-  | Field             | Type/Description |
-  | :---------------- | :----------------
-  | `agreementDate`   | `Date`
-  |                   | The date on which the legal document has been agreed
-  |                   | between the parties.
-  | `amendedDocument` | `Text`
-  |                   | The reference to the document that is amended by this
-  |                   | legal document.
-  | `documentHistory` | `Optional` `LegalDocumentHistory`
-  |                   | The legal document history.
-  | `documentType`    | `LegalDocumentType`
-  |                   | The type of legal document, identified via a set of
-  |                   | distinct attributes: name, publisher, governing law
-  |                   | and version, e.g. ISDA 2013 Standard Credit Support
-  |                   | Annex English Law.
-  | `effectiveDate`   | `Date`
-  |                   | The date on which the agreement is effective. It is
-  |                   | expected that it will most often correspond to the
-  |                   | agreement date, although there could be situations
-  |                   | where the parties will explicitly agree on a distinct
-  |                   | effective date.
-  | `identifier`      | `[` `Identifier` `]`
-  |                   | The legal document identifier. Several identifiers
-  |                   | can be specified.
-  | `party`           | `[` `Party` `]`
-  |                   | The parties associated with the legal document. While
-  |                   | the FpML provides an optional cardinality and the
-  |                   | ability to specify an account as a result of the use
-  |                   | of the PartyAndAccounts.model for consistency
-  |                   | purposes with the trade representation, the CDM
-  |                   | specify a minimal cardinality of 2 and does not
-  |                   | provides the ability to specify an account.
-  | `partyRole`       | `[` `PartyRole` `]`
-  |                   | The roles of the parties to the document.
-
-### `data` `LegalDocumentHistory`
-
-  A class to represent the legal document history as a
-  list of document identities.
-* `LegalDocumentHistory`
 
   | Field              | Type/Description |
   | :----------------- | :----------------
-  | `documentIdentity` | `[` `DocumentIdentity` `]`
-
-### `data` `LegalDocumentIdentity`
-
-  A class to specify the legal document identity.
-* `LegalDocumentIdentity`
-
-  | Field            | Type/Description |
-  | :--------------- | :----------------
-  | `agreementDate`  | `Date`
-  |                  | The date on which the legal document has been agreed
-  |                  | between the parties.
-  | `documentType`   | `LegalDocumentType`
-  |                  | The recognisable attributes of the particular legal
-  |                  | document.
-  | `id`             | `Optional` `Text`
-  | `identifier`     | `[` `Identifier` `]`
-  |                  | The legal document identifier. Several identifiers
-  |                  | can be specified.
-  | `partyReference` | `[` `Text` `]`
-  |                  | The parties to the legal document.
+  | `agreementDate`    | `Date`
+  |                    | The date on which the legal document has been agreed
+  |                    | between the parties.
+  | `contractualparty` | `[` `ReferenceWithMeta` `Party` `]`
+  |                    | The contractual parties to the legal document, which
+  |                    | reference information is positioned as part of the
+  |                    | partInformation attribute.
+  | `documentType`     | `LegalDocumentType`
+  |                    | The type of legal document, identified via a set of
+  |                    | distinct attributes: name, publisher, governing law
+  |                    | and version, e.g. ISDA 2013 Standard Credit Support
+  |                    | Annex English Law.
+  | `effectiveDate`    | `Optional` `Date`
+  |                    | The date on which the agreement is effective, if
+  |                    | different from the agreement date. It is expected
+  |                    | that it will most often correspond to the agreement
+  |                    | date, although there could be situations where the
+  |                    | parties will explicitly agree on a distinct effective
+  |                    | date.
+  | `identifier`       | `[` `Identifier` `]`
+  |                    | The legal document identifier. Several identifiers
+  |                    | can be specified.
+  | `lineage`          | `Optional` `Lineage`
+  |                    | The lineage into prior versions of this legal
+  |                    | document or into other legal documents that might be
+  |                    | referenced by it.
+  | `otherParty`       | `[` `PartyRole` `]`
+  |                    | The role(s) that other party(ies) may have in
+  |                    | relation to the legal agreement, further to the
+  |                    | contractual parties.
+  | `partyInformation` | `[` `Party` `]`
+  |                    | The set of parties associated with the legal
+  |                    | documents, which consists of both the contractual
+  |                    | parties as the parties that might be involved in
+  |                    | relation to some other roles (e.g. custody agent).
 
 ### `data` `LegalDocumentType`
 
   A class to specify the type of legal document, which
-  is extended by each legal document instance.
+  is extended by each legal document instance, such as
+  the ISDA 2016 CSA for Initial Margin.
 * `LegalDocumentType`
 
   | Field          | Type/Description |
@@ -5557,26 +5818,25 @@
   |                | The legal document name.
   | `publisher`    | `LegalDocumentPublisherEnum`
   |                | The legal document publisher.
-  | `version`      | `Optional` `Text`
+  | `vintage`      | `Optional` `Text`
   |                | In the case where successive definitions of the legal
-  |                | document have been developed, the identification of
-  |                | the specific definition. This is typically (but not
+  |                | document have been developed, the vintage
+  |                | identification. This is typically (but not
   |                | necessarily) done by referencing the year, e.g. 2013
   |                | in the case of the ISDA 2013 Standard Credit Support
   |                | Annex.
 
 ### `data` `LegalEntity`
 
-  A class to represent the attributes that are specific
-  to a legal entity.
+  A class to specify a legal entity.
 * `LegalEntity`
 
   | Field      | Type/Description |
   | :--------- | :----------------
-  | `entityId` | `[` `Text` `]`
+  | `entityId` | `[` `FieldWithMeta` `Text` `]`
   |            | A legal entity identifier (e.g. RED entity code).
   | `id`       | `Optional` `Text`
-  | `name`     | `Text`
+  | `name`     | `FieldWithMeta` `Text`
   |            | The legal entity name.
 
 ### `data` `LimitApplicable`
@@ -5606,7 +5866,7 @@
   |                   | the purpose of accommodating the CME data
   |                   | representation while making reference to the FpML
   |                   | one.
-  | `currency`        | `Optional` `Text`
+  | `currency`        | `Optional` `(` `FieldWithMeta` `Text` `)`
   |                   | The currency in which the applicable limit is
   |                   | denominated. The list of valid currencies is not
   |                   | presently positioned as an enumeration as part of the
@@ -5614,7 +5874,7 @@
   |                   | specified by ISDA and FpML. As a result, implementers
   |                   | have to make reference to the relevant standard, such
   |                   | as the ISO 4217 standard for currency codes.
-  | `limitType`       | `Optional` `CreditLimitTypeEnum`
+  | `limitType`       | `Optional` `(` `FieldWithMeta` `CreditLimitTypeEnum` `)`
   |                   | Standard code to indicate which type of credit line
   |                   | is being referred to - i.e. IM, DV01, PV01, CS01,
   |                   | Notional, Clip Size, Notional, maximumOrderQuantity.
@@ -5652,7 +5912,7 @@
   |                         | the purpose of accommodating the CME data
   |                         | representation while making reference to the FpML
   |                         | one.
-  | `currency`              | `Optional` `Text`
+  | `currency`              | `Optional` `(` `FieldWithMeta` `Text` `)`
   |                         | The currency in which the applicable limit is
   |                         | denominated. The list of valid currencies is not
   |                         | presently positioned as an enumeration as part of the
@@ -5674,12 +5934,12 @@
   |                         | take into consideration java size limits as well as
   |                         | for consistency purposes with the way most monetary
   |                         | amounts are expressed.
-  | `limitLevel`            | `Optional` `LimitLevelEnum`
+  | `limitLevel`            | `Optional` `(` `FieldWithMeta` `LimitLevelEnum` `)`
   |                         | The level at which the limit is set: customer
   |                         | business, proprietary business or account level. This
   |                         | attribute is specified as a string as part of the CME
   |                         | clearing confirmation specification.
-  | `limitType`             | `Optional` `CreditLimitTypeEnum`
+  | `limitType`             | `Optional` `(` `FieldWithMeta` `CreditLimitTypeEnum` `)`
   |                         | Standard code to indicate which type of credit line
   |                         | is being referred to - i.e. IM, DV01, PV01, CS01,
   |                         | Notional, Clip Size, Notional, maximumOrderQuantity.
@@ -5712,58 +5972,62 @@
 
   | Field                          | Type/Description |
   | :----------------------------- | :----------------
-  | `cashflowReference`            | `[` `Text` `]`
+  | `cashflowReference`            | `[` `ReferenceWithMeta` `Cashflow` `]`
   |                                | The reference to the instantiation of a Cashflow
   |                                | payout component object. An expected typical usage is
   |                                | to provide lineage for the payment of, say, the
   |                                | option premium or the swap initial fee. The
   |                                | definition associated to the Lineage class provides
-  |                                | more specific with respect to those referencing
+  |                                | more details with respect to those referencing
   |                                | approaches, their expected usage and available
   |                                | implementation.
-  | `contractReference`            | `[` `Text` `]`
+  | `contractReference`            | `[` `ReferenceWithMeta` `Contract` `]`
   |                                | The reference to the instantiation of a Contract
   |                                | object. The definition associated to the Lineage
-  |                                | class provides more specific with respect to those
+  |                                | class provides more details with respect to those
   |                                | referencing approaches, their expected usage and
   |                                | available implementation.
-  | `creditDefaultPayoutReference` | `[` `Text` `]`
+  | `creditDefaultPayoutReference` | `[` `ReferenceWithMeta` `CreditDefaultPayout` `]`
   |                                | The reference to the instantiation of a
   |                                | CreditdefaultPayout component object. The definition
-  |                                | associated to the Lineage class provides more
-  |                                | specific with respect to those referencing
-  |                                | approaches, their expected usage and available
-  |                                | implementation.
-  | `equityPayoutReference`        | `[` `Text` `]`
+  |                                | associated to the Lineage class provides more details
+  |                                | with respect to those referencing approaches, their
+  |                                | expected usage and available implementation.
+  | `equityPayoutReference`        | `[` `ReferenceWithMeta` `EquityPayout` `]`
   |                                | The reference to the instantiation of a EquityPayout
   |                                | object. An expected typical usage is to provide
   |                                | lineage for the payment of, say, an equity dividend.
   |                                | The definition associated to the Lineage class
-  |                                | provides more specific with respect to those
+  |                                | provides more details with respect to those
   |                                | referencing approaches, their expected usage and
   |                                | available implementation.
-  | `eventReference`               | `[` `Text` `]`
+  | `eventReference`               | `[` `ReferenceWithMeta` `Event` `]`
   |                                | The reference to the instantiation of an Event
   |                                | object, either through a rosettaKey or an xml-derived
   |                                | id/href mechanism. The definition associated to the
-  |                                | Lineage class provides more specific with respect to
+  |                                | Lineage class provides more details with respect to
   |                                | those referencing approaches, their expected usage
   |                                | and available implementation.
-  | `interestRatePayoutReference`  | `[` `Text` `]`
+  | `interestRatePayoutReference`  | `[` `ReferenceWithMeta` `InterestRatePayout` `]`
   |                                | The reference to the instantiation of a
   |                                | InterestRatePayout component object. An expected
   |                                | typical usage is to provide lineage for the payment
   |                                | of, say, an interest rate swap reset, with the
   |                                | ability to relate the gross cashflow amounts to the
   |                                | respective payout components. The definition
-  |                                | associated to the Lineage class provides more
-  |                                | specific with respect to those referencing
-  |                                | approaches, their expected usage and available
-  |                                | implementation.
-  | `optionPayoutReference`        | `[` `Text` `]`
+  |                                | associated to the Lineage class provides more details
+  |                                | with respect to those referencing approaches, their
+  |                                | expected usage and available implementation.
+  | `legalDocument`                | `[` `ReferenceWithMeta` `LegalDocument` `]`
+  |                                | The reference to the instantiation of a Legal
+  |                                | Document object. The definition associated to the
+  |                                | Lineage class provides more details with respect to
+  |                                | those referencing approaches, their expected usage
+  |                                | and available implementation.
+  | `optionPayoutReference`        | `[` `ReferenceWithMeta` `OptionPayout` `]`
   |                                | The reference to the instantiation of a OptionPayout
   |                                | component object. The definition associated to the
-  |                                | Lineage class provides more specific with respect to
+  |                                | Lineage class provides more details with respect to
   |                                | those referencing approaches, their expected usage
   |                                | and available implementation.
 
@@ -5776,26 +6040,26 @@
   | `borrower`            | `[` `LegalEntity` `]`
   |                       | Specifies the borrower. There can be more than one
   |                       | borrower. It is meant to be used in the event that
-  |                       | there is no Bloomberg Id or the Secured List isn't
-  |                       | applicable.
+  |                       | there is no Bloomberg Id or the Secured List
+  |                       | isn&#39;t applicable.
   | `creditAgreementDate` | `Optional` `Date`
   |                       | The credit agreement date is the closing date (the
   |                       | date where the agreement has been signed) for the
   |                       | loans in the credit agreement. Funding of the
   |                       | facilities occurs on (or sometimes a little after)
   |                       | the Credit Agreement date. This underlier attribute
-  |                       | is used to help identify which of the company's
+  |                       | is used to help identify which of the company&#39;s
   |                       | outstanding loans are being referenced by knowing to
   |                       | which credit agreement it belongs. ISDA Standards
   |                       | Terms Supplement term: Date of Original Credit
   |                       | Agreement.
-  | `facilityType`        | `Optional` `Text`
+  | `facilityType`        | `Optional` `(` `FieldWithMeta` `Text` `)`
   |                       | The type of loan facility (letter of credit,
   |                       | revolving, ...).
-  | `lien`                | `Optional` `Text`
+  | `lien`                | `Optional` `(` `FieldWithMeta` `Text` `)`
   |                       | Specifies the seniority level of the lien.
   | `productIdentifier`   | `ProductIdentifier`
-  | `tranche`             | `Optional` `Text`
+  | `tranche`             | `Optional` `(` `FieldWithMeta` `Text` `)`
   |                       | The loan tranche that is subject to the derivative
   |                       | transaction. It will typically be referenced as the
   |                       | Bloomberg tranche number. ISDA Standards Terms
@@ -5818,13 +6082,14 @@
   | `applicable`                    | `Bool`
   |                                 | Indicates whether the provision is applicable.
   | `partialCashSettlement`         | `Optional` `Bool`
-  |                                 | Specifies whether either 'Partial Cash Settlement of
-  |                                 | Assignable Loans', 'Partial Cash Settlement of
-  |                                 | Consent Required Loans' or 'Partial Cash Settlement
-  |                                 | of Participations' is applicable. If this element is
-  |                                 | specified and Assignable Loan is a Deliverable
-  |                                 | Obligation Characteristic, any Assignable Loan that
-  |                                 | is deliverable, but where a non-receipt of Consent by
+  |                                 | Specifies whether either &#39;Partial Cash Settlement
+  |                                 | of Assignable Loans&#39;, &#39;Partial Cash
+  |                                 | Settlement of Consent Required Loans&#39; or
+  |                                 | &#39;Partial Cash Settlement of Participations&#39;
+  |                                 | is applicable. If this element is specified and
+  |                                 | Assignable Loan is a Deliverable Obligation
+  |                                 | Characteristic, any Assignable Loan that is
+  |                                 | deliverable, but where a non-receipt of Consent by
   |                                 | the Physical Settlement Date has occurred, the Loan
   |                                 | can be cash settled rather than physically delivered.
   |                                 | If this element is specified and Consent Required
@@ -5857,7 +6122,7 @@
 
   | Field                 | Type/Description |
   | :-------------------- | :----------------
-  | `earlyCallDate`       | `Date`
+  | `earlyCallDate`       | `FieldWithMeta` `Date`
   |                       | Date prior to which the option buyer will have to pay
   |                       | a Make Whole Amount to the option seller if he/she
   |                       | exercises the option.
@@ -5957,14 +6222,14 @@
   | :----------------------- | :----------------
   | `masterAgreementDate`    | `Optional` `Date`
   |                          | The date on which the master agreement was signed.
-  | `masterAgreementId`      | `Optional` `Text`
+  | `masterAgreementId`      | `Optional` `(` `FieldWithMeta` `Text` `)`
   |                          | An identifier that has been created to identify the
   |                          | master agreement.
-  | `masterAgreementType`    | `MasterAgreementTypeEnum`
+  | `masterAgreementType`    | `FieldWithMeta` `MasterAgreementTypeEnum`
   |                          | The agreement executed between the parties and
   |                          | intended to govern product-specific derivatives
   |                          | transactions between those parties.
-  | `masterAgreementVersion` | `Optional` `Text`
+  | `masterAgreementVersion` | `Optional` `(` `FieldWithMeta` `Text` `)`
   |                          | The version of the master agreement.
 
 ### `data` `MasterConfirmation`
@@ -5978,14 +6243,14 @@
   | `masterConfirmationAnnexDate` | `Optional` `Date`
   |                               | The date that an annex to the master confirmation was
   |                               | executed between the parties.
-  | `masterConfirmationAnnexType` | `Optional` `MasterConfirmationAnnexTypeEnum`
+  | `masterConfirmationAnnexType` | `Optional` `(` `FieldWithMeta` `MasterConfirmationAnnexTypeEnum` `)`
   |                               | The type of master confirmation annex executed
   |                               | between the parties.
   | `masterConfirmationDate`      | `Date`
   |                               | The date of the confirmation executed between the
   |                               | parties and intended to govern all relevant
   |                               | transactions between those parties.
-  | `masterConfirmationType`      | `MasterConfirmationTypeEnum`
+  | `masterConfirmationType`      | `FieldWithMeta` `MasterConfirmationTypeEnum`
   |                               | The type of master confirmation executed between the
   |                               | parties.
 
@@ -5997,24 +6262,26 @@
 
   | Field       | Type/Description |
   | :---------- | :----------------
-  | `copyTo`    | `[` `Text` `]`
+  | `copyTo`    | `[` `FieldWithMeta` `Text` `]`
   |             | A unique identifier (within the specified coding
   |             | scheme) giving the details of some party to whom a
   |             | copy of this message will be sent for reference.
-  | `messageId` | `Text`
+  | `messageId` | `FieldWithMeta` `Text`
   |             | A unique identifier assigned to the message.
-  | `sentBy`    | `Optional` `Text`
+  | `sentBy`    | `Optional` `(` `FieldWithMeta` `Text` `)`
   |             | The identifier for the originator of a message
   |             | instance.
-  | `sentTo`    | `[` `Text` `]`
+  | `sentTo`    | `[` `FieldWithMeta` `Text` `]`
   |             | The identifier(s) for the recipient(s) of a message
   |             | instance.
 
 ### `data` `Method`
 
-  A class to specify the ISDA SIMM Method as specified
-  by ISDA 2018 CSA for Initial Margin, Paragraph 13,
-  General Principles (ee).
+  A class to specify the ISDA SIMM Method as the
+  combination of the  as specified by ISDA 2016 and
+  2018 CSA for Initial Margin. ISDA 2016 Credit Support
+  Annex for Initial Margin, paragraph 13, General
+  Principles (ee).
 * `Method`
 
   | Field                 | Type/Description |
@@ -6026,7 +6293,18 @@
   |                       | The qualification of the ISDA SIMM version that is
   |                       | specified for all Covered Transactions as specified
   |                       | by ISDA 2018 CSA for Initial Margin, Paragraph 13,
-  |                       | General Principles (ee) (1).
+  |                       | General Principles (ee)(1).
+
+### `data` `MinimumTransferAmount`
+
+  A class to specify the amount above which collateral
+  has to be posted/returned.
+* `MinimumTransferAmount`
+
+  | Field            | Type/Description |
+  | :--------------- | :----------------
+  | `partyElections` | `[` `PartyElectiveAmount` `]`
+  |                  | The parties&#39; minimum transfer amount elections.
 
 ### `data` `Money`
 
@@ -6037,7 +6315,7 @@
   | :--------- | :----------------
   | `amount`   | `Decimal`
   |            | The monetary quantity in currency units.
-  | `currency` | `Text`
+  | `currency` | `FieldWithMeta` `Text`
   |            | The currency in which the associated amount is
   |            | denominated. The list of valid currencies is not
   |            | presently positioned as an enumeration as part of the
@@ -6054,7 +6332,7 @@
   | Field             | Type/Description |
   | :---------------- | :----------------
   | `id`              | `Optional` `Text`
-  | `identifier`      | `[` `Text` `]`
+  | `identifier`      | `[` `FieldWithMeta` `Text` `]`
   |                   | A unique identifier of an asset provided by a public
   |                   | source that is specified in the source attribute.
   | `pool`            | `Optional` `AssetPool`
@@ -6063,7 +6341,8 @@
   | `productTaxonomy` | `[` `ProductTaxonomy` `]`
   |                   | The product taxonomy value(s) associated with a
   |                   | product.
-  | `sector`          | `Optional` `MortgageSectorEnum`
+  | `rosettaKey`      | `Text`
+  | `sector`          | `Optional` `(` `FieldWithMeta` `MortgageSectorEnum` `)`
   |                   | The sector classification of the mortgage obligation.
   | `source`          | `Optional` `ProductIdSourceEnum`
   |                   | The identifier source.
@@ -6074,8 +6353,8 @@
 ### `data` `MultipleCreditNotations`
 
   A class to specify the specify multiple credit
-  notations alongside a conditional 'any' or 'all'
-  qualifier.
+  notations alongside a conditional &#39;any&#39; or
+  &#39;all&#39; qualifier.
 * `MultipleCreditNotations`
 
   | Field            | Type/Description |
@@ -6083,14 +6362,14 @@
   | `condition`      | `QuantifierEnum`
   |                  | An enumerated element, to qualify whether All or Any
   |                  | credit notation applies.
-  | `creditNotation` | `[` `Text` `]`
+  | `creditNotation` | `[` `FieldWithMeta` `Text` `]`
   |                  | At least two credit notations much be specified.
 
 ### `data` `MultipleDebtTypes`
 
   A class to specify the ability to specify multiple
-  credit debt types alongside a conditional 'any' or
-  'all' qualifier.
+  credit debt types alongside a conditional
+  &#39;any&#39; or &#39;all&#39; qualifier.
 * `MultipleDebtTypes`
 
   | Field       | Type/Description |
@@ -6098,8 +6377,11 @@
   | `condition` | `QuantifierEnum`
   |             | An enumerated attribute, to qualify whether All or
   |             | Any debt type applies.
-  | `debtType`  | `[` `Text` `]`
-  |             | At least two debt types much be specified.
+  | `debtType`  | `[` `FieldWithMeta` `Text` `]`
+  |             | The type of debt, e.g. long term debt, deposit, ...
+  |             | FpML doesn&#39;t specific a scheme value, hence no
+  |             | enumeration is specified as part of the CDM. At least
+  |             | two debt types much be specified.
 
 ### `data` `MultipleExercise`
 
@@ -6143,7 +6425,7 @@
   | `minimumNumberOfOptions` | `Optional` `Int`
   |                          | The minimum number of options that can be exercised
   |                          | on a given exercise date.
-  | `notionaReference`       | `Text`
+  | `notionaReference`       | `ReferenceWithMeta` `Money`
   |                          | A pointer style reference to the associated notional
   |                          | schedule defined elsewhere in the document. This
   |                          | element has been made optional as part of its
@@ -6203,10 +6485,10 @@
   | Field         | Type/Description |
   | :------------ | :----------------
   | `dateOfBirth` | `Optional` `Date`
-  |               | The natural person's date of birth.
+  |               | The natural person&#39;s date of birth.
   | `firstName`   | `Text`
-  |               | The natural person's first name. It is optional in
-  |               | FpML.
+  |               | The natural person&#39;s first name. It is optional
+  |               | in FpML.
   | `honorific`   | `Optional` `Text`
   |               | An honorific title, such as Mr., Ms., Dr. etc.
   | `id`          | `Optional` `Text`
@@ -6215,20 +6497,20 @@
   | `suffix`      | `Optional` `Text`
   |               | Name suffix, such as Jr., III, etc.
   | `surname`     | `Text`
-  |               | The natural person's surname.
+  |               | The natural person&#39;s surname.
 
 ### `data` `NaturalPersonRole`
 
-  The class to specify the role(s) that natural
-  person(s) may have in relation to the contract.
+  A class to specify the role(s) that natural person(s)
+  may have in relation to the contract.
 * `NaturalPersonRole`
 
   | Field             | Type/Description |
   | :---------------- | :----------------
-  | `personReference` | `Text`
+  | `personReference` | `ReferenceWithMeta` `NaturalPerson`
   |                   | A reference to the natural person to whom the role
   |                   | refers to.
-  | `role`            | `Optional` `NaturalPersonRoleEnum`
+  | `role`            | `Optional` `(` `FieldWithMeta` `NaturalPersonRoleEnum` `)`
   |                   | FpML specifies a person role that is distinct from
   |                   | the party role.
 
@@ -6252,7 +6534,7 @@
   | `priceSourceDisruption` | `Optional` `PriceSourceDisruption`
   |                         | An attribute defining the parameters to get a new
   |                         | quote when a settlement rate option is disrupted.
-  | `referenceCurrency`     | `Text`
+  | `referenceCurrency`     | `FieldWithMeta` `Text`
   |                         | The currency in which the swap stream is denominated,
   |                         | which is distinct from the currency in which the
   |                         | cashflows will be settled. The list of valid
@@ -6262,7 +6544,7 @@
   |                         | a result, implementers have to make reference to the
   |                         | relevant standard, such as the ISO 4217 standard for
   |                         | currency codes.
-  | `settlementRateOption`  | `SettlementRateOptionEnum`
+  | `settlementRateOption`  | `FieldWithMeta` `SettlementRateOptionEnum`
   |                         | The rate source for the conversion to the settlement
   |                         | currency. This source is specified through a scheme
   |                         | that reflects the terms of the Annex A to the 1998 FX
@@ -6276,7 +6558,7 @@
 
   | Field          | Type/Description |
   | :------------- | :----------------
-  | `currency`     | `Text`
+  | `currency`     | `FieldWithMeta` `Text`
   |                | The currency in which the notional amount schedule is
   |                | denominated. The currency is specified outside of the
   |                | actual schedule in order to be applied uniformly to
@@ -6356,7 +6638,7 @@
   | `applicable` | `Bool`
   |              | Indicates whether the Not Domestic Currency provision
   |              | is applicable.
-  | `currency`   | `Optional` `Text`
+  | `currency`   | `Optional` `(` `FieldWithMeta` `Text` `)`
   |              | An explicit specification of the domestic currency.
   |              | The list of valid currencies is not presently
   |              | positioned as an enumeration as part of the CDM
@@ -6365,14 +6647,30 @@
   |              | make reference to the relevant standard, such as the
   |              | ISO 4217 standard for currency codes.
 
+### `data` `NotificationTime`
+
+  A class to specify the time by which a demand for the
+  Transfer of Eligible Credit Support (IM) or Posted
+  Credit Support (IM) needs to be made in order for the
+  transfer to take place in accordance with the
+  Transfer Timing provisions. ISDA 2016 Credit Support
+  Annex for Initial Margin, paragraph 13, General
+  Principles, (d)(iii).
+* `NotificationTime`
+
+  | Field            | Type/Description |
+  | :--------------- | :----------------
+  | `partyElections` | `[` `PartyNotificationTime` `]`
+  |                  | The parties&#39; Notification Time elections.
+
 ### `data` `NotifyingParty`
 
 * `NotifyingParty`
 
   | Field                  | Type/Description |
   | :--------------------- | :----------------
-  | `buyerPartyReference`  | `Text`
-  | `sellerPartyReference` | `Optional` `Text`
+  | `buyerPartyReference`  | `ReferenceWithMeta` `Party`
+  | `sellerPartyReference` | `Optional` `(` `ReferenceWithMeta` `Party` `)`
 
 ### `data` `NotionalSchedule`
 
@@ -6414,7 +6712,7 @@
 
   | Field                             | Type/Description |
   | :-------------------------------- | :----------------
-  | `calculationPeriodDatesReference` | `Text`
+  | `calculationPeriodDatesReference` | `ReferenceWithMeta` `CalculationPeriodDates`
   |                                   | A pointer style reference to the associated
   |                                   | calculation period dates component defined elsewhere
   |                                   | in the document.
@@ -6477,7 +6775,7 @@
   |                                  | Standard Terms Supplement for use with CDS
   |                                  | Transactions on Leveraged Loans. ISDA 2003 Term:
   |                                  | Delivery of Commitments.
-  | `designatedPriority`             | `Optional` `Text`
+  | `designatedPriority`             | `Optional` `(` `FieldWithMeta` `Text` `)`
   |                                  | Applies to Loan CDS, to indicate what lien level is
   |                                  | appropriate for a deliverable obligation. Applies to
   |                                  | European Loan CDS, to indicate the Ranking of the
@@ -6641,19 +6939,22 @@
 
 ### `data` `OneWayProvisions`
 
-  A class to specify the One Way Provisions applicable
-  to the ISDA 2018 CSA for Initial Margin, paragraph
-  13, General Principles, provision (aa).
+  A class to specify the Posting Party for the purposes
+  of One Way Provisions in relation to the ISDA CSA for
+  Initial Margin. ISDA 2016 Credit Support Annex for
+  Initial Margin, paragraph 13, General Principles
+  (aa): One Way Provisions.
 * `OneWayProvisions`
 
-  | Field                   | Type/Description |
-  | :---------------------- | :----------------
-  | `applicable`            | `Bool`
-  |                         | The determination of whether the One Way Provisions
-  |                         | are applicable (true) or not applicable (false).
-  | `postingPartyReference` | `Text`
-  |                         | The posting Party for the purposes of One Way
-  |                         | Provisions.
+  | Field          | Type/Description |
+  | :------------- | :----------------
+  | `isApplicable` | `Bool`
+  |                | The determination of whether the One Way Provisions
+  |                | are applicable (true) or not applicable (false).
+  | `postingParty` | `Optional` `(` `ReferenceWithMeta` `Party` `)`
+  |                | The Posting Party for the purposes of One Way
+  |                | Provisions. This party is specified in the case where
+  |                | the One Way Provision is deemed applicable.
 
 ### `data` `OptionCashSettlement`
 
@@ -6733,7 +7034,7 @@
 
   | Field                 | Type/Description |
   | :-------------------- | :----------------
-  | `entitlementCurrency` | `Optional` `Text`
+  | `entitlementCurrency` | `Optional` `(` `FieldWithMeta` `Text` `)`
   |                       | The currency in which the option is denominated. The
   |                       | list of valid currencies is not presently positioned
   |                       | as an enumeration as part of the CDM because that
@@ -6839,7 +7140,6 @@
   |                 | of options is specified as part of the denomination
   |                 | attribute.
   | `rosettaKey`    | `Text`
-  |                 | field added by metagen
   | `underlier`     | `Product`
   |                 | The option underlier. The implementation is
   |                 | restricted to contractual underliers as part of the
@@ -6858,7 +7158,7 @@
   |                                                   | Physical Settlement is defined in the 2006 ISDA
   |                                                   | Definitions, Section 15.2 (published in Supplement
   |                                                   | number 28).
-  | `predeterminedClearingOrganizationPartyReference` | `Optional` `Text`
+  | `predeterminedClearingOrganizationPartyReference` | `Optional` `(` `ReferenceWithMeta` `Party` `)`
   |                                                   | A reference to the clearing organisation (CCP, DCO)
   |                                                   | to which the trade should be cleared.
 
@@ -6878,7 +7178,7 @@
   |                           | to the transaction.
   | `settlementAmount`        | `Optional` `Money`
   |                           | The Settlement Amount, when known in advance.
-  | `settlementCurrency`      | `Optional` `Text`
+  | `settlementCurrency`      | `Optional` `(` `FieldWithMeta` `Text` `)`
   |                           | The settlement currency is to be specified when the
   |                           | Settlement Amount cannot be known in advance. The
   |                           | list of valid currencies is not presently positioned
@@ -6899,7 +7199,7 @@
 
   | Field                | Type/Description |
   | :------------------- | :----------------
-  | `currency`           | `Optional` `Text`
+  | `currency`           | `Optional` `(` `FieldWithMeta` `Text` `)`
   |                      | The currency in which the option strike is
   |                      | denominated. The list of valid currencies is not
   |                      | presently positioned as an enumeration as part of the
@@ -6921,7 +7221,7 @@
   | `spread`             | `Optional` `Decimal`
   |                      | The strike of a credit default swap option or credit
   |                      | swaption when expressed as a spread per annum.
-  | `strikeReference`    | `Optional` `Text`
+  | `strikeReference`    | `Optional` `(` `ReferenceWithMeta` `Schedule` `)`
   |                      | The strike of an option on a credit default swap when
   |                      | expressed in reference to the spread of the
   |                      | underlying swap (typical practice in the case of
@@ -6973,7 +7273,7 @@
   |                                         | A flag to indicate whether follow-up confirmation of
   |                                         | exercise (written or electronic) is required
   |                                         | following telephonic notice by the buyer to the
-  |                                         | seller or seller's agent.
+  |                                         | seller or seller&#39;s agent.
   | `optionalEarlyTerminationAdjustedDates` | `Optional` `OptionalEarlyTerminationAdjustedDates`
   |                                         | An early termination provision to terminate the trade
   |                                         | at fair value where one or both parties have the
@@ -7007,14 +7307,14 @@
   | :----------- | :----------------
   | `date`       | `Optional` `Date`
   |              | The date on which the agreement was signed.
-  | `identifier` | `Optional` `Text`
+  | `identifier` | `Optional` `(` `FieldWithMeta` `Text` `)`
   |              | An identifier that has been created to identify the
   |              | agreement.
-  | `type_`      | `Text`
+  | `_type`      | `FieldWithMeta` `Text`
   |              | The agreement executed between the parties and
   |              | intended to govern product-specific derivatives
   |              | transactions between those parties.
-  | `version`    | `Optional` `Text`
+  | `version`    | `Optional` `(` `FieldWithMeta` `Text` `)`
   |              | The version of the agreement.
 
 ### `data` `PCDeliverableObligationCharac`
@@ -7028,13 +7328,14 @@
   | `applicable`            | `Bool`
   |                         | Indicates whether the provision is applicable.
   | `partialCashSettlement` | `Optional` `Bool`
-  |                         | Specifies whether either 'Partial Cash Settlement of
-  |                         | Assignable Loans', 'Partial Cash Settlement of
-  |                         | Consent Required Loans' or 'Partial Cash Settlement
-  |                         | of Participations' is applicable. If this element is
-  |                         | specified and Assignable Loan is a Deliverable
-  |                         | Obligation Characteristic, any Assignable Loan that
-  |                         | is deliverable, but where a non-receipt of Consent by
+  |                         | Specifies whether either &#39;Partial Cash Settlement
+  |                         | of Assignable Loans&#39;, &#39;Partial Cash
+  |                         | Settlement of Consent Required Loans&#39; or
+  |                         | &#39;Partial Cash Settlement of Participations&#39;
+  |                         | is applicable. If this element is specified and
+  |                         | Assignable Loan is a Deliverable Obligation
+  |                         | Characteristic, any Assignable Loan that is
+  |                         | deliverable, but where a non-receipt of Consent by
   |                         | the Physical Settlement Date has occurred, the Loan
   |                         | can be cash settled rather than physically delivered.
   |                         | If this element is specified and Consent Required
@@ -7094,7 +7395,7 @@
   | `minimumNumberOfOptions` | `Optional` `Int`
   |                          | The minimum number of options that can be exercised
   |                          | on a given exercise date.
-  | `notionaReference`       | `Text`
+  | `notionaReference`       | `ReferenceWithMeta` `Money`
   |                          | A pointer style reference to the associated notional
   |                          | schedule defined elsewhere in the document. This
   |                          | element has been made optional as part of its
@@ -7103,15 +7404,30 @@
 
 ### `data` `Party`
 
-  The party class.
+  A class to specify a party, without a qualification
+  as to whether this party is a legal entity or a
+  natural person, although the model provides the
+  ability to associate a person (or set of persons) to
+  a party, which use case would imply that such party
+  would be a legal entity (even if not formally
+  specified as such).
 * `Party`
 
   | Field           | Type/Description |
   | :-------------- | :----------------
+  | `account`       | `Optional` `Account`
+  |                 | The account that might be associated with the party.
+  |                 | At most one account can be specified, as it is
+  |                 | expected that this information is used in the context
+  |                 | of a contract or legal document where only one
+  |                 | account per party can be associated with such object.
   | `id`            | `Optional` `Text`
-  | `legalEntity`   | `Optional` `LegalEntity`
+  | `name`          | `Optional` `(` `FieldWithMeta` `Text` `)`
+  |                 | The party name.
   | `naturalPerson` | `[` `NaturalPerson` `]`
-  | `partyId`       | `[` `Text` `]`
+  |                 | The person(s) who might be associated with the party
+  |                 | as part of the execution, contract or legal document.
+  | `partyId`       | `[` `FieldWithMeta` `Text` `]`
   |                 | The identifier associated with a party, e.g. the 20
   |                 | digits LEI code.
 
@@ -7124,9 +7440,9 @@
 
   | Field               | Type/Description |
   | :------------------ | :----------------
-  | `accountReference`  | `Optional` `Text`
+  | `accountReference`  | `Optional` `(` `ReferenceWithMeta` `Account` `)`
   |                     | Reference to an account.
-  | `category`          | `Optional` `CategoryEnum`
+  | `category`          | `Optional` `(` `FieldWithMeta` `CategoryEnum` `)`
   |                     | The qualification of the trade by the counterparty,
   |                     | e.g. customer or principal. This information is
   |                     | relevant for a number of marketplace processes, such
@@ -7134,7 +7450,7 @@
   | `naturalPersonRole` | `[` `NaturalPersonRole` `]`
   |                     | The role(s) that natural person(s) may have in
   |                     | relation to the contract.
-  | `partyReference`    | `Text`
+  | `partyReference`    | `ReferenceWithMeta` `Party`
   |                     | The reference to the party that owns this party
   |                     | contract information or, in the case of shared trades
   |                     | information, the reference that originated such
@@ -7153,7 +7469,7 @@
   |                      | Non-standardized data in a generic form.
   | `partyName`          | `Optional` `Text`
   |                      | The party name to which the workflow pertains to.
-  | `partyReference`     | `Optional` `Text`
+  | `partyReference`     | `Optional` `(` `ReferenceWithMeta` `Party` `)`
   |                      | Reference to the party to which the workflow pertains
   |                      | to.
 
@@ -7165,32 +7481,76 @@
 
   | Field                | Type/Description |
   | :------------------- | :----------------
-  | `documentIdentifier` | `[` `Identifier` `]`
+  | `documentIdentifier` | `[` `FieldWithMeta` `Identifier` `]`
   |                      | While FpML specifies the document identifier with a
   |                      | value and an associated scheme, the CDM makes use of
   |                      | the Identifier, which has an explicit issuer. The
   |                      | issuer of this identifier is not necessarily the same
   |                      | as the party reference
-  | `id`                 | `Optional` `Text`
+  | `id`                 | `Optional` `(` `FieldWithMeta` `Text` `)`
   | `partyReference`     | `Text`
   |                      | Reference to the party that issued the document
   |                      | identifier
 
+### `data` `PartyElectiveAmount`
+
+  A class to specify the party elective amounts which
+  can be used for the purpose of specifying elections
+  such as the ISDA CSA Threshold and Minimum Transfer
+  Amount.
+* `PartyElectiveAmount`
+
+  | Field            | Type/Description |
+  | :--------------- | :----------------
+  | `amount`         | `Optional` `Money`
+  |                  | The elective amount when expressed as a currency
+  |                  | amount. The associated PartyElectiveAmount_amount
+  |                  | enforces that the currency amount is actually greater
+  |                  | than 0.
+  | `customElection` | `Optional` `Text`
+  |                  | The elective amount when expressed as a custom
+  |                  | election by the party.
+  | `noAmount`       | `Optional` `Decimal`
+  |                  | The elective amount when specifies as 0 with no
+  |                  | associated currency. The associated
+  |                  | PartyElectiveAmount_noAmount data rule enforces that
+  |                  | the number is actually equal to 0.
+  | `party`          | `ReferenceWithMeta` `Party`
+  |                  | The party which the elective amount applies to.
+
+### `data` `PartyNotificationTime`
+
+  A class to specify the party notification time
+  elections.
+* `PartyNotificationTime`
+
+  | Field                | Type/Description |
+  | :------------------- | :----------------
+  | `customNotification` | `Optional` `Text`
+  |                      | The Notification Time as a custom election.
+  | `notificationTime`   | `Optional` `BusinessCenterTime`
+  |                      | The Notification Time as a time that is qualified by
+  |                      | a standard business center.
+  | `party`              | `ReferenceWithMeta` `Party`
+  |                      | The party which the notification time election
+  |                      | applies to.
+
 ### `data` `PartyRole`
 
-  The class to specify the role(s) that party(ies) may
-  have in relation to the contract.
+  A class to specify the role(s) that party(ies) may
+  have in relation to the execution, contract or other
+  legal agreement.
 * `PartyRole`
 
   | Field                     | Type/Description |
   | :------------------------ | :----------------
-  | `ownershipPartyReference` | `Optional` `Text`
+  | `ownershipPartyReference` | `Optional` `(` `ReferenceWithMeta` `Party` `)`
   |                           | A reference to the party that has ownership of this
   |                           | party role information. FpML specifies that For
   |                           | shared trade information, this attribute will
   |                           | reference the originator of the data (for example, an
   |                           | execution facility or clearing house).
-  | `partyReference`          | `Text`
+  | `partyReference`          | `ReferenceWithMeta` `Party`
   |                           | A reference to the party to which the role refers to.
   | `role`                    | `PartyRoleEnum`
   |                           | The party role.
@@ -7216,8 +7576,9 @@
   |                         | Percentage of payments from the underlier which are
   |                         | passed through.
   | `payerReceiver`         | `PayerReceiver`
-  |                         | This attribute doesn't exists in the FpML construct,
-  |                         | which makes use of the PayerReceiver.model group.
+  |                         | This attribute doesn&#39;t exists in the FpML
+  |                         | construct, which makes use of the PayerReceiver.model
+  |                         | group.
 
 ### `data` `PayerReceiver`
 
@@ -7226,16 +7587,16 @@
 
   | Field                      | Type/Description |
   | :------------------------- | :----------------
-  | `payerAccountReference`    | `Optional` `Text`
+  | `payerAccountReference`    | `Optional` `(` `ReferenceWithMeta` `Account` `)`
   |                            | A reference to the account responsible for making the
   |                            | payments defined by this structure.
-  | `payerPartyReference`      | `Text`
+  | `payerPartyReference`      | `ReferenceWithMeta` `Party`
   |                            | A reference to the party responsible for making the
   |                            | payments defined by this structure.
-  | `receiverAccountReference` | `Optional` `Text`
+  | `receiverAccountReference` | `Optional` `(` `ReferenceWithMeta` `Account` `)`
   |                            | A reference to the account that receives the payments
   |                            | corresponding to this structure.
-  | `receiverPartyReference`   | `Text`
+  | `receiverPartyReference`   | `ReferenceWithMeta` `Party`
   |                            | A reference to the party that receives the payments
   |                            | corresponding to this structure.
 
@@ -7295,12 +7656,12 @@
 
   | Field                     | Type/Description |
   | :------------------------ | :----------------
-  | `dateRelativeTo`          | `Optional` `Text`
+  | `dateRelativeTo`          | `Optional` `(` `BasicReferenceWithMeta` `Date` `)`
   |                           | The anchor date when the payment dates are specified
   |                           | by reference to a set of dates specified somewhere
   |                           | else in the instance document/transaction, e.g. the
   |                           | valuation dates as typically the case for equity
-  |                           | swaps. When this attribute is specified, the
+  |                           | swaps.  When this attribute is specified, the
   |                           | paymentDaysOffset and the paymentDatesAdjustments
   |                           | also need to specified.
   | `firstPaymentDate`        | `Optional` `Date`
@@ -7422,15 +7783,13 @@
 ### `data` `Payout`
 
   A class to represent the set of future cashflow
-  methodologies that can be associated for the purpose
-  of specifying a financial product. Those future
-  cashflow computation methodologies can be combined
-  vary as a function of the underlying asset class
-  (interest rate, equity, credit, ...) and the
-  associated financial terms (option, cashflow). The
-  payout class provide the ability to combine those
-  methodologies for the purpose of specifying wide set
-  of financial products.
+  methodologies in the form of specific payout
+  class(es) that can be associated for the purpose of
+  specifying a financial product. For example, two
+  interest rate payouts can be combined to specify an
+  interest rate swap, or one interest rate payout can
+  be combined with a credit default payout to specify a
+  credit default swap.
 * `Payout`
 
   | Field                 | Type/Description |
@@ -7444,19 +7803,24 @@
   |                       | of the fee leg. For option products, it represents
   |                       | the FpML premium element.
   | `creditDefaultPayout` | `Optional` `CreditDefaultPayout`
-  |                       | The credit default payout.
+  |                       | The credit default payout, which provides the details
+  |                       | necessary for determining when a credit payout will
+  |                       | be triggered as well as the parameters for
+  |                       | calculating the payout and the settlement terms.
   | `equityPayout`        | `[` `EquityPayout` `]`
   |                       | The equity payout, which encompasses the equity price
   |                       | returns, dividend returns, volatility and variance
   |                       | return provisions.
+  | `forwardPayout`       | `[` `ForwardPayout` `]`
   | `interestRatePayout`  | `[` `InterestRatePayout` `]`
-  |                       | The interest rate payout, which can be applied to
-  |                       | interest rate swaps and FRA (which both have two
-  |                       | associated interest rate payouts), credit default
-  |                       | swaps (to represent the fee leg when subject to
-  |                       | periodic payments) and equity swaps (to represent the
-  |                       | funding leg). 2018 ISDA CDM Equity Confirmation for
-  |                       | Security Equity Swap: Floating Obligations.
+  |                       | All of the terms necessary to define and calculate a
+  |                       | cash flow based on a fixed, a floating or an
+  |                       | inflation index rate. The interest rate payout can be
+  |                       | applied to interest rate swaps and FRA (which both
+  |                       | have two associated interest rate payouts), credit
+  |                       | default swaps (to represent the fee leg when subject
+  |                       | to periodic payments) and equity swaps (to represent
+  |                       | the funding leg).
   | `optionPayout`        | `[` `OptionPayout` `]`
   |                       | The option payout.
 
@@ -7468,7 +7832,7 @@
 
   | Field                     | Type/Description |
   | :------------------------ | :----------------
-  | `notionalAmountReference` | `Text`
+  | `notionalAmountReference` | `ReferenceWithMeta` `Money`
   |                           | A reference to the notional amount.
   | `paymentPercent`          | `Decimal`
   |                           | A percentage of the notional amount.
@@ -7534,7 +7898,7 @@
 ### `data` `PhysicalSettlementTerms`
 
   In FpML, PhysicalSettlementTerms and
-  CashSettlementTerms extend SettlementTerms. In the
+  CashSettlementTerms extend SettlementTerms.  In the
   CDM, this extension paradigm has not been used
   because SettlementTerms class has been used for
   purposes related to securities transactions, while it
@@ -7548,11 +7912,11 @@
   |                                 | This element contains all the ISDA terms relevant to
   |                                 | defining the deliverable obligations.
   | `escrow`                        | `Optional` `Bool`
-  |                                 | If this element is specified and set to 'true',
-  |                                 | indicates that physical settlement must take place
-  |                                 | through the use of an escrow agent. (For Canadian
-  |                                 | counterparties this is always 'Not Applicable'. ISDA
-  |                                 | 2003 Term: Escrow.
+  |                                 | If this element is specified and set to
+  |                                 | &#39;true&#39;, indicates that physical settlement
+  |                                 | must take place through the use of an escrow agent.
+  |                                 | (For Canadian counterparties this is always &#39;Not
+  |                                 | Applicable&#39;. ISDA 2003 Term: Escrow.
   | `id`                            | `Optional` `Text`
   | `physicalSettlementPeriod`      | `Optional` `PhysicalSettlementPeriod`
   |                                 | The number of business days used in the determination
@@ -7571,7 +7935,7 @@
   |                                 | number of business days then the maximum number
   |                                 | should be specified in the maximumBusinessDays
   |                                 | element. ISDA 2003 Term: Physical Settlement Period.
-  | `settlementCurrency`            | `Optional` `Text`
+  | `settlementCurrency`            | `Optional` `(` `FieldWithMeta` `Text` `)`
   |                                 | The settlement currency is to be specified when the
   |                                 | Settlement Amount cannot be known in advance. The
   |                                 | list of valid currencies is not presently positioned
@@ -7581,33 +7945,60 @@
   |                                 | reference to the relevant standard, such as the ISO
   |                                 | 4217 standard for currency codes.
   | `sixtyBusinessDaySettlementCap` | `Optional` `Bool`
-  |                                 | If this element is specified and set to 'true', for a
-  |                                 | transaction documented under the 2003 ISDA Credit
-  |                                 | Derivatives Definitions, has the effect of
-  |                                 | incorporating the language set forth below into the
-  |                                 | confirmation. The section references are to the 2003
-  |                                 | ISDA Credit Derivatives Definitions. Notwithstanding
-  |                                 | Section 1.7 or any provisions of Sections 9.9 or 9.10
-  |                                 | to the contrary, but without prejudice to Section 9.3
-  |                                 | and (where applicable) Sections 9.4, 9.5 and 9.6, if
-  |                                 | the Termination Date has not occurred on or prior to
-  |                                 | the date that is 60 Business Days following the
-  |                                 | Physical Settlement Date, such 60th Business Day
-  |                                 | shall be deemed to be the Termination Date with
-  |                                 | respect to this Transaction except in relation to any
-  |                                 | portion of the Transaction (an 'Affected Portion') in
-  |                                 | respect of which: (1) a valid notice of Buy-in Price
-  |                                 | has been delivered that is effective fewer than three
-  |                                 | Business Days prior to such 60th Business Day, in
+  |                                 | If this element is specified and set to
+  |                                 | &#39;true&#39;, for a transaction documented under
+  |                                 | the 2003 ISDA Credit Derivatives Definitions, has the
+  |                                 | effect of incorporating the language set forth below
+  |                                 | into the confirmation. The section references are to
+  |                                 | the 2003 ISDA Credit Derivatives Definitions.
+  |                                 | Notwithstanding Section 1.7 or any provisions of
+  |                                 | Sections 9.9 or 9.10 to the contrary, but without
+  |                                 | prejudice to Section 9.3 and (where applicable)
+  |                                 | Sections 9.4, 9.5 and 9.6, if the Termination Date
+  |                                 | has not occurred on or prior to the date that is 60
+  |                                 | Business Days following the Physical Settlement Date,
+  |                                 | such 60th Business Day shall be deemed to be the
+  |                                 | Termination Date with respect to this Transaction
+  |                                 | except in relation to any portion of the Transaction
+  |                                 | (an &#39;Affected Portion&#39;) in respect of which:
+  |                                 | (1) a valid notice of Buy-in Price has been delivered
+  |                                 | that is effective fewer than three Business Days
+  |                                 | prior to such 60th Business Day, in which case the
+  |                                 | Termination Date for that Affected Portion shall be
+  |                                 | the third Business Day following the date on which
+  |                                 | such notice is effective; or (2) Buyer has purchased
+  |                                 | but not Delivered Deliverable Obligations validly
+  |                                 | specified by Seller pursuant to Section 9.10(b), in
   |                                 | which case the Termination Date for that Affected
-  |                                 | Portion shall be the third Business Day following the
-  |                                 | date on which such notice is effective; or (2) Buyer
-  |                                 | has purchased but not Delivered Deliverable
-  |                                 | Obligations validly specified by Seller pursuant to
-  |                                 | Section 9.10(b), in which case the Termination Date
-  |                                 | for that Affected Portion shall be the tenth Business
-  |                                 | Day following the date on which Seller validly
-  |                                 | specified such Deliverable Obligations to Buyer.
+  |                                 | Portion shall be the tenth Business Day following the
+  |                                 | date on which Seller validly specified such
+  |                                 | Deliverable Obligations to Buyer.
+
+### `data` `PledgorPostingObligations`
+
+  A class to specify the pledgor(s) collateral posting
+  obligations as specified under the terms of the ISDA
+  2016 Credit Support Annex for Initial Margin,
+  paragraph 13, General Principles, (ii).
+* `PledgorPostingObligations`
+
+  | Field                | Type/Description |
+  | :------------------- | :----------------
+  | `additionalLanguage` | `Optional` `Text`
+  |                      | The additional language that might be specified by
+  |                      | the parties to the legal agreement.
+  | `asPermitted`        | `Bool`
+  |                      | If set to True, the Control Agreement is a Credit
+  |                      | Support Document with respect to the pledgor
+  |                      | party(ies). ISDA 2016 Credit Support Annex for
+  |                      | Initial Margin, paragraph 6, (e).
+  | `eligibleCollateral` | `[` `EligibleCollateral` `]`
+  |                      | The eligible collateral as specified in relation to
+  |                      | the pledgor(s) obligation.
+  | `pledgor`            | `[` `ReferenceWithMeta` `Party` `]`
+  |                      | The pledgor party(ies) to which the posting
+  |                      | obligations apply to, which can be either one of the
+  |                      | parties to the legal agreement, or both of those.
 
 ### `data` `PostInceptionState`
 
@@ -7701,7 +8092,10 @@
 
 ### `data` `PrimitiveEvent`
 
-  The set of primitive events.
+  A class to specify the set of elemental/primitives
+  components that are used to specify lifecycle events.
+  Lifecycle events make use of one or several of those
+  elemental components specified as part of this class.
 * `PrimitiveEvent`
 
   | Field            | Type/Description |
@@ -7767,13 +8161,13 @@
 
   A class to represent a financial product. With
   respect to contractual products, this class provides
-  the ability to specify either a post-execution 'view'
-  of contract (the Contract class) or the pre-execution
-  contractual product (the ContractualProduct class).
-  This class is used as part of the option exercise
-  representation, which makes use of the contract
-  attribute for supporting the swaption use case, with
-  the exercise into a swap.
+  the ability to specify either a post-execution
+  &#39;view&#39; of contract (the Contract class) or
+  the pre-execution contractual product (the
+  ContractualProduct class). This class is used as part
+  of the option exercise representation, which makes
+  use of the contract attribute for supporting the
+  swaption use case, with the exercise into a swap.
 * `Product`
 
   | Field                    | Type/Description |
@@ -7784,6 +8178,7 @@
   | `convertibleBond`        | `Optional` `ConvertibleBond`
   | `equity`                 | `Optional` `Equity`
   | `exchangeTradedFund`     | `Optional` `ExchangeTradedFund`
+  | `foreignExchange`        | `Optional` `ForeignExchange`
   | `index`                  | `Optional` `Index`
   | `loan`                   | `Optional` `Loan`
   | `mortgageBackedSecurity` | `Optional` `MortgageBackedSecurity`
@@ -7803,21 +8198,21 @@
 
   | Field                 | Type/Description |
   | :-------------------- | :----------------
-  | `primaryAssetClass`   | `Optional` `AssetClassEnum`
+  | `primaryAssetClass`   | `Optional` `(` `FieldWithMeta` `AssetClassEnum` `)`
   |                       | A classification of the most important risk class of
   |                       | the trade. FpML defines a simple asset class
   |                       | categorisation using a coding scheme.
-  | `productId`           | `[` `Text` `]`
+  | `productId`           | `[` `FieldWithMeta` `Text` `]`
   |                       | A product reference identifier. The product Id is an
   |                       | identifier that describes the key economic
   |                       | characteristics of the trade type, with the exception
   |                       | of concepts such as size (notional, quantity, number
   |                       | of units) and price (fixed rate, strike, etc.) that
   |                       | are negotiated for each transaction. It can be used
-  |                       | to hold identifiers such as the 'UPI' (universal
-  |                       | product identifier) required by certain regulatory
-  |                       | reporting rules. It can also be used to hold
-  |                       | identifiers of benchmark products or product
+  |                       | to hold identifiers such as the &#39;UPI&#39;
+  |                       | (universal product identifier) required by certain
+  |                       | regulatory reporting rules. It can also be used to
+  |                       | hold identifiers of benchmark products or product
   |                       | temnplates used by certain trading systems or
   |                       | facilities. FpML does not define the domain values
   |                       | associated with this element. Note that the domain
@@ -7828,11 +8223,11 @@
   |                       | outcome of the isProduct qualification logic. This
   |                       | value is derived by the CDM from the product payout
   |                       | features.
-  | `productType`         | `[` `Text` `]`
+  | `productType`         | `[` `FieldWithMeta` `Text` `]`
   |                       | A classification of the type of product. FpML defines
   |                       | a simple product categorisation using a coding
   |                       | scheme.
-  | `secondaryAssetClass` | `[` `AssetClassEnum` `]`
+  | `secondaryAssetClass` | `[` `FieldWithMeta` `AssetClassEnum` `]`
   |                       | A classification of additional risk classes of the
   |                       | trade, if any. FpML defines a simple asset class
   |                       | categorisation using a coding scheme.
@@ -7842,27 +8237,26 @@
   The product identifier, composed of an identifier, a
   source and a product taxonomy. The source is optional
   because it can be specified through the scheme that
-  is associated with the identifier. As FpML doesn't
-  specify a scheme as part of the standard, that scheme
-  cannot be mapped to the CDM ProductIdSourceEnum. The
-  associated rosettaKey denotes the ability to
-  associate a hash value to the ProductIdentifier
-  instantiations for the purpose of model
-  cross-referencing, in support of functionality such
-  as the event effect and the lineage.
+  is associated with the identifier. As FpML
+  doesn&#39;t specify a scheme as part of the standard,
+  that scheme cannot be mapped to the CDM
+  ProductIdSourceEnum. The associated rosettaKey
+  denotes the ability to associate a hash value to the
+  ProductIdentifier instantiations for the purpose of
+  model cross-referencing, in support of functionality
+  such as the event effect and the lineage.
 * `ProductIdentifier`
 
   | Field             | Type/Description |
   | :---------------- | :----------------
   | `id`              | `Optional` `Text`
-  | `identifier`      | `[` `Text` `]`
+  | `identifier`      | `[` `FieldWithMeta` `Text` `]`
   |                   | A unique identifier of an asset provided by a public
   |                   | source that is specified in the source attribute.
   | `productTaxonomy` | `[` `ProductTaxonomy` `]`
   |                   | The product taxonomy value(s) associated with a
   |                   | product.
   | `rosettaKey`      | `Text`
-  |                   | field added by metagen
   | `source`          | `Optional` `ProductIdSourceEnum`
   |                   | The identifier source.
 
@@ -7881,17 +8275,21 @@
 
 ### `data` `ProtectionTerms`
 
-  This class contains all the terms relevant to
-  defining the applicable floating rate payer
-  calculation amount, credit events and associated
-  conditions to settlement, and reference obligations.
+  A class to specify the terms for calculating a payout
+  to protect the buyer of the swap in the case of a
+  qualified credit event. These terms include the
+  notional amount, the applicable credit events, the
+  reference obligation, and in the case of a CDS on
+  mortgage-backed securities, the floatingAmountEvents.
 * `ProtectionTerms`
 
   | Field                  | Type/Description |
   | :--------------------- | :----------------
   | `creditEvents`         | `Optional` `CreditEvents`
-  |                        | This element contains all the ISDA terms relating to
-  |                        | credit events.
+  |                        | Specifies the applicable Credit Events that would
+  |                        | trigger a settlement, as specified in the related
+  |                        | Confirmation and defined in the ISDA 2014 Credit
+  |                        | Definition article IV section 4.1.
   | `floatingAmountEvents` | `Optional` `FloatingAmountEvents`
   |                        | This element contains the ISDA terms relating to the
   |                        | floating rate payment events and the implied
@@ -7929,9 +8327,9 @@
   |                         | occurred. The market convention is two. ISDA 2003
   |                         | Term: Specified Number.
   | `standardPublicSources` | `Optional` `Bool`
-  |                         | If this element is specified and set to 'true',
-  |                         | indicates that ISDA defined Standard Public Sources
-  |                         | are applicable.
+  |                         | If this element is specified and set to
+  |                         | &#39;true&#39;, indicates that ISDA defined Standard
+  |                         | Public Sources are applicable.
 
 ### `data` `Quantity`
 
@@ -7993,10 +8391,10 @@
 
   | Field        | Type/Description |
   | :----------- | :----------------
-  | `currency1`  | `Text`
+  | `currency1`  | `FieldWithMeta` `Text`
   |              | The first currency specified when a pair of
   |              | currencies is to be evaluated.
-  | `currency2`  | `Text`
+  | `currency2`  | `FieldWithMeta` `Text`
   |              | The second currency specified when a pair of
   |              | currencies is to be evaluated.
   | `quoteBasis` | `QuoteBasisEnum`
@@ -8032,7 +8430,7 @@
   |                       | treatment is applied, e.g. before converting a rate
   |                       | quoted on a discount basis to an equivalent yield. An
   |                       | observed rate of 5% would be represented as 0.05.
-  | `rateReference`       | `Optional` `Text`
+  | `rateReference`       | `Optional` `(` `ReferenceWithMeta` `RateObservation` `)`
   |                       | A pointer style reference to a floating rate
   |                       | component defined as part of a stub calculation
   |                       | period amount component. It is only required when it
@@ -8066,7 +8464,11 @@
   |                 | in accordance with any adjustments specified in
   |                 | calculationPeriodDatesAdjustments.
   | `floatingRate`  | `Optional` `FloatingRateSpecification`
-  |                 | A floating interest rate calculation definition.
+  |                 | The floating interest rate specification, which
+  |                 | includes the definition of the floating rate index.
+  |                 | the tenor, the initial value, and, when applicable,
+  |                 | the spread, the rounding convention, the averaging
+  |                 | method and the negative interest rate treatment.
   | `inflationRate` | `Optional` `InflationRateSpecification`
   |                 | An inflation rate calculation definition.
 
@@ -8078,7 +8480,7 @@
 
   | Field               | Type/Description |
   | :------------------ | :----------------
-  | `referenceBankId`   | `Text`
+  | `referenceBankId`   | `FieldWithMeta` `Text`
   |                     | An institution (party) identifier, e.g. a bank
   |                     | identifier code (BIC). FpML specifies a
   |                     | referenceBankIdScheme.
@@ -8131,9 +8533,9 @@
   | `referencePolicy`            | `Optional` `Bool`
   |                              | Applicable to the transactions on mortgage-backed
   |                              | security, which can make use of a reference policy.
-  |                              | Presence of the element with value set to 'true'
-  |                              | indicates that the reference policy is applicable;
-  |                              | absence implies that it is not.
+  |                              | Presence of the element with value set to
+  |                              | &#39;true&#39; indicates that the reference policy is
+  |                              | applicable; absence implies that it is not.
   | `referencePrice`             | `Optional` `Decimal`
   |                              | Used to determine (a) for physically settled trades,
   |                              | the Physical Settlement Amount, which equals the
@@ -8148,10 +8550,10 @@
   |                              | Secured Obligations of the Designated Priority of the
   |                              | Reference Entity published by Markit Group Limited or
   |                              | any successor thereto appointed by the Specified
-  |                              | Dealers (the 'Secured List Publisher') on or most
-  |                              | recently before such day, which list is currently
-  |                              | available at [http://www.markit.com]. ISDA 2003 Term:
-  |                              | Relevant Secured List.
+  |                              | Dealers (the &#39;Secured List Publisher&#39;) on or
+  |                              | most recently before such day, which list is
+  |                              | currently available at [http://www.markit.com]. ISDA
+  |                              | 2003 Term: Relevant Secured List.
   | `unknownReferenceObligation` | `Optional` `Bool`
   |                              | Used to indicate that the Reference obligation
   |                              | associated with the Credit Default Swap is currently
@@ -8203,7 +8605,7 @@
   |                               | The entity primarily responsible for repaying debt to
   |                               | a creditor as a result of borrowing or issuing bonds.
   |                               | ISDA 2003 Term: Primary Obligor.
-  | `primaryObligorReference`     | `Optional` `Text`
+  | `primaryObligorReference`     | `Optional` `(` `ReferenceWithMeta` `LegalEntity` `)`
   |                               | A pointer style reference to a reference entity
   |                               | defined elsewhere in the document. Used when the
   |                               | reference entity is the primary obligor.
@@ -8218,7 +8620,7 @@
 
   | Field                   | Type/Description |
   | :---------------------- | :----------------
-  | `entityType`            | `EntityTypeEnum`
+  | `entityType`            | `FieldWithMeta` `EntityTypeEnum`
   |                         | Defines the reference entity types corresponding to a
   |                         | list of types in the ISDA First to Default
   |                         | documentation.
@@ -8271,17 +8673,17 @@
 
   | Field                              | Type/Description |
   | :--------------------------------- | :----------------
-  | `cashSettlementTermsReference`     | `Optional` `Text`
+  | `cashSettlementTermsReference`     | `Optional` `(` `ReferenceWithMeta` `CashSettlementTerms` `)`
   |                                    | Reference to the cash settlement terms applicable to
   |                                    | this item.
   | `constituentWeight`                | `Optional` `ConstituentWeight`
   |                                    | Describes the weight of each of the constituents
   |                                    | within the basket. If not provided, it is assumed to
   |                                    | be equal weighted.
-  | `physicalSettlementTermsReference` | `Optional` `Text`
+  | `physicalSettlementTermsReference` | `Optional` `(` `ReferenceWithMeta` `PhysicalSettlementTerms` `)`
   |                                    | Reference to the physical settlement terms applicable
   |                                    | to this item.
-  | `protectionTermsReference`         | `Optional` `Text`
+  | `protectionTermsReference`         | `Optional` `(` `ReferenceWithMeta` `ProtectionTerms` `)`
   |                                    | Reference to the documentation terms applicable to
   |                                    | this item.
   | `referencePair`                    | `ReferencePair`
@@ -8305,19 +8707,77 @@
 
 ### `data` `Regime`
 
-  The regulatory regime(s) applicable to the respective
-  parties to certain legal agreements, such as the
-  Standard CSA 2018 for Initial Margin.
+  A class to specify the regulatory regimes elections
+  by the respective parties a legal agreement. 2016
+  ISDA Credit Support Annex for Initial Margin: Regime.
 * `Regime`
 
-  | Field              | Type/Description |
-  | :----------------- | :----------------
-  | `applicableRegime` | `[` `ApplicableRegime` `]`
-  |                    | The applicable regulatory regime(s), with one
-  |                    | instantiated value per regulatory regime.
-  | `partyReference`   | `Text`
-  |                    | A reference to the party when acting as a secured
-  |                    | party in application of the ISDA CSA.
+  | Field               | Type/Description |
+  | :------------------ | :----------------
+  | `additionalRegimes` | `[` `AdditionalRegime` `]`
+  |                     | The additional regulatory regime(s) that might be
+  |                     | specified by the parties to a legal agreement. ISDA
+  |                     | 2016 Credit Support Annex for Initial Margin
+  |                     | paragraph 13, General Principles, (ll): The parties
+  |                     | may from time to time agree in writing that other
+  |                     | regimes also comprise `Regimes` and that the General
+  |                     | Principles be adopted and/or amended to accommodate
+  |                     | such additional Regimes.
+  | `applicableRegime`  | `[` `ApplicableRegime` `]`
+  |                     | The set of regulatory regimes and associated
+  |                     | provisions applicable to the respective parties to
+  |                     | the legal agreement.
+  | `party`             | `ReferenceWithMeta` `Party`
+  |                     | The party which the set of regulatory regime
+  |                     | elections specified in the applicableRegime attribute
+  |                     | applies to.
+
+### `data` `RegimeElection`
+
+  A class to specify the regulatory regimes elections
+  by the each of the parties to a legal agreement.
+* `RegimeElection`
+
+  | Field            | Type/Description |
+  | :--------------- | :----------------
+  | `partyElections` | `[` `Regime` `]`
+  |                  | The parties&#39; regulatory regime elections.
+
+### `data` `RegimeTerms`
+
+  An abstract class to specify the regulatory regime
+  terms which are referred to as part of certain legal
+  agreements, such as such as the ISDA 2016 and 2018
+  CSA for Initial Margin.
+* `RegimeTerms`
+
+  | Field                 | Type/Description |
+  | :-------------------- | :----------------
+  | `additionalType`      | `AdditionalTypeEnum`
+  |                       | The Additional Type of transaction that can require
+  |                       | the collection or delivery of initial margin under
+  |                       | the specified regulatory regime for the purposes of
+  |                       | Covered Transactions, as specified in ISDA 2016
+  |                       | Credit Support Annex for Initial Margin, paragraph
+  |                       | 13, General Principles, (b)(B).
+  | `isApplicable`        | `Bool`
+  |                       | A boolean flag to specify whether the regulatory
+  |                       | regime is applicable.
+  | `retrospectiveEffect` | `Bool`
+  |                       | ISDA 2016 CSA for Initial Margin, paragraph 13
+  |                       | (b)(i): if `Retrospective Effect` is specified as
+  |                       | applicable to a Regime (a `Retrospective Regime`)
+  |                       | then all Covered Transactions (IM) under all other
+  |                       | Regimes with an earlier Regime Effective Time will,
+  |                       | to the extent that they would have been Covered
+  |                       | Transactions (IM) under such Retrospective Regime had
+  |                       | such Transactions been entered into at or after the
+  |                       | Regime Effective Time of the Retrospective Regime, be
+  |                       | deemed to be Covered Transactions (IM) for such
+  |                       | Retrospective Regime.
+  | `simmException`       | `SimmException`
+  |                       | The specified exception to the ISDA Standard Initial
+  |                       | Margin Model.
 
 ### `data` `RelatedParty`
 
@@ -8325,9 +8785,9 @@
 
   | Field              | Type/Description |
   | :----------------- | :----------------
-  | `accountReference` | `Optional` `Text`
+  | `accountReference` | `Optional` `(` `ReferenceWithMeta` `Account` `)`
   |                    | Reference to an account.
-  | `partyReference`   | `Text`
+  | `partyReference`   | `ReferenceWithMeta` `Party`
   |                    | Reference to a party.
   | `role`             | `PartyRoleEnum`
   |                    | The category of the relationship. The related party
@@ -8374,7 +8834,7 @@
   |                            | (Note that this date may change if the business
   |                            | center holidays change).
   | `businessCenters`          | `Optional` `BusinessCenters`
-  | `businessCentersReference` | `Optional` `Text`
+  | `businessCentersReference` | `Optional` `(` `ReferenceWithMeta` `BusinessCenters` `)`
   |                            | A pointer style reference to a set of financial
   |                            | business centers defined elsewhere in the document.
   |                            | This set of business centers is used to determine
@@ -8384,7 +8844,7 @@
   |                            | otherwise fall on a day that is not a business day,
   |                            | as specified by an ISDA convention (e.g. Following,
   |                            | Precedent).
-  | `dateRelativeTo`           | `Optional` `Text`
+  | `dateRelativeTo`           | `Optional` `(` `BasicReferenceWithMeta` `Date` `)`
   |                            | Specifies the anchor as an href attribute. The href
   |                            | attribute value is a pointer style reference to the
   |                            | element or component elsewhere in the document where
@@ -8424,7 +8884,7 @@
   |                            | (Note that this date may change if the business
   |                            | center holidays change).
   | `businessCenters`          | `Optional` `BusinessCenters`
-  | `businessCentersReference` | `Optional` `Text`
+  | `businessCentersReference` | `Optional` `(` `ReferenceWithMeta` `BusinessCenters` `)`
   |                            | A pointer style reference to a set of financial
   |                            | business centers defined elsewhere in the document.
   |                            | This set of business centers is used to determine
@@ -8434,7 +8894,7 @@
   |                            | otherwise fall on a day that is not a business day,
   |                            | as specified by an ISDA convention (e.g. Following,
   |                            | Precedent).
-  | `dateRelativeTo`           | `Optional` `Text`
+  | `dateRelativeTo`           | `Optional` `(` `BasicReferenceWithMeta` `Date` `)`
   |                            | Specifies the anchor as an href attribute. The href
   |                            | attribute value is a pointer style reference to the
   |                            | element or component elsewhere in the document where
@@ -8502,7 +8962,7 @@
 
   | Field                             | Type/Description |
   | :-------------------------------- | :----------------
-  | `calculationPeriodDatesReference` | `Optional` `Text`
+  | `calculationPeriodDatesReference` | `Optional` `(` `ReferenceWithMeta` `CalculationPeriodDates` `)`
   |                                   | A pointer style reference to the associated
   |                                   | calculation period dates component defined elsewhere
   |                                   | in the document.
@@ -8517,10 +8977,10 @@
   |                                   | offset and an associated set of financial business
   |                                   | centers. Normally these offset calculation rules will
   |                                   | be those specified in the ISDA definition for the
-  |                                   | relevant floating rate index (ISDA's Floating Rate
-  |                                   | Option). However, non-standard offset calculation
-  |                                   | rules may apply for a trade if mutually agreed by the
-  |                                   | principal parties to the transaction.
+  |                                   | relevant floating rate index (ISDA&#39;s Floating
+  |                                   | Rate Option). However, non-standard offset
+  |                                   | calculation rules may apply for a trade if mutually
+  |                                   | agreed by the principal parties to the transaction.
   | `id`                              | `Optional` `Text`
   | `initialFixingDate`               | `Optional` `InitialFixingDate`
   |                                   | The initial fixing date.
@@ -8570,7 +9030,7 @@
   | `resetRelativeTo`                 | `Optional` `ResetRelativeToEnum`
   |                                   | Specifies whether the reset dates are determined with
   |                                   | respect to each adjusted calculation period start
-  |                                   | date or adjusted calculation period end date. If the
+  |                                   | date or adjusted calculation period end date.  If the
   |                                   | reset frequency is specified as daily this element
   |                                   | must not be included.
 
@@ -8627,7 +9087,7 @@
   stating the Publicly Available Information). For
   example, can describe a file or a URL that represents
   the event. This type is an extended version of a type
-  defined by RIXML (www.rixml.org). Rosetta restricts
+  defined by RIXML (www.rixml.org).  Rosetta restricts
   the FpML implementation by not providing the ability
   to associated a document in hexadecimalBinary or
   base64Binary until such time that actual use cases
@@ -8641,26 +9101,26 @@
   |                | For example, which software version is required to
   |                | open the document? Or, how does this resource relate
   |                | to the others for this event?
-  | `language`     | `Optional` `Text`
+  | `language`     | `Optional` `(` `FieldWithMeta` `Text` `)`
   |                | Indicates the language of the resource, described
   |                | using the ISO 639-2/T Code.
   | `length`       | `Optional` `ResourceLength`
   |                | Indicates the length of the resource. For example, if
   |                | the resource were a PDF file, the length would be in
   |                | pages.
-  | `mimeType`     | `Optional` `Text`
+  | `mimeType`     | `Optional` `(` `FieldWithMeta` `Text` `)`
   |                | Indicates the type of media used to store the
   |                | content. mimeType is used to determine the software
   |                | product(s) that can read the content. MIME Types are
   |                | described in RFC 2046.
   | `name`         | `Optional` `Text`
-  |                | The name of the resource. It is specified as a
+  |                | The name of the resource.  It is specified as a
   |                | NormalizedString in FpML.
-  | `resourceId`   | `Text`
+  | `resourceId`   | `FieldWithMeta` `Text`
   |                | The unique identifier of the resource within the
   |                | event. FpML specifies this element of type
   |                | resourceIdScheme but with no specified value.
-  | `resourceType` | `Optional` `ResourceTypeEnum`
+  | `resourceType` | `Optional` `(` `FieldWithMeta` `ResourceTypeEnum` `)`
   |                | A description of the type of the resource, e.g. a
   |                | confirmation.
   | `sizeInBytes`  | `Optional` `Decimal`
@@ -8700,11 +9160,11 @@
   |                              | Indicates whether the restructuring provision is
   |                              | applicable.
   | `multipleCreditEventNotices` | `Optional` `Bool`
-  |                              | Presence of this element and value set to 'true'
-  |                              | indicates that Section 3.9 of the 2003 Credit
-  |                              | Derivatives Definitions shall apply. Absence of this
-  |                              | element indicates that Section 3.9 shall not apply.
-  |                              | NOTE: Not allowed under ISDA Credit 1999.
+  |                              | Presence of this element and value set to
+  |                              | &#39;true&#39; indicates that Section 3.9 of the 2003
+  |                              | Credit Derivatives Definitions shall apply. Absence
+  |                              | of this element indicates that Section 3.9 shall not
+  |                              | apply. NOTE: Not allowed under ISDA Credit 1999.
   | `multipleHolderObligation`   | `Optional` `Bool`
   |                              | In relation to a restructuring credit event, unless
   |                              | multiple holder obligation is not specified
@@ -8715,7 +9175,7 @@
   |                              | least two thirds of the holders must agree to the
   |                              | event that constitutes the restructuring credit
   |                              | event. ISDA 2003 Term: Multiple Holder Obligation.
-  | `restructuringType`          | `Optional` `RestructuringEnum`
+  | `restructuringType`          | `Optional` `(` `FieldWithMeta` `RestructuringEnum` `)`
   |                              | Specifies the type of restructuring that is
   |                              | applicable.
 
@@ -8798,7 +9258,7 @@
   |                        | components which breakdown is deemed relevant (e.g.
   |                        | the net security transfer related to several
   |                        | contracts).
-  | `identifier`           | `Optional` `Text`
+  | `identifier`           | `Optional` `(` `FieldWithMeta` `Text` `)`
   |                        | The identifier that can be associated with each of
   |                        | the transfer components
   | `quantity`             | `Decimal`
@@ -8810,6 +9270,15 @@
   | `transferorTransferee` | `TransferorTransferee`
   |                        | The transferee and transferor party information.
 
+### `data` `SensitivityMethodology`
+
+* `SensitivityMethodology`
+
+  | Field                  | Type/Description |
+  | :--------------------- | :----------------
+  | `customMethodology`    | `Optional` `Text`
+  | `specifiedMethodology` | `Optional` `SensitivitiesEnum`
+
 ### `data` `SettledEntityMatrix`
 
   A class to specify the Relevant Settled Entity
@@ -8818,7 +9287,7 @@
 
   | Field             | Type/Description |
   | :---------------- | :----------------
-  | `matrixSource`    | `SettledEntityMatrixSourceEnum`
+  | `matrixSource`    | `FieldWithMeta` `SettledEntityMatrixSourceEnum`
   |                   | Relevant settled entity matrix source.
   | `publicationDate` | `Optional` `Date`
   |                   | Specifies the publication date of the applicable
@@ -8836,7 +9305,7 @@
   | Field                | Type/Description |
   | :------------------- | :----------------
   | `id`                 | `Optional` `Text`
-  | `settlementCurrency` | `Optional` `Text`
+  | `settlementCurrency` | `Optional` `(` `FieldWithMeta` `Text` `)`
   |                      | The settlement currency is to be specified when the
   |                      | Settlement Amount cannot be known in advance. The
   |                      | list of valid currencies is not presently positioned
@@ -8858,7 +9327,7 @@
   | `nonDeliverableSettlement` | `Optional` `NonDeliverableSettlement`
   |                            | The specification of the non-deliverable settlement
   |                            | provision.
-  | `settlementCurrency`       | `Text`
+  | `settlementCurrency`       | `FieldWithMeta` `Text`
   |                            | The currency that the payout are settled in when the
   |                            | currency in which the payout is specified is
   |                            | non-deliverable. The list of valid currencies is not
@@ -8903,7 +9372,7 @@
   | `id`                 | `Optional` `Text`
   | `settlementAmount`   | `Optional` `Money`
   |                      | The Settlement Amount, when known in advance.
-  | `settlementCurrency` | `Optional` `Text`
+  | `settlementCurrency` | `Optional` `(` `FieldWithMeta` `Text` `)`
   |                      | The settlement currency is to be specified when the
   |                      | Settlement Amount cannot be known in advance. The
   |                      | list of valid currencies is not presently positioned
@@ -8922,14 +9391,13 @@
   A class to specify the ISDA SIMM Calculation Currency
   as either the Base Currency or an alternative
   currency, in accordance with the ISDA 2018 CSA for
-  Initial Margin, Paragraph 13, General Principles (ee)
-  (3).
+  Initial Margin, Paragraph 13, General Principles
+  (ee)(3).
 * `SimmCalculationCurrency`
 
   | Field            | Type/Description |
   | :--------------- | :----------------
-  | `baseCurrency`   | `Bool`
-  | `currency`       | `Optional` `Text`
+  | `currency`       | `Optional` `(` `FieldWithMeta` `Text` `)`
   |                  | The currency in which the ISDA SIMM Calculation is
   |                  | denominated. The list of valid currencies is not
   |                  | presently positioned as an enumeration as part of the
@@ -8937,25 +9405,27 @@
   |                  | specified by ISDA and FpML. As a result, implementers
   |                  | have to make reference to the relevant standard, such
   |                  | as the ISO 4217 standard for currency codes.
-  | `partyReference` | `Text`
-  |                  | A reference to the party to the CSA agreement to
-  |                  | which the SIMM Calculation Currency qualification
-  |                  | applies.
+  | `isBaseCurrency` | `Bool`
+  | `party`          | `ReferenceWithMeta` `Party`
+  |                  | The party which the SIMM Calculation Currency
+  |                  | qualification applies to.
 
 ### `data` `SimmException`
 
   A class to specify the SIMM exception to the
-  regulatory regime clause of the ISDA 2018 CSA for
-  Initial Margin as either a normalised value specified
-  as part of an enumeration or a customised value
-  specified of type string.
+  regulatory regime clause of the ISDA 2016 and 2018
+  CSA for Initial Margin as either a normalized value
+  specified as part of an enumeration or a customized
+  value specified of type string. ISDA 2016 Credit
+  Support Annex for Initial Margin paragraph 13,
+  Regime: SIMM Exception.
 * `SimmException`
 
   | Field                   | Type/Description |
   | :---------------------- | :----------------
   | `asSpecified`           | `Optional` `Text`
   |                         | The Standard Initial Margin Model exception when
-  |                         | specified as a customised approach by the party.
+  |                         | specified as a customized approach by the party.
   | `standardisedException` | `Optional` `SimmExceptionEnum`
   |                         | The Standard Initial Margin Model exception when
   |                         | specified by the party according to one of the
@@ -8971,15 +9441,15 @@
   version used by one of the parties to the agreement.
 * `SimmVersion`
 
-  | Field       | Type/Description |
-  | :---------- | :----------------
-  | `specified` | `Bool`
-  |             | A boolean attribute to determine whether the SIMM
-  |             | version is specified for the ISDA 2018 CSA for
-  |             | Initial Margin.
-  | `version`   | `Optional` `SpecifiedSimmVersion`
-  |             | When the SIMM version is specified, it will reference
-  |             | the party that uses such version.
+  | Field         | Type/Description |
+  | :------------ | :----------------
+  | `isSpecified` | `Bool`
+  |               | A boolean attribute to determine whether the SIMM
+  |               | version is specified for the purpose of the legal
+  |               | agreement.
+  | `version`     | `Optional` `SpecifiedSimmVersion`
+  |               | When the SIMM version is specified, it will reference
+  |               | the party that uses such version.
 
 ### `data` `SimplePayment`
 
@@ -8991,10 +9461,10 @@
   | Field                      | Type/Description |
   | :------------------------- | :----------------
   | `id`                       | `Optional` `Text`
-  | `payerAccountReference`    | `Optional` `Text`
+  | `payerAccountReference`    | `Optional` `(` `ReferenceWithMeta` `Account` `)`
   |                            | A reference to the account responsible for making the
   |                            | payments defined by this structure.
-  | `payerPartyReference`      | `Text`
+  | `payerPartyReference`      | `ReferenceWithMeta` `Party`
   |                            | A reference to the party responsible for making the
   |                            | payments defined by this structure.
   | `paymentAmount`            | `Money`
@@ -9003,10 +9473,10 @@
   |                            | The payment date. This date is subject to adjustment
   |                            | in accordance with any applicable business day
   |                            | convention.
-  | `receiverAccountReference` | `Optional` `Text`
+  | `receiverAccountReference` | `Optional` `(` `ReferenceWithMeta` `Account` `)`
   |                            | A reference to the account that receives the payments
   |                            | corresponding to this structure.
-  | `receiverPartyReference`   | `Text`
+  | `receiverPartyReference`   | `ReferenceWithMeta` `Party`
   |                            | A reference to the party that receives the payments
   |                            | corresponding to this structure.
 
@@ -9047,7 +9517,7 @@
   | `applicable` | `Bool`
   |              | Indicates whether the specified currency provision is
   |              | applicable.
-  | `currency`   | `Optional` `Text`
+  | `currency`   | `Optional` `(` `FieldWithMeta` `Text` `)`
   |              | The currency in which the the specified currency is
   |              | denominated. The list of valid currencies is not
   |              | presently positioned as an enumeration as part of the
@@ -9063,13 +9533,13 @@
   then be the relevant version for that CSA.
 * `SpecifiedSimmVersion`
 
-  | Field            | Type/Description |
-  | :--------------- | :----------------
-  | `partyReference` | `Text`
-  |                  | A reference to the party to which the specified SIMM
-  |                  | version applies.
-  | `simmVersion`    | `Text`
-  |                  | The applicable ISDA SIMM version.
+  | Field         | Type/Description |
+  | :------------ | :----------------
+  | `party`       | `ReferenceWithMeta` `Party`
+  |               | The party which the specified SIMM version applies
+  |               | to.
+  | `simmVersion` | `Text`
+  |               | The applicable ISDA SIMM version.
 
 ### `data` `SpreadSchedule`
 
@@ -9090,7 +9560,7 @@
   |                | ascending step date. An FpML document containing an
   |                | unordered list of steps is still regarded as a
   |                | conformant document.
-  | `type_`        | `Optional` `SpreadScheduleTypeEnum`
+  | `_type`        | `Optional` `(` `FieldWithMeta` `SpreadScheduleTypeEnum` `)`
   |                | An element which purpose is to identify a long or
   |                | short spread value.
 
@@ -9198,7 +9668,7 @@
 
   | Field                             | Type/Description |
   | :-------------------------------- | :----------------
-  | `calculationPeriodDatesReference` | `Text`
+  | `calculationPeriodDatesReference` | `ReferenceWithMeta` `CalculationPeriodDates`
   |                                   | A pointer style reference to the associated
   |                                   | calculation period dates component defined elsewhere
   |                                   | in the document.
@@ -9316,7 +9786,7 @@
 
   | Field                             | Type/Description |
   | :-------------------------------- | :----------------
-  | `calculationPeriodDatesReference` | `Text`
+  | `calculationPeriodDatesReference` | `ReferenceWithMeta` `CalculationPeriodDates`
   |                                   | A pointer style reference to the associated
   |                                   | calculation period dates component defined elsewhere
   |                                   | in the document.
@@ -9395,22 +9865,6 @@
   |                | rate, expressed as a decimal. A stub rate of 5% would
   |                | be represented as 0.05.
 
-### `data` `SubstitutedRegime`
-
-  A class to specify the Substituted Regime in
-  accordance with the ISDA 2018 CSA for Initial Margin,
-  Paragraph 13, General Principles (ll).
-* `SubstitutedRegime`
-
-  | Field            | Type/Description |
-  | :--------------- | :----------------
-  | `partyReference` | `Text`
-  |                  | A reference to the party to which the Substituted
-  |                  | Regime clause applies.
-  | `regime`         | `[` `RegulatoryRegimeEnum` `]`
-  |                  | The set of regulatory regimes that are qualified as
-  |                  | Substituted Regime.
-
 ### `data` `SwapCurveValuation`
 
   A class to specify a valuation swap curve, which is
@@ -9437,20 +9891,20 @@
   Paragraph 13 Eligible Credit Support (IM) Schedule.
 * `TerminationCurrency`
 
-  | Field            | Type/Description |
-  | :--------------- | :----------------
-  | `currency`       | `Text`
-  |                  | The Termination Currency associated with the party
-  |                  | that referenced as part of this class. The list of
-  |                  | valid currencies is not presently positioned as an
-  |                  | enumeration as part of the CDM because that scope is
-  |                  | limited to the values specified by ISDA and FpML. As
-  |                  | a result, implementers have to make reference to the
-  |                  | relevant standard, such as the ISO 4217 standard for
-  |                  | currency codes.
-  | `partyReference` | `Text`
-  |                  | A reference to the party to which the Termination
-  |                  | Currency determination applies.
+  | Field      | Type/Description |
+  | :--------- | :----------------
+  | `currency` | `FieldWithMeta` `Text`
+  |            | The Termination Currency associated with the party
+  |            | that referenced as part of this class. The list of
+  |            | valid currencies is not presently positioned as an
+  |            | enumeration as part of the CDM because that scope is
+  |            | limited to the values specified by ISDA and FpML. As
+  |            | a result, implementers have to make reference to the
+  |            | relevant standard, such as the ISO 4217 standard for
+  |            | currency codes.
+  | `party`    | `ReferenceWithMeta` `Party`
+  |            | The party which the Termination Currency
+  |            | determination applies to.
 
 ### `data` `TermsChangePrimitive`
 
@@ -9464,6 +9918,20 @@
   | `after`  | `Trade`
   | `before` | `Trade`
 
+### `data` `Threshold`
+
+  A class to specify the unsecured credit exposure that
+  each party to the agreement is prepared to accept
+  before asking for collateral. This threshold is
+  specified either as an amount or as a custom
+  election.
+* `Threshold`
+
+  | Field            | Type/Description |
+  | :--------------- | :----------------
+  | `partyElections` | `[` `PartyElectiveAmount` `]`
+  |                  | The parties&#39; Threshold elections.
+
 ### `data` `TimeZone`
 
   The time alongside with the timezone location
@@ -9473,7 +9941,7 @@
 
   | Field      | Type/Description |
   | :--------- | :----------------
-  | `location` | `Optional` `Text`
+  | `location` | `Optional` `(` `FieldWithMeta` `Text` `)`
   |            | FpML specifies the timezoneLocationScheme by
   |            | reference to the Time Zone Database (a.k.a. tz
   |            | database) maintained by IANA, the Internet Assigned
@@ -9513,7 +9981,7 @@
 
 ### `data` `TradeDate`
 
-  A class to specify the contract's trade date
+  A class to specify the contract&#39;s trade date
   alongside an identifier.
 * `TradeDate`
 
@@ -9595,11 +10063,11 @@
   | `marketFixedRate` | `Optional` `Decimal`
   |                   | An optional element that only has meaning in a credit
   |                   | index trade. This element contains the credit spread
-  |                   | ('fair value') at which the trade was executed.
-  |                   | Unlike the fixedRate of an index, the marketFixedRate
-  |                   | varies over the life of the index depending on market
-  |                   | conditions. The marketFixedRate is the price of the
-  |                   | index as quoted by trading desks.
+  |                   | (&#39;fair value&#39;) at which the trade was
+  |                   | executed. Unlike the fixedRate of an index, the
+  |                   | marketFixedRate varies over the life of the index
+  |                   | depending on market conditions. The marketFixedRate
+  |                   | is the price of the index as quoted by trading desks.
   | `marketPrice`     | `Optional` `Decimal`
   |                   | An optional element that only has meaning in a credit
   |                   | index trade. This element contains the price at which
@@ -9626,7 +10094,7 @@
 
   | Field                 | Type/Description |
   | :-------------------- | :----------------
-  | `identifier`          | `Optional` `Text`
+  | `identifier`          | `Optional` `(` `FieldWithMeta` `Text` `)`
   |                       | The identifier that can be associated with each of
   |                       | the transfer components
   | `transferCalculation` | `Optional` `TransferCalculation`
@@ -9639,7 +10107,7 @@
 
   | Field                 | Type/Description |
   | :-------------------- | :----------------
-  | `identifier`          | `Optional` `Text`
+  | `identifier`          | `Optional` `(` `FieldWithMeta` `Text` `)`
   |                       | The identifier that can be associated with each of
   |                       | the transfer components
   | `lineage`             | `[` `Lineage` `]`
@@ -9680,7 +10148,11 @@
   amount and cashflow type for a cash transfer, the
   transferor/transferee, security indication, quantity,
   and asset transfer type qualification for the case of
-  a security).
+  a security). The associated rosettaKey denotes the
+  ability to associate a hash value to the respective
+  Execution instantiations for the purpose of model
+  cross-referencing, in support of functionality such
+  as the event effect and the lineage.
 * `TransferPrimitive`
 
   | Field                 | Type/Description |
@@ -9691,9 +10163,10 @@
   |                       | transfer, several components should be used, as the
   |                       | component supports one single currency amount.
   | `commodityTransfer`   | `[` `CommodityTransferComponent` `]`
-  | `identifier`          | `Optional` `Text`
+  | `identifier`          | `Optional` `(` `FieldWithMeta` `Text` `)`
   |                       | The identifier which might be associated with the
   |                       | transfer.
+  | `rosettaKey`          | `Text`
   | `securityTransfer`    | `[` `SecurityTransferComponent` `]`
   |                       | The security transfer component of the transfer. In
   |                       | the case where several securities are involved in the
@@ -9719,16 +10192,16 @@
 
   | Field                        | Type/Description |
   | :--------------------------- | :----------------
-  | `transfereeAccountReference` | `Optional` `Text`
+  | `transfereeAccountReference` | `Optional` `(` `ReferenceWithMeta` `Account` `)`
   |                              | A reference to the account that receives the payments
   |                              | corresponding to this structure.
-  | `transfereePartyReference`   | `Text`
+  | `transfereePartyReference`   | `ReferenceWithMeta` `Party`
   |                              | A reference to the party that receives the payments
   |                              | corresponding to this structure.
-  | `transferorAccountReference` | `Optional` `Text`
+  | `transferorAccountReference` | `Optional` `(` `ReferenceWithMeta` `Account` `)`
   |                              | A reference to the account responsible for making the
   |                              | payments defined by this structure.
-  | `transferorPartyReference`   | `Text`
+  | `transferorPartyReference`   | `ReferenceWithMeta` `Party`
   |                              | A reference to the party responsible for making the
   |                              | payments defined by this structure.
 
@@ -9740,7 +10213,7 @@
   | Field                   | Type/Description |
   | :---------------------- | :----------------
   | `creditEvents`          | `Optional` `CreditEvents`
-  | `creditEventsReference` | `Optional` `Text`
+  | `creditEventsReference` | `Optional` `(` `ReferenceWithMeta` `CreditEvents` `)`
   | `level`                 | `Optional` `Decimal`
   |                         | The trigger level.
   | `levelPercentage`       | `Optional` `Decimal`
@@ -9852,7 +10325,7 @@
 
   | Field               | Type/Description |
   | :------------------ | :----------------
-  | `dateTime`          | `Optional` `Time`
+  | `dateTime`          | `Optional` `ZonedDateTime`
   |                     | Observation date time, which should be used when
   |                     | literal observation dates are required. The CDM
   |                     | specifies that the zoned date time is to be expressed
@@ -9890,7 +10363,9 @@
 # Module ISDA.CDM.Types.Enums
 ============
 
-
+This file is auto-generated from the ISDA Common
+Domain Model, do not edit.
+@version 0.0.0.master
 
 ## Data Types
 
@@ -9927,6 +10402,24 @@
   characterized by the fact that the eventIdentifier
   has an associated version 1.
 
+### `data` `AdditionalTypeEnum`
+
+  The enumerated values to specify the Additional Type
+  of transaction that can require the collection or
+  delivery of initial margin under a given regulatory
+  regime for the purposes of Covered Transactions, as
+  specified in ISDA 2016 Credit Support Annex for
+  Initial Margin, paragraph 13, General Principles,
+  (b)(B).
+* `AdditionalTypeEnum_EquityOptionOrIndexOption`
+  Single stock equity option or index option
+  transaction as referred to in the transitional
+  provisions (if any) of the EMIR RTS.
+* `AdditionalTypeEnum_NotApplicable`
+  No Additional Type of transaction is applicable to
+  the regulatory regulatory regime.
+* `AdditionalTypeEnum_Other`
+
 ### `data` `AssetClassEnum`
 
   The enumerated values to specify the FpML asset class
@@ -9945,7 +10438,7 @@
 ### `data` `AssetTransferTypeEnum`
 
   The qualification of the type of asset transfer.
-* `AssetTransferTypeEnum_tbd`
+* `AssetTransferTypeEnum_tbd` `(`  `)`
 
 ### `data` `AveragingInOutEnum`
 
@@ -9956,10 +10449,11 @@
   and the expiration price.
 * `AveragingInOutEnum_In`
   The average price is used to derive the strike price.
-  Also known as 'Asian strike' style option.
+  Also known as &#39;Asian strike&#39; style option.
 * `AveragingInOutEnum_Out`
   The average price is used to derive the expiration
-  price. Also known as 'Asian price' style option.
+  price. Also known as &#39;Asian price&#39; style
+  option.
 
 ### `data` `AveragingMethodEnum`
 
@@ -10235,7 +10729,7 @@
 * `BusinessCenterEnum_ATVI`
   Vienna, Austria
 * `BusinessCenterEnum_AUAD`
-  Adelaide, Australia
+  Adelaide,  Australia
 * `BusinessCenterEnum_AUBR`
   Brisbane, Australia
 * `BusinessCenterEnum_AUCA`
@@ -10268,7 +10762,7 @@
   Brazil Business Day. This means a business day in any
   of Sao Paulo, Rio de Janeiro or Brasilia not
   otherwise declared as a financial market holiday by
-  the Bolsa de Mercadorias & Futuros (BM&F)
+  the Bolsa de Mercadorias &amp; Futuros (BM&amp;F)
 * `BusinessCenterEnum_BRBR`
   Brasilia, Brazil
 * `BusinessCenterEnum_BRRJ`
@@ -10300,7 +10794,7 @@
 * `BusinessCenterEnum_CHZU`
   Zurich, Switzerland
 * `BusinessCenterEnum_CIAB`
-  Abidjan, Cote d'Ivoire
+  Abidjan, Cote d&#39;Ivoire
 * `BusinessCenterEnum_CLSA`
   Santiago, Chile
 * `BusinessCenterEnum_CNBE`
@@ -10352,7 +10846,7 @@
 * `BusinessCenterEnum_ETAA`
   Addis Ababa, Ethiopia
 * `BusinessCenterEnum_EUTA`
-  TARGET (euro 'Business Center')
+  TARGET (euro &#39;Business Center&#39;)
 * `BusinessCenterEnum_FIHE`
   Helsinki, Finland
 * `BusinessCenterEnum_FRPA`
@@ -10612,9 +11106,9 @@
   Per 2000 ISDA Definitions, Section 4.11. FRN
   Convention; Eurodollar Convention. FRN is included
   here as a type of business day convention although it
-  does not strictly fall within ISDA's definition of a
-  Business Day Convention and does not conform to the
-  simple definition given above.
+  does not strictly fall within ISDA&#39;s definition
+  of a Business Day Convention and does not conform to
+  the simple definition given above.
 * `BusinessDayConventionEnum_MODFOLLOWING`
   The non-business date will be adjusted to the first
   following day that is a business day unless that day
@@ -10861,7 +11355,7 @@
   element of the Federal Post Office (Telekom) and the
   German Unity Fund.
 * `CollateralAssetDefinitionsEnum_DE_MUNI`
-  Kommunalschuldverschreib ungen (Municipal Bonds).
+  Kommunalschuldverschreibungen (Municipal Bonds).
 * `CollateralAssetDefinitionsEnum_DE_NOTE2`
   Bundesschatzanweisungen (Notes).
 * `CollateralAssetDefinitionsEnum_DE_NOTE5_5`
@@ -11130,7 +11624,7 @@
 * `CollateralAssetDefinitionsEnum_US_DOW_COMP`
   Dow Jones Composite Average Equity Securities.
 * `CollateralAssetDefinitionsEnum_US_DOW_TRAN`
-  Dow Jones Transportation Average Equity Securities.
+  Dow Jones TransportationAverage Equity Securities.
 * `CollateralAssetDefinitionsEnum_US_DOW_UTIL`
   Dow Jones Utilities Average Equity Securities.
 * `CollateralAssetDefinitionsEnum_US_FAMC`
@@ -11187,16 +11681,17 @@
 * `CollateralAssetDefinitionsEnum_US_STRIP`
   US Treasury Strips.
 * `CollateralAssetDefinitionsEnum_US_S_P100`
-  Standard & Poor’s 100 Index Equity Securities.
+  Standard &amp; Poor’s 100 Index Equity Securities.
 * `CollateralAssetDefinitionsEnum_US_S_P400`
-  Standard & Poor’s Midcap 400 Equity Securities.
+  Standard &amp; Poor’s Midcap 400 Equity Securities.
   corporations that are included within the Standard
-  And Poor's Midcap 400 Index published by Standard And
-  Poor's, a division of The McGraw-Hill Companies, Inc.
+  And Poor&#39;s Midcap 400 Index published by Standard
+  And Poor&#39;s, a division of The McGraw-Hill
+  Companies, Inc.
 * `CollateralAssetDefinitionsEnum_US_S_P500`
-  Standard & Poor’s 500 Index Equity Securities.
+  Standard &amp;  Poor’s 500 Index Equity Securities.
 * `CollateralAssetDefinitionsEnum_US_S_P600`
-  Standard & Poor’s Smallcap 600 Index Equity
+  Standard &amp; Poor’s Smallcap 600 Index Equity
   Securities.
 * `CollateralAssetDefinitionsEnum_US_TBILL`
   US Treasury Bills.
@@ -11307,7 +11802,7 @@
   compounding, e.g. flat, straight.
 * `CompoundingMethodEnum_Flat`
   Flat compounding. Compounding excludes the spread.
-  Note that the first compounding period has it's
+  Note that the first compounding period has it&#39;s
   interest calculated including any spread then
   subsequent periods compound this at a rate excluding
   the spread.
@@ -11594,8 +12089,8 @@
 * `CreditLimitTypeEnum_DV01`
   The type of credit line expressed in DV01. The dollar
   value of a one basis point decrease in interest
-  rates. It shows the change in a bond's price compared
-  to a decrease in the bond's yield.
+  rates. It shows the change in a bond&#39;s price
+  compared to a decrease in the bond&#39;s yield.
 * `CreditLimitTypeEnum_IM`
   The type of credit line expressed in Initial Margin
   value.
@@ -11622,11 +12117,11 @@
 * `CreditRatingAgencyEnum_JapanAgency`
   Japan Credit Rating Agency, Ltd.
 * `CreditRatingAgencyEnum_Moodys`
-  Moody's
+  Moody&#39;s
 * `CreditRatingAgencyEnum_RatingAndInvestmentInformation`
   Rating And Investment Information, Inc.
 * `CreditRatingAgencyEnum_StandardAndPoors`
-  Standard And Poor's
+  Standard And Poor&#39;s
 
 ### `data` `CreditSupportAgreementTypeEnum`
 
@@ -11670,10 +12165,11 @@
   Count Fraction, paragraph (c).
 * `DayCountFractionEnum_ACT_ACT_AFB`
   The Fixed/Floating Amount will be calculated in
-  accordance with the 'BASE EXACT/EXACT' day count
-  fraction, as defined in the 'Definitions Communes
-  plusieurs Additifs Techniques' published by the
-  Association Francaise des Banques in September 1994.
+  accordance with the &#39;BASE EXACT/EXACT&#39; day
+  count fraction, as defined in the &#39;Definitions
+  Communes plusieurs Additifs Techniques&#39; published
+  by the Association Francaise des Banques in September
+  1994.
 * `DayCountFractionEnum_ACT_ACT_ICMA`
   Per 2006 ISDA Definitions, Section 4.16. Day Count
   Fraction, paragraph (c). This day count fraction code
@@ -11686,15 +12182,15 @@
   Definitions (June 2000 Version), Section 4.16. Day
   Count Fraction, paragraph (b). Note that going from
   FpML 2.0 Recommendation to the FpML 3.0 Trial
-  Recommendation the code in FpML 2.0 'ACT/365.ISDA'
-  became 'ACT/ACT.ISDA'.
+  Recommendation the code in FpML 2.0
+  &#39;ACT/365.ISDA&#39; became &#39;ACT/ACT.ISDA&#39;.
 * `DayCountFractionEnum_BUS_252`
   The number of Business Days in the Calculation Period
   or Compounding Period in respect of which payment is
   being made divided by 252.
 * `DayCountFractionEnum_RBA_BOND_BASIS_ANNUAL`
   Per 2006 ISDA Definitions Supplement number 43, Day
-  Count Fraction, (k) if “RBA Bond Basis (semi-annual)”
+  Count Fraction, (k)if “RBA Bond Basis (semi-annual)”
   is specified, 0.5. However, Actual/Actual (ISDA)
   applies to each of the first Calculation Period and
   the final Calculation Period if such Calculation
@@ -11872,22 +12368,23 @@
   The dividend date will be specified ad-hoc by the
   parties, typically on the dividend ex-date.
 * `DividendDateReferenceEnum_CashSettlePaymentDateExDiv`
-  If 'Dividend Payment Date(s)' is specified in the
-  Transaction Supplement as 'Cash Settlement Payment
-  Date – Ex Dividend'', then the Dividend Payment Date
-  in respect of a Dividend Amount shall be the Cash
-  Settlement Payment Date relating to the end of the
-  Dividend Period during which the Shares commenced
-  trading 'ex' the relevant dividend on the Exchange.
+  If &#39;Dividend Payment Date(s)&#39; is specified in
+  the Transaction Supplement as &#39;Cash Settlement
+  Payment Date – Ex Dividend&#39;&#39;, then the
+  Dividend Payment Date in respect of a Dividend Amount
+  shall be the Cash Settlement Payment Date relating to
+  the end of the Dividend Period during which the
+  Shares commenced trading &#39;ex&#39; the relevant
+  dividend on the Exchange.
 * `DividendDateReferenceEnum_CashSettlePaymentDateIssuerPayment`
-  If 'Dividend Payment Date(s)' is specified in the
-  Transaction Supplement as 'Cash Settlement Payment
-  Date – Issuer Payment', then the Dividend Payment
-  Date in respect of a Dividend Amount shall be the
-  Cash Settlement Payment Date relating to the end of
-  the Dividend Period during which the issuer pays the
-  relevant dividend to a holder of record provided that
-  in the case where the Equity Amount Payer is the
+  If &#39;Dividend Payment Date(s)&#39; is specified in
+  the Transaction Supplement as &#39;Cash Settlement
+  Payment Date – Issuer Payment&#39;, then the Dividend
+  Payment Date in respect of a Dividend Amount shall be
+  the Cash Settlement Payment Date relating to the end
+  of the Dividend Period during which the issuer pays
+  the relevant dividend to a holder of record provided
+  that in the case where the Equity Amount Payer is the
   party specified to be the sole Hedging Party and the
   Hedging Party has not received the Dividend Amount by
   such date, then the date falling a number of Currency
@@ -11896,13 +12393,14 @@
   Party of the Received Ex Amount or Paid Ex Amount (as
   applicable).
 * `DividendDateReferenceEnum_CashSettlementPaymentDate`
-  If 'Dividend Payment Date(s)' is specified in the
-  Transaction Supplement as 'Cash Settlement Payment
-  Date', then the Dividend Payment Date in respect of a
-  Dividend Amount shall be the Cash Settlement Payment
-  Date relating to the end of the Dividend Period
-  during which the Shares commenced trading 'ex' the
-  relevant dividend on the Exchange.
+  If &#39;Dividend Payment Date(s)&#39; is specified in
+  the Transaction Supplement as &#39;Cash Settlement
+  Payment Date&#39;, then the Dividend Payment Date in
+  respect of a Dividend Amount shall be the Cash
+  Settlement Payment Date relating to the end of the
+  Dividend Period during which the Shares commenced
+  trading &#39;ex&#39; the relevant dividend on the
+  Exchange.
 * `DividendDateReferenceEnum_CumulativeEquityExDiv`
   Total of dividends which go ex, paid on next
   following Cash Settlement Payment Date, which is
@@ -11939,28 +12437,28 @@
   Date on which a holder of the security is entitled to
   the dividend.
 * `DividendDateReferenceEnum_FloatingAmountPaymentDate`
-  If 'Dividend Payment Date(s)' is specified in the
-  Transaction Supplement as 'Floating Amount Payment
-  Date', then the Dividend Payment Date in respect of a
-  Dividend Amount shall be the first Payment Date
-  falling at least one Settlement Cycle after the date
-  that the Shares have commenced trading 'ex' the
-  relevant dividend on the Exchange.
+  If &#39;Dividend Payment Date(s)&#39; is specified in
+  the Transaction Supplement as &#39;Floating Amount
+  Payment Date&#39;, then the Dividend Payment Date in
+  respect of a Dividend Amount shall be the first
+  Payment Date falling at least one Settlement Cycle
+  after the date that the Shares have commenced trading
+  &#39;ex&#39; the relevant dividend on the Exchange.
 * `DividendDateReferenceEnum_FollowingPaymentDate`
   The next payment date of the swap.
 * `DividendDateReferenceEnum_RecordDate`
   Date on which the dividend will be recorded in the
   books of the paying agent.
 * `DividendDateReferenceEnum_SharePayment`
-  If 'Dividend Payment Date(s)' is specified in the
-  Transaction Supplement as 'Share Payment', then the
-  Dividend Payment Date in respect of a Dividend Amount
-  shall fall on a date on or before the date that is
-  two (or any other number that is specified in the
-  Transaction Supplement) Currency Business Days
-  following the day on which the Issuer of the Shares
-  pays the relevant dividend to holders of record of
-  the Shares.
+  If &#39;Dividend Payment Date(s)&#39; is specified in
+  the Transaction Supplement as &#39;Share
+  Payment&#39;, then the Dividend Payment Date in
+  respect of a Dividend Amount shall fall on a date on
+  or before the date that is two (or any other number
+  that is specified in the Transaction Supplement)
+  Currency Business Days following the day on which the
+  Issuer of the Shares pays the relevant dividend to
+  holders of record of the Shares.
 * `DividendDateReferenceEnum_TerminationDate`
   Termination date of the swap.
 
@@ -12058,14 +12556,14 @@
   The time on which the transaction has been created.
   This timestamp is specified as such by the CME
   ClearPort Matched IRS Trade submission API
-  specification: 'The transaction time of the trade.
-  Represents the time that the trade was initially
-  generated either by CME Clearing or firm. The
-  transaction time may be assigned by CME Clearing at
-  the point the trade is reported as cleared.
+  specification: &#39;The transaction time of the
+  trade. Represents the time that the trade was
+  initially generated either by CME Clearing or firm.
+  The transaction time may be assigned by CME Clearing
+  at the point the trade is reported as cleared.
   Transaction time can also be provided by an external
   submitter of the trade at the point the trade is
-  submitted.'
+  submitted.&#39;
 
 ### `data` `ExecutionTypeEnum`
 
@@ -12369,16 +12867,16 @@
   supplemented through the date on which parties enter
   into the relevant transaction.
 * `FloatingRateIndexEnum_CLP_TNA`
-  Refers to the Indice Camara Promedio ('ICP') rate for
-  Chilean Pesos which, for a Reset Date, is determined
-  and published by the Asociacion de Bancos e
-  Instituciones Financieras de Chile A.G. ('ABIF') in
-  accordance with the 'Reglamento Indice de Camara
-  Promedio' of the ABIF as published in the Diario
-  Oficial de la Republica de Chile (the 'ICP Rules')
-  and which is reported on the ABIF website by not
-  later than 10:00 a.m., Santiago time, on that Reset
-  Date.
+  Refers to the Indice Camara Promedio (&#39;ICP&#39;)
+  rate for Chilean Pesos which, for a Reset Date, is
+  determined and published by the Asociacion de Bancos
+  e Instituciones Financieras de Chile A.G.
+  (&#39;ABIF&#39;) in accordance with the
+  &#39;Reglamento Indice de Camara Promedio&#39; of the
+  ABIF as published in the Diario Oficial de la
+  Republica de Chile (the &#39;ICP Rules&#39;) and
+  which is reported on the ABIF website by not later
+  than 10:00 a.m., Santiago time, on that Reset Date.
 * `FloatingRateIndexEnum_CL_CLICP_Bloomberg`
   Per 2006 ISDA Definitions or Annex to the 2000 ISDA
   Definitions, Section 7.1 Rate Options, as amended and
@@ -14335,16 +14833,6 @@
 * `InformationProviderEnum_Telerate`
   Telerate, Inc.
 
-### `data` `InitialAmountCalculationAgentEnum`
-
-  The enumerated values to specify the calculation
-  agent as part of the ISDA 2018 CSA for Initial
-  Margin. At part of this, only the Secured Party is
-  specified.
-* `InitialAmountCalculationAgentEnum_SecuredParty`
-  The party making the collateral demand, also known as
-  Secured Party depending upon the set of provisions.
-
 ### `data` `IntentEnum`
 
   The enumeration values to qualify the intent
@@ -14436,18 +14924,6 @@
 * `LimitLevelEnum_House`
   The limit is set at the account level in relation to
   the clearing counterparty.
-
-### `data` `MarginApproachEnum`
-
-  The enumerated values to specify the Margin Approach
-  as part of the Paragraph 13 (c) (i) elections of the
-  ISDA 2018 CSA for Initial Margin.
-* `MarginApproachEnum_AllocatedMarginFlow`
-  The Allocated Margin Flow (IM/IA) Approach applies.
-* `MarginApproachEnum_DistinctMarginFlow`
-  The Distinct Margin Flow (IM) Approach applies.
-* `MarginApproachEnum_GreaterOfMarginFlow`
-  The Greater of Margin Flow (IM/IA) Approach applies.
 
 ### `data` `MarketDisruptionEnum`
 
@@ -15296,7 +15772,8 @@
 
 ### `data` `NaturalPersonRoleEnum`
 
-  The enumerated values for the natural person's role.
+  The enumerated values for the natural person&#39;s
+  role.
 * `NaturalPersonRoleEnum_Broker`
   The person who arranged with a client to execute the
   trade.
@@ -15334,6 +15811,12 @@
   Section 6.4. Negative Interest Rates, paragraphs (d)
   and (e).
 
+### `data` `NoThresholdEnum`
+
+  The enumerated value to specify the fact that no
+  threshold applies.
+* `NoThresholdEnum_zero` `(`  `)`
+
 ### `data` `NotionalAdjustmentEnum`
 
   The enumerated values to specify the conditions that
@@ -15356,17 +15839,17 @@
   swap to represent a class or type of securities which
   apply.
 * `ObligationCategoryEnum_Bond`
-  ISDA term 'Bond'.
+  ISDA term &#39;Bond&#39;.
 * `ObligationCategoryEnum_BondOrLoan`
-  ISDA term 'Bond or Loan'.
+  ISDA term &#39;Bond or Loan&#39;.
 * `ObligationCategoryEnum_BorrowedMoney`
-  ISDA term 'Borrowed Money'.
+  ISDA term &#39;Borrowed Money&#39;.
 * `ObligationCategoryEnum_Loan`
-  ISDA term 'Loan'.
+  ISDA term &#39;Loan&#39;.
 * `ObligationCategoryEnum_Payment`
-  ISDA term 'Payment'.
+  ISDA term &#39;Payment&#39;.
 * `ObligationCategoryEnum_ReferenceObligationsOnly`
-  ISDA term 'Reference Obligations Only'.
+  ISDA term &#39;Reference Obligations Only&#39;.
 
 ### `data` `OptionTypeEnum`
 
@@ -15379,19 +15862,21 @@
   underlying asset by a certain date for a certain
   price.
 * `OptionTypeEnum_Payer`
-  A 'payer' option: If you buy a 'payer' option you
-  have the right but not the obligation to enter into
-  the underlying swap transaction as the 'fixed'
-  rate/price payer and receive float.
+  A &#39;payer&#39; option: If you buy a
+  &#39;payer&#39; option you have the right but not the
+  obligation to enter into the underlying swap
+  transaction as the &#39;fixed&#39; rate/price payer
+  and receive float.
 * `OptionTypeEnum_Put`
   A put option gives the holder the right to sell the
   underlying asset by a certain date for a certain
   price.
 * `OptionTypeEnum_Receiver`
-  A 'receiver' option: If you buy a 'receiver' option
-  you have the right but not the obligation to enter
-  into the underlying swap transaction as the 'fixed'
-  rate/price receiver and pay float.
+  A &#39;receiver&#39; option: If you buy a
+  &#39;receiver&#39; option you have the right but not
+  the obligation to enter into the underlying swap
+  transaction as the &#39;fixed&#39; rate/price
+  receiver and pay float.
 * `OptionTypeEnum_Straddle`
   A straddle strategy, which involves the simultaneous
   buying of a put and a call of the same underlier, at
@@ -15428,9 +15913,9 @@
   transaction.
 * `PackageTypeEnum_Butterfly`
   A strategy in which a firm either pays or receives
-  fixed for intermediate term (the 'body'), and does
-  the opposite (receives or pays fixed) for a short and
-  a long term (the 'wings'').
+  fixed for intermediate term (the &#39;body&#39;), and
+  does the opposite (receives or pays fixed) for a
+  short and a long term (the &#39;wings&#39;&#39;).
 * `PackageTypeEnum_CalendarRoll`
   A strategy in which a swap is used to Roll from one
   IMM date into another IMM swap.
@@ -15475,7 +15960,7 @@
   issuer to identify a customer.
 * `PartyIdSourceEnum_DRLC`
   Drivers License Number, number assigned by an
-  authority to identify a driver's license.
+  authority to identify a driver&#39;s license.
 * `PartyIdSourceEnum_EMPL`
   Employee Identification Number, number assigned by a
   registration authority to an employee.
@@ -15516,42 +16001,43 @@
   Barrier Determination Agent.
 * `PartyRoleEnum_Beneficiary`
   Organization that suffers the economic benefit of the
-  trade. The beneficiary may be distinct from the
+  trade.  The beneficiary may be distinct from the
   principal/counterparty - an example occurs when a
   hedge fund trades via a prime broker; in this case
   the principal is the prime broker, but the
-  beneficiary is the hedge fund. This can be
+  beneficiary is the hedge fund.  This can be
   represented as a payer/receiver account in the name
   of the hedge fund, but it is also possible to add the
-  party role of 'Beneficiary' at the
+  party role of &#39;Beneficiary&#39; at the
   partyTradeInformation level.
 * `PartyRoleEnum_BookingParty`
   The entity for which the organization supporting the
-  trade's processing has booked/recorded the trade.
-  This is used in non-reporting workflows situations in
-  which the trade doesn't need to be reported but a
-  firm still wants to specify their own side.
+  trade&#39;s processing  has booked/recorded the
+  trade. This is used in non-reporting workflows
+  situations in which the trade doesn&#39;t need to be
+  reported but a firm still wants to specify their own
+  side.
 * `PartyRoleEnum_Buyer`
   Acquirer of the legal title to the financial
   instrument. In the case of an option, the buyer is
   the holder of the option. In the case of a swap or
   forward, the buyer will be determined by industry
-  best practice. This does not refer to an investor or
+  best practice.  This does not refer to an investor or
   investment manager or other organization on what is
-  typically called the 'Buy side'; for that, see the
-  'Client' role. Corresponds to 'Buyer' as defined in
-  certain regulations such as ESMA MiFID II/MIFIR RTS
-  22 field 9.
+  typically called  the &#39;Buy side&#39;; for that,
+  see the &#39;Client&#39; role. Corresponds to
+  &#39;Buyer&#39; as defined in certain regulations
+  such as ESMA MiFID II/MIFIR RTS 22 field 9.
 * `PartyRoleEnum_BuyerDecisionMaker`
   The party or person who, having legal authority to
   act on behalf of the trade counterparty acting as
   Buyer as defined in this coding scheme, made the
   decision to acquire the financial instrument.
-  Corresponds to 'buyer decision maker' as defined in
-  ESMA's MIFIR RTS 23 report. This does not refer to
-  the decision maker for what is traditionally called
-  the 'Buy side'; for that, see the 'Client Decision
-  Maker' role.
+  Corresponds to &#39;buyer decision maker&#39; as
+  defined in ESMA&#39;s MIFIR RTS 23 report. This does
+  not refer to the decision maker for what is
+  traditionally called the &#39;Buy side&#39;; for
+  that, see the &#39;Client Decision Maker&#39; role.
 * `PartyRoleEnum_Chargor`
   The party that provides credit support under English
   Law.
@@ -15559,10 +16045,10 @@
   An organization that clears trades through a clearing
   house, via a clearing broker (member of the clearing
   house) who acts as an agent on its behalf. The term
-  'client' refers to the organization's role in the
-  clearing process in relation to its clearing broker,
-  and not whether it is a price maker or taker in the
-  execution process.
+  &#39;client&#39; refers to the organization&#39;s
+  role in the clearing process in relation to its
+  clearing broker, and not whether it is a price maker
+  or taker in the execution process.
 * `PartyRoleEnum_ClearingExceptionParty`
   A party to the trade that claims a clearing
   exception, such as an end-user exception under
@@ -15570,16 +16056,17 @@
 * `PartyRoleEnum_ClearingFirm`
   Organization that submits the trade to a clearing
   house on behalf of the principal.
-  Synonyms/alternates: Futures Commission Merchant
+  Synonyms/alternates:  Futures Commission Merchant
   (FCM), Clearing Broker, Clearing Member Firm. Some
-  implementations use 'Clearing Broker' as synonym.
+  implementations use &#39;Clearing Broker&#39; as
+  synonym.
 * `PartyRoleEnum_ClearingOrganization`
   The organization that acts as a central counterparty
-  to clear a derivatives contract. This is used to
+  to clear a derivatives contract.  This is used to
   represent the role of Central Counterparties (CCPs)
   or Derivative Clearing Organizations (DCOs).
-  Sometimes called 'ClearingService'. Some
-  implementations also use the term 'Clearer'.
+  Sometimes called &#39;ClearingService&#39;. Some
+  implementations also use the term &#39;Clearer&#39;.
 * `PartyRoleEnum_Client`
   Client as defined under ESMA MIFIR. This is generally
   the investor or other client of an investment firm,
@@ -15594,12 +16081,12 @@
   the purposes of electronic confirmation or providing
   services for post-processing of transactional data.
 * `PartyRoleEnum_ContractualParty`
-  A party to a contractual document. If the intended
+  A party to a contractual document.  If the intended
   usage relates to the context of the trade lifecycle,
   more specific annotations have been defined which
   might be more appropriate.
 * `PartyRoleEnum_CounterPartyAffiliate`
-  Organization offiially attached to the counterparty.
+  Organization officially attached to the counterparty.
   e.g. partner, branch, subsidiary.
 * `PartyRoleEnum_CounterPartyUltimateParent`
   The topmost entity or organization, within the
@@ -15627,7 +16114,7 @@
   transaction.
 * `PartyRoleEnum_DocumentRepository`
   A marketplace organization which purpose is to
-  maintain document records. If the intended usage
+  maintain document records.  If the intended usage
   relates to the context of the trade lifecycle, more
   specific annotations have been defined which might be
   more appropriate.
@@ -15635,9 +16122,9 @@
   The (generally sell-side) organization that executed
   the trade; the price-making party.
 * `PartyRoleEnum_ExecutingEntity`
-  Entity executing the transaction. If the transaction
+  Entity executing the transaction.  If the transaction
   is executed directly by the reporting party, it will
-  be the reporting party. If it is executed by an
+  be the reporting party.  If it is executed by an
   execution agent or an affiliated party on behalf of
   the reporting party, it will be that affiliate or
   agent.
@@ -15684,7 +16171,7 @@
   report this trade.
 * `PartyRoleEnum_ReportingPartyAffiliate`
   Organization officially attached to the reporting
-  party e.g. partner, branch, subsidiary.
+  party  e.g. partner, branch, subsidiary.
 * `PartyRoleEnum_ReportingPartyUltimateParent`
   The topmost entity or organization, within the
   corporate hierarchy, responsible for the reporting
@@ -15700,21 +16187,21 @@
   a derivatives instrument such as an option or a swap
   in which it provides risk protection to the buyer.
   This does not refer to the broker/dealer or other
-  organization on what is typically called the 'Sell
-  side'; for that, see the 'Executing Broker' role.
-  Corresponds to 'Seller' as defined in certain
-  regulations such as ESMA MiFID II/MIFIR RTS 22 field
-  16.
+  organization on what is typically called  the
+  &#39;Sell side&#39;; for that, see the &#39;Executing
+  Broker&#39; role. Corresponds to &#39;Seller&#39; as
+  defined in certain regulations such as ESMA MiFID
+  II/MIFIR RTS 22 field 16.
 * `PartyRoleEnum_SellerDecisionMaker`
   The party or person who, having legal authority to
   act on behalf of the trade counterparty acting as
   Seller as defined in this coding scheme, made the
   decision to sell the financial instrument.
-  Corresponds to 'seller decision maker' as defined in
-  ESMA's MIFIR RTS 23 report. This does not refer to
-  the decision maker for what is traditionally called
-  the 'Sell side'; for that, see the 'Trader' person
-  role.
+  Corresponds to &#39;seller decision maker&#39; as
+  defined in ESMA&#39;s MIFIR RTS 23 report. This does
+  not refer to the decision maker for what is
+  traditionally called the &#39;Sell side&#39;; for
+  that, see the &#39;Trader&#39; person role.
 * `PartyRoleEnum_SettlementAgent`
   The organization that makes or receives payments on
   behalf of the given principal party.
@@ -15728,12 +16215,12 @@
   regulator or TR.
 * `PartyRoleEnum_TradingManager`
   The entity responsible for managing the
-  assets/investments of this party. Synonnym: Asset
+  assets/investments of this party.  Synonnym:  Asset
   Manager, Investment Manager, Trading Advisory.
 * `PartyRoleEnum_TradingPartner`
   An entity with which this party trades from time to
   time, ie. with which it acts as a counterparty on
-  some transactions. This role is used for static
+  some transactions.   This role is used for static
   reference data, not individual transactions.
 
 ### `data` `PayRelativeToEnum`
@@ -15919,7 +16406,7 @@
 ### `data` `ProductIdSourceEnum`
 
   The enumerated values to specify the product
-  identifier source. FpML doesn't specify a list of
+  identifier source. FpML doesn&#39;t specify a list of
   values.
 * `ProductIdSourceEnum_CUSIP`
   The Committee on Uniform Security Identification
@@ -15992,11 +16479,11 @@
   The enumerated values to specify the side from which
   perspective a value is quoted.
 * `QuotationSideEnum_Ask`
-  A value 'asked' by a seller for an asset, i.e. the
-  value at which a seller is willing to sell.
+  A value &#39;asked&#39; by a seller for an asset,
+  i.e. the value at which a seller is willing to sell.
 * `QuotationSideEnum_Bid`
-  A value 'bid' by a buyer for an asset, i.e. the value
-  a buyer is willing to pay.
+  A value &#39;bid&#39; by a buyer for an asset, i.e.
+  the value a buyer is willing to pay.
 * `QuotationSideEnum_Mid`
   A value midway between the bid and the ask value.
 
@@ -16006,15 +16493,15 @@
   style (e.g. PointsUpFront, TradedSpread) used to
   quote a credit default swap fee leg.
 * `QuotationStyleEnum_PointsUpFront`
-  When quotation style is 'PointsUpFront', the
+  When quotation style is &#39;PointsUpFront&#39;, the
   initialPoints element of the Credit Default Swap
   feeLeg should be populated
 * `QuotationStyleEnum_Price`
-  When quotation style is 'Price', the marketPrice
-  element of the Credit Default Swap feeLeg should be
-  populated
+  When quotation style is &#39;Price&#39;, the
+  marketPrice element of the Credit Default Swap feeLeg
+  should be populated
 * `QuotationStyleEnum_TradedSpread`
-  When quotation style is 'TradedSpread', the
+  When quotation style is &#39;TradedSpread&#39;, the
   marketFixedRate element of the Credit Default Swap
   feeLeg should be populated
 
@@ -16045,37 +16532,50 @@
 ### `data` `RegulatoryRegimeEnum`
 
   The enumerated values to specify the regulatory
-  regime. The ISDA 2018 CSA is used as one input to
+  regimes. The ISDA 2018 CSA is used as one input to
   qualify those enumerated values. The display name
   corresponds to the set of values specified as part of
-  of the ISDA 2018 CSA for Initial Margin.
+  of the ISDA 2016 and 2018 CSA for Initial Margin.
+  2016 ISDA Credit Support Annex for Initial Margin:
+  Regime | 2018 ISDA Credit Support Annex for Initial
+  Margin: Regime.
 * `RegulatoryRegimeEnum_AustraliaMarginRules`
-  Australian Prudential Standard CPS 226 Margining and
-  risk mitigation for non-centrally cleared
-  derivatives.
+  2018 ISDA Credit Support Annex for Initial Margin,
+  paragraph 13, General Principles: Australian
+  Prudential Standard CPS 226 Margining and risk
+  mitigation for non-centrally cleared derivatives.
 * `RegulatoryRegimeEnum_CFTC_MarginRules`
-  Margin requirements adopted by the U.S. Commodity
-  Futures Trading Commission pursuant to CEA § 4s(e).
+  2018 ISDA Credit Support Annex for Initial Margin,
+  paragraph 13, General Principles: Margin requirements
+  adopted by the U.S. Commodity Futures Trading
+  Commission pursuant to CEA § 4s(e).
 * `RegulatoryRegimeEnum_CanadaMarginRules`
-  Guideline E-22, Margin Requirements for Non-Centrally
-  Cleared Derivatives issued by the Canadian Office of
-  the Superintendent of Financial Institutions
+  2018 ISDA Credit Support Annex for Initial Margin,
+  paragraph 13, General Principles: Guideline E-22,
+  Margin Requirements for Non-Centrally Cleared
+  Derivatives issued by the Canadian Office of the
+  Superintendent of Financial Institutions
 * `RegulatoryRegimeEnum_EMIR_MarginRules`
-  Regulation (EU) No 648/2012 of the European
-  Parliament and of the Council of 4 July 2012 on OTC
-  derivatives, central counterparties and trade
-  repositories (including the EMIR RTS).
+  2018 ISDA Credit Support Annex for Initial Margin,
+  paragraph 13, General Principles: Regulation (EU) No
+  648/2012 of the European Parliament and of the
+  Council of 4 July 2012 on OTC derivatives, central
+  counterparties and trade repositories (including the
+  EMIR RTS).
 * `RegulatoryRegimeEnum_HongKongMarginRules`
-  Chapter CR-G-14 'Non-centrally Cleared OTC
-  Derivatives Transactions – Margin and Other Risk
-  Mitigation Standards' in the Banking Supervisory
-  Policy Manual issued by the Hong Kong Monetary
-  Authority.
+  2018 ISDA Credit Support Annex for Initial Margin,
+  paragraph 13, General Principles: Chapter CR-G-14
+  &#39;Non-centrally Cleared OTC Derivatives
+  Transactions – Margin and Other Risk Mitigation
+  Standards&#39; in the Banking Supervisory Policy
+  Manual issued by the Hong Kong Monetary Authority.
 * `RegulatoryRegimeEnum_JapanMarginRules`
-  Margin rules adopted by the Financial Services Agency
-  of Japan pursuant to Article 40, Item 2 of the
-  Financial Instruments and Exchange Act (kin’yuu
-  shouhin torihiki hou) (Act No. 25 of 1948) and by the
+  2018 ISDA Credit Support Annex for Initial Margin,
+  paragraph 13, General Principles: Margin rules
+  adopted by the Financial Services Agency of Japan
+  pursuant to Article 40, Item 2 of the Financial
+  Instruments and Exchange Act (kin’yuu shouhin
+  torihiki hou) (Act No. 25 of 1948) and by the
   Ministry of Agriculture, Forestry and Fisheries and
   the Ministry of Economy, Trade and Industry pursuant
   to the Commodity Derivatives Act (shouhin sakimono
@@ -16083,25 +16583,32 @@
   subordinated regulations and the related supervisory
   guidelines).
 * `RegulatoryRegimeEnum_SEC_MarginRules`
-  Margin requirements adopted by the U.S. Securities
-  and Exchange Commission pursuant to Exchange Act §
-  15F(e).
+  2018 ISDA Credit Support Annex for Initial Margin,
+  paragraph 13, General Principles: Margin requirements
+  adopted by the U.S. Securities and Exchange
+  Commission pursuant to Exchange Act § 15F(e).
 * `RegulatoryRegimeEnum_SingaporeMarginRules`
-  Guidelines on Margin Requirements for Non-centrally
-  Cleared OTC Derivatives Contracts issued by the
-  Monetary Authority of Singapore (MAS) pursuant to
-  section 321 of the Securities and Futures Act,
-  Chapter 289 of Singapore.
+  2018 ISDA Credit Support Annex for Initial Margin,
+  paragraph 13, General Principles: Guidelines on
+  Margin Requirements for Non-centrally Cleared OTC
+  Derivatives Contracts issued by the Monetary
+  Authority of Singapore (MAS) pursuant to section 321
+  of the Securities and Futures Act, Chapter 289 of
+  Singapore.
 * `RegulatoryRegimeEnum_SwitzerlandMarginRules`
-  Margin rules adopted by the Swiss Federal Council
-  pursuant to Article 110-111 of the Financial Market
+  2018 ISDA Credit Support Annex for Initial Margin,
+  paragraph 13, General Principles: Margin rules
+  adopted by the Swiss Federal Council pursuant to
+  Article 110-111 of the Financial Market
   Infrastructure Act as well as Articles 100 to 107 and
   Annexes 3 to 5 of the Financial Market Infrastructure
   Ordinance.
 * `RegulatoryRegimeEnum_US_PrudentialMarginRules`
-  Margin requirements adopted by a 'prudential
-  regulator' (as defined in CEA § 1a(39)) pursuant to
-  CEA § 4s(e) and Exchange Act § 15F(e).
+  2018 ISDA Credit Support Annex for Initial Margin,
+  paragraph 13, General Principles: Margin requirements
+  adopted by a &#39;prudential regulator&#39; (as
+  defined in CEA § 1a(39)) pursuant to CEA § 4s(e) and
+  Exchange Act § 15F(e).
 
 ### `data` `ResetRelativeToEnum`
 
@@ -16123,7 +16630,7 @@
   Document describing the legal terms of a transaction.
 * `ResourceTypeEnum_SupplementalMaterialEconomicTerms`
   Document providing supplemental material economic
-  terms to the FpML data representation. The initial
+  terms to the FpML data representation.  The initial
   intended usage is to fulfill the CFTC Part 45 rule
   requirement to report ‘Any other terms(s) of the swap
   matched or affirmed by the counterparties in
@@ -16198,7 +16705,7 @@
 * `RollConventionEnum_IMMCAD`
   The last trading day/expiration day of the Canadian
   Derivatives Exchange (Bourse de Montreal Inc)
-  Three-month Canadian Bankers' Acceptance Futures
+  Three-month Canadian Bankers&#39; Acceptance Futures
   (Ticker Symbol BAX). The second London banking day
   prior to the third Wednesday of the contract month.
   If the determined day is a Bourse or bank holiday in
@@ -16318,6 +16825,27 @@
   For example, 5.21 and 5.25 rounded up to 1 decimal
   place are 5.3 and 5.3 respectively.
 
+### `data` `SensitivitiesEnum`
+
+  The enumerated values to specify the methodology
+  according to which sensitivities to equity indices,
+  funds and ETFs on hand, and commodity indices on the
+  other hand, are computed for the purpose of the ISDA
+  2016 and 2016 CSA for Initial Margin. ISDA 2016
+  Credit Support Annex for Initial Margin, paragraph
+  13, General Principles, (gg).
+* `SensitivitiesEnum_Alternative`
+  The parties agree that in respect of the relevant
+  sensitivities, the delta is allocated back to
+  individual constituents.
+* `SensitivitiesEnum_NotSpecified`
+  The methodology to compute relevant sensitivities is
+  not specified.
+* `SensitivitiesEnum_Standard`
+  The relevant sensitivities are addressed by the
+  standard preferred approach where the entire delta is
+  put into the applicable asset class/category.
+
 ### `data` `SettledEntityMatrixSourceEnum`
 
   The enumerated values to specify the relevant settled
@@ -16352,7 +16880,7 @@
   Argentine Peso/U.S. Dollar Specified Rate for U.S.
   Dollars, expressed as the amount of Argentine Pesos
   per one U.S. Dollar, for settlement on the same day,
-  as published on EMTA's web site (www.emta.org) at
+  as published on EMTA&#39;s web site (www.emta.org) at
   approximately 1:00 p.m. (Buenos Aires time), or as
   soon thereafter as practicable, on such Rate
   Calculation Date. The Spot Rate shall be calculated
@@ -16369,7 +16897,7 @@
   Argentine Peso/U.S. Dollar Specified Rate for U.S.
   Dollars, expressed as the amount of Argentine Pesos
   per one U.S. Dollar, for settlement on the same day,
-  as published on EMTA's web site (www.emta.org) at
+  as published on EMTA&#39;s web site (www.emta.org) at
   approximately 1:00 p.m. (Buenos Aires time), or as
   soon thereafter as practicable, on such Rate
   Calculation Date. The Spot Rate shall be calculated
@@ -16389,11 +16917,11 @@
   for a Rate Calculation Day expressed as the amount of
   Argentine Pesos per one U.S. Dollar, for settlement
   on the same day, reported by the Mercado Abierto
-  Electronico (the 'MAE') at approximately 3:00 pm,
-  Buenos Aires time, and published on the FOREX-MAE
-  Page as the 'PPN' rate ('Promedio Ponderado
-  Noticiado') on www.mae.com.ar on that Rate
-  Calculation Date.
+  Electronico (the &#39;MAE&#39;) at approximately 3:00
+  pm, Buenos Aires time, and published on the FOREX-MAE
+  Page as the &#39;PPN&#39; rate (&#39;Promedio
+  Ponderado Noticiado&#39;) on www.mae.com.ar on that
+  Rate Calculation Date.
 * `SettlementRateOptionEnum_ARS_OFFICIAL_RATE_ARS02`
   The Spot Rate for a Rate Calculation Date will be the
   Argentine Peso/U.S. Dollar offered rate for U.S.
@@ -16410,44 +16938,45 @@
   for settlement in two Business Days (where such days
   are Business Days in both Sao Paulo and New York)
   which appears on the Reuters Screen BRBY Page under
-  the caption 'INTBK FLTING (LAST)' at approximately
-  11:00 a.m., Sao Paulo time, on that Rate Calculation
-  Date.
+  the caption &#39;INTBK FLTING (LAST)&#39; at
+  approximately 11:00 a.m., Sao Paulo time, on that
+  Rate Calculation Date.
 * `SettlementRateOptionEnum_BRL_EMTA_INDICATIVE_SURVEY_RATE_BRL13`
   The Spot Rate for a Rate Calculation Date will be the
   Brazilian Real/U.S. Dollar Specified Rate for U.S.
   Dollars, expressed as the amount of Brazilian Reais
   per one U.S. Dollar, for settlement in two Business
-  Days, as published on EMTA's web site (www.emta.org)
-  at approximately 12:00 p.m. (Sao Paulo time), or as
-  soon thereafter as practicable, on such Rate
-  Calculation Date. The Spot Rate shall be calculated
-  by EMTA (or a service provider EMTA may select in its
-  sole discretion) pursuant to the EMTA BRL Indicative
-  Survey Methodology (which means a methodology, dated
-  as of March 1, 2004, as amended from time to time,
-  for a centralized industry-wide survey of financial
-  institutions that are active participants in the
-  Brazilian Real/U.S. Dollar markets for the purpose of
-  determining the EMTA BRL Indicative Survey Rate).
+  Days, as published on EMTA&#39;s web site
+  (www.emta.org) at approximately 12:00 p.m. (Sao Paulo
+  time), or as soon thereafter as practicable, on such
+  Rate Calculation Date. The Spot Rate shall be
+  calculated by EMTA (or a service provider EMTA may
+  select in its sole discretion) pursuant to the EMTA
+  BRL Indicative Survey Methodology (which means a
+  methodology, dated as of March 1, 2004, as amended
+  from time to time, for a centralized industry-wide
+  survey of financial institutions that are active
+  participants in the Brazilian Real/U.S. Dollar
+  markets for the purpose of determining the EMTA BRL
+  Indicative Survey Rate).
 * `SettlementRateOptionEnum_BRL_EMTA_INDUSTRY_SURVEY_RATE_BRL12`
   The Spot Rate for a Rate Calculation Date will be the
   Brazilian Real/U.S. Dollar Specified Rate for U.S.
   Dollars, expressed as the amount of Brazilian Reais
   per one U.S. Dollar, for settlement in two Business
-  Days, as published on EMTA's web site (www.emta.org)
-  at approximately 3:45 p.m. (Sao Paulo time), or as
-  soon thereafter as practicable, on such Rate
-  Calculation Date. The Spot Rate shall be calculated
-  by EMTA (or a service provider EMTA may select in its
-  sole discretion) pursuant to the EMTA BRL Industry
-  Survey Methodology (which means a methodology, dated
-  as of March 1, 2004, as amended from time to time,
-  for a centralized industry-wide survey of financial
-  institutions in Brazil that are active participants
-  in the Brazilian Real/U.S. Dollar spot markets for
-  the purpose of determining the EMTA BRL Industry
-  Survey Rate).
+  Days, as published on EMTA&#39;s web site
+  (www.emta.org) at approximately 3:45 p.m. (Sao Paulo
+  time), or as soon thereafter as practicable, on such
+  Rate Calculation Date. The Spot Rate shall be
+  calculated by EMTA (or a service provider EMTA may
+  select in its sole discretion) pursuant to the EMTA
+  BRL Industry Survey Methodology (which means a
+  methodology, dated as of March 1, 2004, as amended
+  from time to time, for a centralized industry-wide
+  survey of financial institutions in Brazil that are
+  active participants in the Brazilian Real/U.S. Dollar
+  spot markets for the purpose of determining the EMTA
+  BRL Industry Survey Rate).
 * `SettlementRateOptionEnum_BRL_OFFICIAL_RATE_BRL02`
   The Spot Rate for a Rate Calculation Date will be the
   Brazilian Real/U.S. Dollar Specified Rate, expressed
@@ -16455,8 +16984,8 @@
   for settlement in two Business Days (where such days
   are Business Days in both Sao Paulo and New York)
   reported by the Banco Central do Brasil in the
-  'Diario Oficial da Uniao' on the first Business Day
-  following that Rate Calculation Date.
+  &#39;Diario Oficial da Uniao&#39; on the first
+  Business Day following that Rate Calculation Date.
 * `SettlementRateOptionEnum_BRL_PCOT_COMMERCIAL_BRL03`
   The Spot Rate for a Rate Calculation Date will be the
   Brazilian Real/U.S. Dollar commercial rate, expressed
@@ -16484,10 +17013,11 @@
   per one U.S. Dollar, for settlement in two Business
   Days reported by the Banco Central do Brasil on
   SISBACEN Data System under transaction code PTAX-800
-  ('Consulta de Cambio' or Exchange Rate Inquiry),
-  Option 5 ('Cotacoes para Contabilidade' or 'Rates for
-  Accounting Purposes') by approximately 6:00 p.m., Sao
-  Paulo time, on that Rate Calculation Date.
+  (&#39;Consulta de Cambio&#39; or Exchange Rate
+  Inquiry), Option 5 (&#39;Cotacoes para
+  Contabilidade&#39; or &#39;Rates for Accounting
+  Purposes&#39;) by approximately 6:00 p.m., Sao Paulo
+  time, on that Rate Calculation Date.
 * `SettlementRateOptionEnum_BRL_PTAX_COMMERCIAL_BRFR_BRL06`
   The Spot Rate for a Rate Calculation Date will be the
   Brazilian Real/U.S. Dollar commercial rate, expressed
@@ -16506,13 +17036,14 @@
   are Business Days in both Sao Paulo and New York)
   reported by the Banco Central do Brasil on SISBACEN
   Data System under transaction code PTAX- 800
-  ('Consultas de Cambio' or Exchange Rate Inquiry),
-  Option 5 ('Cotacoes para Contabilidad' or Rates for
-  Accounting Purposes) market type 'L' (corresponding
-  to U.S. Dollars traded in the foreign exchange market
-  segment officially denominated 'Livre' and commonly
-  known as 'Comercial') as of 7:30 p.m., Sao Paulo
-  time, on that Rate Calculation Date.
+  (&#39;Consultas de Cambio&#39; or Exchange Rate
+  Inquiry), Option 5 (&#39;Cotacoes para
+  Contabilidad&#39; or Rates for Accounting Purposes)
+  market type &#39;L&#39; (corresponding to U.S.
+  Dollars traded in the foreign exchange market segment
+  officially denominated &#39;Livre&#39; and commonly
+  known as &#39;Comercial&#39;) as of 7:30 p.m., Sao
+  Paulo time, on that Rate Calculation Date.
 * `SettlementRateOptionEnum_BRL_PTAX_FLOATING_BRFR_BRL08`
   The Spot Rate for a Rate Calculation Date will be the
   Brazilian Real/U.S. Dollar floating rate, expressed
@@ -16532,11 +17063,12 @@
   are Business Days in both Sao Paulo and New York)
   reported by the Banco Central do Brasil on SISBACEN
   Data System under transaction code PTAX- 800
-  ('Consultas de Cambio' or Exchange Rate Inquiry),
-  Option 5 ('Cotacoes para Contabilidad' or Rates for
-  Accounting Purposes) market type 'F' (corresponding
-  to U.S. Dollars traded in the foreign exchange market
-  segment officially denominated 'Flutuante') as of
+  (&#39;Consultas de Cambio&#39; or Exchange Rate
+  Inquiry), Option 5 (&#39;Cotacoes para
+  Contabilidad&#39; or Rates for Accounting Purposes)
+  market type &#39;F&#39; (corresponding to U.S.
+  Dollars traded in the foreign exchange market segment
+  officially denominated &#39;Flutuante&#39;) as of
   7:30 p.m., Sao Paulo time, on that Rate Calculation
   Date.
 * `SettlementRateOptionEnum_CLP_BCCH_CLP01`
@@ -16548,9 +17080,9 @@
   succeeding day that is a Business Day in both
   Santiago and New York) reported by the Banco Central
   de Chile which appears on the Reuters Screen BCCH
-  Page under the caption 'OBSERVADO' at 10:00 a.m.,
-  Santiago time, on the first Business Day following
-  that Rate Calculation Date.
+  Page under the caption &#39;OBSERVADO&#39; at 10:00
+  a.m., Santiago time, on the first Business Day
+  following that Rate Calculation Date.
 * `SettlementRateOptionEnum_CLP_CHILD_INFORMAL_CLP02`
   The Spot Rate for a Rate Calculation Date will be the
   Chilean Peso/U.S. Dollar informal rate, expressed as
@@ -16615,24 +17147,25 @@
   succeeding day that is a Business Day in both
   Santiago and New York) reported by the Banco Central
   de Chile which appears on the Reuters Screen CHILG
-  Page under 'OBSERVADO' at the Specified Time, if any,
-  on the first Business Day following that Rate
+  Page under &#39;OBSERVADO&#39; at the Specified Time,
+  if any, on the first Business Day following that Rate
   Calculation Date.
 * `SettlementRateOptionEnum_CLP_DOLAR_OBS_CLP10`
   The Spot Rate for a Rate Calculation Date will be the
-  Chilean Peso/U.S. Dollar 'observado' rate, expressed
-  as the amount of Chilean Pesos per one U.S. Dollar,
-  for settlement in one Business Day reported by the
-  Banco Central de Chile (www.bcentral.cl) as the
-  'Dolar Observado' (Dollar Observado) rate by not
-  later than 10:30 a.m., Santiago time, on the first
-  Business Day following that Rate Calculation Date.
+  Chilean Peso/U.S. Dollar &#39;observado&#39; rate,
+  expressed as the amount of Chilean Pesos per one U.S.
+  Dollar, for settlement in one Business Day reported
+  by the Banco Central de Chile (www.bcentral.cl) as
+  the &#39;Dolar Observado&#39; (Dollar Observado) rate
+  by not later than 10:30 a.m., Santiago time, on the
+  first Business Day following that Rate Calculation
+  Date.
 * `SettlementRateOptionEnum_CLP_EMTA_INDICATIVE_SURVEY_RATE_CLP11`
   The Spot Rate for a Rate Calculation Date will be the
   Chilean Peso/U.S. Dollar Specified Rate for U.S.
   Dollars, expressed as the amount of Chilean Pesos per
   one U.S. Dollar, for settlement on the same day, as
-  published on EMTA's web site (www.emta.org) at
+  published on EMTA&#39;s web site (www.emta.org) at
   approximately 11:00 a.m., Santiago time, or as soon
   thereafter as practicable, on such Rate Calculation
   Date. The Spot Rate shall be calculated by EMTA (or a
@@ -16666,36 +17199,37 @@
   succeeding day that is a Business Day in both
   Santiago and New York) reported by the Banco Central
   de Chile which appears on the Telerate Page 38942
-  opposite the caption 'Observado' at the Specified
-  Time, if any, on the first Business Day following the
-  Rate Calculation Date.
+  opposite the caption &#39;Observado&#39; at the
+  Specified Time, if any, on the first Business Day
+  following the Rate Calculation Date.
 * `SettlementRateOptionEnum_CNY_SAEC_CNY01`
   The Spot Rate for a Rate Calculation Date will be the
   Chinese Renminbi/U.S. Dollar official fixing rate,
   expressed as the amount of Chinese Renminbi per one
   U.S. Dollar, for settlement in two Business Days
-  reported by the People's Bank of China, Beijing,
-  People's Republic of China, which appears on the
-  Reuters Screen 'SAEC' Page opposite the symbol
-  'USDCNY=' at approximately 9:15 a.m., Beijing time,
-  on that Rate Calculation Date.
+  reported by the People&#39;s Bank of China, Beijing,
+  People&#39;s Republic of China, which appears on the
+  Reuters Screen &#39;SAEC&#39; Page opposite the
+  symbol &#39;USDCNY=&#39; at approximately 9:15 a.m.,
+  Beijing time, on that Rate Calculation Date.
 * `SettlementRateOptionEnum_CNY_SFEMC_INDICATIVE_SURVEY_RATE_CNY02`
   The Spot Rate for a Rate Calculation Date will be the
   Chinese Renminbi/U.S. Dollar Specified Rate for U.S.
   Dollars, expressed as the amount of Chinese Renminbi
   per one U.S. Dollar, for settlement in two Business
-  Days, as published on SFEMC's website (www.sfemc.org)
-  at approximately 3:30 p.m. (Singapore time), or as
-  soon thereafter as practicable, on such Rate
-  Calculation Date. The Spot Rate will be calculated by
-  SFEMC (or a service provider SFEMC may select in its
-  sole discretion) pursuant to the SFEMC CNY Indicative
-  Survey Methodology (which means a methodology, dated
-  as of December 1, 2004, as amended from time to time,
-  for a centralized industry-wide survey of financial
-  institutions that are active participants in the
-  Chinese Renminbi/U.S. Dollar markets for the purpose
-  of determining the SFEMC CNY Indicative Survey Rate).
+  Days, as published on SFEMC&#39;s website
+  (www.sfemc.org) at approximately 3:30 p.m. (Singapore
+  time), or as soon thereafter as practicable, on such
+  Rate Calculation Date. The Spot Rate will be
+  calculated by SFEMC (or a service provider SFEMC may
+  select in its sole discretion) pursuant to the SFEMC
+  CNY Indicative Survey Methodology (which means a
+  methodology, dated as of December 1, 2004, as amended
+  from time to time, for a centralized industry-wide
+  survey of financial institutions that are active
+  participants in the Chinese Renminbi/U.S. Dollar
+  markets for the purpose of determining the SFEMC CNY
+  Indicative Survey Rate).
 * `SettlementRateOptionEnum_COP_CO_COL03_COP01`
   The Spot Rate for a Rate Calculation Date will be the
   Colombian Peso/U.S. Dollar fixing rate, expressed as
@@ -16705,17 +17239,17 @@
   on the first succeeding day that is a Business Day in
   Bogota and New York) reported by the Colombian
   Banking Superintendency which appears on the Reuters
-  Screen CO/COL03 Page opposite the caption 'TRCM'
-  ('Tasa de Cierre Representative del Mercado' or
-  closing market price) at 12:00 noon, Bogota time, on
-  the first Business Day following that Rate
-  Calculation Date.
+  Screen CO/COL03 Page opposite the caption
+  &#39;TRCM&#39; (&#39;Tasa de Cierre Representative
+  del Mercado&#39; or closing market price) at 12:00
+  noon, Bogota time, on the first Business Day
+  following that Rate Calculation Date.
 * `SettlementRateOptionEnum_COP_EMTA_INDICATIVE_SURVEY_RATE_COP03`
   The Spot Rate for a Rate Calculation Date will be the
   Colombian Peso/U.S. Dollar Specified Rate for U.S.
   Dollars, expressed as the amount of Colombian Pesos
   per one U.S. Dollar, for settlement on the same day,
-  as published on EMTA's web site (www.emta.org) at
+  as published on EMTA&#39;s web site (www.emta.org) at
   approximately 11:30 a.m., Bogota time, or as soon
   thereafter as practicable, on such Rate Calculation
   Date. The Spot Rate shall be calculated by EMTA (or a
@@ -16733,32 +17267,34 @@
   the amount of Colombian Pesos per one U.S. Dollar,
   for settlement on the same day reported by the
   Colombian Financial Superintendency
-  (www.banrep.gov.co) as the 'Tasa Representativa del
-  Mercado (TRM)' (also referred to as the 'Tasa de
-  Cambio Representativa del Mercado' (TCRM)) by not
-  later than 10:30 a.m., Bogota time, on the first
-  Business Day following that Rate Calculation Date.
+  (www.banrep.gov.co) as the &#39;Tasa Representativa
+  del Mercado (TRM)&#39; (also referred to as the
+  &#39;Tasa de Cambio Representativa del Mercado&#39;
+  (TCRM)) by not later than 10:30 a.m., Bogota time, on
+  the first Business Day following that Rate
+  Calculation Date.
 * `SettlementRateOptionEnum_CURRENCY_IMPLIED_RATE__ADR__CURA1`
   the Spot Rate for a Rate Calculation Date will be the
   Reference Currency/U.S. Dollar exchange rate,
   expressed as the amount of Reference Currency per one
   U.S. Dollar, determined on the basis of quotations
   provided by Reference Dealers on that Rate
-  Calculation Date of that day's price of a Specified
-  Company's American Depositary Receipt or American
-  Depositary Receipts (the 'ADR' or 'ADRs', as
-  appropriate) and the price of the local share or
-  shares of such Specified Company of the same type and
-  in the same quantity represented by such ADR or ADRs,
-  as the case may be (the 'Share' or 'Shares', as
-  appropriate). The Calculation Agent will request each
-  of the Reference Dealers to provide a firm quotation
-  of (A) in the case where one ADR represents less than
-  one Share, its bid and offer price (in the Reference
+  Calculation Date of that day&#39;s price of a
+  Specified Company&#39;s American Depositary Receipt
+  or American Depositary Receipts (the &#39;ADR&#39; or
+  &#39;ADRs&#39;, as appropriate) and the price of the
+  local share or shares of such Specified Company of
+  the same type and in the same quantity represented by
+  such ADR or ADRs, as the case may be (the
+  &#39;Share&#39; or &#39;Shares&#39;, as appropriate).
+  The Calculation Agent will request each of the
+  Reference Dealers to provide a firm quotation of (A)
+  in the case where one ADR represents less than one
+  Share, its bid and offer price (in the Reference
   Currency) for one Share and its bid and offer price
   (in U.S. Dollars) for the number of ADRs which
   represent such Share and (B) in all other cases, its
-  bid and offer price (in the Reference Currency) for
+  bid andoffer price (in the Reference Currency) for
   the Share or Shares, as the case may be, and its bid
   and offer price (in U.S. Dollars) for one ADR. If one
   or more quotations are provided, the rate for a Rate
@@ -16776,18 +17312,18 @@
   quotations used to determine the Spot Rate for a Rate
   Calculation Date will be determined in each case at
   the Specified Time on the Rate Calculation Date or,
-  if no such time is specified, the time chosen by the
-  Calculation Agent.
+  if no such time is specified, the time chosen by
+  theCalculation Agent.
 * `SettlementRateOptionEnum_CURRENCY_IMPLIED_RATE__LOCAL_ASSET__CURA2`
   The Spot Rate for a Rate Calculation Date will be the
   Reference Currency/Settlement Currency exchange rate,
   expressed as the amount of Reference Currency per one
   unit of Settlement Currency, determined on the basis
   of quotations provided by Reference Dealers on that
-  Rate Calculation Date for that day's price of Local
-  Assets. The Calculation Agent will request each of
-  the Reference Dealers to provide a firm quotation of
-  its bid and offer price (in both the Reference
+  Rate Calculation Date for that day&#39;s price of
+  Local Assets. The Calculation Agent will request each
+  of the Reference Dealers to provide a firm quotation
+  of its bid and offer price (in both the Reference
   Currency and the Settlement Currency) for an amount
   of Local Assets whose face value equals the Specified
   Amount. If one or more quotations are provided, the
@@ -16797,7 +17333,7 @@
   each Reference Dealer for such Local Assets and (B)
   the arithmetic mean of the midpoint of the bid and
   offer prices quoted in the Settlement Currency by
-  each Reference Dealer for such Local Assets. The
+  each Reference Dealer for suchLocal Assets. The
   quotations used to determine the Spot Rate for a Rate
   Calculation Date will be determined in each case at
   the Specified Time on the Rate Calculation Date or,
@@ -16817,23 +17353,23 @@
   The Spot Rate for a Rate Calculation Date will be
   determined on the basis of quotations provided by
   Reference Dealers on that Rate Calculation Date of
-  that day's Specified Rate, expressed as the amount of
-  Reference Currency per one unit of Settlement
-  Currency, for settlement on the Settlement Date. The
-  Calculation Agent will request the Specified Office
-  of each of the Reference Dealers to provide a firm
-  quotation of its Specified Rate for a transaction
-  where the amount of Reference Currency equals the
-  Specified Amount. If four quotations are provided,
-  the rate for a Rate Calculation Date will be the
-  arithmetic mean of the Specified Rates, without
-  regard to the Specified Rates having the highest and
-  lowest value. If exactly three quotations are
+  that day&#39;s Specified Rate, expressed as the
+  amount of Reference Currency per one unit of
+  Settlement Currency, for settlement on the Settlement
+  Date. The Calculation Agent will request the
+  Specified Office of each of the Reference Dealers to
+  provide a firm quotation of its Specified Rate for a
+  transaction where the amount of Reference Currency
+  equals the Specified Amount. If four quotations are
   provided, the rate for a Rate Calculation Date will
-  be the Specified Rate provided by the Reference
+  be the arithmetic mean of the Specified Rates,
+  without regard to the Specified Rates having the
+  highest and lowest value. If exactly three quotations
+  are provided, the rate for a Rate Calculation Date
+  will be the Specified Rate provided by the Reference
   Dealer that remains after disregarding the Specified
   Rates having the highest and lowest values. For this
-  purpose, if more than one quotation has the same
+  purpose, ifmore than one quotation has the same
   highest value or lowest value, then the Specified
   Rate of one of such quotations shall be disregarded.
   If exactly two quotations are provided, the rate for
@@ -16849,12 +17385,12 @@
 * `SettlementRateOptionEnum_CURRENCY_WHOLESALE_MARKET_CURA5`
   The Spot Rate for a Rate Calculation Date will be
   determined by the Calculation Agent on the basis of
-  that day's Specified Rate, expressed as the amount of
-  Reference Currency per one unit of Settlement
-  Currency, in a legal and customary wholesale market
-  in which there is no, or minimal, Governmental
-  Authority controls or interference, except as a
-  participant in such market.
+  that day&#39;s Specified Rate, expressed as the
+  amount of Reference Currency per one unit of
+  Settlement Currency, in a legal and customary
+  wholesale market in which there is no, or minimal,
+  Governmental Authority controls or interference,
+  except as a participant in such market.
 * `SettlementRateOptionEnum_ECS_DNRP_ECS01`
   The Spot Rate for a Rate Calculation Date will be the
   Ecuadorian Sucre/U.S. Dollar Specified Rate,
@@ -16871,9 +17407,9 @@
   Indonesian Rupiah per one U.S. Dollar, for settlement
   in two Business Days, reported by the Association of
   Banks in Singapore which appears on the Telerate Page
-  50157 to the right of the caption 'Spot' under the
-  column 'IDR' at approximately 11:30 a.m., Singapore
-  time, on that Rate Calculation Date.
+  50157 to the right of the caption &#39;Spot&#39;
+  under the column &#39;IDR&#39; at approximately 11:30
+  a.m., Singapore time, on that Rate Calculation Date.
 * `SettlementRateOptionEnum_IDR_JISDOR_IDR04`
   The Spot Rate for a Rate Calculation Date will be the
   Indonesian Rupiah/U.S. Dollar weighted average spot
@@ -16885,26 +17421,27 @@
   published by Bank Indonesia at approximately 10:00
   a.m., Jakarta time, on that Rate Calculation Date as
   the Jakarta Interbank Spot Dollar Rate USD - IDR on
-  Bank Indonesia's website or otherwise made available
-  by Bank Indonesia (or its successor as
+  Bank Indonesia&#39;s website or otherwise made
+  available by Bank Indonesia (or its successor as
   administrator).
 * `SettlementRateOptionEnum_IDR_SFEMC_INDICATIVE_SURVEY_RATE_IDR02`
   The Spot Rate for a Rate Calculation Date will be the
   Indonesian Rupiah/U.S. Dollar Specified Rate for U.S.
   Dollars, expressed as the amount of Indonesian Rupiah
   per one U.S. Dollar, for settlement in two Business
-  Days, as published on SFEMC's website (www.sfemc.org)
-  at approximately 3:30 p.m., Singapore time, or as
-  soon thereafter as practicable, on such Rate
-  Calculation Date. The Spot Rate will be calculated by
-  SFEMC (or a service provider SFEMC may select in its
-  sole discretion) pursuant to the SFEMC IDR Indicative
-  Survey Methodology (which means a methodology, dated
-  as of December 1, 2004, as amended from time to time,
-  for a centralized industry-wide survey of financial
-  institutions that are active participants in the
-  Indonesian Rupiah/U.S. Dollar markets for the purpose
-  of determining the SFEMC IDR Indicative Survey Rate).
+  Days, as published on SFEMC&#39;s website
+  (www.sfemc.org) at approximately 3:30 p.m., Singapore
+  time, or as soon thereafter as practicable, on such
+  Rate Calculation Date. The Spot Rate will be
+  calculated by SFEMC (or a service provider SFEMC may
+  select in its sole discretion) pursuant to the SFEMC
+  IDR Indicative Survey Methodology (which means a
+  methodology, dated as of December 1, 2004, as amended
+  from time to time, for a centralized industry-wide
+  survey of financial institutions that are active
+  participants in the Indonesian Rupiah/U.S. Dollar
+  markets for the purpose of determining the SFEMC IDR
+  Indicative Survey Rate).
 * `SettlementRateOptionEnum_IDR_VWAP_IDR03`
   The Spot Rate for a Rate Calculation Date will be the
   Indonesian Rupiah/U.S. Dollar implied spot rate
@@ -16952,12 +17489,12 @@
   Indian Rupee/U.S. Dollar Specified Rate for U.S.
   Dollars, expressed as the amount of Indian Rupee per
   one U.S. Dollar, for settlement in two Business Days,
-  as published on SFEMC's website (www.sfemc.org) at
-  approximately 3:30 p.m. (Singapore time), or as soon
-  thereafter as practicable, on such Rate Calculation
-  Date. The Spot Rate will be calculated by SFEMC (or a
-  service provider SFEMC may select in its sole
-  discretion) pursuant to the SFEMC INR Indicative
+  as published on SFEMC&#39;s website (www.sfemc.org)
+  at approximately 3:30 p.m. (Singapore time), or as
+  soon thereafter as practicable, on such Rate
+  Calculation Date. The Spot Rate will be calculated by
+  SFEMC (or a service provider SFEMC may select in its
+  sole discretion) pursuant to the SFEMC INR Indicative
   Survey Methodology (which means a methodology, dated
   as of December 1, 2004, as amended from time to time,
   for a centralized industry-wide survey of financial
@@ -16978,7 +17515,7 @@
   settlement in two Business Days reported by the Korea
   Financial Telecommunications and Clearing Corporation
   which appears on the Reuters Screen KFTC18 Page to
-  the right of the caption 'USD Today' that is
+  the right of the caption &#39;USD Today&#39; that is
   available at approximately 3:30 p.m., Seoul time, on
   the Rate Calculation Date or as soon thereafter as
   practicable.
@@ -16987,12 +17524,12 @@
   Korean Won/U.S. Dollar Specified Rate for U.S.
   Dollars, expressed as the amount of Korean Won per
   one U.S. Dollar, for settlement in two Business Days,
-  as published on SFEMC's website (www.sfemc.org) at
-  approximately 3:30 p.m., Singapore time, or as soon
-  thereafter as practicable, on such Rate Calculation
-  Date. The Spot Rate will be calculated by SFEMC (or a
-  service provider SFEMC may select in its sole
-  discretion) pursuant to the SFEMC KRW Indicative
+  as published on SFEMC&#39;s website (www.sfemc.org)
+  at approximately 3:30 p.m., Singapore time, or as
+  soon thereafter as practicable, on such Rate
+  Calculation Date. The Spot Rate will be calculated by
+  SFEMC (or a service provider SFEMC may select in its
+  sole discretion) pursuant to the SFEMC KRW Indicative
   Survey Methodology (which means a methodology, dated
   as of December 1, 2004, as amended from time to time,
   for a centralized industry-wide survey of financial
@@ -17006,7 +17543,7 @@
   settlement in two Business Days reported by the Korea
   Financial Telecommunications and Clearing Corporation
   which appears on Telerate Page 45644 to the right of
-  the caption 'USD Today' that is available at
+  the caption &#39;USD Today&#39; that is available at
   approximately 3:30 p.m., Seoul time, on the Rate
   Calculation Date or as soon thereafter as
   practicable.
@@ -17015,7 +17552,7 @@
   Kazakhstan Tenge / U.S. Dollar Specified Rate for
   U.S. Dollars, expressed as the amount of Kazakhstan
   Tenge per one U.S. Dollar, for settlement on the same
-  Business Day, as published on EMTA's website
+  Business Day, as published on EMTA&#39;s website
   (www.emta.org) at approximately 1:00 p.m., Almaty
   time, or as soon thereafter as practicable, on that
   Rate Calculation Date. The Spot Rate shall be
@@ -17056,8 +17593,8 @@
   as the amount of Mexican Pesos per one U.S. Dollar,
   for settlement in two Business Days reported by Banco
   de Mexico which appears on the Reuters Screen BNMX
-  Page opposite the caption 'Fix' at the close of
-  business in Mexico City on that Rate Calculation
+  Page opposite the caption &#39;Fix&#39; at the close
+  of business in Mexico City on that Rate Calculation
   Date.
 * `SettlementRateOptionEnum_MXP_FIXING_RATE_MXP02`
   The Spot Rate for a Rate Calculation Date will be the
@@ -17065,22 +17602,22 @@
   the amount of Mexican Pesos per one U.S. Dollar, for
   settlement in two Business Days which is published by
   Banco de Mexico in the Official Gazette of the
-  Federation pursuant to the 'Disposiciones aplicables
-  a la determinacion del tipo de Cambio para solventar
-  obligaciones denominadas en moneda extranjera
-  pagaderas en la Republica Mexicana' (Rules applicable
-  to determine the exchange rate to pay obligations
-  denominated in foreign currency payable in Mexico) on
-  the first Business Day following that Rate
-  Calculation Date.
+  Federation pursuant to the &#39;Disposiciones
+  aplicables a la determinacion del tipo de Cambio para
+  solventar obligaciones denominadas en moneda
+  extranjera pagaderas en la Republica Mexicana&#39;
+  (Rules applicable to determine the exchange rate to
+  pay obligations denominated in foreign currency
+  payable in Mexico) on the first Business Day
+  following that Rate Calculation Date.
 * `SettlementRateOptionEnum_MXP_MEX01_MXP03`
   The Spot Rate for a Rate Calculation Date will be the
   Mexican Peso/U.S. Dollar fixing rate, expressed as
   the amount of Mexican Pesos per one U.S. Dollar, for
   settlement in two Business Days reported by Banco de
   Mexico which appears on Reuters Screen MEX01 Page
-  under the heading 'MXNFIX=RR', at the close of
-  business in Mexico City on that Rate Calculation
+  under the heading &#39;MXNFIX=RR&#39;, at the close
+  of business in Mexico City on that Rate Calculation
   Date.
 * `SettlementRateOptionEnum_MXP_PUBLISHED_MXP04`
   The Spot Rate for a Rate Calculation Date will be the
@@ -17088,16 +17625,17 @@
   the amount of Mexican Pesos per one U.S. Dollar, for
   settlement in two Business Days which is published by
   the Bolsa Mexicana de Valores, S.A. de C.V. (as
-  established in Section 2 of the 'Resolution
+  established in Section 2 of the &#39;Resolution
   concerning the exchange rate applicable for
   calculating the Mexican Peso equivalent of principal
   and interest of Mexican Treasury Notes denominated in
-  foreign currency and payable in Mexican Pesos'
+  foreign currency and payable in Mexican Pesos&#39;
   published in the Diario Oficial de la Federacion on
   November 11, 1991) in the Movimiento Diario del
   Mercado de Valores de la Bolsa Mexicana de Valores,
-  S.A. de C.V. under the heading 'Movimiento Diario del
-  Mercado de Valores' on that Rate Calculation Date.
+  S.A. de C.V. under the heading &#39;Movimiento Diario
+  del Mercado de Valores&#39; on that Rate Calculation
+  Date.
 * `SettlementRateOptionEnum_MYR_ABS_MYR01`
   The Spot Rate for a Rate Calculation Date will be the
   Malaysian Ringgit/U.S. Dollar spot rate at 11:00
@@ -17105,9 +17643,9 @@
   Malaysian Ringgit per one U.S. Dollar, for settlement
   in two Business Days, reported by the Association of
   Banks in Singapore, which appears on the Telerate
-  Page 50157 to the right of the caption 'Spot' under
-  the column 'MYR' at approximately 11:30 a.m.,
-  Singapore time, on that Rate Calculation Date.
+  Page 50157 to the right of the caption &#39;Spot&#39;
+  under the column &#39;MYR&#39; at approximately 11:30
+  a.m., Singapore time, on that Rate Calculation Date.
 * `SettlementRateOptionEnum_MYR_KL_REF_MYR04`
   The Spot Rate for a Rate Calculation Date will be the
   Malaysian Ringgit/U.S. Dollar reference rate,
@@ -17132,24 +17670,25 @@
   Malaysian Ringgit/U.S. Dollar Specified Rate for U.S.
   Dollars, expressed as the amount of Malaysian Ringgit
   per one U.S. Dollar, for settlement in two Business
-  Days, as published on SFEMC's website (www.sfemc.org)
-  at approximately 3:30 p.m., Singapore time, or as
-  soon thereafter as practicable, on such Rate
-  Calculation Date. The Spot Rate will be calculated by
-  SFEMC (or a service provider SFEMC may select in its
-  sole discretion) pursuant to the SFEMC MYR Indicative
-  Survey Methodology (which means a methodology, dated
-  as of July 15, 2005, as amended from time to time,
-  for a centralized industry-wide survey of financial
-  institutions that are active participants in the
-  Malaysian Ringgit/U.S. Dollar markets for the purpose
-  of determining the SFEMC MYR Indicative Survey Rate).
+  Days, as published on SFEMC&#39;s website
+  (www.sfemc.org) at approximately 3:30 p.m., Singapore
+  time, or as soon thereafter as practicable, on such
+  Rate Calculation Date. The Spot Rate will be
+  calculated by SFEMC (or a service provider SFEMC may
+  select in its sole discretion) pursuant to the SFEMC
+  MYR Indicative Survey Methodology (which means a
+  methodology, dated as of July 15, 2005, as amended
+  from time to time, for a centralized industry-wide
+  survey of financial institutions that are active
+  participants in the Malaysian Ringgit/U.S. Dollar
+  markets for the purpose of determining the SFEMC MYR
+  Indicative Survey Rate).
 * `SettlementRateOptionEnum_PEN_EMTA_INDICATIVE_SURVEY_RATE_PEN04`
   The Spot Rate for a Rate Calculation Date will be the
   Peruvian Sol/U.S. Dollar Specified Rate for U.S.
   Dollars, expressed as the amount of Peruvian Soles
   per one U.S. Dollar, for settlement on the same day,
-  as published on EMTA's web site (www.emta.org) at
+  as published on EMTA&#39;s web site (www.emta.org) at
   approximately 11:00 a.m., Lima time, or as soon
   thereafter as practicable, on such Rate Calculation
   Date. The Spot Rate shall be calculated by EMTA (or a
@@ -17167,27 +17706,27 @@
   interbank market expressed as the amount of Peruvian
   New Soles per one U.S. Dollar for settlement on the
   same day reported by the Banco Central de Reserva del
-  Peru (www.bcrp.gob.pe) as the 'Tipo de Cambio
-  Interbancario Promedio' at approximately 2:00 p.m.,
-  Lima time, on that Rate Calculation Date.
+  Peru (www.bcrp.gob.pe) as the &#39;Tipo de Cambio
+  Interbancario Promedio&#39; at approximately 2:00
+  p.m., Lima time, on that Rate Calculation Date.
 * `SettlementRateOptionEnum_PEN_PDSB_PEN01`
   The Spot Rate for a Rate Calculation Date will be the
   Peruvian Sol/U.S. Dollar fixing rate (mid market
   last), expressed as the amount of Peruvian Sols per
   one U.S. Dollar, for settlement on that same day
   which appears on the Reuters Screen PDSB Page
-  opposite the caption 'PEN=' as of 12:00 noon, Lima
-  time, on that Rate Calculation Date.
+  opposite the caption &#39;PEN=&#39; as of 12:00 noon,
+  Lima time, on that Rate Calculation Date.
 * `SettlementRateOptionEnum_PEN_WT_AVE_PEN03`
   The Spot Rate for a Rate Calculation Date will be the
   midpoint of the Peruvian Sol/U.S. Dollar closing
-  weighted average bid and offer ('compra y venta')
-  exchange rates expressed as the amount of Peruvian
-  New Soles per one U.S. Dollar for settlement on the
-  same day, reported by the Superintendencia de Banca,
-  Seguros y AFP (www.sbs.gob.pe) of the Republic of
-  Peru at approximately 5:00 p.m., Lima time, on that
-  Rate Calculation Date.
+  weighted average bid and offer (&#39;compra y
+  venta&#39;) exchange rates expressed as the amount of
+  Peruvian New Soles per one U.S. Dollar for settlement
+  on the same day, reported by the Superintendencia de
+  Banca, Seguros y AFP (www.sbs.gob.pe) of the Republic
+  of Peru at approximately 5:00 p.m., Lima time, on
+  that Rate Calculation Date.
 * `SettlementRateOptionEnum_PHP_BAPPESO_PHP06`
   The Spot Rate for a Rate Calculation Date will be the
   Philippine Peso/U.S. Dollar morning weighted average
@@ -17195,9 +17734,10 @@
   amount of Philippine Pesos per one U.S. Dollar, for
   settlement in one Business Day, sponsored by Bankers
   Association of the Philippines (www.bap.org.ph) as
-  its 'BAP AM Weighted Average Rate' at approximately
-  11:30 a.m., Manila time, or as soon thereafter as
-  practicable, on that Rate Calculation Date.
+  its &#39;BAP AM Weighted Average Rate&#39; at
+  approximately 11:30 a.m., Manila time, or as soon
+  thereafter as practicable, on that Rate Calculation
+  Date.
 * `SettlementRateOptionEnum_PHP_PDSPESO_PHP06`
   The Spot Rate for a Rate Calculation Date will be the
   Philippine Peso/U.S. Dollar morning weighted average
@@ -17206,9 +17746,9 @@
   settlement in one Business Day reported by the
   Philippine Dealing System PDEX which appears on the
   Reuters Screen PDSPESO Page to the right of the
-  caption 'AM WT AVE' at approximately 11:30 a.m.,
-  Manila time, or as soon thereafter as practicable, on
-  that Rate Calculation Date.
+  caption &#39;AM WT AVE&#39; at approximately 11:30
+  a.m., Manila time, or as soon thereafter as
+  practicable, on that Rate Calculation Date.
 * `SettlementRateOptionEnum_PHP_PHPESO_PHP01`
   The Spot Rate for a Rate Calculation Date will be the
   Philippine Peso/U.S. Dollar tom rate (mid market),
@@ -17222,18 +17762,19 @@
   Philippine Peso/U.S. Dollar Specified Rate for U.S.
   Dollars, expressed as the amount of Philippine Pesos
   per one U.S. Dollar, for settlement in one Business
-  Day, as published on SFEMC's website (www.sfemc.org)
-  at approximately 3:30 p.m., Singapore time, or as
-  soon thereafter as practicable, on such Rate
-  Calculation Date. The Spot Rate will be calculated by
-  SFEMC (or a service provider SFEMC may select in its
-  sole discretion) pursuant to the SFEMC PHP Indicative
-  Survey Methodology (which means a methodology, dated
-  as of December 1, 2004, as amended from time to time,
-  for a centralized industry-wide survey of financial
-  institutions that are active participants in the
-  Philippine Peso/U.S. Dollar markets for the purpose
-  of determining the SFEMC PHP Indicative Survey Rate).
+  Day, as published on SFEMC&#39;s website
+  (www.sfemc.org) at approximately 3:30 p.m., Singapore
+  time, or as soon thereafter as practicable, on such
+  Rate Calculation Date. The Spot Rate will be
+  calculated by SFEMC (or a service provider SFEMC may
+  select in its sole discretion) pursuant to the SFEMC
+  PHP Indicative Survey Methodology (which means a
+  methodology, dated as of December 1, 2004, as amended
+  from time to time, for a centralized industry-wide
+  survey of financial institutions that are active
+  participants in the Philippine Peso/U.S. Dollar
+  markets for the purpose of determining the SFEMC PHP
+  Indicative Survey Rate).
 * `SettlementRateOptionEnum_PHP_TELERATE_15439_PHP03`
   The Spot Rate for a Rate Calculation Date will be the
   Philippine Peso/U.S. Dollar tom rate (mid market),
@@ -17262,18 +17803,19 @@
   Pakistani Rupee/U.S. Dollar Specified Rate for U.S.
   Dollars, expressed as the amount of Pakistani Rupees
   per one U.S. Dollar, for settlement in two Business
-  Days, as published on SFEMC's website (www.sfemc.org)
-  at approximately 3:30 p.m. Singapore time, or as soon
-  thereafter as practicable, on that Rate Calculation
-  Date. The Spot Rate shall be calculated by SFEMC (or
-  a service provider SFEMC may select in its sole
-  discretion) pursuant to the SFEMC PKR Indicative
-  Survey Methodology (which means a methodology, dated
-  as of July 14, 2008, as amended from time to time,
-  for a centralized industry-wide survey of financial
-  institutions that are active participants in the
-  Pakistani Rupee/U.S. Dollar markets for the purpose
-  of determining the SFEMC PKR Indicative Survey Rate).
+  Days, as published on SFEMC&#39;s website
+  (www.sfemc.org) at approximately 3:30 p.m. Singapore
+  time, or as soon thereafter as practicable, on that
+  Rate Calculation Date. The Spot Rate shall be
+  calculated by SFEMC (or a service provider SFEMC may
+  select in its sole discretion) pursuant to the SFEMC
+  PKR Indicative Survey Methodology (which means a
+  methodology, dated as of July 14, 2008, as amended
+  from time to time, for a centralized industry-wide
+  survey of financial institutions that are active
+  participants in the Pakistani Rupee/U.S. Dollar
+  markets for the purpose of determining the SFEMC PKR
+  Indicative Survey Rate).
 * `SettlementRateOptionEnum_PLZ_NBPQ_PLZ01`
   The Spot Rate for a Rate Calculation Date will be the
   Polish Zloty/U.S. Dollar Specified Rate, expressed as
@@ -17295,36 +17837,37 @@
   Russian Ruble/U.S. Dollar Specified Rate, expressed
   as the amount of Russian Rubles per one U.S. Dollar,
   for settlement in one Business Day, calculated by the
-  Chicago Mercantile Exchange ('CME') and as published
-  on CME's website, which appears on the Reuters Screen
-  EMTA Page, at approximately 1:30 p.m., Moscow time,
-  on that Rate Calculation Date. The Spot Rate shall be
-  calculated by the CME pursuant to the Chicago
-  Mercantile Exchange / EMTA, Inc. Daily Russian Ruble
-  Per U.S. Dollar Reference Rate Methodology (which
-  means a methodology, effective as of June 16, 2005,
-  as amended from time to time, for a centralized
-  industry-wide survey of financial institutions in
-  Russia that are active participants in the Russian
-  Ruble/U.S. Dollar spot market for the purpose of
-  determining the RUB CME-EMTA Rate).
+  Chicago Mercantile Exchange (&#39;CME&#39;) and as
+  published on CME&#39;s website, which appears on the
+  Reuters Screen EMTA Page, at approximately 1:30 p.m.,
+  Moscow time, on that Rate Calculation Date. The Spot
+  Rate shall be calculated by the CME pursuant to the
+  Chicago Mercantile Exchange / EMTA, Inc. Daily
+  Russian Ruble Per U.S. Dollar Reference Rate
+  Methodology (which means a methodology, effective as
+  of June 16, 2005, as amended from time to time, for a
+  centralized industry-wide survey of financial
+  institutions in Russia that are active participants
+  in the Russian Ruble/U.S. Dollar spot market for the
+  purpose of determining the RUB CME-EMTA Rate).
 * `SettlementRateOptionEnum_RUB_EMTA_INDICATIVE_SURVEY_RATE_RUB04`
   The Spot Rate for a Rate Calculation Date will be the
   Russian Ruble/U.S. Dollar Specified Rate for U.S.
   Dollars, expressed as the amount of Russian Rubles
   per one U.S. Dollar, for settlement in one Business
-  Day, as published on EMTA's web site (www.emta.org)
-  at approximately 2:45 p.m., Moscow time, or as soon
-  thereafter as practicable, on such Rate Calculation
-  Date. The Spot Rate shall be calculated by EMTA (or a
-  service provider EMTA may select in its sole
-  discretion) pursuant to the EMTA RUB Indicative
-  Survey Methodology (which means a methodology dated
-  as of June 16, 2005, as amended from time to time,
-  for a centralized industry-wide survey of financial
-  institutions that are active participants in the
-  Russian Ruble/U.S. Dollar spot market for the purpose
-  of determining the EMTA RUB Indicative Survey Rate).
+  Day, as published on EMTA&#39;s web site
+  (www.emta.org) at approximately 2:45 p.m., Moscow
+  time, or as soon thereafter as practicable, on such
+  Rate Calculation Date. The Spot Rate shall be
+  calculated by EMTA (or a service provider EMTA may
+  select in its sole discretion) pursuant to the EMTA
+  RUB Indicative Survey Methodology (which means a
+  methodology dated as of June 16, 2005, as amended
+  from time to time, for a centralized industry-wide
+  survey of financial institutions that are active
+  participants in the Russian Ruble/U.S. Dollar spot
+  market for the purpose of determining the EMTA RUB
+  Indicative Survey Rate).
 * `SettlementRateOptionEnum_RUB_MICEXFRX_RUB01`
   The Spot Rate for a Rate Calculation Date will be the
   Russian Ruble/U.S. Dollar Specified Rate, expressed
@@ -17366,9 +17909,10 @@
   per one U.S. Dollar, for settlement in two Business
   Days, reported by the Association of Banks in
   Singapore which appears on the Reuters Screen
-  ABSIRFIX01 Page to the right of the caption 'Spot'
-  under the column 'THB' at approximately 11:30 a.m.,
-  Singapore time, on that Rate Calculation Date.
+  ABSIRFIX01 Page to the right of the caption
+  &#39;Spot&#39; under the column &#39;THB&#39; at
+  approximately 11:30 a.m., Singapore time, on that
+  Rate Calculation Date.
 * `SettlementRateOptionEnum_THB_VWAP_THB01`
   The Spot Rate for a Rate Calculation Date will be the
   Thai Baht / U.S. Dollar spot rate expressed as the
@@ -17384,44 +17928,45 @@
   Taiwanese Dollar/U.S. Dollar Specified Rate for U.S.
   Dollars, expressed as the amount of Taiwanese Dollars
   per one U.S. Dollar, for settlement in two Business
-  Days, as published on SFEMC's website (www.sfemc.org)
-  at approximately 3:30 p.m., Singapore time, or as
-  soon thereafter as practicable, on such Rate
-  Calculation Date. The Spot Rate will be calculated by
-  SFEMC (or a service provider SFEMC may select in its
-  sole discretion) pursuant to the SFEMC TWD Indicative
-  Survey Methodology (which means a methodology, dated
-  as of December 1, 2004, as amended from time to time,
-  for a centralized industry-wide survey of financial
-  institutions that are active participants in the
-  Taiwanese Dollar/U.S. Dollar markets for the purpose
-  of determining the SFEMC TWD Indicative Survey Rate).
+  Days, as published on SFEMC&#39;s website
+  (www.sfemc.org) at approximately 3:30 p.m., Singapore
+  time, or as soon thereafter as practicable, on such
+  Rate Calculation Date. The Spot Rate will be
+  calculated by SFEMC (or a service provider SFEMC may
+  select in its sole discretion) pursuant to the SFEMC
+  TWD Indicative Survey Methodology (which means a
+  methodology, dated as of December 1, 2004, as amended
+  from time to time, for a centralized industry-wide
+  survey of financial institutions that are active
+  participants in the Taiwanese Dollar/U.S. Dollar
+  markets for the purpose of determining the SFEMC TWD
+  Indicative Survey Rate).
 * `SettlementRateOptionEnum_TWD_TAIFX1_TWD03`
   The Spot Rate for a Rate Calculation Date will be the
   Taiwanese Dollar/U.S. Dollar spot rate, expressed as
   the amount of Taiwanese Dollars per one U.S. Dollar,
   for settlement in two Business Days, reported by the
   Taipei Forex Inc. which appears on the Reuters Screen
-  TAIFX1 Page under the heading 'Spot' as of 11:00 a.m.
-  Taipei time, on that Rate Calculation Date, or if no
-  rate appears as of 11:00 a.m., Taipei time, the rate
-  that first appears in any of the next succeeding 15
-  minute intervals after such time, up to and including
-  12:00 noon, Taipei time on that Rate Calculation
-  Date.
+  TAIFX1 Page under the heading &#39;Spot&#39; as of
+  11:00 a.m. Taipei time, on that Rate Calculation
+  Date, or if no rate appears as of 11:00 a.m., Taipei
+  time, the rate that first appears in any of the next
+  succeeding 15 minute intervals after such time, up to
+  and including 12:00 noon, Taipei time on that Rate
+  Calculation Date.
 * `SettlementRateOptionEnum_TWD_TELERATE_6161_TWD01`
   The Spot Rate for a Rate Calculation Date will be the
   Taiwanese Dollar/U.S. Dollar spot rate, expressed as
   the amount of Taiwanese Dollars per one U.S. Dollar,
   for settlement in two Business Days, reported by the
   Taipei Forex Inc. which appears on the Telerate Page
-  6161 under the heading 'Spot' as of 11:00 a.m.,
-  Taipei time, on that Rate Calculation Date, or if no
-  rate appears as of 11:00 a.m., Taipei time, the rate
-  that first appears in any of the next succeeding 15
-  minute intervals after such time, up to and including
-  12:00 noon, Taipei time, on that Rate Calculation
-  Date.
+  6161 under the heading &#39;Spot&#39; as of 11:00
+  a.m., Taipei time, on that Rate Calculation Date, or
+  if no rate appears as of 11:00 a.m., Taipei time, the
+  rate that first appears in any of the next succeeding
+  15 minute intervals after such time, up to and
+  including 12:00 noon, Taipei time, on that Rate
+  Calculation Date.
 * `SettlementRateOptionEnum_TWD_TFEMA_TWD02`
   The Spot Rate for a Rate Calculation Date will be the
   Taiwanese Dollar/U.S. Dollar Specified Rate,
@@ -17435,7 +17980,7 @@
   Ukrainian Hryvnia/U.S. Dollar Specified Rate for U.S.
   Dollars, expressed as the amount of Ukrainian Hryvnia
   per one U.S. Dollar, for settlement on the same
-  Business Day, as published on EMTA's website
+  Business Day, as published on EMTA&#39;s website
   (www.emta.org) at approximately 2:00 p.m., Kiev time,
   or as soon thereafter as practicable, on that Rate
   Calculation Date. The Spot Rate shall be calculated
@@ -17455,12 +18000,12 @@
   per one U.S. Dollar, for settlement on the same
   Business Day calculated by Thomson Reuters pursuant
   to the EMTA UAH Industry Survey Methodology, which
-  rate appears on EMTA's website (www.emta.org) and on
-  Thomson Reuters Page EMTAUAHFIX at approximately
+  rate appears on EMTA&#39;s website (www.emta.org) and
+  on Thomson Reuters Page EMTAUAHFIX at approximately
   11:30 am, Kiev time, on that Rate Calculation Date.
-  The 'EMTA UAH Industry Survey Methodology' as used
-  herein means the methodology dated as of March 16,
-  2009, for a centralized industry wide survey of
+  The &#39;EMTA UAH Industry Survey Methodology&#39; as
+  used herein means the methodology dated as of March
+  16, 2009, for a centralized industry wide survey of
   financial institutions in the Ukrainian Hryvnia/U.S.
   Dollar spot market for the purposes of determining
   the EMTA UAH Industry Survey Rate.
@@ -17487,30 +18032,31 @@
   Dong per one U.S. Dollar, for settlement in two
   Business Days reported by the Association of Banks in
   Singapore, which appears on the Reuters Screen
-  ABSIRFIX01 Page to the right of the caption 'Spot'
-  under the column 'VND' at approximately 11:30 a.m.,
-  Singapore time, on that Rate Calculation Date.
+  ABSIRFIX01 Page to the right of the caption
+  &#39;Spot&#39; under the column &#39;VND&#39; at
+  approximately 11:30 a.m., Singapore time, on that
+  Rate Calculation Date.
 * `SettlementRateOptionEnum_VND_FX_VND02`
   The Spot Rate for a Rate Calculation Date will be the
   Vietnamese Dong/U.S. Dollar spot rate expressed as
   the amount of Vietnamese Dong per one U.S. Dollar,
   for settlement in two Business Days which appears on
   Reuters Screen VNDFIX=VN Page under the caption
-  'Spot' and to the right of the caption 'Average' at
-  approximately 11:00 am, Hanoi time, on that Rate
-  Calculation Date.
+  &#39;Spot&#39; and to the right of the caption
+  &#39;Average&#39; at approximately 11:00 am, Hanoi
+  time, on that Rate Calculation Date.
 * `SettlementRateOptionEnum_VND_SFEMC_INDICATIVE_SURVEY_RATE_VND03`
   The Spot Rate for a Rate Calculation Date will be the
   Vietnamese Dong/U.S. Dollar Specified Rate for U.S.
   Dollars, expressed as the amount of Vietnamese Dong
   per one U.S. Dollar, for settlement in two Business
-  Days, as published on SFEMC's website (www.sfemc.org)
-  at approximately 3:30 p.m., Singapore time, or as
-  soon as thereafter as practicable, on that Rate
-  Calculation Date. The Spot Rate shall be calculated
-  by SFEMC (or a service provider SFEMC may select in
-  its sole discretion) pursuant to the SFEMC VND
-  Indicative Survey Methodology (which means a
+  Days, as published on SFEMC&#39;s website
+  (www.sfemc.org) at approximately 3:30 p.m., Singapore
+  time, or as soon as thereafter as practicable, on
+  that Rate Calculation Date. The Spot Rate shall be
+  calculated by SFEMC (or a service provider SFEMC may
+  select in its sole discretion) pursuant to the SFEMC
+  VND Indicative Survey Methodology (which means a
   methodology, dated as of July 14, 2008, as amended
   from time to time, for a centralized industry-wide
   survey of financial institutions that are active
@@ -17591,7 +18137,7 @@
 
 ### `data` `SimmExceptionEnum`
 
-  The enumerated values to specify the SIMM normalised
+  The enumerated values to specify the SIMM normalized
   exceptions applicable to the ISDA 2018 Standard CSA.
 * `SimmExceptionEnum_FallBackToMandatoryMethod`
   As specified in the ISDA 2018 CSA for Initial Margin,
@@ -17623,7 +18169,7 @@
   method applicable is to determine the Margin Amount
   (IM) by reference to the methodology prescribed
   pursuant to the applicable regulatory regime which
-  uses a standardised initial margin schedule (such
+  uses a standardized initial margin schedule (such
   that prescribed percentages are applied to notional
   amounts before being adjusted, including by a
   net-to-gross ratio (NGR)).
@@ -17638,10 +18184,11 @@
   spread value.
 * `SpreadScheduleTypeEnum_Long`
   Represents a Long Spread Schedule. Spread schedules
-  defined as 'Long' will be applied to Long Positions.
+  defined as &#39;Long&#39; will be applied to Long
+  Positions.
 * `SpreadScheduleTypeEnum_Short`
   Represents a Short Spread Schedule. Spread schedules
-  defined as 'Short' will be applied to Short
+  defined as &#39;Short&#39; will be applied to Short
   Positions.
 
 ### `data` `StandardSettlementStyleEnum`
@@ -17824,7 +18371,7 @@
   for specifying the units as part of its commodity
   implementation. Its scope is however deemed too broad
   for the CDM, as it includes values such as Amount and
-  BasisPoints. As a result, it is deemed inappropriate
+  BasisPoints.  As a result, it is deemed inappropriate
   as a reference scheme for that enumeration.
 * `UnitEnum_BBL`
   Barrel
@@ -17853,7 +18400,7 @@
 
 ### `data` `WarehouseIdentityEnum`
 
-* `WarehouseIdentityEnum_DTCC_TIW_Gold`
+* `WarehouseIdentityEnum_DTCC_TIW_Gold` `(`  `)`
   The DTCC Trade Information Warehouse Gold service
 
 ### `data` `WeeklyRollConventionEnum`
