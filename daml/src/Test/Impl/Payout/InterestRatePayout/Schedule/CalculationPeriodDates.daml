@@ -1,0 +1,265 @@
+daml 1.2
+module Test.Impl.Payout.InterestRatePayout.Schedule.CalculationPeriodDates where
+
+import DA.Assert
+import DA.Date as D
+import DA.List
+import ISDA.CDM.Impl.Contract.Payout.InterestRatePayout.Schedule.CalculationPeriodDates
+import ISDA.CDM.Types.All hiding (length)
+import Test.Examples
+import Test.ReferenceData()
+
+emptyCalculationPeriod : CalculationPeriod
+emptyCalculationPeriod = CalculationPeriod {
+                          id = None,
+                          adjustedEndDate = None,
+                          adjustedStartDate = None,
+                          calculationPeriodNumberOfDays = None,
+                          dayCountYearFraction = None,
+                          fixedRate = None,
+                          floatingRateDefinition = None,
+                          forecastAmount = None,
+                          forecastRate = None,
+                          fxLinkedNotionalAmount = None,
+                          notionalAmount = None,
+                          unadjustedEndDate = None,
+                          unadjustedStartDate = None
+                         }
+
+setDates : Date -> Optional Date -> Optional Date -> Date -> CalculationPeriodDates -> CalculationPeriodDates
+setDates effective firstRegularStart lastRegularEnd termination calcPeriodDates =
+  calcPeriodDates {
+    effectiveDate = fmap (\ed -> (ed : AdjustableOrRelativeDate) { adjustableDate = fmap (\ad -> (ad : AdjustableDate) { unadjustedDate = effective }) ed.adjustableDate }) calcPeriodDates.effectiveDate,
+    firstRegularPeriodStartDate = firstRegularStart,
+    lastRegularPeriodEndDate = lastRegularEnd,
+    terminationDate = fmap (\td -> (td : AdjustableOrRelativeDate) { adjustableDate = fmap (\ad -> (ad : AdjustableDate) { unadjustedDate = termination }) td.adjustableDate }) calcPeriodDates.terminationDate
+  }
+
+setStubType : StubPeriodTypeEnum -> CalculationPeriodDates -> CalculationPeriodDates
+setStubType stubType calcPeriodDates =
+  calcPeriodDates { stubPeriodType = Some stubType }
+
+main = scenario do
+  -- Explicit stubs
+  let expectedResultBothStub =
+        [ emptyCalculationPeriod {
+            unadjustedStartDate = Some $ D.date 2018 Nov 15,
+            unadjustedEndDate = Some $ D.date 2018 Nov 30,
+            adjustedStartDate = Some $ D.date 2018 Nov 15,
+            adjustedEndDate = Some $ D.date 2018 Nov 30
+          }
+        , emptyCalculationPeriod {
+            unadjustedStartDate = Some $ D.date 2018 Nov 30,
+            unadjustedEndDate = Some $ D.date 2019 Feb 28,
+            adjustedStartDate = Some $ D.date 2018 Nov 30,
+            adjustedEndDate = Some $ D.date 2019 Feb 28
+          }
+        , emptyCalculationPeriod {
+            unadjustedStartDate = Some $ D.date 2019 Feb 28,
+            unadjustedEndDate = Some $ D.date 2019 May 30,
+            adjustedStartDate = Some $ D.date 2019 Feb 28,
+            adjustedEndDate = Some $ D.date 2019 May 30
+          }
+        , emptyCalculationPeriod {
+            unadjustedStartDate = Some $ D.date 2019 May 30,
+            unadjustedEndDate = Some $ D.date 2019 Aug 30,
+            adjustedStartDate = Some $ D.date 2019 May 30,
+            adjustedEndDate = Some $ D.date 2019 Aug 30
+          }
+        , emptyCalculationPeriod {
+            unadjustedStartDate = Some $ D.date 2019 Aug 30,
+            unadjustedEndDate = Some $ D.date 2019 Nov 30,
+            adjustedStartDate = Some $ D.date 2019 Aug 30,
+            adjustedEndDate = Some $ D.date 2019 Nov 29
+          }
+        , emptyCalculationPeriod {
+            unadjustedStartDate = Some $ D.date 2019 Nov 30,
+            unadjustedEndDate = Some $ D.date 2019 Dec 15,
+            adjustedStartDate = Some $ D.date 2019 Nov 29,
+            adjustedEndDate = Some $ D.date 2019 Dec 16
+          }
+        ]
+  res <- generateCalculationPeriods cpdsBothStub3M
+  res === expectedResultBothStub
+
+  -- Regular periods only
+  let testCase = setDates (D.date 2018 Nov 30) None None (D.date 2019 Nov 30) cpdsBothStub3M
+  let expectedResult = (tail . init) expectedResultBothStub
+  res <- generateCalculationPeriods testCase
+  res === expectedResult
+
+  -- RegStart == Effective < Termination
+  let testCase = setDates (D.date 2018 Nov 30) (Some $ D.date 2018 Nov 30) None (D.date 2019 Nov 30) cpdsBothStub3M
+  res <- generateCalculationPeriods testCase
+  res === expectedResult
+
+  -- RegStart < Effective < Termination
+  let testCase = setDates (D.date 2018 Nov 15) (Some $ D.date 2018 Nov 30) None (D.date 2019 Nov 30) cpdsBothStub3M
+  let expectedResult = init expectedResultBothStub
+  res <- generateCalculationPeriods testCase
+  res === expectedResult
+
+  -- Effective < RegStart == Termination
+  let testCase = setDates (D.date 2018 Nov 15) (Some $ D.date 2019 Nov 30) None (D.date 2019 Nov 30) cpdsBothStub3M
+  let expectedResult =
+        [ emptyCalculationPeriod {
+            unadjustedStartDate = Some $ D.date 2018 Nov 15,
+            unadjustedEndDate = Some $ D.date 2019 Nov 30,
+            adjustedStartDate = Some $ D.date 2018 Nov 15,
+            adjustedEndDate = Some $ D.date 2019 Nov 29
+          }
+        ]
+  res <- generateCalculationPeriods testCase
+  res === expectedResult
+
+  -- RegEnd == Effective < Termination
+  let testCase = setDates (D.date 2018 Nov 30) None (Some $ D.date 2018 Nov 30) (D.date 2019 Nov 30) cpdsBothStub3M
+  let expectedResult =
+        [ emptyCalculationPeriod {
+            unadjustedStartDate = Some $ D.date 2018 Nov 30,
+            unadjustedEndDate = Some $ D.date 2019 Nov 30,
+            adjustedStartDate = Some $ D.date 2018 Nov 30,
+            adjustedEndDate = Some $ D.date 2019 Nov 29
+          }
+        ]
+  res <- generateCalculationPeriods testCase
+  res === expectedResult
+
+  -- Effective < RegEnd < Termination
+  let testCase = setDates (D.date 2018 Nov 30) None (Some $ D.date 2019 Nov 30) (D.date 2019 Dec 15) cpdsBothStub3M
+  let expectedResult = tail expectedResultBothStub
+  res <- generateCalculationPeriods testCase
+  res === expectedResult
+
+  -- Effective < Termination == RegEnd
+  let testCase = setDates (D.date 2018 Nov 30) None (Some $ D.date 2019 Nov 30) (D.date 2019 Nov 30) cpdsBothStub3M
+  let expectedResult = (tail . init) expectedResultBothStub
+  res <- generateCalculationPeriods testCase
+  res === expectedResult
+
+  -- Effective < FirstRegular == LastRegular < Termination
+  let testCase = setDates (D.date 2018 Oct 15) (Some $ D.date 2019 Jan 30) (Some $ D.date 2019 Jan 30) (D.date 2019 Dec 15) cpdsBothStub3M
+  let expectedResult =
+        [ emptyCalculationPeriod {
+            unadjustedStartDate = Some $ D.date 2018 Oct 15,
+            unadjustedEndDate = Some $ D.date 2019 Jan 30,
+            adjustedStartDate = Some $ D.date 2018 Oct 15,
+            adjustedEndDate = Some $ D.date 2019 Jan 30
+          }
+        , emptyCalculationPeriod {
+            unadjustedStartDate = Some $ D.date 2019 Jan 30,
+            unadjustedEndDate = Some $ D.date 2019 Dec 15,
+            adjustedStartDate = Some $ D.date 2019 Jan 30,
+            adjustedEndDate = Some $ D.date 2019 Dec 16
+          }
+        ]
+  res <- generateCalculationPeriods testCase
+  res === expectedResult
+
+  -- Implicit Stubs
+  -- exact match
+  let testCase =
+        setDates (D.date 2018 Nov 30) None None (D.date 2019 Nov 30)
+        $ setStubType StubPeriodTypeEnum_ShortInitial
+        $ cpdsBothStub3M
+  let expectedResult = (tail . init) expectedResultBothStub
+  res <- generateCalculationPeriods testCase
+  res === expectedResult
+
+  let testCase =
+        setDates (D.date 2018 Nov 30) None None (D.date 2019 Nov 30)
+        $ setStubType StubPeriodTypeEnum_LongFinal
+        $ cpdsBothStub3M
+  res <- generateCalculationPeriods testCase
+  res === expectedResult
+
+  -- Two Periods SHORT_INITIAL
+  let testCase =
+        setDates (D.date 2018 Nov 15) None None (D.date 2019 Feb 28)
+        $ setStubType StubPeriodTypeEnum_ShortInitial
+        $ cpdsBothStub3M
+  let expectedResult = take 2 expectedResultBothStub
+  res <- generateCalculationPeriods testCase
+  res === expectedResult
+
+  -- Two Periods LONG_INITIAL
+  let testCase =
+        setDates (D.date 2018 Nov 15) None None (D.date 2019 Feb 28)
+        $ setStubType StubPeriodTypeEnum_LongInitial
+        $ cpdsBothStub3M
+  let expectedResult =
+        [ emptyCalculationPeriod {
+            unadjustedStartDate = Some $ D.date 2018 Nov 15,
+            unadjustedEndDate = Some $ D.date 2019 Feb 28,
+            adjustedStartDate = Some $ D.date 2018 Nov 15,
+            adjustedEndDate = Some $ D.date 2019 Feb 28
+          }
+        ]
+  res <- generateCalculationPeriods testCase
+  res === expectedResult
+
+  -- Single Period SHORT_INITIAL
+  let testCase =
+        setDates (D.date 2018 Nov 15) None None (D.date 2018 Nov 30)
+        $ setStubType StubPeriodTypeEnum_ShortInitial
+        $ cpdsBothStub3M
+  let expectedResult = take 1 expectedResultBothStub
+  res <- generateCalculationPeriods testCase
+  res === expectedResult
+
+  -- Single Period LONG_INITIAL
+  let testCase =
+        setDates (D.date 2018 Nov 15) None None (D.date 2018 Nov 30)
+        $ setStubType StubPeriodTypeEnum_LongInitial
+        $ cpdsBothStub3M
+  res <- generateCalculationPeriods testCase
+  res === expectedResult
+
+  -- Two Periods SHORT_FINAL
+  let testCase =
+        setDates (D.date 2019 Aug 30) None None (D.date 2019 Dec 15)
+        $ setStubType StubPeriodTypeEnum_ShortFinal
+        $ cpdsBothStub3M
+  let expectedResult = drop 4 expectedResultBothStub
+  res <- generateCalculationPeriods testCase
+  res === expectedResult
+
+  -- Two Periods LONG_FINAL
+  let testCase =
+        setDates (D.date 2019 Aug 30) None None (D.date 2019 Dec 15)
+        $ setStubType StubPeriodTypeEnum_LongFinal
+        $ cpdsBothStub3M
+  let expectedResult =
+        [ emptyCalculationPeriod {
+            unadjustedStartDate = Some $ D.date 2019 Aug 30,
+            unadjustedEndDate = Some $ D.date 2019 Dec 15,
+            adjustedStartDate = Some $ D.date 2019 Aug 30,
+            adjustedEndDate = Some $ D.date 2019 Dec 16
+          }
+        ]
+  res <- generateCalculationPeriods testCase
+  res === expectedResult
+
+  -- Single Period SHORT_FINAL
+  let testCase =
+        setDates (D.date 2019 Nov 30) None None (D.date 2019 Dec 15)
+        $ setStubType StubPeriodTypeEnum_ShortFinal
+        $ cpdsBothStub3M
+  let expectedResult =
+        [ emptyCalculationPeriod {
+            unadjustedStartDate = Some $ D.date 2019 Nov 30,
+            unadjustedEndDate = Some $ D.date 2019 Dec 15,
+            adjustedStartDate = Some $ D.date 2019 Nov 30,
+            adjustedEndDate = Some $ D.date 2019 Dec 16
+          }
+        ]
+  res <- generateCalculationPeriods testCase
+  res === expectedResult
+
+  -- Single Period LONG_FINAL
+  let testCase =
+        setDates (D.date 2019 Nov 30) None None (D.date 2019 Dec 15)
+        $ setStubType StubPeriodTypeEnum_LongFinal
+        $ cpdsBothStub3M
+  res <- generateCalculationPeriods testCase
+  res === expectedResult

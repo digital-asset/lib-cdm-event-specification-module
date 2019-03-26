@@ -1,0 +1,35 @@
+daml 1.2
+module Test.Main where
+
+import Test.Date.AdjustableDate
+import Test.Date.Base
+import Test.Date.BusinessDayAdjustments
+import Test.Date.DayCountFraction
+import Test.Date.Offset
+import Test.Date.Period
+import Test.Date.RollConvention
+import Test.Impl.Payout.Cashflow
+import Test.Impl.Payout.ContractualQuantity
+import Test.Impl.Payout.InterestRatePayout.FloatingRate
+import Test.Impl.Payout.InterestRatePayout
+import Test.Impl.Payout
+import Test.Impl.Payout.InterestRatePayout.Schedule.CalculationPeriodDates
+import Test.Impl.Payout.InterestRatePayout.Schedule.PaymentDates
+import Test.Impl.Payout.InterestRatePayout.Schedule.ResetDates
+
+main = scenario do
+  Test.Date.AdjustableDate.main
+  Test.Date.Base.main
+  Test.Date.BusinessDayAdjustments.main
+  Test.Date.DayCountFraction.main
+  Test.Date.Offset.main
+  Test.Date.Period.main
+  Test.Date.RollConvention.main
+  Test.Impl.Payout.InterestRatePayout.Schedule.CalculationPeriodDates.main
+  Test.Impl.Payout.InterestRatePayout.Schedule.PaymentDates.main
+  Test.Impl.Payout.InterestRatePayout.Schedule.ResetDates.main
+  Test.Impl.Payout.Cashflow.main
+  Test.Impl.Payout.ContractualQuantity.main
+  Test.Impl.Payout.InterestRatePayout.FloatingRate.main
+  Test.Impl.Payout.InterestRatePayout.main
+  Test.Impl.Payout.main

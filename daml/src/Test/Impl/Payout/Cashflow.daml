@@ -1,0 +1,68 @@
+daml 1.2
+module Test.Impl.Payout.Cashflow where
+
+import DA.Assert
+import DA.Date as D
+import DA.Optional
+import ISDA.CDM.Impl.Contract.Payout.Cashflow as CF
+import ISDA.CDM.Impl.Event
+import ISDA.CDM.Impl.Utils
+import ISDA.CDM.Types.All
+import Test.Examples
+import Test.ReferenceData()
+
+main = scenario do
+  let payment = TransferPrimitive {
+                  cashTransfer =
+                    [ CashTransferComponent {
+                        amount =
+                          Money {
+                            id = None,
+                            amount = 1000.0,
+                            currency = fieldWithEmptyMeta "USD"
+                          },
+                        breakdown = [],
+                        payerReceiver =
+                          PayerReceiver {
+                            payerAccountReference = None,
+                            payerPartyReference = referenceWithEmptyMeta "Party1",
+                            receiverAccountReference = None,
+                            receiverPartyReference = referenceWithEmptyMeta "Party2"
+                          },
+                        cashflowType = None,
+                        transferCalculation = None,
+                        identifier = None
+                      }
+                    ],
+                  commodityTransfer = [],
+                  securityTransfer = [],
+                  settlementDate =
+                    AdjustableOrAdjustedOrRelativeDate {
+                      id = None,
+                      adjustedDate = None,
+                      dateAdjustments = Some
+                        BusinessDayAdjustments {
+                          id = None,
+                          businessCenters = Some
+                            BusinessCenters {
+                              id = None,
+                              businessCenter = [fieldWithEmptyMeta BusinessCenterEnum_USNY],
+                              businessCentersReference = None
+                            },
+                          businessDayConvention = BusinessDayConventionEnum_MODFOLLOWING
+                        },
+                      relativeDate = None,
+                      unadjustedDate = Some $ D.date 2018 Jan 1
+                    },
+                  settlementReference = None,
+                  status = None,
+                  settlementType = None,
+                  identifier = None,
+                  rosettaKey = ""
+                }
+
+  event <- fromSome <$> buildEvent None None cashflow20180101
+  event.eventDate === D.date 2018 Jan 01
+  event.effectiveDate === (Some $ D.date 2018 Jan 01)
+  event.eventQualifier === Some "CashTransfer"
+  event.primitive === (emptyPrimitiveEvent { transfer = [payment] } : PrimitiveEvent)
