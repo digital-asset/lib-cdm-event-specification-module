@@ -1,5 +1,5 @@
 daml 1.2
-module Test.Payout.ContractualQuantity where
+module Test.Impl.Payout.ContractualQuantity where
 
 import DA.Assert
 import DA.Date as D

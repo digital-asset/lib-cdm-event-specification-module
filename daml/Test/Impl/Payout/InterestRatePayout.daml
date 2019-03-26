@@ -1,12 +1,12 @@
 daml 1.2
-module Test.Payout.InterestRatePayout where
+module Test.Impl.Payout.InterestRatePayout where
 
 import DA.Assert
 import DA.Date as D
 import DA.List
 import DA.Optional
-import ISDA.CDM.Impl.Contract.Payout.InterestRatePayout.InterestRatePayout
-import ISDA.CDM.Impl.Event.Event
+import ISDA.CDM.Impl.Contract.Payout.InterestRatePayout
+import ISDA.CDM.Impl.Event
 import ISDA.CDM.Impl.Utils
 import ISDA.CDM.Types.All hiding (length)
 import Test.Examples

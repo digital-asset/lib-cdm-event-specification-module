@@ -1,5 +1,5 @@
 daml 1.2
-module Test.Schedule.CalculationPeriodDates where
+module Test.Impl.Payout.InterestRatePayout.Schedule.CalculationPeriodDates where
 
 import DA.Assert
 import DA.Date as D

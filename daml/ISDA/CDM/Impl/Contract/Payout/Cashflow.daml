@@ -4,7 +4,7 @@ module ISDA.CDM.Impl.Contract.Payout.Cashflow
   ) where
 
 import ISDA.CDM.Impl.Date.AdjustableOrAdjustedOrRelativeDate
-import ISDA.CDM.Impl.Event.Event
+import ISDA.CDM.Impl.Event
 import ISDA.CDM.Impl.Utils
 import ISDA.CDM.Types.All
 

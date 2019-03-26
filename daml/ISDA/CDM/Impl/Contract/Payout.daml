@@ -1,5 +1,5 @@
 daml 1.2
-module ISDA.CDM.Impl.Contract.Payout.Payout
+module ISDA.CDM.Impl.Contract.Payout
   ( checkPayout
   , buildEvents
   , defaultCdsIrp
@@ -8,10 +8,10 @@ module ISDA.CDM.Impl.Contract.Payout.Payout
 import DA.List
 import DA.Optional
 import qualified ISDA.CDM.Impl.Contract.Payout.Cashflow as CF
-import qualified ISDA.CDM.Impl.Contract.Payout.InterestRatePayout.InterestRatePayout as IRP
+import qualified ISDA.CDM.Impl.Contract.Payout.InterestRatePayout as IRP
 import ISDA.CDM.Impl.Date.AdjustableOrRelativeDate
 import ISDA.CDM.Impl.Date.RollConvention
-import ISDA.CDM.Impl.Event.Event
+import ISDA.CDM.Impl.Event
 import ISDA.CDM.Impl.Utils
 import ISDA.CDM.Types.All hiding (length)
 

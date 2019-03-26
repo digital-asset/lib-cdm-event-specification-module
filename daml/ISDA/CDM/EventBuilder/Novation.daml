@@ -2,9 +2,9 @@ daml 1.2
 module ISDA.CDM.EventBuilder.Novation where
 
 import DA.List
-import ISDA.CDM.Impl.Contract.Contract
+import ISDA.CDM.Impl.Contract
 import ISDA.CDM.Impl.Contract.Payout.ContractualQuantity
-import ISDA.CDM.Impl.Event.Event
+import ISDA.CDM.Impl.Event
 import ISDA.CDM.Impl.Identifier
 import ISDA.CDM.Impl.Utils
 import ISDA.CDM.Types.All

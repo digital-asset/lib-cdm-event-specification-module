@@ -1,5 +1,5 @@
 daml 1.2
-module ISDA.CDM.Impl.Contract.Payout.InterestRatePayout.InterestRatePayout
+module ISDA.CDM.Impl.Contract.Payout.InterestRatePayout
   ( buildEvents
   ) where
 
@@ -10,7 +10,7 @@ import ISDA.CDM.Impl.Contract.Payout.InterestRatePayout.FloatingRate as FR
 import ISDA.CDM.Impl.Contract.Payout.InterestRatePayout.PaymentCalculationPeriod as PCP
 import ISDA.CDM.Impl.Contract.Payout.InterestRatePayout.Schedule.PaymentDates
 import ISDA.CDM.Impl.Date.DayCountFraction
-import ISDA.CDM.Impl.Event.Event
+import ISDA.CDM.Impl.Event
 import ISDA.CDM.Impl.Utils
 import ISDA.CDM.Types.All hiding (length)
 

@@ -1,11 +1,11 @@
 daml 1.2
-module Test.Payout.Cashflow where
+module Test.Impl.Payout.Cashflow where
 
 import DA.Assert
 import DA.Date as D
 import DA.Optional
 import ISDA.CDM.Impl.Contract.Payout.Cashflow as CF
-import ISDA.CDM.Impl.Event.Event
+import ISDA.CDM.Impl.Event
 import ISDA.CDM.Impl.Utils
 import ISDA.CDM.Types.All
 import Test.Examples

@@ -2,7 +2,7 @@ daml 1.2
 module ISDA.CDM.EventBuilder.Derived where
 
 import DA.List as L
-import ISDA.CDM.Impl.Contract.Contract as Contract
+import ISDA.CDM.Impl.Contract as Contract
 import ISDA.CDM.Impl.Identifier
 import ISDA.CDM.Impl.Utils
 import ISDA.CDM.Types.All

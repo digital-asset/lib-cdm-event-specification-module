@@ -12,16 +12,16 @@ library
       ISDA.CDM.EventBuilder.Novation
       ISDA.CDM.EventBuilder.Termination
       ISDA.CDM.EventSpecificationModule
-      ISDA.CDM.Impl.Contract.Contract
+      ISDA.CDM.Impl.Contract
       ISDA.CDM.Impl.Contract.Payout.Cashflow
       ISDA.CDM.Impl.Contract.Payout.ContractualQuantity
       ISDA.CDM.Impl.Contract.Payout.InterestRatePayout.FloatingRate
-      ISDA.CDM.Impl.Contract.Payout.InterestRatePayout.InterestRatePayout
+      ISDA.CDM.Impl.Contract.Payout.InterestRatePayout
       ISDA.CDM.Impl.Contract.Payout.InterestRatePayout.PaymentCalculationPeriod
       ISDA.CDM.Impl.Contract.Payout.InterestRatePayout.Schedule.CalculationPeriodDates
       ISDA.CDM.Impl.Contract.Payout.InterestRatePayout.Schedule.PaymentDates
       ISDA.CDM.Impl.Contract.Payout.InterestRatePayout.Schedule.ResetDates
-      ISDA.CDM.Impl.Contract.Payout.Payout
+      ISDA.CDM.Impl.Contract.Payout
       ISDA.CDM.Impl.Date.AdjustableDate
       ISDA.CDM.Impl.Date.AdjustableOrAdjustedOrRelativeDate
       ISDA.CDM.Impl.Date.AdjustableOrRelativeDate
@@ -32,7 +32,7 @@ library
       ISDA.CDM.Impl.Date.Offset
       ISDA.CDM.Impl.Date.Period
       ISDA.CDM.Impl.Date.RollConvention
-      ISDA.CDM.Impl.Event.Event
+      ISDA.CDM.Impl.Event
       ISDA.CDM.Impl.Event.Transfer
       ISDA.CDM.Impl.Identifier
       ISDA.CDM.Impl.Utils
@@ -78,15 +78,15 @@ test-suite tests
       Test.Date.RollConvention
       Test.Examples
       Test.Main
-      Test.Payout.Cashflow
-      Test.Payout.ContractualQuantity
-      Test.Payout.FloatingRate
-      Test.Payout.InterestRatePayout
-      Test.Payout.Payout
+      Test.Impl.Payout.Cashflow
+      Test.Impl.Payout.ContractualQuantity
+      Test.Impl.Payout.InterestRatePayout.FloatingRate
+      Test.Impl.Payout.InterestRatePayout
+      Test.Impl.Payout
       Test.ReferenceData
-      Test.Schedule.CalculationPeriodDates
-      Test.Schedule.PaymentDates
-      Test.Schedule.ResetDates
+      Test.Impl.Payout.InterestRatePayout.Schedule.CalculationPeriodDates
+      Test.Impl.Payout.InterestRatePayout.Schedule.PaymentDates
+      Test.Impl.Payout.InterestRatePayout.Schedule.ResetDates
   hs-source-dirs: test
   default-extensions:
       BlockArguments

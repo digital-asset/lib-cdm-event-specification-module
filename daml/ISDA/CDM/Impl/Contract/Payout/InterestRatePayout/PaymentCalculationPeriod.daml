@@ -4,7 +4,7 @@ module ISDA.CDM.Impl.Contract.Payout.InterestRatePayout.PaymentCalculationPeriod
 import DA.List as L
 import DA.Optional
 import ISDA.CDM.Impl.Contract.Payout.InterestRatePayout.FloatingRate as FR
-import ISDA.CDM.Impl.Event.Event
+import ISDA.CDM.Impl.Event
 import ISDA.CDM.Impl.Utils
 import ISDA.CDM.Types.All
 

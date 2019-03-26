@@ -1,7 +1,7 @@
 daml 1.2
 module ISDA.CDM.EventBuilder.NewTrade where
 
-import ISDA.CDM.Impl.Event.Event
+import ISDA.CDM.Impl.Event
 import ISDA.CDM.Types.All
 
 -- | Build NewTrade event

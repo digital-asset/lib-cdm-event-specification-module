@@ -1,9 +1,9 @@
 daml 1.2
-module ISDA.CDM.Impl.Contract.Contract where
+module ISDA.CDM.Impl.Contract where
 
 import DA.List as L
 import DA.Optional
-import ISDA.CDM.Impl.Contract.Payout.Payout as Payout
+import ISDA.CDM.Impl.Contract.Payout as Payout
 import ISDA.CDM.Impl.Utils
 import ISDA.CDM.Types.All
 import Prelude hiding (Party)

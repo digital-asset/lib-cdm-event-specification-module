@@ -1,15 +1,15 @@
 daml 1.2
-module Test.Payout.FloatingRate where
+module Test.Impl.Payout.InterestRatePayout.FloatingRate where
 
 import DA.Assert
 import DA.Date as D
 import DA.Optional
 import ISDA.CDM.Impl.Contract.Payout.InterestRatePayout.FloatingRate
-import ISDA.CDM.Impl.Event.Event
+import ISDA.CDM.Impl.Event
 import ISDA.CDM.Types.All hiding (length)
 import Test.Examples
 import Test.ReferenceData()
-import Test.Schedule.ResetDates
+import Test.Impl.Payout.InterestRatePayout.Schedule.ResetDates
 
 testCaseFrd0 : FloatingRateDefinition
 testCaseFrd0 = emptyFloatingRateDefinition {

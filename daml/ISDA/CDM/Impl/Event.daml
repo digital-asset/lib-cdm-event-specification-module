@@ -1,5 +1,5 @@
 daml 1.2
-module ISDA.CDM.Impl.Event.Event where
+module ISDA.CDM.Impl.Event where
 
 import DA.Date as D
 import DA.Optional

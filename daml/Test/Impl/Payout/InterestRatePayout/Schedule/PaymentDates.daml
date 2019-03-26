@@ -1,55 +1,56 @@
 daml 1.2
-module Test.Schedule.ResetDates where
+module Test.Impl.Payout.InterestRatePayout.Schedule.PaymentDates where
 
 import DA.Assert
 import DA.Date as D
-import ISDA.CDM.Impl.Contract.Payout.InterestRatePayout.Schedule.ResetDates
+import ISDA.CDM.Impl.Contract.Payout.InterestRatePayout.Schedule.PaymentDates
 import ISDA.CDM.Types.All hiding (length)
 import Test.Examples
 import Test.ReferenceData()
-import Test.Schedule.CalculationPeriodDates
+import Test.Impl.Payout.InterestRatePayout.Schedule.CalculationPeriodDates
+import Test.Impl.Payout.InterestRatePayout.Schedule.ResetDates
 
-emptyFloatingRateDefinition : FloatingRateDefinition
-emptyFloatingRateDefinition = FloatingRateDefinition {
-                                calculatedRate = None,
-                                capRate = [],
-                                floatingRateMultiplier = None,
-                                floorRate = [],
-                                rateObservation = [],
-                                spread = None
-                              }
+emptyPaymentCalculationPeriod : PaymentCalculationPeriod
+emptyPaymentCalculationPeriod = PaymentCalculationPeriod {
+                                  id = None,
+                                  adjustedPaymentDate = None,
+                                  calculationPeriod = [],
+                                  discountFactor = None,
+                                  fixedPaymentAmount = None,
+                                  forecastPaymentAmount = None,
+                                  presentValueAmount = None,
+                                  unadjustedPaymentDate = None
+                                }
 
-emptyRateObservation : RateObservation
-emptyRateObservation = RateObservation {
-                        id = None,
-                        adjustedFixingDate = None,
-                        forecastRate = None,
-                        observationWeight = Some 0,
-                        observedRate = None,
-                        rateReference = None,
-                        resetDate = None,
-                        treatedForecastRate = None,
-                        treatedRate = None
-                      }
-
-main = scenario do
-  let expectedResult =
+expectedResultPcps : [PaymentCalculationPeriod]
+expectedResultPcps =
+  [ emptyPaymentCalculationPeriod {
+      id = None,
+      unadjustedPaymentDate = Some $ D.date 2018 Dec 5,
+      adjustedPaymentDate = Some $ D.date 2018 Dec 5,
+      calculationPeriod =
         [ emptyCalculationPeriod {
-            unadjustedStartDate = Some $ D.date 2018 Nov 15,
-            unadjustedEndDate = Some $ D.date 2018 Nov 30,
-            adjustedStartDate = Some $ D.date 2018 Nov 15,
-            adjustedEndDate = Some $ D.date 2018 Nov 30,
-            floatingRateDefinition = Some
-              emptyFloatingRateDefinition {
-                rateObservation =
-                  [ emptyRateObservation {
-                      adjustedFixingDate = Some $ D.date 2018 Nov 8,
-                      resetDate = Some $ D.date 2018 Nov 15
-                    }
-                  ]
-              }
+          unadjustedStartDate = Some $ D.date 2018 Nov 15,
+          unadjustedEndDate = Some $ D.date 2018 Nov 30,
+          adjustedStartDate = Some $ D.date 2018 Nov 15,
+          adjustedEndDate = Some $ D.date 2018 Nov 30,
+          floatingRateDefinition = Some
+            emptyFloatingRateDefinition {
+              rateObservation =
+                [ emptyRateObservation {
+                    adjustedFixingDate = Some $ D.date 2018 Nov 8,
+                    resetDate = Some $ D.date 2018 Nov 15
+                  }
+                ]
+            }
           }
-        , emptyCalculationPeriod {
+        ]
+    }
+  , emptyPaymentCalculationPeriod {
+      unadjustedPaymentDate = Some $ D.date 2019 Mar 5,
+      adjustedPaymentDate = Some $ D.date 2019 Mar 5,
+      calculationPeriod =
+        [ emptyCalculationPeriod {
             unadjustedStartDate = Some $ D.date 2018 Nov 30,
             unadjustedEndDate = Some $ D.date 2019 Feb 28,
             adjustedStartDate = Some $ D.date 2018 Nov 30,
@@ -64,7 +65,13 @@ main = scenario do
                   ]
               }
           }
-        , emptyCalculationPeriod {
+        ]
+    }
+  , emptyPaymentCalculationPeriod {
+      unadjustedPaymentDate = Some $ D.date 2019 Jun 4,
+      adjustedPaymentDate = Some $ D.date 2019 Jun 4,
+      calculationPeriod =
+        [ emptyCalculationPeriod {
             unadjustedStartDate = Some $ D.date 2019 Feb 28,
             unadjustedEndDate = Some $ D.date 2019 May 30,
             adjustedStartDate = Some $ D.date 2019 Feb 28,
@@ -79,7 +86,13 @@ main = scenario do
                   ]
               }
           }
-        , emptyCalculationPeriod {
+        ]
+    }
+  , emptyPaymentCalculationPeriod {
+      unadjustedPaymentDate = Some $ D.date 2019 Sep 4,
+      adjustedPaymentDate = Some $ D.date 2019 Sep 4,
+      calculationPeriod =
+        [ emptyCalculationPeriod {
             unadjustedStartDate = Some $ D.date 2019 May 30,
             unadjustedEndDate = Some $ D.date 2019 Aug 30,
             adjustedStartDate = Some $ D.date 2019 May 30,
@@ -94,7 +107,13 @@ main = scenario do
                   ]
               }
           }
-        , emptyCalculationPeriod {
+        ]
+    }
+  , emptyPaymentCalculationPeriod {
+      unadjustedPaymentDate = Some $ D.date 2019 Dec 4,
+      adjustedPaymentDate = Some $ D.date 2019 Dec 4,
+      calculationPeriod =
+        [ emptyCalculationPeriod {
             unadjustedStartDate = Some $ D.date 2019 Aug 30,
             unadjustedEndDate = Some $ D.date 2019 Nov 30,
             adjustedStartDate = Some $ D.date 2019 Aug 30,
@@ -109,7 +128,13 @@ main = scenario do
                   ]
               }
           }
-        , emptyCalculationPeriod {
+        ]
+    }
+  , emptyPaymentCalculationPeriod {
+      unadjustedPaymentDate = Some $ D.date 2019 Dec 20,
+      adjustedPaymentDate = Some $ D.date 2019 Dec 20,
+      calculationPeriod =
+        [ emptyCalculationPeriod {
             unadjustedStartDate = Some $ D.date 2019 Nov 30,
             unadjustedEndDate = Some $ D.date 2019 Dec 15,
             adjustedStartDate = Some $ D.date 2019 Nov 29,
@@ -125,5 +150,9 @@ main = scenario do
               }
           }
         ]
-  res <- generateResetPeriods cpdsBothStub3M (Some rds3M)
-  res === expectedResult
+    }
+  ]
+
+main = scenario do
+  res <- generatePaymentCalculationPeriods cpdsBothStub3M (Some rds3M) (Some pds3M)
+  res === expectedResultPcps

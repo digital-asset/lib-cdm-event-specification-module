@@ -8,14 +8,14 @@ import Test.Date.DayCountFraction
 import Test.Date.Offset
 import Test.Date.Period
 import Test.Date.RollConvention
-import Test.Payout.Cashflow
-import Test.Payout.ContractualQuantity
-import Test.Payout.FloatingRate
-import Test.Payout.InterestRatePayout
-import Test.Payout.Payout
-import Test.Schedule.CalculationPeriodDates
-import Test.Schedule.PaymentDates
-import Test.Schedule.ResetDates
+import Test.Impl.Payout.Cashflow
+import Test.Impl.Payout.ContractualQuantity
+import Test.Impl.Payout.InterestRatePayout.FloatingRate
+import Test.Impl.Payout.InterestRatePayout
+import Test.Impl.Payout
+import Test.Impl.Payout.InterestRatePayout.Schedule.CalculationPeriodDates
+import Test.Impl.Payout.InterestRatePayout.Schedule.PaymentDates
+import Test.Impl.Payout.InterestRatePayout.Schedule.ResetDates
 
 main = scenario do
   Test.Date.AdjustableDate.main
@@ -25,11 +25,11 @@ main = scenario do
   Test.Date.Offset.main
   Test.Date.Period.main
   Test.Date.RollConvention.main
-  Test.Schedule.CalculationPeriodDates.main
-  Test.Schedule.PaymentDates.main
-  Test.Schedule.ResetDates.main
-  Test.Payout.Cashflow.main
-  Test.Payout.ContractualQuantity.main
-  Test.Payout.FloatingRate.main
-  Test.Payout.InterestRatePayout.main
-  Test.Payout.Payout.main
+  Test.Impl.Payout.InterestRatePayout.Schedule.CalculationPeriodDates.main
+  Test.Impl.Payout.InterestRatePayout.Schedule.PaymentDates.main
+  Test.Impl.Payout.InterestRatePayout.Schedule.ResetDates.main
+  Test.Impl.Payout.Cashflow.main
+  Test.Impl.Payout.ContractualQuantity.main
+  Test.Impl.Payout.InterestRatePayout.FloatingRate.main
+  Test.Impl.Payout.InterestRatePayout.main
+  Test.Impl.Payout.main
