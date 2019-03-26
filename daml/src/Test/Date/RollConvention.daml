@@ -14,9 +14,6 @@ testNextDate = scenario do
   nextDate RollConventionEnum_EOM (Period {periodMultiplier = 2, period = PeriodEnum_M, id = None}) (D.date 2018 Feb 28) === (D.date 2018 Apr 30)
   nextDate RollConventionEnum__30 (Period {periodMultiplier = 3, period = PeriodEnum_M, id = None}) (D.date 2018 Nov 30) === (D.date 2019 Feb 28)
 
-  p <- getParty "p"
-  submitMustFail p $ pure $ nextDate RollConventionEnum__2 (Period {periodMultiplier = 1, period = PeriodEnum_M, id = None}) (D.date 2018 Oct 01)
-
 testImplyRollConvention = scenario do
   implyRollConvention False (D.date 2018 Jan 1) === RollConventionEnum__1
   implyRollConvention False (D.date 2018 Feb 28) === RollConventionEnum__28
