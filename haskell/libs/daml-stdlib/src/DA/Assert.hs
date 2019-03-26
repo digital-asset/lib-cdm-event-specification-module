@@ -1,8 +1,6 @@
 module DA.Assert
   ( scenario
   , (===)
-  , getParty
-  , submitMustFail
   , describe
   ) where
 
@@ -17,11 +15,3 @@ scenario = it
 
 (===) :: (HasCallStack, Eq a, Show a) => a -> a -> Expectation
 (===) = shouldBe
-
-data Party = Party
-
-getParty :: Text -> IO Party
-getParty _ = pure Party
-
-submitMustFail :: Party -> IO a -> Expectation
-submitMustFail _ x = (evaluate =<< x) `shouldThrow` anyErrorCall
