@@ -74,7 +74,7 @@ data AssetClassEnum
 
 -- | The qualification of the type of asset transfer.
 data AssetTransferTypeEnum
-  = AssetTransferTypeEnum_tbd
+  = AssetTransferTypeEnum_tbd ()
     deriving (Eq, Ord, Show)
 
 -- | The enumerated values to specify the type of
@@ -5451,7 +5451,7 @@ data NegativeInterestRateTreatmentEnum
 -- | The enumerated value to specify the fact that no
 --   threshold applies.
 data NoThresholdEnum
-  = NoThresholdEnum_zero
+  = NoThresholdEnum_zero ()
     deriving (Eq, Ord, Show)
 
 -- | The enumerated values to specify the conditions that
@@ -8036,7 +8036,7 @@ data ValuationMethodEnum
     deriving (Eq, Ord, Show)
 
 data WarehouseIdentityEnum
-  = WarehouseIdentityEnum_DTCC_TIW_Gold
+  = WarehouseIdentityEnum_DTCC_TIW_Gold ()
   -- ^ The DTCC Trade Information Warehouse Gold service
     deriving (Eq, Ord, Show)
 
