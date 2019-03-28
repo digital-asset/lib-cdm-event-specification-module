@@ -1,0 +1,43 @@
+daml 1.2
+module Example where
+
+import Org.Isda.Cdm.EventSpecificationModule.Types.All
+
+-- | Example how to extend DAML's Update to be an instance of Fetch
+
+data RefData = RefData
+  with
+    holidayCalendars : [HolidayCalendarData]
+    observations     : [ObservationPrimitive]
+
+newtype UpdateWithRefData v = UpdateWithRefData
+  with
+    run : RefData -> Update v
+
+instance Functor UpdateWithRefData where
+   fmap f x = UpdateWithRefData $ \refData -> fmap f $ x.run refData
+
+instance Applicative UpdateWithRefData where
+    pure x = UpdateWithRefData $ \refData -> pure x
+    f <*> x = UpdateWithRefData $ \refData -> f.run refData <*> x.run refData
+
+instance Action UpdateWithRefData where
+    x >>= f = UpdateWithRefData $ \refData -> x.run refData >>= (\y -> (f y).run refData)
+
+instance Fetch UpdateWithRefData where
+    fetchHolidayCalendar key =
+      UpdateWithRefData $ \refData ->
+        return $ find ((== key) . getKey) refData.holidayCalendars
+
+    fetchObservation key =
+      UpdateWithRefData $ \refData ->
+        return $ find ((== key) . getKey) refData.observations
+
+fetchHC : [HolidayCalendarData] -> Text -> Update (Optional HolidayCalendarData)
+fetchHC hcs label = do
+  let refData = RefData with holidayCalendars = hcs, observations = []
+  run (fetchImpl label) refData
+
+  where
+    fetchImpl : (Fetch f) => Text -> f (Optional HolidayCalendarData)
+    fetchImpl label = fetchHolidayCalendar (HolidayCalendarKey with label)
