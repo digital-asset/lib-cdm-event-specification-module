@@ -4,9 +4,9 @@ module Test.Impl.Payout.InterestRatePayout.FloatingRate where
 import DA.Assert
 import DA.Date as D
 import DA.Optional
-import ISDA.CDM.Impl.Contract.Payout.InterestRatePayout.FloatingRate
-import ISDA.CDM.Impl.Event
-import ISDA.CDM.Types.All hiding (length)
+import Org.Isda.Cdm.EventSpecificationModule.Impl.Contract.Payout.InterestRatePayout.FloatingRate
+import Org.Isda.Cdm.EventSpecificationModule.Impl.Event
+import Org.Isda.Cdm.EventSpecificationModule.Types.All hiding (length)
 import Test.Examples
 import Test.ReferenceData()
 import Test.Impl.Payout.InterestRatePayout.Schedule.ResetDates

@@ -5,10 +5,10 @@ import DA.Assert
 import DA.Date as D
 import DA.List
 import DA.Optional
-import ISDA.CDM.Impl.Contract.Payout.InterestRatePayout
-import ISDA.CDM.Impl.Event
-import ISDA.CDM.Impl.Utils
-import ISDA.CDM.Types.All hiding (length)
+import Org.Isda.Cdm.EventSpecificationModule.Impl.Contract.Payout.InterestRatePayout
+import Org.Isda.Cdm.EventSpecificationModule.Impl.Event
+import Org.Isda.Cdm.EventSpecificationModule.Impl.Utils
+import Org.Isda.Cdm.EventSpecificationModule.Types.All hiding (length)
 import Test.Examples
 import Test.ReferenceData()
 

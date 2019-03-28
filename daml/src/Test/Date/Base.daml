@@ -3,8 +3,8 @@ module Test.Date.Base where
 
 import DA.Assert
 import DA.Date
-import ISDA.CDM.Impl.Date.Base
-import ISDA.CDM.Types.ReferenceData.HolidayCalendar
+import Org.Isda.Cdm.EventSpecificationModule.Impl.Date.Base
+import Org.Isda.Cdm.EventSpecificationModule.Types.ReferenceData.HolidayCalendar
 
 main = scenario do
   let hc = HolidayCalendarData { label = "USNY", weekend = [Saturday, Sunday], holidays = [date 2018 Jan 02, date 2018 Jan 31, date 2018 Feb 1] }

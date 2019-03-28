@@ -4,10 +4,10 @@ module Test.Impl.Payout.Cashflow where
 import DA.Assert
 import DA.Date as D
 import DA.Optional
-import ISDA.CDM.Impl.Contract.Payout.Cashflow as CF
-import ISDA.CDM.Impl.Event
-import ISDA.CDM.Impl.Utils
-import ISDA.CDM.Types.All
+import Org.Isda.Cdm.EventSpecificationModule.Impl.Contract.Payout.Cashflow as CF
+import Org.Isda.Cdm.EventSpecificationModule.Impl.Event
+import Org.Isda.Cdm.EventSpecificationModule.Impl.Utils
+import Org.Isda.Cdm.EventSpecificationModule.Types.All
 import Test.Examples
 import Test.ReferenceData()
 

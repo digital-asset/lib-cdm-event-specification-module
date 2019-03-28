@@ -1,5 +1,5 @@
 project:
   sdk-version: '0.11.23'
-  name: event-specification-module
-  source: src/ISDA/CDM/EventSpecificationModule.daml
+  name: cdm-event-specification-module
+  source: src/Org/Isda/Cdm/EventSpecificationModule.daml
 version: 2

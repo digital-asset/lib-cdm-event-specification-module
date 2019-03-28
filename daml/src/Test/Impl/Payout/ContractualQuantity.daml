@@ -3,7 +3,7 @@ module Test.Impl.Payout.ContractualQuantity where
 
 import DA.Assert
 import DA.Date as D
-import ISDA.CDM.Impl.Contract.Payout.ContractualQuantity
+import Org.Isda.Cdm.EventSpecificationModule.Impl.Contract.Payout.ContractualQuantity
 import Test.Examples
 import Test.ReferenceData()
 

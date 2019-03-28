@@ -3,8 +3,8 @@ module Test.Date.Period where
 
 import DA.Assert
 import DA.Date as D
-import ISDA.CDM.Impl.Date.Period
-import ISDA.CDM.Types.All hiding (length)
+import Org.Isda.Cdm.EventSpecificationModule.Impl.Date.Period
+import Org.Isda.Cdm.EventSpecificationModule.Types.All hiding (length)
 
 main = scenario do
   (addPeriod (D.date 2018 Oct 01) (Period {periodMultiplier = 1, period = PeriodEnum_D, id = None}) === D.date 2018 Oct 02)

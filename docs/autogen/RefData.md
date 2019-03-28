@@ -1,4 +1,4 @@
-# Module ISDA.CDM.Types.ReferenceData.Fetch
+# Module Org.Isda.Cdm.EventSpecificationModule.Types.ReferenceData.Fetch
 ============
 
 
@@ -15,7 +15,7 @@
 
 
 
-# Module ISDA.CDM.Types.ReferenceData.HolidayCalendar
+# Module Org.Isda.Cdm.EventSpecificationModule.Types.ReferenceData.HolidayCalendar
 ============
 
 
@@ -48,7 +48,7 @@
 
 
 
-# Module ISDA.CDM.Types.ReferenceData.Key
+# Module Org.Isda.Cdm.EventSpecificationModule.Types.ReferenceData.Key
 ============
 
 
@@ -63,7 +63,7 @@
 
 
 
-# Module ISDA.CDM.Types.ReferenceData.Observation
+# Module Org.Isda.Cdm.EventSpecificationModule.Types.ReferenceData.Observation
 ============
 
 

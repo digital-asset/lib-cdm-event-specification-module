@@ -4,8 +4,8 @@ module Test.Impl.Payout.InterestRatePayout.Schedule.CalculationPeriodDates where
 import DA.Assert
 import DA.Date as D
 import DA.List
-import ISDA.CDM.Impl.Contract.Payout.InterestRatePayout.Schedule.CalculationPeriodDates
-import ISDA.CDM.Types.All hiding (length)
+import Org.Isda.Cdm.EventSpecificationModule.Impl.Contract.Payout.InterestRatePayout.Schedule.CalculationPeriodDates
+import Org.Isda.Cdm.EventSpecificationModule.Types.All hiding (length)
 import Test.Examples
 import Test.ReferenceData()
 

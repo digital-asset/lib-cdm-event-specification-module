@@ -3,9 +3,9 @@ module Test.Date.Offset where
 
 import DA.Assert
 import DA.Date as D
-import ISDA.CDM.Impl.Date.Offset
-import ISDA.CDM.Impl.Utils
-import ISDA.CDM.Types.All hiding (length)
+import Org.Isda.Cdm.EventSpecificationModule.Impl.Date.Offset
+import Org.Isda.Cdm.EventSpecificationModule.Impl.Utils
+import Org.Isda.Cdm.EventSpecificationModule.Types.All hiding (length)
 import Test.ReferenceData()
 
 main = scenario do
