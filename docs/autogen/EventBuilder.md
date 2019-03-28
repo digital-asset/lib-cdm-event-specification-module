@@ -1,4 +1,4 @@
-# Module ISDA.CDM.EventBuilder.Derived
+# Module Org.Isda.Cdm.EventSpecificationModule.EventBuilder.Derived
 ============
 
 
@@ -10,7 +10,7 @@
   have not been applied yet. If the event is not fully known yet (e.g. an observation for a reset is not
   available yet or a reset for a floating rate coupon), then an empty primitive is returned.
 
-# Module ISDA.CDM.EventBuilder.NewTrade
+# Module Org.Isda.Cdm.EventSpecificationModule.EventBuilder.NewTrade
 ============
 
 
@@ -20,7 +20,7 @@
 * `buildNewTradeEvent` : `NewTradeSpec` `->` `Event`  
   Build NewTrade event
 
-# Module ISDA.CDM.EventBuilder.Novation
+# Module Org.Isda.Cdm.EventSpecificationModule.EventBuilder.Novation
 ============
 
 
@@ -32,7 +32,7 @@
 * `buildPartialNovationEvent` : `PartialNovationSpec` `->` `Event`  
   Build Partial Novation event
 
-# Module ISDA.CDM.EventBuilder.Termination
+# Module Org.Isda.Cdm.EventSpecificationModule.EventBuilder.Termination
 ============
 
 
@@ -44,7 +44,7 @@
 * `buildPartialTerminationEvent` : `PartialTerminationSpec` `->` `Event`  
   Build PartialTermination event
 
-# Module ISDA.CDM.Types.EventSpec
+# Module Org.Isda.Cdm.EventSpecificationModule.Types.EventSpec
 ============
 
 

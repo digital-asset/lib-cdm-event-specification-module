@@ -1,4 +1,4 @@
-# Module ISDA.CDM.Auxiliary.Event
+# Module Org.Isda.Cdm.EventSpecificationModule.Auxiliary.Event
 ============
 
 
@@ -8,7 +8,7 @@
 * `getAfterContracts` : `Event` `->` `[` `Contract` `]`  
   Get all 'after' contracts from event
 
-# Module ISDA.CDM.Auxiliary.Netting
+# Module Org.Isda.Cdm.EventSpecificationModule.Auxiliary.Netting
 ============
 
 

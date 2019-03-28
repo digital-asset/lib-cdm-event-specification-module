@@ -3,8 +3,8 @@ module Test.Date.RollConvention where
 
 import DA.Assert
 import DA.Date as D
-import ISDA.CDM.Impl.Date.RollConvention
-import ISDA.CDM.Types.All hiding (length)
+import Org.Isda.Cdm.EventSpecificationModule.Impl.Date.RollConvention
+import Org.Isda.Cdm.EventSpecificationModule.Types.All hiding (length)
 
 testNextDate = scenario do
   nextDate RollConventionEnum_EOM (Period {periodMultiplier = 1, period = PeriodEnum_M, id = None}) (D.date 2018 Oct 31) === (D.date 2018 Nov 30)

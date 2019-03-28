@@ -2,8 +2,8 @@ daml 1.2
 module Test.ReferenceData where
 
 import DA.Date as D
-import ISDA.CDM.Impl.Utils
-import ISDA.CDM.Types.All hiding (length)
+import Org.Isda.Cdm.EventSpecificationModule.Impl.Utils
+import Org.Isda.Cdm.EventSpecificationModule.Types.All hiding (length)
 
 instance Fetch Scenario where
   fetchHolidayCalendar key = return $ fmap snd $ find ((== key) . fst) cals
