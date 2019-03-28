@@ -11,7 +11,7 @@ For a general introduction to the Common Domain Model (CDM), see the documentati
 
 The CDM Event Specification Module helps to standardize the process of generating valid CDM event messages by adding a specification of the required logic to the CDM schema itself. The module allows to unambiguously specify how events operate, e.g., how the next CDM payment event can be derived from a CDM interest rate swap contract, an interest rate observation and the relevant holiday calendars. This is complementary to the CDM schema, but is deemed to be an important extension because it avoids that different users of the CDM come up with different event representations. More importantly, in a DLT setup, all participants need to agree not only on the data representation but also on the business logic. The CDM module closes this gap.
 
-The CDM Event Specification Module is available in `DAML` and `Haskell` currently. Further languages like Java or C# might follow by compiling the module into other languages. This has the big advantage that the Event Specification Module can be shared between different database or distributed ledger technologies thereby making sure that everyone agrees not only on the schema but also on how events operate.
+The CDM Event Specification Module is available in [DAML](daml) and [Haskell](haskell) currently. Further languages like Java or C# might follow by compiling the module into other languages. This has the big advantage that the Event Specification Module can be shared between different database or distributed ledger technologies thereby making sure that everyone agrees not only on the schema but also on how events operate.
 
 For reference, the set of of [CDM types](docs/autogen/CdmTypes.md) are documented as well.
 
