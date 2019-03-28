@@ -2,7 +2,7 @@ daml 1.2
 
 -- | This file is auto-generated from the ISDA Common
 --   Domain Model, do not edit.
---   @version 0.0.0.master
+--   @version 2.0.31
 module ISDA.CDM.Types.MetaClasses
   ( module ISDA.CDM.Types.MetaClasses ) where
 

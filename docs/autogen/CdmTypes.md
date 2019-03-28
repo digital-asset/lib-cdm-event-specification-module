@@ -3,13 +3,29 @@
 
 This file is auto-generated from the ISDA Common
 Domain Model, do not edit.
-@version 0.0.0.master
+@version 2.0.31
 
 ## Data Types
 
+### `data` `AccessConditions`
+
+  A class to specify each party&#39;s election with
+  respect to the Termination Events that will be deemed
+  an Access Condition. ISDA 2016 Credit Support Annex
+  for Initial Margin, paragraph 13, General Principles,
+  (e)(ii).
+* `AccessConditions`
+
+  | Field            | Type/Description |
+  | :--------------- | :----------------
+  | `partyElections` | `[` `TerminationEvents` `]`
+  |                  | The parties&#39; Access Condition elections.
+
 ### `data` `Account`
 
-  The account specification.
+  A class to specify an account as an account number
+  alongside, optionally. an account name, an account
+  type, an account beneficiary and a servicing party.
 * `Account`
 
   | Field                | Type/Description |
@@ -165,6 +181,19 @@ Domain Model, do not edit.
   |                       | The specified exception to the ISDA Standard Initial
   |                       | Margin Model.
 
+### `data` `AdditionalRepresentation`
+
+  A class to specify the Additional Representation.
+  ISDA 2016 Credit Support Annex for Initial Margin,
+  paragraph 13, General Principles, (o): Additional
+  Representation(s).
+* `AdditionalRepresentation`
+
+  | Field                | Type/Description |
+  | :------------------- | :----------------
+  | `partyElection`      | `[` `PartyAdditionalRepresentation` `]`
+  | `specifiedProvision` | `Optional` `Text`
+
 ### `data` `AdditionalType`
 
   The specification of the Additional Type of
@@ -188,6 +217,30 @@ Domain Model, do not edit.
   |                 | transaction that can require the collection or
   |                 | delivery of initial margin when specified as a
   |                 | standard value.
+
+### `data` `Address`
+
+  A class to specify a post or street address.
+* `Address`
+
+  | Field        | Type/Description |
+  | :----------- | :----------------
+  | `city`       | `Text`
+  |              | The city component of the postal address.
+  | `country`    | `FieldWithMeta` `Text`
+  |              | The ISO 3166 standard code for the country within
+  |              | which the postal address is located.
+  | `postalCode` | `Text`
+  |              | The code, required for computerized mail sorting
+  |              | systems, that is allocated to a physical address by a
+  |              | national postal authority.
+  | `state`      | `Optional` `Text`
+  |              | A country subdivision used in postal addresses in
+  |              | some countries. For example, US states, Canadian
+  |              | provinces, Swiss cantons, ...
+  | `street`     | `[` `Text` `]`
+  |              | The set of street and building number information
+  |              | that identifies a postal address within a city.
 
 ### `data` `AdjustableDate`
 
@@ -411,6 +464,28 @@ Domain Model, do not edit.
   | :------- | :----------------
   | `after`  | `AllocationOutcome`
   | `before` | `ExecutionState`
+
+### `data` `AmendmentEffectiveDate`
+
+  A class to specify the effective date of the
+  Amendment to Termination Currency. This date can be
+  specified as either an actual date, a specific date
+  (e.g. the annex date) or as a custom provision.
+* `AmendmentEffectiveDate`
+
+  | Field             | Type/Description |
+  | :---------------- | :----------------
+  | `customProvision` | `Optional` `Text`
+  |                   | The effective date of the Amendment to Termination
+  |                   | Currency when specified as a non normalized custom
+  |                   | provision.
+  | `date`            | `Optional` `Date`
+  |                   | The effective date of the Amendment to Termination
+  |                   | Currency when specified as an actual date.
+  | `specificDate`    | `Optional` `AmendmentEffectiveDateEnum`
+  |                   | The effective date of the Amendment to Termination
+  |                   | Currency when specified as a specific date (e.g. the
+  |                   | annex date).
 
 ### `data` `AmericanExercise`
 
@@ -923,6 +998,24 @@ Domain Model, do not edit.
   |                         | The convention for adjusting a date if it would
   |                         | otherwise fall on a day that is not a business day.
   | `id`                    | `Optional` `Text`
+
+### `data` `BusinessUnit`
+
+  A class to specify an organizational unit.
+* `BusinessUnit`
+
+  | Field                | Type/Description |
+  | :------------------- | :----------------
+  | `contactInformation` | `Optional` `ContactInformation`
+  |                      | The contact information for such business unit, when
+  |                      | different from the contact information associated
+  |                      | with the party.
+  | `id`                 | `Optional` `Text`
+  | `identifier`         | `Optional` `Identifier`
+  |                      | An identifier used to uniquely identify the
+  |                      | organizational unit
+  | `name`               | `Text`
+  |                      | A name used to describe the organizational unit
 
 ### `data` `BuyerSeller`
 
@@ -1946,6 +2039,25 @@ Domain Model, do not edit.
   |                    | asset components of the basket when these are
   |                    | expressed in absolute terms.
 
+### `data` `ContactInformation`
+
+  A class to specify contact information associated
+  with a party: telephone, postal/street address, email
+  and web page.
+* `ContactInformation`
+
+  | Field       | Type/Description |
+  | :---------- | :----------------
+  | `address`   | `[` `Address` `]`
+  |             | The street/postal address.
+  | `email`     | `[` `Text` `]`
+  |             | The email address.
+  | `telephone` | `[` `TelephoneNumber` `]`
+  |             | The telephone number.
+  | `webPage`   | `[` `Text` `]`
+  |             | The web page. This attribute is not specified as part
+  |             | of the FpML ContactInformation complex type.
+
 ### `data` `Contract`
 
   A class to specify a financial contract object, which
@@ -2531,6 +2643,43 @@ Domain Model, do not edit.
   | `_type`           | `FieldWithMeta` `CreditSupportAgreementTypeEnum`
   |                   | The type of ISDA Credit Support Agreement.
 
+### `data` `CreditSupportObligation`
+
+  A class to specify the Credit Support Obligations
+  related to margin agreements. ISDA 2016 Credit
+  Support Annex for Initial Margin, paragraph 13,
+  General Principles, (c): Credit Support Obligations.
+* `CreditSupportObligation`
+
+  | Field                   | Type/Description |
+  | :---------------------- | :----------------
+  | `minimumTransferAmount` | `MinimumTransferAmount`
+  |                         | The net amount of exposure reached before collateral
+  |                         | has to be posted or returned.
+  | `otherEligibleSupport`  | `Optional` `Text`
+  |                         | The items that qualify as Other Eligible Support in
+  |                         | accordance with the ISDA 2016 Credit Support Annex
+  |                         | for Initial Margin, paragraph 13, General Principles,
+  |                         | (c)(iv). ISDA 2016 Credit Support Annex for Initial
+  |                         | Margin, paragraph 13, General Principles, (vi)(C):
+  |                         | Rounding.
+  | `rounding`              | `CollateralRounding`
+  |                         | The rounding methodology applicable to the Delivery
+  |                         | Amount and the Return Amount in terms of nearest
+  |                         | integral multiple of Base Currency units. ISDA 2016
+  |                         | Credit Support Annex for Initial Margin, paragraph
+  |                         | 13, General Principles, (c)(vi)(C): Rounding
+  | `threshold`             | `Threshold`
+  |                         | The amount of net exposure that a party is willing to
+  |                         | bear in relation to the other party before it
+  |                         | requires asking for collateral.
+  | `transferTiming`        | `Optional` `Text`
+  |                         | The time by which the transfer of collateral must
+  |                         | take place when different from the Regular Settlement
+  |                         | Day as a result of parties&#39; election. ISDA 2016
+  |                         | Credit Support Annex for Initial Margin, paragraph
+  |                         | 13, General Principles, (c)(vii): Transfer Timing.
+
 ### `data` `CrossCurrencyMethod`
 
   A class to represent the cash settlement method
@@ -2582,7 +2731,7 @@ Domain Model, do not edit.
 
 ### `data` `CrossRate`
 
-  A type that is used for including the currency
+  A class that is used for including the currency
   exchange rates used to cross between the traded
   currencies for non-base currency FX contracts.
 * `CrossRate`
@@ -2621,97 +2770,151 @@ Domain Model, do not edit.
   laws.
 * `CsaInitialMargin2016`
 
-  | Field                       | Type/Description |
-  | :-------------------------- | :----------------
-  | `additionalObligations`     | `Optional` `Text`
-  |                             | The additional obligations as specified in the ISDA
-  |                             | 2016 Credit Support Annex for Initial Margin,
-  |                             | paragraph 13, General Principles, (b)(ii).
-  | `baseCurrency`              | `FieldWithMeta` `Text`
-  |                             | The base currency as specified by the ISDA 2016 CSA
-  |                             | for Initial Margin, Paragraph 13 (a). The list of
-  |                             | valid currencies is not presently positioned as an
-  |                             | enumeration as part of the CDM because that scope is
-  |                             | limited to the values specified by ISDA and FpML. As
-  |                             | a result, implementers have to make reference to the
-  |                             | relevant standard, such as the ISO 4217 standard for
-  |                             | currency codes.
-  | `calculationDateLocation`   | `CalculationDateLocation`
-  |                             | The specified location where the credit exposure will
-  |                             | be calculated by the respective parties.
-  | `conditionPrecedent`        | `Optional` `Text`
-  |                             | When specified, this attribute overwrites the default
-  |                             | Condition Precedent provision as specified in ISDA
-  |                             | 2016 Credit Support Annex for Initial Margin,
-  |                             | paragraph 4, (a).
-  | `method`                    | `Method`
-  |                             | The specification of the ISDA SIMM Method as
-  |                             | specified by ISDA CSA for Initial Margin, Paragraph
-  |                             | 13, General Principles (ee).
-  | `minimumTransferAmount`     | `MinimumTransferAmount`
-  |                             | The amount above which collateral has to be
-  |                             | posted/returned.
-  | `notificationTime`          | `NotificationTime`
-  |                             | The time by which a demand for the Transfer of
-  |                             | Eligible Credit Support (IM) or Posted Credit Support
-  |                             | (IM) needs to be made in order for the transfer to
-  |                             | take place in accordance with the Transfer Timing
-  |                             | provisions. ISDA 2016 Credit Support Annex for
-  |                             | Initial Margin, paragraph 13, General Principles,
-  |                             | (d)(iii).
-  | `oneWayProvisions`          | `OneWayProvisions`
-  |                             | The determination of whether the One Way Provisions
-  |                             | are applicable (true) or not applicable (false) as
-  |                             | specified by ISDA 2016 CSA for Initial Margin,
-  |                             | Paragraph 13 (aa).
-  | `otherEligibleSupport`      | `Optional` `Text`
-  |                             | The items that qualify as Other Eligible Support in
-  |                             | accordance with the ISDA 2016 Credit Support Annex
-  |                             | for Initial Margin, paragraph 13, General Principles,
-  |                             | (c)(iv). ISDA 2016 Credit Support Annex for Initial
-  |                             | Margin, paragraph 13, General Principles, (vi)(C):
-  |                             | Rounding.
-  | `pledgorPostingObligations` | `PledgorPostingObligations`
-  |                             | The pledgor&#39;s posting obligations as specified in
-  |                             | the ISDA 2016 Credit Support Annex for Initial
-  |                             | Margin, paragraph 13, General Principles, (ii).
-  | `regime`                    | `Regime`
-  |                             | The Regime Table provision as specified by the ISDA
-  |                             | 2016 CSA for Initial Margin, Paragraph 13 General
-  |                             | Principles, which determines the regulatory regime(s)
-  |                             | applicable to each of the parties to the CSA in their
-  |                             | capacity as Secured Party, with one set of values per
-  |                             | counterparty. As specified in the CSA, the
-  |                             | applicability of a regime shall not be construed as a
-  |                             | representation, admission or acknowledgement that
-  |                             | either party is actually regulated under such regime.
-  | `rounding`                  | `CollateralRounding`
-  |                             | The rounding methodology applicable to the Delivery
-  |                             | Amount and the Return Amount in terms of nearest
-  |                             | integral multiple of Base Currency units. ISDA 2016
-  |                             | Credit Support Annex for Initial Margin, paragraph
-  |                             | 13, General Principles, (c)(vi)(C): Rounding
-  | `sensitivityToCommodity`    | `SensitivityMethodology`
-  |                             | The methodology the compute sensitivities to
-  |                             | commodity indices for the purpose of the ISDA 2016
-  |                             | and 2018 CSA for Initial Margin. ISDA 2016 Credit
-  |                             | Support Annex for Initial Margin, paragraph 13,
-  |                             | General Principles (gg)(2)(B).
-  | `sensitivityToEquity`       | `SensitivityMethodology`
-  |                             | The methodology the compute sensitivities to equity
-  |                             | indices, funds and ETFs for the purpose of the ISDA
-  |                             | 2016 and 2018 CSA for Initial Margin. ISDA 2016
-  |                             | Credit Support Annex for Initial Margin, paragraph
-  |                             | 13, General Principles (gg)(2)(A).
-  | `threshold`                 | `Threshold`
-  |                             | The unsecured credit exposure that the parties are
-  |                             | prepared to accept before asking for collateral.
-  | `transferTiming`            | `Optional` `Text`
-  |                             | The time by which the transfer of collateral must
-  |                             | take place when different from the Regular Settlement
-  |                             | Day as a result of parties&#39; election. ISDA 2016
-  |                             | Credit Support Annex for Initial Margin, paragraph
-  |                             | 13, General Principles, (c)(vii): Transfer Timing.
+  | Field                          | Type/Description |
+  | :----------------------------- | :----------------
+  | `accessConditions`             | `AccessConditions`
+  |                                | The Termination Event(s) that will be deemed Access
+  |                                | Conditions by the respective parties to the
+  |                                | agreement. ISDA 2016 Credit Support Annex for Initial
+  |                                | Margin, paragraph 13, General Principles, (e)(ii).
+  | `additionalObligations`        | `Optional` `Text`
+  |                                | The additional obligations as specified in the ISDA
+  |                                | 2016 Credit Support Annex for Initial Margin,
+  |                                | paragraph 13, General Principles, (b)(ii).
+  | `additionalRepresentation`     | `AdditionalRepresentation`
+  |                                | ISDA 2016 Credit Support Annex for Initial Margin,
+  |                                | paragraph 13, General Principles, (o): Additional
+  |                                | Representation(s).
+  | `addressesForTransfer`         | `PartyContactInformation`
+  |                                | The addresses for transfer as specified by the
+  |                                | respective parties to the agreement. ISDA 2016 Credit
+  |                                | Support Annex for Initial Margin, paragraph 13,
+  |                                | General Principles, (r): Addresses for Transfers.
+  | `baseCurrency`                 | `FieldWithMeta` `Text`
+  |                                | The base currency as specified by the ISDA 2016 CSA
+  |                                | for Initial Margin, Paragraph 13 (a). The list of
+  |                                | valid currencies is not presently positioned as an
+  |                                | enumeration as part of the CDM because that scope is
+  |                                | limited to the values specified by ISDA and FpML. As
+  |                                | a result, implementers have to make reference to the
+  |                                | relevant standard, such as the ISO 4217 standard for
+  |                                | currency codes.
+  | `bespokeProvision`             | `Optional` `Text`
+  |                                | The bespoke provision that might be specified by the
+  |                                | parties to the agreement. ISDA 2016 Credit Support
+  |                                | Annex for Initial Margin, paragraph 13, General
+  |                                | Principles, (u)(iii): Other Provisions.
+  | `calculationDateLocation`      | `CalculationDateLocation`
+  |                                | The specified location where the credit exposure will
+  |                                | be calculated by the respective parties.
+  | `conditionPrecedent`           | `Optional` `Text`
+  |                                | When specified, this attribute overwrites the default
+  |                                | Condition Precedent provision as specified in ISDA
+  |                                | 2016 Credit Support Annex for Initial Margin,
+  |                                | paragraph 4, (a).
+  | `creditSupportObligation`      | `CreditSupportObligation`
+  |                                | The Credit Support Obligations related to margin
+  |                                | agreements. ISDA 2016 Credit Support Annex for
+  |                                | Initial Margin, paragraph 13, General Principles,
+  |                                | (c): Credit Support Obligations.
+  | `custodyArrangements`          | `CustodyArrangements`
+  |                                | The Custodian and Segregated Account details in
+  |                                | respect of each party as the Pledgor. ISDA 2016
+  |                                | Credit Support Annex for Initial Margin, paragraph
+  |                                | 13, General Principles, (n): Custody Arrangements.
+  | `deliveryInLieuRight`          | `Bool`
+  |                                | The Delivery in Lieu Right election. ISDA 2016 Credit
+  |                                | Support Annex for Initial Margin, paragraph 13,
+  |                                | General Principles, (m): Modification to Pledgor’s
+  |                                | Rights and Remedies.
+  | `demandsAndNotices`            | `PartyContactInformation`
+  |                                | The address where the demands, specifications and
+  |                                | notices will be communicated to within each of the
+  |                                | parties to the agreement. ISDA 2016 Credit Support
+  |                                | Annex for Initial Margin, paragraph 13, General
+  |                                | Principles, (q): Demands and Notices.
+  | `disputeResolution`            | `DisputeResolution`
+  |                                | The election terms under which a party disputes (i)
+  |                                | the Calculation Agent’s calculation of a Delivery
+  |                                | Amount or a Return Amount, or (ii) the Value of any
+  |                                | Transfer of Eligible Credit Support or Posted Credit
+  |                                | Support. ISDA 2016 Credit Support Annex for Initial
+  |                                | Margin, paragraph 13, General Principles, (g):
+  |                                | Dispute Resolution.
+  | `japaneseSecuritiesProvisions` | `Bool`
+  |                                | ISDA 2016 Credit Support Annex for Initial Margin,
+  |                                | paragraph 13, General Principles, (v): Japanese
+  |                                | Securities Provisions (Shichiken).
+  | `method`                       | `Method`
+  |                                | The specification of the ISDA SIMM Method as
+  |                                | specified by ISDA 2016 Credit Support Annex for
+  |                                | Initial Margin, paragraph 13, General Principles,
+  |                                | (ee).
+  | `notificationTime`             | `NotificationTime`
+  |                                | The time by which a demand for the Transfer of
+  |                                | Eligible Credit Support (IM) or Posted Credit Support
+  |                                | (IM) needs to be made in order for the transfer to
+  |                                | take place in accordance with the Transfer Timing
+  |                                | provisions. ISDA 2016 Credit Support Annex for
+  |                                | Initial Margin, paragraph 13, General Principles,
+  |                                | (d)(iii).
+  | `oneWayProvisions`             | `OneWayProvisions`
+  |                                | The determination of whether the One Way Provisions
+  |                                | are applicable (true) or not applicable (false) as
+  |                                | specified by ISDA 2016 CSA for Initial Margin,
+  |                                | Paragraph 13 (aa).
+  | `otherEligibleSupport`         | `OtherEligibleSupport`
+  |                                | The Other Eligible Support elections associated with
+  |                                | margin agreements. ISDA 2016 Credit Support Annex for
+  |                                | Initial Margin, paragraph 13, General Principles,
+  |                                | (p): Other Eligible Support (IM) and Other Posted
+  |                                | Support (IM).
+  | `pledgorAdditionalRightsEvent` | `Optional` `PledgorAdditionalRightsEvent`
+  |                                | The Pledgor Additional Rights Event election. ISDA
+  |                                | 2016 Credit Support Annex for Initial Margin,
+  |                                | paragraph 13, General Principles, (k): Pledgor
+  |                                | Additional Rights Event.
+  | `pledgorPostingObligations`    | `PledgorPostingObligations`
+  |                                | The pledgor&#39;s posting obligations as specified in
+  |                                | the ISDA 2016 Credit Support Annex for Initial
+  |                                | Margin, paragraph 13, General Principles, (ii).
+  | `pledgorRightsEvent`           | `PledgorRightsEvent`
+  |                                | The Pledgor Rights Event election. ISDA 2016 Credit
+  |                                | Support Annex for Initial Margin, paragraph 13,
+  |                                | General Principles, (j): Pledgor Rights Event.
+  | `regime`                       | `Regime`
+  |                                | The Regime Table provision as specified by the ISDA
+  |                                | 2016 CSA for Initial Margin, Paragraph 13 General
+  |                                | Principles, which determines the regulatory regime(s)
+  |                                | applicable to each of the parties to the CSA in their
+  |                                | capacity as Secured Party, with one set of values per
+  |                                | counterparty. As specified in the CSA, the
+  |                                | applicability of a regime shall not be construed as a
+  |                                | representation, admission or acknowledgement that
+  |                                | either party is actually regulated under such regime.
+  | `sensitivityToCommodity`       | `SensitivityMethodology`
+  |                                | The methodology the compute sensitivities to
+  |                                | commodity indices for the purpose of the ISDA 2016
+  |                                | and 2018 CSA for Initial Margin. ISDA 2016 Credit
+  |                                | Support Annex for Initial Margin, paragraph 13,
+  |                                | General Principles (gg)(2)(B).
+  | `sensitivityToEquity`          | `SensitivityMethodology`
+  |                                | The methodology the compute sensitivities to equity
+  |                                | indices, funds and ETFs for the purpose of the ISDA
+  |                                | 2016 and 2018 CSA for Initial Margin. ISDA 2016
+  |                                | Credit Support Annex for Initial Margin, paragraph
+  |                                | 13, General Principles (gg)(2)(A).
+  | `substitution`                 | `Substitution`
+  |                                | The conditions under which the Pledgor can substitute
+  |                                | posted collateral. ISDA 2016 Credit Support Annex for
+  |                                | Initial Margin, paragraph 13, General Principles,
+  |                                | (f): Substitution.
+  | `terminationCurrency`          | `TerminationCurrencyAmendment`
+  |                                | The Amendment to Termination Currency elections by
+  |                                | the parties to the agreement. ISDA 2016 Credit
+  |                                | Support Annex for Initial Margin, paragraph 13,
+  |                                | General Principles, (t): Amendment to Termination
+  |                                | Currency.
 
 ### `data` `CsaInitialMargin2016NewYorkLaw`
 
@@ -2720,97 +2923,151 @@ Domain Model, do not edit.
   Support Annex for Initial Margin.
 * `CsaInitialMargin2016NewYorkLaw`
 
-  | Field                       | Type/Description |
-  | :-------------------------- | :----------------
-  | `additionalObligations`     | `Optional` `Text`
-  |                             | The additional obligations as specified in the ISDA
-  |                             | 2016 Credit Support Annex for Initial Margin,
-  |                             | paragraph 13, General Principles, (b)(ii).
-  | `baseCurrency`              | `FieldWithMeta` `Text`
-  |                             | The base currency as specified by the ISDA 2016 CSA
-  |                             | for Initial Margin, Paragraph 13 (a). The list of
-  |                             | valid currencies is not presently positioned as an
-  |                             | enumeration as part of the CDM because that scope is
-  |                             | limited to the values specified by ISDA and FpML. As
-  |                             | a result, implementers have to make reference to the
-  |                             | relevant standard, such as the ISO 4217 standard for
-  |                             | currency codes.
-  | `calculationDateLocation`   | `CalculationDateLocation`
-  |                             | The specified location where the credit exposure will
-  |                             | be calculated by the respective parties.
-  | `conditionPrecedent`        | `Optional` `Text`
-  |                             | When specified, this attribute overwrites the default
-  |                             | Condition Precedent provision as specified in ISDA
-  |                             | 2016 Credit Support Annex for Initial Margin,
-  |                             | paragraph 4, (a).
-  | `method`                    | `Method`
-  |                             | The specification of the ISDA SIMM Method as
-  |                             | specified by ISDA CSA for Initial Margin, Paragraph
-  |                             | 13, General Principles (ee).
-  | `minimumTransferAmount`     | `MinimumTransferAmount`
-  |                             | The amount above which collateral has to be
-  |                             | posted/returned.
-  | `notificationTime`          | `NotificationTime`
-  |                             | The time by which a demand for the Transfer of
-  |                             | Eligible Credit Support (IM) or Posted Credit Support
-  |                             | (IM) needs to be made in order for the transfer to
-  |                             | take place in accordance with the Transfer Timing
-  |                             | provisions. ISDA 2016 Credit Support Annex for
-  |                             | Initial Margin, paragraph 13, General Principles,
-  |                             | (d)(iii).
-  | `oneWayProvisions`          | `OneWayProvisions`
-  |                             | The determination of whether the One Way Provisions
-  |                             | are applicable (true) or not applicable (false) as
-  |                             | specified by ISDA 2016 CSA for Initial Margin,
-  |                             | Paragraph 13 (aa).
-  | `otherEligibleSupport`      | `Optional` `Text`
-  |                             | The items that qualify as Other Eligible Support in
-  |                             | accordance with the ISDA 2016 Credit Support Annex
-  |                             | for Initial Margin, paragraph 13, General Principles,
-  |                             | (c)(iv). ISDA 2016 Credit Support Annex for Initial
-  |                             | Margin, paragraph 13, General Principles, (vi)(C):
-  |                             | Rounding.
-  | `pledgorPostingObligations` | `PledgorPostingObligations`
-  |                             | The pledgor&#39;s posting obligations as specified in
-  |                             | the ISDA 2016 Credit Support Annex for Initial
-  |                             | Margin, paragraph 13, General Principles, (ii).
-  | `regime`                    | `Regime`
-  |                             | The Regime Table provision as specified by the ISDA
-  |                             | 2016 CSA for Initial Margin, Paragraph 13 General
-  |                             | Principles, which determines the regulatory regime(s)
-  |                             | applicable to each of the parties to the CSA in their
-  |                             | capacity as Secured Party, with one set of values per
-  |                             | counterparty. As specified in the CSA, the
-  |                             | applicability of a regime shall not be construed as a
-  |                             | representation, admission or acknowledgement that
-  |                             | either party is actually regulated under such regime.
-  | `rounding`                  | `CollateralRounding`
-  |                             | The rounding methodology applicable to the Delivery
-  |                             | Amount and the Return Amount in terms of nearest
-  |                             | integral multiple of Base Currency units. ISDA 2016
-  |                             | Credit Support Annex for Initial Margin, paragraph
-  |                             | 13, General Principles, (c)(vi)(C): Rounding
-  | `sensitivityToCommodity`    | `SensitivityMethodology`
-  |                             | The methodology the compute sensitivities to
-  |                             | commodity indices for the purpose of the ISDA 2016
-  |                             | and 2018 CSA for Initial Margin. ISDA 2016 Credit
-  |                             | Support Annex for Initial Margin, paragraph 13,
-  |                             | General Principles (gg)(2)(B).
-  | `sensitivityToEquity`       | `SensitivityMethodology`
-  |                             | The methodology the compute sensitivities to equity
-  |                             | indices, funds and ETFs for the purpose of the ISDA
-  |                             | 2016 and 2018 CSA for Initial Margin. ISDA 2016
-  |                             | Credit Support Annex for Initial Margin, paragraph
-  |                             | 13, General Principles (gg)(2)(A).
-  | `threshold`                 | `Threshold`
-  |                             | The unsecured credit exposure that the parties are
-  |                             | prepared to accept before asking for collateral.
-  | `transferTiming`            | `Optional` `Text`
-  |                             | The time by which the transfer of collateral must
-  |                             | take place when different from the Regular Settlement
-  |                             | Day as a result of parties&#39; election. ISDA 2016
-  |                             | Credit Support Annex for Initial Margin, paragraph
-  |                             | 13, General Principles, (c)(vii): Transfer Timing.
+  | Field                          | Type/Description |
+  | :----------------------------- | :----------------
+  | `accessConditions`             | `AccessConditions`
+  |                                | The Termination Event(s) that will be deemed Access
+  |                                | Conditions by the respective parties to the
+  |                                | agreement. ISDA 2016 Credit Support Annex for Initial
+  |                                | Margin, paragraph 13, General Principles, (e)(ii).
+  | `additionalObligations`        | `Optional` `Text`
+  |                                | The additional obligations as specified in the ISDA
+  |                                | 2016 Credit Support Annex for Initial Margin,
+  |                                | paragraph 13, General Principles, (b)(ii).
+  | `additionalRepresentation`     | `AdditionalRepresentation`
+  |                                | ISDA 2016 Credit Support Annex for Initial Margin,
+  |                                | paragraph 13, General Principles, (o): Additional
+  |                                | Representation(s).
+  | `addressesForTransfer`         | `PartyContactInformation`
+  |                                | The addresses for transfer as specified by the
+  |                                | respective parties to the agreement. ISDA 2016 Credit
+  |                                | Support Annex for Initial Margin, paragraph 13,
+  |                                | General Principles, (r): Addresses for Transfers.
+  | `baseCurrency`                 | `FieldWithMeta` `Text`
+  |                                | The base currency as specified by the ISDA 2016 CSA
+  |                                | for Initial Margin, Paragraph 13 (a). The list of
+  |                                | valid currencies is not presently positioned as an
+  |                                | enumeration as part of the CDM because that scope is
+  |                                | limited to the values specified by ISDA and FpML. As
+  |                                | a result, implementers have to make reference to the
+  |                                | relevant standard, such as the ISO 4217 standard for
+  |                                | currency codes.
+  | `bespokeProvision`             | `Optional` `Text`
+  |                                | The bespoke provision that might be specified by the
+  |                                | parties to the agreement. ISDA 2016 Credit Support
+  |                                | Annex for Initial Margin, paragraph 13, General
+  |                                | Principles, (u)(iii): Other Provisions.
+  | `calculationDateLocation`      | `CalculationDateLocation`
+  |                                | The specified location where the credit exposure will
+  |                                | be calculated by the respective parties.
+  | `conditionPrecedent`           | `Optional` `Text`
+  |                                | When specified, this attribute overwrites the default
+  |                                | Condition Precedent provision as specified in ISDA
+  |                                | 2016 Credit Support Annex for Initial Margin,
+  |                                | paragraph 4, (a).
+  | `creditSupportObligation`      | `CreditSupportObligation`
+  |                                | The Credit Support Obligations related to margin
+  |                                | agreements. ISDA 2016 Credit Support Annex for
+  |                                | Initial Margin, paragraph 13, General Principles,
+  |                                | (c): Credit Support Obligations.
+  | `custodyArrangements`          | `CustodyArrangements`
+  |                                | The Custodian and Segregated Account details in
+  |                                | respect of each party as the Pledgor. ISDA 2016
+  |                                | Credit Support Annex for Initial Margin, paragraph
+  |                                | 13, General Principles, (n): Custody Arrangements.
+  | `deliveryInLieuRight`          | `Bool`
+  |                                | The Delivery in Lieu Right election. ISDA 2016 Credit
+  |                                | Support Annex for Initial Margin, paragraph 13,
+  |                                | General Principles, (m): Modification to Pledgor’s
+  |                                | Rights and Remedies.
+  | `demandsAndNotices`            | `PartyContactInformation`
+  |                                | The address where the demands, specifications and
+  |                                | notices will be communicated to within each of the
+  |                                | parties to the agreement. ISDA 2016 Credit Support
+  |                                | Annex for Initial Margin, paragraph 13, General
+  |                                | Principles, (q): Demands and Notices.
+  | `disputeResolution`            | `DisputeResolution`
+  |                                | The election terms under which a party disputes (i)
+  |                                | the Calculation Agent’s calculation of a Delivery
+  |                                | Amount or a Return Amount, or (ii) the Value of any
+  |                                | Transfer of Eligible Credit Support or Posted Credit
+  |                                | Support. ISDA 2016 Credit Support Annex for Initial
+  |                                | Margin, paragraph 13, General Principles, (g):
+  |                                | Dispute Resolution.
+  | `japaneseSecuritiesProvisions` | `Bool`
+  |                                | ISDA 2016 Credit Support Annex for Initial Margin,
+  |                                | paragraph 13, General Principles, (v): Japanese
+  |                                | Securities Provisions (Shichiken).
+  | `method`                       | `Method`
+  |                                | The specification of the ISDA SIMM Method as
+  |                                | specified by ISDA 2016 Credit Support Annex for
+  |                                | Initial Margin, paragraph 13, General Principles,
+  |                                | (ee).
+  | `notificationTime`             | `NotificationTime`
+  |                                | The time by which a demand for the Transfer of
+  |                                | Eligible Credit Support (IM) or Posted Credit Support
+  |                                | (IM) needs to be made in order for the transfer to
+  |                                | take place in accordance with the Transfer Timing
+  |                                | provisions. ISDA 2016 Credit Support Annex for
+  |                                | Initial Margin, paragraph 13, General Principles,
+  |                                | (d)(iii).
+  | `oneWayProvisions`             | `OneWayProvisions`
+  |                                | The determination of whether the One Way Provisions
+  |                                | are applicable (true) or not applicable (false) as
+  |                                | specified by ISDA 2016 CSA for Initial Margin,
+  |                                | Paragraph 13 (aa).
+  | `otherEligibleSupport`         | `OtherEligibleSupport`
+  |                                | The Other Eligible Support elections associated with
+  |                                | margin agreements. ISDA 2016 Credit Support Annex for
+  |                                | Initial Margin, paragraph 13, General Principles,
+  |                                | (p): Other Eligible Support (IM) and Other Posted
+  |                                | Support (IM).
+  | `pledgorAdditionalRightsEvent` | `Optional` `PledgorAdditionalRightsEvent`
+  |                                | The Pledgor Additional Rights Event election. ISDA
+  |                                | 2016 Credit Support Annex for Initial Margin,
+  |                                | paragraph 13, General Principles, (k): Pledgor
+  |                                | Additional Rights Event.
+  | `pledgorPostingObligations`    | `PledgorPostingObligations`
+  |                                | The pledgor&#39;s posting obligations as specified in
+  |                                | the ISDA 2016 Credit Support Annex for Initial
+  |                                | Margin, paragraph 13, General Principles, (ii).
+  | `pledgorRightsEvent`           | `PledgorRightsEvent`
+  |                                | The Pledgor Rights Event election. ISDA 2016 Credit
+  |                                | Support Annex for Initial Margin, paragraph 13,
+  |                                | General Principles, (j): Pledgor Rights Event.
+  | `regime`                       | `Regime`
+  |                                | The Regime Table provision as specified by the ISDA
+  |                                | 2016 CSA for Initial Margin, Paragraph 13 General
+  |                                | Principles, which determines the regulatory regime(s)
+  |                                | applicable to each of the parties to the CSA in their
+  |                                | capacity as Secured Party, with one set of values per
+  |                                | counterparty. As specified in the CSA, the
+  |                                | applicability of a regime shall not be construed as a
+  |                                | representation, admission or acknowledgement that
+  |                                | either party is actually regulated under such regime.
+  | `sensitivityToCommodity`       | `SensitivityMethodology`
+  |                                | The methodology the compute sensitivities to
+  |                                | commodity indices for the purpose of the ISDA 2016
+  |                                | and 2018 CSA for Initial Margin. ISDA 2016 Credit
+  |                                | Support Annex for Initial Margin, paragraph 13,
+  |                                | General Principles (gg)(2)(B).
+  | `sensitivityToEquity`          | `SensitivityMethodology`
+  |                                | The methodology the compute sensitivities to equity
+  |                                | indices, funds and ETFs for the purpose of the ISDA
+  |                                | 2016 and 2018 CSA for Initial Margin. ISDA 2016
+  |                                | Credit Support Annex for Initial Margin, paragraph
+  |                                | 13, General Principles (gg)(2)(A).
+  | `substitution`                 | `Substitution`
+  |                                | The conditions under which the Pledgor can substitute
+  |                                | posted collateral. ISDA 2016 Credit Support Annex for
+  |                                | Initial Margin, paragraph 13, General Principles,
+  |                                | (f): Substitution.
+  | `terminationCurrency`          | `TerminationCurrencyAmendment`
+  |                                | The Amendment to Termination Currency elections by
+  |                                | the parties to the agreement. ISDA 2016 Credit
+  |                                | Support Annex for Initial Margin, paragraph 13,
+  |                                | General Principles, (t): Amendment to Termination
+  |                                | Currency.
 
 ### `data` `CurrencyValueDates`
 
@@ -2835,6 +3092,130 @@ Domain Model, do not edit.
   | :------------------ | :----------------
   | `commodityCurve`    | `Optional` `(` `FieldWithMeta` `CommodityReferencePriceEnum` `)`
   | `interestRateCurve` | `Optional` `InterestRateCurve`
+
+### `data` `CustodianEvent`
+
+  A class to specify the Custodian Event in terms of
+  applicability and end-date. ISDA 2016 Credit Support
+  Annex for Initial Margin, paragraph 13, General
+  Principles, (n)(iii): Custodian Event.
+* `CustodianEvent`
+
+  | Field          | Type/Description |
+  | :------------- | :----------------
+  | `endDate`      | `CustodianEventEndDate`
+  | `isApplicable` | `Bool`
+  |                | The qualification as to whether the Custodian Event
+  |                | is applicable. ISDA 2016 Credit Support Annex for
+  |                | Initial Margin, paragraph 13, General Principles,
+  |                | (n)(iii): Custodian Event.
+
+### `data` `CustodianEventEndDate`
+
+  A class to specify the Custodian Event End Date,
+  which qualification is function of three elective
+  periods: either (i) a specified number of days after
+  the occurrence of the Custodian Event (the
+  daysAfterCustodianEvent attribute), (ii) or the
+  number of days prior to the date on which the Control
+  Agreement will terminate, with in this latter case
+  the further qualification of the number of days prior
+  to the Release Date if only one party has effectively
+  provided the Timely Statement to the other party.
+  ISDA 2016 Credit Support Annex for Initial Margin,
+  paragraph 13, General Principles, (n)(iii): CE End
+  Date.
+* `CustodianEventEndDate`
+
+  | Field                     | Type/Description |
+  | :------------------------ | :----------------
+  | `dateOfTimelyStatement`   | `CustomisableOffset`
+  |                           | The parties&#39; election to specify the number of
+  |                           | days one party has effectively provided the Timely
+  |                           | Statement to the other party. ISDA 2016 Credit
+  |                           | Support Annex for Initial Margin, paragraph 13,
+  |                           | General Principles, (n)(iii)(1)(B)(ii).
+  | `daysAfterCustodianEvent` | `CustomisableOffset`
+  |                           | The parties&#39; election to specify the number of
+  |                           | days after the occurrence of the Custodian Event for
+  |                           | the purpose of qualifying the Custodian Event End
+  |                           | Date. ISDA 2016 Credit Support Annex for Initial
+  |                           | Margin, paragraph 13, General Principles,
+  |                           | (n)(iii)(1)(A).
+  | `releaseDate`             | `CustomisableOffset`
+  |                           | The parties&#39; election to specify the number of
+  |                           | days prior to the Control Agreement termination for
+  |                           | the purpose of qualifying the Custodian Event End
+  |                           | Date, in the case where advance notice is given in
+  |                           | accordance with the Control Agreement. ISDA 2016
+  |                           | Credit Support Annex for Initial Margin, paragraph
+  |                           | 13, General Principles, (n)(iii)(1)(B).
+
+### `data` `CustodianRisk`
+
+  A class to specify the Custodian Risk. ISDA 2016
+  Credit Support Annex for Initial Margin, paragraph
+  13, General Principles, (n)(ii): Custodian (IM) Risk.
+* `CustodianRisk`
+
+  | Field           | Type/Description |
+  | :-------------- | :----------------
+  | `isSpecified`   | `Bool`
+  |                 | The qualification as to whether the risk is deemed as
+  |                 | Specified.
+  | `qualification` | `Optional` `Text`
+  |                 | The Custodian Risk qualification. This attribute is
+  |                 | optional because a Custodian Risk can be deemed as
+  |                 | &#39;specified&#39;, but not be qualified.
+
+### `data` `CustodyArrangements`
+
+  A class to specify the Custodian and Segregated
+  Account details with respect to each party as the
+  Pledgor, and to specify the Custodian Event provision
+  and the terms with respect to the Control Agreement
+  that will apply to both parties. ISDA 2016 Credit
+  Support Annex for Initial Margin, paragraph 13,
+  General Principles, (n): Custody Arrangements. | ISDA
+  2016 Credit Support Annex for Initial Margin,
+  paragraph 6: Custody Arrangements and the Control
+  Agreement.
+* `CustodyArrangements`
+
+  | Field                         | Type/Description |
+  | :---------------------------- | :----------------
+  | `custodianEvent`              | `CustodianEvent`
+  |                               | When specified as True, the Custodian Event means
+  |                               | that the following Custodian Events specified in the
+  |                               | agreement will constitute an Additional Termination
+  |                               | Event. ISDA 2016 Credit Support Annex for Initial
+  |                               | Margin, paragraph 13, General Principles, (m)(iii):
+  |                               | Custodian Event.
+  | `hasControlAgreementLanguage` | `Bool`
+  | `isCreditSupportDocument`     | `Bool`
+  |                               | Unless specified as True, the Control Agreement is
+  |                               | not a Credit Support Document under the agreement
+  |                               | with respect to a party. ISDA 2016 Credit Support
+  |                               | Annex for Initial Margin, paragraph 6 (e): The
+  |                               | Control Agreement as a Credit Support Document.
+  | `otherProvisions`             | `Optional` `Text`
+  |                               | ISDA 2016 Credit Support Annex for Initial Margin,
+  |                               | paragraph 13, General Principles, (n)(vii): Other
+  |                               | Provisions.
+  | `partyCustodian`              | `[` `PartyCustodianElection` `]`
+  |                               | The parties&#39; custody agent elections.
+
+### `data` `CustomisableOffset`
+
+  A class to specify an offset either as a normalized
+  [multiplier, period, dayType] or as a custom
+  provision of type string.
+* `CustomisableOffset`
+
+  | Field             | Type/Description |
+  | :---------------- | :----------------
+  | `customProvision` | `Optional` `Text`
+  | `offset`          | `Optional` `Offset`
 
 ### `data` `CustomisedWorkflow`
 
@@ -3110,6 +3491,32 @@ Domain Model, do not edit.
   |                                | calculation of a discounted amount.
   | `discountingType`              | `DiscountingTypeEnum`
   |                                | The discounting method that is applicable.
+
+### `data` `DisputeResolution`
+
+  A class to specify the election terms under which a
+  party disputes (i) the Calculation Agent’s
+  calculation of a Delivery Amount or a Return Amount,
+  or (ii) the Value of any Transfer of Eligible Credit
+  Support or Posted Credit Support. Parties can specify
+  such election either through a business center time
+  or through a custom election. ISDA 2016 Credit
+  Support Annex for Initial Margin, paragraph 13,
+  General Principles, (g): Dispute Resolution.
+* `DisputeResolution`
+
+  | Field            | Type/Description |
+  | :--------------- | :----------------
+  | `otherTerms`     | `Optional` `Text`
+  |                  | The custom Resolution Time election that might be
+  |                  | specified by the parties.
+  | `resolutionTime` | `Optional` `BusinessCenterTime`
+  |                  | The time by which the dispute needs to be resolved,
+  |                  | failure of which would trigger a recalculation
+  |                  | alongside a process that is specified as part of the
+  |                  | agreement. ISDA 2016 Credit Support Annex for Initial
+  |                  | Margin, paragraph 13, General Principles, (g)(i):
+  |                  | Resolution Time.
 
 ### `data` `DividendCurrency`
 
@@ -3779,7 +4186,7 @@ Domain Model, do not edit.
 
 ### `data` `ExchangeRate`
 
-  A type that is used for describing the exchange rate
+  A class that is used for describing the exchange rate
   for a particular transaction.
 * `ExchangeRate`
 
@@ -4731,18 +5138,24 @@ Domain Model, do not edit.
 
 ### `data` `ForwardPayout`
 
-  Whether the payout is classified as spot or forward
-  is done using product qualification, see isProduct
-  ForeignExchange_Forward
+  Representation of a forward settling payout. Both FX
+  Spot and FX Forward should use this component.
+  Distinction between the two will be handled via
+  product qualification.
 * `ForwardPayout`
 
-  | Field            | Type/Description |
-  | :--------------- | :----------------
-  | `product`        | `Product`
-  |                  | The product underlying the forward contract
-  | `settlementDate` | `Optional` `Date`
-  |                  | For FX Forward, the settlement date (or value date)
-  |                  | for each currency leg can be set individually.
+  | Field               | Type/Description |
+  | :------------------ | :----------------
+  | `foreignExchange`   | `Optional` `ForeignExchange`
+  |                     | A Foreign Exchange underlier to the forward payout.
+  | `securityComponent` | `Optional` `SecurityComponent`
+  |                     | A security underlier to the forward payout.
+  | `settlementDate`    | `Optional` `Date`
+  |                     | The settlement date for a forward settling product.
+  |                     | For Foreign Exchange contracts, this represents a
+  |                     | common settlement date between both currency legs. To
+  |                     | specify different settlement dates for each currency
+  |                     | leg, see the ForeignExchange class.
 
 ### `data` `Frequency`
 
@@ -4792,9 +5205,9 @@ Domain Model, do not edit.
 
 ### `data` `FxCashSettlement`
 
-  A type that is used for describing cash settlement of
-  an option / non deliverable forward. It includes the
-  currency to settle into together with the fixings
+  A class that is used for describing cash settlement
+  of an option / non deliverable forward. It includes
+  the currency to settle into together with the fixings
   required to calculate the currency amount.
 * `FxCashSettlement`
 
@@ -4876,7 +5289,7 @@ Domain Model, do not edit.
 
 ### `data` `FxFixing`
 
-  A type that specifies the source for and timing of a
+  A class that specifies the source for and timing of a
   fixing of an exchange rate. This is used in the
   agreement of non-deliverable forward trades as well
   as various types of FX OTC options that require
@@ -5278,11 +5691,10 @@ Domain Model, do not edit.
   | `party`                        | `ReferenceWithMeta` `Party`
   |                                | The party which the eligible collateral election
   |                                | applies to.
-  | `terminationCurrency`          | `[` `TerminationCurrency` `]`
-  |                                | The Termination Currency as specified by each of the
-  |                                | parties to the agreement as determined by the ISDA
-  |                                | 2018 CSA for Initial Margin, Paragraph 13 Eligible
-  |                                | Credit Support (IM) Schedule.
+  | `terminationCurrency`          | `[` `PartyTerminationCurrency` `]`
+  |                                | The Termination Currency election by the parties to
+  |                                | the agreement. ISDA 2018 CSA for Initial Margin,
+  |                                | Paragraph 13 Eligible Credit Support (IM) Schedule.
 
 ### `data` `Index`
 
@@ -5828,7 +6240,9 @@ Domain Model, do not edit.
 
 ### `data` `LegalEntity`
 
-  A class to specify a legal entity.
+  A class to specify a legal entity, with a required
+  name and an optional entity identifier (such as the
+  LEI).
 * `LegalEntity`
 
   | Field      | Type/Description |
@@ -6297,8 +6711,8 @@ Domain Model, do not edit.
 
 ### `data` `MinimumTransferAmount`
 
-  A class to specify the amount above which collateral
-  has to be posted/returned.
+  A class to specify amount of exposure reached before
+  collateral has to be posted or returned.
 * `MinimumTransferAmount`
 
   | Field            | Type/Description |
@@ -7159,7 +7573,7 @@ Domain Model, do not edit.
   |                                                   | Definitions, Section 15.2 (published in Supplement
   |                                                   | number 28).
   | `predeterminedClearingOrganizationPartyReference` | `Optional` `(` `ReferenceWithMeta` `Party` `)`
-  |                                                   | A reference to the clearing organisation (CCP, DCO)
+  |                                                   | A reference to the clearing organization (CCP, DCO)
   |                                                   | to which the trade should be cleared.
 
 ### `data` `OptionSettlement`
@@ -7317,6 +7731,24 @@ Domain Model, do not edit.
   | `version`    | `Optional` `(` `FieldWithMeta` `Text` `)`
   |              | The version of the agreement.
 
+### `data` `OtherEligibleSupport`
+
+  A class to specify the Other Eligible Support
+  elections associated with margin agreements. ISDA
+  2016 Credit Support Annex for Initial Margin,
+  paragraph 13, General Principles, (p): Other Eligible
+  Support (IM) and Other Posted Support (IM).
+* `OtherEligibleSupport`
+
+  | Field      | Type/Description |
+  | :--------- | :----------------
+  | `transfer` | `Bool`
+  |            | ISDA 2016 Credit Support Annex for Initial Margin,
+  |            | paragraph 13, General Principles, (p)(ii): Transfer.
+  | `valuee`   | `Bool`
+  |            | ISDA 2016 Credit Support Annex for Initial Margin,
+  |            | paragraph 13, General Principles, (p)(i): Value.
+
 ### `data` `PCDeliverableObligationCharac`
 
   A class to specify the Partial Cash Deliverable
@@ -7413,23 +7845,68 @@ Domain Model, do not edit.
   specified as such).
 * `Party`
 
-  | Field           | Type/Description |
-  | :-------------- | :----------------
-  | `account`       | `Optional` `Account`
-  |                 | The account that might be associated with the party.
-  |                 | At most one account can be specified, as it is
-  |                 | expected that this information is used in the context
-  |                 | of a contract or legal document where only one
-  |                 | account per party can be associated with such object.
-  | `id`            | `Optional` `Text`
-  | `name`          | `Optional` `(` `FieldWithMeta` `Text` `)`
-  |                 | The party name.
-  | `naturalPerson` | `[` `NaturalPerson` `]`
-  |                 | The person(s) who might be associated with the party
-  |                 | as part of the execution, contract or legal document.
-  | `partyId`       | `[` `FieldWithMeta` `Text` `]`
-  |                 | The identifier associated with a party, e.g. the 20
-  |                 | digits LEI code.
+  | Field     | Type/Description |
+  | :-------- | :----------------
+  | `account` | `Optional` `Account`
+  |           | The account that might be associated with the party.
+  |           | At most one account can be specified, as it is
+  |           | expected that this information is used in the context
+  |           | of a contract or legal document where only one
+  |           | account per party can be associated with such object.
+  | `id`      | `Optional` `Text`
+  | `name`    | `Optional` `(` `FieldWithMeta` `Text` `)`
+  |           | The party name.
+  | `partyId` | `[` `FieldWithMeta` `Text` `]`
+  |           | The identifier associated with a party, e.g. the 20
+  |           | digits LEI code.
+  | `person`  | `[` `NaturalPerson` `]`
+  |           | The person(s) who might be associated with the party
+  |           | as part of the execution, contract or legal document.
+
+### `data` `PartyAdditionalRepresentation`
+
+  A class to specify the parties&#39; Additional
+  Representation(s) election.
+* `PartyAdditionalRepresentation`
+
+  | Field          | Type/Description |
+  | :------------- | :----------------
+  | `isApplicable` | `Bool`
+  |                | The party&#39;s election to qualify whether .
+  | `party`        | `ReferenceWithMeta` `Party`
+  |                | The party which the Additional Representation()
+  |                | election applies to.
+
+### `data` `PartyContactInformation`
+
+  A class to specify contact information within a
+  party: address and, optionally, associated business
+  unit and person.
+* `PartyContactInformation`
+
+  | Field                | Type/Description |
+  | :------------------- | :----------------
+  | `address`            | `Optional` `Text`
+  |                      | The address specified as a string to support
+  |                      | non-normalized contact information, such as in the
+  |                      | case of ISDA Create.
+  | `businessUnit`       | `[` `BusinessUnit` `]`
+  |                      | Optional organization unit information used to
+  |                      | describe the organization units (e.g. trading desks)
+  |                      | involved in a transaction or business process, incl.
+  |                      | the contact information (when relevant).
+  | `contactInformation` | `Optional` `ContactInformation`
+  |                      | The postal/street address, telephone number, email
+  |                      | address and/or web page. If the contact information
+  |                      | is specific to the associated business unit(s), it
+  |                      | should be associated with those.
+  | `partyReference`     | `ReferenceWithMeta` `Party`
+  |                      | The reference to the party to which the contact
+  |                      | information refers to.
+  | `person`             | `[` `NaturalPerson` `]`
+  |                      | Optional information about people involved in a
+  |                      | transaction or business process. (These are employees
+  |                      | of the party.)
 
 ### `data` `PartyContractInformation`
 
@@ -7456,6 +7933,38 @@ Domain Model, do not edit.
   |                     | information, the reference that originated such
   |                     | information.
   | `relatedParty`      | `Optional` `RelatedParty`
+
+### `data` `PartyCustodianElection`
+
+  A class to specify the Custody Arrangements elections
+  by each party to the agreement: custody agent and
+  account(s) identification, as well as custodian risk
+  qualification.
+* `PartyCustodianElection`
+
+  | Field                       | Type/Description |
+  | :-------------------------- | :----------------
+  | `custodian`                 | `LegalEntity`
+  |                             | The custody agent. While ISDA Create only specifies
+  |                             | the custodian&#39;s name, specifying the legal entity
+  |                             | as part of the CDM is deemed more appropriate, while
+  |                             | this will still provide the ability to accommodate
+  |                             | situations where only the entity name is available,
+  |                             | as the entityId attribute is optional as part of the
+  |                             | LegalEntity class.
+  | `custodianRisk`             | `CustodianRisk`
+  |                             | The qualification of the Custodian Risk. ISDA 2016
+  |                             | Credit Support Annex for Initial Margin, paragraph
+  |                             | 13, General Principles, (n)(ii): Custodian (IM) Risk.
+  | `party`                     | `ReferenceWithMeta` `Party`
+  |                             | The pledgor party to which the custody agent election
+  |                             | applies.
+  | `segregatedCashAccount`     | `Account`
+  |                             | The identification of the segregated cash account for
+  |                             | the purpose of holding cash collateral.
+  | `segregatedSecurityAccount` | `Account`
+  |                             | The identification of the segregated security account
+  |                             | for the purpose of holding security collateral.
 
 ### `data` `PartyCustomisedWorkflow`
 
@@ -7554,6 +8063,29 @@ Domain Model, do not edit.
   |                           | A reference to the party to which the role refers to.
   | `role`                    | `PartyRoleEnum`
   |                           | The party role.
+
+### `data` `PartyTerminationCurrency`
+
+  A class to specify the Amendment to Termination
+  Currency election by the parties to the agreement.
+  ISDA 2016 Credit Support Annex for Initial Margin,
+  paragraph 13, General Principles, (t) (A) &amp; (B).
+* `PartyTerminationCurrency`
+
+  | Field      | Type/Description |
+  | :--------- | :----------------
+  | `currency` | `FieldWithMeta` `Text`
+  |            | The Termination Currency associated with the party
+  |            | that referenced as part of this class. The list of
+  |            | valid currencies is not presently positioned as an
+  |            | enumeration as part of the CDM because that scope is
+  |            | limited to the values specified by ISDA and FpML. As
+  |            | a result, implementers have to make reference to the
+  |            | relevant standard, such as the ISO 4217 standard for
+  |            | currency codes.
+  | `party`    | `ReferenceWithMeta` `Party`
+  |            | The party which the Termination Currency
+  |            | determination applies to.
 
 ### `data` `PassThrough`
 
@@ -7974,6 +8506,23 @@ Domain Model, do not edit.
   |                                 | date on which Seller validly specified such
   |                                 | Deliverable Obligations to Buyer.
 
+### `data` `PledgorAdditionalRightsEvent`
+
+  A class to specify the Pledgor Additional Rights
+  Event election. ISDA 2016 Credit Support Annex for
+  Initial Margin, paragraph 13, General Principles,
+  (k): Pledgor Additional Rights Event.
+* `PledgorAdditionalRightsEvent`
+
+  | Field           | Type/Description |
+  | :-------------- | :----------------
+  | `isApplicable`  | `Bool`
+  |                 | The election of whether the Pledgor Additional Rights
+  |                 | Event election is applicable.
+  | `qualification` | `Optional` `Text`
+  |                 | The qualification of the Pledgor Additional Rights
+  |                 | Event election, when applicable.
+
 ### `data` `PledgorPostingObligations`
 
   A class to specify the pledgor(s) collateral posting
@@ -7999,6 +8548,19 @@ Domain Model, do not edit.
   |                      | The pledgor party(ies) to which the posting
   |                      | obligations apply to, which can be either one of the
   |                      | parties to the legal agreement, or both of those.
+
+### `data` `PledgorRightsEvent`
+
+  A class to specify the Pledgor Rights Event election.
+  ISDA 2016 Credit Support Annex for Initial Margin,
+  paragraph 13, General Principles, (j): Pledgor Rights
+  Event.
+* `PledgorRightsEvent`
+
+  | Field                       | Type/Description |
+  | :-------------------------- | :----------------
+  | `customElection`            | `Optional` `Text`
+  | `includeCoolingOffLanguage` | `Optional` `Bool`
 
 ### `data` `PostInceptionState`
 
@@ -8170,20 +8732,14 @@ Domain Model, do not edit.
   swaption use case, with the exercise into a swap.
 * `Product`
 
-  | Field                    | Type/Description |
-  | :----------------------- | :----------------
-  | `bond`                   | `Optional` `Bond`
-  | `contract`               | `Optional` `Contract`
-  | `contractualProduct`     | `Optional` `ContractualProduct`
-  | `convertibleBond`        | `Optional` `ConvertibleBond`
-  | `equity`                 | `Optional` `Equity`
-  | `exchangeTradedFund`     | `Optional` `ExchangeTradedFund`
-  | `foreignExchange`        | `Optional` `ForeignExchange`
-  | `index`                  | `Optional` `Index`
-  | `loan`                   | `Optional` `Loan`
-  | `mortgageBackedSecurity` | `Optional` `MortgageBackedSecurity`
-  | `mutualFund`             | `Optional` `MutualFund`
-  | `warrant`                | `Optional` `Warrant`
+  | Field                | Type/Description |
+  | :------------------- | :----------------
+  | `contract`           | `Optional` `Contract`
+  | `contractualProduct` | `Optional` `ContractualProduct`
+  | `foreignExchange`    | `Optional` `ForeignExchange`
+  | `index`              | `Optional` `Index`
+  | `loan`               | `Optional` `Loan`
+  | `security`           | `Optional` `Security`
 
 ### `data` `ProductIdentification`
 
@@ -8730,7 +9286,7 @@ Domain Model, do not edit.
   | `party`             | `ReferenceWithMeta` `Party`
   |                     | The party which the set of regulatory regime
   |                     | elections specified in the applicableRegime attribute
-  |                     | applies to.
+  |                     | apply to.
 
 ### `data` `RegimeElection`
 
@@ -9227,11 +9783,34 @@ Domain Model, do not edit.
 
 * `Security`
 
-  | Field             | Type/Description |
-  | :---------------- | :----------------
-  | `bond`            | `Optional` `Bond`
-  | `convertibleBond` | `Optional` `ConvertibleBond`
-  | `equity`          | `Optional` `Equity`
+  | Field                    | Type/Description |
+  | :----------------------- | :----------------
+  | `bond`                   | `Optional` `Bond`
+  | `convertibleBond`        | `Optional` `ConvertibleBond`
+  | `equity`                 | `Optional` `Equity`
+  | `exchangeTradedFund`     | `Optional` `ExchangeTradedFund`
+  | `mortgageBackedSecurity` | `Optional` `MortgageBackedSecurity`
+  | `mutualFund`             | `Optional` `MutualFund`
+  | `warrant`                | `Optional` `Warrant`
+
+### `data` `SecurityComponent`
+
+  Represents attributes specific to a forward settling
+  security.
+* `SecurityComponent`
+
+  | Field           | Type/Description |
+  | :-------------- | :----------------
+  | `buyerSeller`   | `Optional` `BuyerSeller`
+  |                 | The buyer and seller on the forward contract when
+  |                 | parties are not specified on the product i.e. Bonds
+  | `nominalAmount` | `Optional` `Money`
+  |                 | The quantity of the underlier expressed as a nominal
+  |                 | amount.
+  | `quantity`      | `Optional` `Quantity`
+  |                 | The quantity of the underlier expressed as a number.
+  | `underlier`     | `Security`
+  |                 | The security underlying the forward contract.
 
 ### `data` `SecurityTransferBreakdown`
 
@@ -9865,6 +10444,26 @@ Domain Model, do not edit.
   |                | rate, expressed as a decimal. A stub rate of 5% would
   |                | be represented as 0.05.
 
+### `data` `Substitution`
+
+  A class to specify the conditions under which the
+  Pledgor can substitute posted collateral. ISDA 2016
+  Credit Support Annex for Initial Margin, paragraph
+  13, General Principles, (f): Substitution.
+* `Substitution`
+
+  | Field                     | Type/Description |
+  | :------------------------ | :----------------
+  | `needsConsent`            | `Bool`
+  |                           | The election as to whether the Pledgor must obtain
+  |                           | the Secured Party’s consent for any collateral
+  |                           | substitution. ISDA 2016 Credit Support Annex for
+  |                           | Initial Margin, paragraph 13, General Principles,
+  |                           | (f)(ii): Consent.
+  | `specificConsentLanguage` | `Optional` `Text`
+  |                           | Specific consent language might be specified by the
+  |                           | parties.
+
 ### `data` `SwapCurveValuation`
 
   A class to specify a valuation swap curve, which is
@@ -9883,28 +10482,67 @@ Domain Model, do not edit.
   | `spread`            | `Decimal`
   |                     | Spread in basis points over the floating rate index.
 
-### `data` `TerminationCurrency`
+### `data` `TelephoneNumber`
 
-  A class to specify the Termination Currency
-  applicable to each of the parties to the CSA, as
-  specified by the ISDA 2018 CSA for Initial Margin,
-  Paragraph 13 Eligible Credit Support (IM) Schedule.
-* `TerminationCurrency`
+  A class to specify a telephone number as a type of
+  phone number (e.g. work, personal, ...) alongside
+  with the actual number.
+* `TelephoneNumber`
 
-  | Field      | Type/Description |
-  | :--------- | :----------------
-  | `currency` | `FieldWithMeta` `Text`
-  |            | The Termination Currency associated with the party
-  |            | that referenced as part of this class. The list of
-  |            | valid currencies is not presently positioned as an
-  |            | enumeration as part of the CDM because that scope is
-  |            | limited to the values specified by ISDA and FpML. As
-  |            | a result, implementers have to make reference to the
-  |            | relevant standard, such as the ISO 4217 standard for
-  |            | currency codes.
-  | `party`    | `ReferenceWithMeta` `Party`
-  |            | The party which the Termination Currency
-  |            | determination applies to.
+  | Field    | Type/Description |
+  | :------- | :----------------
+  | `number` | `Text`
+  |          | The actual telephone number.
+  | `_type`  | `Optional` `TelephoneTypeEnum`
+  |          | The type of telephone number, e.g. work, mobile.
+
+### `data` `TerminationCurrencyAmendment`
+
+  A class to specify the Amendment to Termination
+  Currency elections by the parties to the agreement.
+  ISDA 2016 Credit Support Annex for Initial Margin,
+  paragraph 13, General Principles, (t): Amendment to
+  Termination Currency.
+* `TerminationCurrencyAmendment`
+
+  | Field                 | Type/Description |
+  | :-------------------- | :----------------
+  | `bothPartiesCurrency` | `Optional` `(` `FieldWithMeta` `Text` `)`
+  |                       | The currency election in the case of a Termination
+  |                       | Event where there are two Affected Parties.
+  | `currencyElection`    | `Optional` `PartyTerminationCurrency`
+  |                       | The parties&#39; election with respect to the
+  |                       | Termination Currency.
+  | `effectiveDate`       | `Optional` `AmendmentEffectiveDate`
+  |                       | The effective date of the Amendment to Termination
+  |                       | Currency. This date can be specified as either an
+  |                       | actual date, a specific date (e.g. the annex date) or
+  |                       | as a custom provision.
+  | `isApplicable`        | `Bool`
+  |                       | The qualification of whether the Amendment to
+  |                       | Termination Currency is deemed applicable by the
+  |                       | parties.
+
+### `data` `TerminationEvents`
+
+  A class to specify the Termination Events that will
+  be deemed an Access Condition. ISDA 2016 Credit
+  Support Annex for Initial Margin, paragraph 13,
+  General Principles, (e)(ii).
+* `TerminationEvents`
+
+  | Field                        | Type/Description |
+  | :--------------------------- | :----------------
+  | `additionalLanguage`         | `Optional` `Text`
+  | `additionalTerminationEvent` | `Bool`
+  | `creditEventUponMerger`      | `Bool`
+  | `forceMajeure`               | `Bool`
+  | `illegality`                 | `Bool`
+  | `party`                      | `ReferenceWithMeta` `Party`
+  |                              | The party which the set of Access Condition elections
+  |                              | apply to.
+  | `taxEvent`                   | `Bool`
+  | `taxEventUponMerger`         | `Bool`
 
 ### `data` `TermsChangePrimitive`
 
@@ -10365,7 +11003,7 @@ Domain Model, do not edit.
 
 This file is auto-generated from the ISDA Common
 Domain Model, do not edit.
-@version 0.0.0.master
+@version 2.0.31
 
 ## Data Types
 
@@ -10419,6 +11057,16 @@ Domain Model, do not edit.
   No Additional Type of transaction is applicable to
   the regulatory regulatory regime.
 * `AdditionalTypeEnum_Other`
+
+### `data` `AmendmentEffectiveDateEnum`
+
+  The enumerated values to specify the effective date
+  of the Amendment to Termination Currency when
+  specified as a specific date (e.g. the annex date).
+  ISDA 2016 Credit Support Annex for Initial Margin,
+  paragraph 13, General Principles, (t).
+* `AmendmentEffectiveDateEnum_AnnexDate` `(`  `)`
+  The effective date corresponds to the Annex date.
 
 ### `data` `AssetClassEnum`
 
@@ -12531,39 +13179,40 @@ Domain Model, do not edit.
 
   The enumeration values to qualify the time stamps
   that can be associated with a lifecycle event.
-* `EventTimeStampQualificationEnum_clearingConfirmationTime`
+* `EventTimeStampQualificationEnum_clearingConfirmationDateTime`
   The date and time on which trade was confirmed as
   cleared.
-* `EventTimeStampQualificationEnum_clearingSubmissionTime`
+* `EventTimeStampQualificationEnum_clearingDateTime`
+  The date and time on the trade was cleared.
+* `EventTimeStampQualificationEnum_clearingSubmissionDateTime`
   The date and time on which the event was submitted
   for clearing.
-* `EventTimeStampQualificationEnum_clearingTime`
-  The date and time on the trade was cleared.
-* `EventTimeStampQualificationEnum_eventCreationTime`
+* `EventTimeStampQualificationEnum_eventCreationDateTime`
   The date and time on which the event was created.
-* `EventTimeStampQualificationEnum_eventExpirationTime`
+* `EventTimeStampQualificationEnum_eventExpirationDateTime`
   The date and time on which the event will be
   considered expired.
-* `EventTimeStampQualificationEnum_eventProcessingTime`
+* `EventTimeStampQualificationEnum_eventProcessingDateTime`
   The date and time on which the event was processed.
-* `EventTimeStampQualificationEnum_eventSentTime`
+* `EventTimeStampQualificationEnum_eventSentDateTime`
   The date and time on which the event was sent.
-* `EventTimeStampQualificationEnum_eventSubmittedTime`
+* `EventTimeStampQualificationEnum_eventSubmittedDateTime`
   The date and time on which the event was submitted.
-* `EventTimeStampQualificationEnum_executionTime`
-  The time on which the trade execution was performed.
-* `EventTimeStampQualificationEnum_transactionCreationTime`
-  The time on which the transaction has been created.
-  This timestamp is specified as such by the CME
-  ClearPort Matched IRS Trade submission API
-  specification: &#39;The transaction time of the
-  trade. Represents the time that the trade was
-  initially generated either by CME Clearing or firm.
-  The transaction time may be assigned by CME Clearing
-  at the point the trade is reported as cleared.
-  Transaction time can also be provided by an external
-  submitter of the trade at the point the trade is
-  submitted.&#39;
+* `EventTimeStampQualificationEnum_executionDateTime`
+  The date and time on which the trade execution was
+  performed.
+* `EventTimeStampQualificationEnum_transactionCreationDateTime`
+  The date and time on which the transaction has been
+  created. This timestamp is specified as such by the
+  CME ClearPort Matched IRS Trade submission API
+  specification: &#39;The transaction date time of the
+  trade. Represents the date &amp; time on which the
+  trade was initially generated either by CME Clearing
+  or firm. The transaction date time may be assigned by
+  CME Clearing at the point the trade is reported as
+  cleared. Transaction date time can also be provided
+  by an external submitter of the trade at the point
+  the trade is submitted.&#39;
 
 ### `data` `ExecutionTypeEnum`
 
@@ -18254,6 +18903,29 @@ Domain Model, do not edit.
   code
 * `TaxonomySourceEnum_ISDA`
   The ISDA product taxonomy
+
+### `data` `TelephoneTypeEnum`
+
+  The enumerated values to specify the type of
+  telephone number, e.g. work vs. mobile.
+* `TelephoneTypeEnum_Fax`
+  A number used primarily for work-related facsimile
+  transmissions.
+* `TelephoneTypeEnum_Mobile`
+  A number on a mobile telephone that is often or
+  usually used for work-related calls. This type of
+  number can be used for urgent work related business
+  when a work number is not sufficient to contact the
+  person or firm.
+* `TelephoneTypeEnum_Personal`
+  A number used primarily for non work-related calls.
+  (Normally this type of number would be used only as
+  an emergency backup number, not as a regular course
+  of business).
+* `TelephoneTypeEnum_Work`
+  A number used primarily for work-related calls.
+  Includes home office numbers used primarily for work
+  purposes.
 
 ### `data` `TimeTypeEnum`
 

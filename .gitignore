@@ -3,3 +3,4 @@
 /haskell/src/
 /haskell/test/**/*.hs
 !/haskell/test/Main.hs
+target/
