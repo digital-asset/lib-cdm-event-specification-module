@@ -2,7 +2,7 @@ daml 1.2
 
 -- | This file is auto-generated from the ISDA Common
 --   Domain Model, do not edit.
---   @version 0.0.0.master
+--   @version 2.0.31
 module ISDA.CDM.Types.Enums
   ( module ISDA.CDM.Types.Enums ) where
 
@@ -57,6 +57,16 @@ data AdditionalTypeEnum
   | AdditionalTypeEnum_Other
     deriving (Eq, Ord, Show)
 
+-- | The enumerated values to specify the effective date
+--   of the Amendment to Termination Currency when
+--   specified as a specific date (e.g. the annex date).
+--   ISDA 2016 Credit Support Annex for Initial Margin,
+--   paragraph 13, General Principles, (t).
+data AmendmentEffectiveDateEnum
+  = AmendmentEffectiveDateEnum_AnnexDate()
+  -- ^ The effective date corresponds to the Annex date.
+    deriving (Eq, Ord, Show)
+
 -- | The enumerated values to specify the FpML asset class
 --   categorisation
 data AssetClassEnum
@@ -74,7 +84,7 @@ data AssetClassEnum
 
 -- | The qualification of the type of asset transfer.
 data AssetTransferTypeEnum
-  = AssetTransferTypeEnum_tbd ()
+  = AssetTransferTypeEnum_tbd()
     deriving (Eq, Ord, Show)
 
 -- | The enumerated values to specify the type of
@@ -2167,39 +2177,40 @@ data EntityTypeEnum
 -- | The enumeration values to qualify the time stamps
 --   that can be associated with a lifecycle event.
 data EventTimeStampQualificationEnum
-  = EventTimeStampQualificationEnum_clearingConfirmationTime
+  = EventTimeStampQualificationEnum_clearingConfirmationDateTime
   -- ^ The date and time on which trade was confirmed as
   --   cleared.
-  | EventTimeStampQualificationEnum_clearingSubmissionTime
+  | EventTimeStampQualificationEnum_clearingDateTime
+  -- ^ The date and time on the trade was cleared.
+  | EventTimeStampQualificationEnum_clearingSubmissionDateTime
   -- ^ The date and time on which the event was submitted
   --   for clearing.
-  | EventTimeStampQualificationEnum_clearingTime
-  -- ^ The date and time on the trade was cleared.
-  | EventTimeStampQualificationEnum_eventCreationTime
+  | EventTimeStampQualificationEnum_eventCreationDateTime
   -- ^ The date and time on which the event was created.
-  | EventTimeStampQualificationEnum_eventExpirationTime
+  | EventTimeStampQualificationEnum_eventExpirationDateTime
   -- ^ The date and time on which the event will be
   --   considered expired.
-  | EventTimeStampQualificationEnum_eventProcessingTime
+  | EventTimeStampQualificationEnum_eventProcessingDateTime
   -- ^ The date and time on which the event was processed.
-  | EventTimeStampQualificationEnum_eventSentTime
+  | EventTimeStampQualificationEnum_eventSentDateTime
   -- ^ The date and time on which the event was sent.
-  | EventTimeStampQualificationEnum_eventSubmittedTime
+  | EventTimeStampQualificationEnum_eventSubmittedDateTime
   -- ^ The date and time on which the event was submitted.
-  | EventTimeStampQualificationEnum_executionTime
-  -- ^ The time on which the trade execution was performed.
-  | EventTimeStampQualificationEnum_transactionCreationTime
-  -- ^ The time on which the transaction has been created.
-  --   This timestamp is specified as such by the CME
-  --   ClearPort Matched IRS Trade submission API
-  --   specification: &#39;The transaction time of the
-  --   trade. Represents the time that the trade was
-  --   initially generated either by CME Clearing or firm.
-  --   The transaction time may be assigned by CME Clearing
-  --   at the point the trade is reported as cleared.
-  --   Transaction time can also be provided by an external
-  --   submitter of the trade at the point the trade is
-  --   submitted.&#39;
+  | EventTimeStampQualificationEnum_executionDateTime
+  -- ^ The date and time on which the trade execution was
+  --   performed.
+  | EventTimeStampQualificationEnum_transactionCreationDateTime
+  -- ^ The date and time on which the transaction has been
+  --   created. This timestamp is specified as such by the
+  --   CME ClearPort Matched IRS Trade submission API
+  --   specification: &#39;The transaction date time of the
+  --   trade. Represents the date &amp; time on which the
+  --   trade was initially generated either by CME Clearing
+  --   or firm. The transaction date time may be assigned by
+  --   CME Clearing at the point the trade is reported as
+  --   cleared. Transaction date time can also be provided
+  --   by an external submitter of the trade at the point
+  --   the trade is submitted.&#39;
     deriving (Eq, Ord, Show)
 
 -- | The enumerated values to specify how a contract has
@@ -5451,7 +5462,7 @@ data NegativeInterestRateTreatmentEnum
 -- | The enumerated value to specify the fact that no
 --   threshold applies.
 data NoThresholdEnum
-  = NoThresholdEnum_zero ()
+  = NoThresholdEnum_zero()
     deriving (Eq, Ord, Show)
 
 -- | The enumerated values to specify the conditions that
@@ -7892,6 +7903,29 @@ data TaxonomySourceEnum
   -- ^ The ISDA product taxonomy
     deriving (Eq, Ord, Show)
 
+-- | The enumerated values to specify the type of
+--   telephone number, e.g. work vs. mobile.
+data TelephoneTypeEnum
+  = TelephoneTypeEnum_Fax
+  -- ^ A number used primarily for work-related facsimile
+  --   transmissions.
+  | TelephoneTypeEnum_Mobile
+  -- ^ A number on a mobile telephone that is often or
+  --   usually used for work-related calls. This type of
+  --   number can be used for urgent work related business
+  --   when a work number is not sufficient to contact the
+  --   person or firm.
+  | TelephoneTypeEnum_Personal
+  -- ^ A number used primarily for non work-related calls.
+  --   (Normally this type of number would be used only as
+  --   an emergency backup number, not as a regular course
+  --   of business).
+  | TelephoneTypeEnum_Work
+  -- ^ A number used primarily for work-related calls.
+  --   Includes home office numbers used primarily for work
+  --   purposes.
+    deriving (Eq, Ord, Show)
+
 -- | The enumerated values to specify points in the day
 --   when option exercise and valuation can occur.
 data TimeTypeEnum
@@ -8036,7 +8070,7 @@ data ValuationMethodEnum
     deriving (Eq, Ord, Show)
 
 data WarehouseIdentityEnum
-  = WarehouseIdentityEnum_DTCC_TIW_Gold ()
+  = WarehouseIdentityEnum_DTCC_TIW_Gold()
   -- ^ The DTCC Trade Information Warehouse Gold service
     deriving (Eq, Ord, Show)
 
