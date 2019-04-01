@@ -5,7 +5,7 @@ version: 2.1
 jobs:
   daml:
     docker:
-      - image: digitalasset/daml-sdk:0.11.23-circleci-master
+      - image: digitalasset/daml-sdk:0.11.24-circleci-master
     steps:
       - checkout
       - setup_remote_docker
