@@ -1,5 +1,5 @@
-# How to use
+# How to use the Haskell module
 
-In order to use this library, copy the source code into the application.
+To use this library, copy the source code into your application.
 
-An example how to extend `Update` to be an instance of `Fetch` can be found [here](src/Example.daml).
+For an example of how to extend `Update` to be an instance of `Fetch`, see [src/Example.daml](src/Example.daml).
