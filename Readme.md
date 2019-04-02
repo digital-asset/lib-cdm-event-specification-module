@@ -1,11 +1,9 @@
-ISDA CDM Event Specification Module
-====================================
+# ISDA CDM Event Specification Module
 
     Copyright (c) 2019, Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved.
     SPDX-License-Identifier: Apache-2.0
 
-Introduction
-------------
+## Introduction
 
 This introduction assumes you're already familiar with the ISDA Common Domain Model (CDM). For a general introduction to the CDM, see [the documentation at CDM](https://portal.cdm.rosetta-technology.io).
 
@@ -17,9 +15,7 @@ The CDM Event Specification Module is currently available in [DAML](daml) and [H
 
 For reference, the set of of [CDM types](docs/autogen/CdmTypes.md) are documented as well.
 
-
-Summary
--------
+## Summary
 
 The Event Specification Module consists of a set of pure (deterministic, side-effect-free with no IO) functions that you can use to build valid CDM events.
 
@@ -59,8 +55,7 @@ Another obvious example is events that are directly derived from a CDM contract.
 A list of supported specs and build functions is available [here](docs/autogen/EventBuilder.md).
 
 
-Reference Data
---------------
+## Reference Data
 
 The execution of the `buildDerivedEvents` function is done in a fetch-able context where [reference data](docs/autogen/RefData.md) can be fetched as part of the execution. You can tell this is the case because the result of `buildDerivedEvents` is of type `f [Event]`, where `f` is an instance of `Fetch`. 
 
@@ -74,16 +69,19 @@ class (Action f) => Fetch f where
   fetchObservation : ObservationKey -> f (Optional ObservationPrimitive)
 ```
 
-The advantage of such an approach is that reference data do not have to be provided upfront to the calculation but can be fetched as needed. The actual implementation of `f` can then depend on the underlying technology - it can, e.g., represent a connection to a SQL database or a type updating the state of a distribution ledger.
+The advantage of such an approach is that reference data do not have to be provided upfront to the calculation but can be fetched as needed. The actual implementation of `f` can then depend on the underlying technology - it could represent a connection to a SQL database, or a type updating the state of a distribution ledger.
 
 
-Auxiliary Functions
--------------------
+## Auxiliary Functions
 
 The module exposes some [auxiliary functions](docs/autogen/Auxiliary.md) that can be used when working with CDM events. This, e.g., includes a function to net transfers or a function to extract all `after` contracts from an event.
 
 
-Scope
------
+## Reference Documentation
 
-For a list of supported specs and build functions, see [EventBuilders](docs/autogen/EventBuilder.md). Derived events can currently be calculated for basic fixed vs. float interest rate swaps, basis swaps, and credit default swaps. The implementation checks for non-supported features in a CDM contract and will fail if any are set.
+For a list of supported specs and build functions, see [EventBuilders](docs/autogen/EventBuilder.md). Derived events can currently be calculated for:
+* basic fixed vs. float interest rate swaps
+* basis swaps
+* credit default swaps
+
+The implementation checks for non-supported features in a CDM contract and will fail if any are set.
