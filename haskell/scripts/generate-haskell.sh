@@ -1,6 +1,8 @@
 #!/bin/bash
 set -euo pipefail
 
+cd "$(dirname "$0")"
+
 stack build --stack-yaml ../libs/with-preprocessor/stack.yaml
 stack build --stack-yaml ../libs/with-preprocessor/stack.yaml record-dot-preprocessor
 
