@@ -2,5 +2,4 @@ resolver: lts-13.13
 packages:
   - .
 extra-deps:
-  - git: git@github.com:ndmitchell/record-dot-preprocessor.git
-    commit: 48abac81effaf7db85ee9aa355759cd19dd22e15
+  - record-dot-preprocessor-0.2

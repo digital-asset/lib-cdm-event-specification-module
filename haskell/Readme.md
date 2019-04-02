@@ -1,8 +1,8 @@
 # How to use
 
-Run the following command from the `scripts` folder to generate all Haskell files:
+Run the following command to generate all Haskell files:
 
-    ./generate-haskell.sh
+    ./scripts/generate-haskell.sh
 
 
 In order to execute all tests, run:
