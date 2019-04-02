@@ -1,10 +1,10 @@
-# How to use
+# How to use the Haskell module
 
-Run the following command from the `scripts` folder to generate all Haskell files:
+To generate all Haskell files, from a terminal:
 
-    ./generate-haskell.sh
+1. `cd` to the `/scripts` folder.
+2. Run `./generate-haskell.sh`
 
-
-In order to execute all tests, run:
+To run all tests, run the command:
 
     stack test cdm:tests
