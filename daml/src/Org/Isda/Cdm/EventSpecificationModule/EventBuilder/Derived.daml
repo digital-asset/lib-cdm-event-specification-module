@@ -7,11 +7,10 @@ import Org.Isda.Cdm.EventSpecificationModule.Impl.Identifier
 import Org.Isda.Cdm.EventSpecificationModule.Impl.Utils
 import Org.Isda.Cdm.EventSpecificationModule.Types.All
 
--- | Build derived events (e.g. interest rate payments, resets, etc.). Returns all events that
--- have not been applied yet. If the event is not fully known yet (e.g. an observation for a reset is not
--- available yet or a reset for a floating rate coupon), then an empty primitive is returned.
-buildDerivedEvents : (Fetch f) => DerivedSpec -> f [Event]
-buildDerivedEvents spec =
+-- | HIDE
+-- Build derived events with a generic fetch-able context
+buildDerivedEventsWithFetch : (Fetch f) => DerivedSpec -> f [Event]
+buildDerivedEventsWithFetch spec =
   map finalize <$> Contract.buildEvents spec.fromDate spec.toDate spec.pastEvents spec.contract
 
   where
@@ -27,3 +26,9 @@ buildDerivedEvents spec =
           , party = spec.contract.party
           , lineage = lineage
           }
+
+-- | Build derived events (e.g. interest rate payments, resets, etc.). Returns all events that
+-- have not been applied yet. If the event is not fully known yet (e.g. an observation for a reset is not
+-- available yet or a reset for a floating rate coupon), then an empty primitive is returned.
+buildDerivedEvents : RefData -> DerivedSpec -> [Event]
+buildDerivedEvents refData spec = fst $ run (buildDerivedEventsWithFetch spec) refData

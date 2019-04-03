@@ -7,7 +7,7 @@ import Org.Isda.Cdm.EventSpecificationModule.Types.All hiding (length)
 
 instance Fetch Scenario where
   fetchHolidayCalendar key = return $ fmap snd $ find ((== key) . fst) cals
-  fetchObservation key = return $ fmap snd $ find ((== key) . fst) observations
+  fetchObservation key = return $ fmap snd $ find ((== key) . fst) obs
 
 cals : [(HolidayCalendarKey, HolidayCalendarData)]
 cals =
@@ -19,8 +19,8 @@ cals =
       }
     ]
 
-observations : [(ObservationKey, ObservationPrimitive)]
-observations =
+obs : [(ObservationKey, ObservationPrimitive)]
+obs =
     map (\d -> (getKey d, d))
       [  ObservationPrimitive {
           source =
