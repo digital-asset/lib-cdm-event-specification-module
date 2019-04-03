@@ -22,7 +22,18 @@ jobs:
             find . -type f -regex ".*/target/.*DarTests.xml" -exec cp {} ~/test-results/daml/ \;
       - store_test_results:
           path: ~/test-results
-
+      - run:
+          name: Install stack
+          command: |
+            curl -sSL https://get.haskellstack.org/ | sh
+      - run:
+          name: Generating Haskell
+          command: |
+            ./haskell/scripts/generate-haskell.sh
+      - run:
+          name: Run Haskell tests
+          command: |
+            cd haskell && stack test
 workflows:
   Build and test:
     jobs:
