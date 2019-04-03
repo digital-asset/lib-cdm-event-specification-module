@@ -30,7 +30,6 @@ module Prelude
 import "base" Prelude as Base.Prelude
   hiding
   ( Maybe
-  , Monad
   , error
   , id
   , length

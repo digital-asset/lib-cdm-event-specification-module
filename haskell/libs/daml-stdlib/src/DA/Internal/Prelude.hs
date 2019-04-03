@@ -1,16 +1,11 @@
 {-# LANGUAGE PatternSynonyms #-}
 module DA.Internal.Prelude
-    ( Action(..)
-    , (>>=)
-    , (=<<)
-    , Optional(..)
+    ( Optional(..)
     , pattern None
     , pattern Some
     ) where
 
 import "base" Prelude
-
-type Action = Monad
 
 type Optional = Maybe
 
