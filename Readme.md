@@ -37,7 +37,7 @@ The entry point to derive a valid CDM event is a **specification type** together
 
 Another obvious example are events that are directly derived from a CDM contract. A basis swap, for example, defines a set of reset and cash transfer events happening throughout its lifetime. Those events can be built by:
 
-* `buildDerivedEvents` : `Fetch` `f` `=>` `DerivedSpec` `->` `f` `[` `Event` `]`
+* `buildDerivedEvents` : `RefData` `->` `DerivedSpec` `->` `[` `Event` `]`
 
 * `DerivedSpec`
 
@@ -52,23 +52,10 @@ Another obvious example are events that are directly derived from a CDM contract
   |              | payments were already made or get the reset value for a certain period.
   | `contract`   | `Contract`
 
+Note that the function also takes some [reference data](docs/autogen/RefData.md) as input that are required as part of the function execution.
+
+
 A list of supported specs and build functions is available [here](docs/autogen/EventBuilder.md).
-
-
-Reference Data
---------------
-
-Note that the result of the `buildDerivedEvents` function is of type `f [Event]` where `f` is an instance of `Fetch`. This means that the execution of the function is done in a fetch-able context where [reference data](docs/autogen/RefData.md) can be fetched as part of the execution. This is an important feature because many events depend on reference data. Generating interest rate payments for an interest rate swap, for example, involves rolling out calculation schedules by applying date adjustments with respect to a given set of holiday calendars. Moreover, if the holidays change, the dates need to be re-calculated.
-
-From a more technical point of view, `f` needs to be an instance of `Fetch` defined by the following typeclass:
-
-```
-class (Action f) => Fetch f where
-  fetchHolidayCalendar : HolidayCalendarKey -> f (Optional HolidayCalendarData)
-  fetchObservation : ObservationKey -> f (Optional ObservationPrimitive)
-```
-
-The advantage of such an approach is that reference data do not have to be provided upfront to the calculation but can be fetched as needed. The actual implementation of `f` can then depend on the underlying technology - it can, e.g., represent a connection to a SQL database or a type updating the state of a distribution ledger.
 
 
 Auxiliary Functions

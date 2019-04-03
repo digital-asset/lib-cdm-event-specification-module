@@ -57,6 +57,7 @@ library
       RecordWildCards
       ScopedTypeVariables
       ViewPatterns
+
       RebindableSyntax
       ImplicitPrelude
   ghc-options: -O0
