@@ -23,17 +23,10 @@ jobs:
       - store_test_results:
           path: ~/test-results
   haskell:
-    machine:
-      enabled: true
+    docker:
+      - image: fpco/stack-build:lts
     steps:
       - checkout
-      - run:
-          name: Install libtinfo
-          command: sudo apt-get update && sudo apt-get install -y libtinfo-dev
-      - run:
-          name: Install stack
-          command: |
-            curl -sSL https://get.haskellstack.org/ | sh
       - run:
           name: Generate Haskell
           command: |
