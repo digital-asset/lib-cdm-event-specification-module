@@ -12,7 +12,7 @@ stack build --stack-yaml haskell/libs/with-preprocessor/stack.yaml record-dot-pr
 while IFS= read -r -d '' daml_file
 do
     hs_file="${daml_file%.daml}.hs"
-    if [[ "$daml_file" == daml/src/Test/* ]]; then
+    if [[ "$daml_file" == daml/src//Test/* ]]; then
         hs_file="haskell/test/${hs_file#daml/src/}"
         mkdir -p "$(dirname $hs_file)"
         ./haskell/scripts/preprocess.sh "$daml_file" "$hs_file"
