@@ -21,4 +21,4 @@ do
         mkdir -p "$(dirname $hs_file)"
         ./haskell/scripts/preprocess.sh "$daml_file" "$hs_file"
     fi
-done <  <(find daml/src/ -name '*.daml' -print0)
+done <  <(find daml/src -name '*.daml' -print0)
