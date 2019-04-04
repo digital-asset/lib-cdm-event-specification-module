@@ -1,5 +1,6 @@
 ISDA CDM Event Specification Module
 ====================================
+[<img src="https://circleci.com/gh/DACH-NY/lib-cdm-event-specification-module.svg?style=svg">](https://circleci.com/gh/DACH-NY/lib-cdm-event-specification-module)
 
     Copyright (c) 2019, Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved.
     SPDX-License-Identifier: Apache-2.0
