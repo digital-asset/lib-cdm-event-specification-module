@@ -10,9 +10,6 @@ jobs:
       - checkout
       - setup_remote_docker
       - run:
-          name: Install libtinfo
-          command: sudo apt-get update && sudo apt-get install -y libtinfo-dev
-      - run:
           name: Test Dar
           command: make test-dar
       - run:
@@ -25,19 +22,26 @@ jobs:
             find . -type f -regex ".*/target/.*DarTests.xml" -exec cp {} ~/test-results/daml/ \;
       - store_test_results:
           path: ~/test-results
+  haskell:
+    steps:
+      - run:
+          name: Install libtinfo
+          command: sudo apt-get update && sudo apt-get install -y libtinfo-dev
       - run:
           name: Install stack
           command: |
             curl -sSL https://get.haskellstack.org/ | sh
       - run:
-          name: Generating Haskell
+          name: Generate Haskell
           command: |
             ./haskell/scripts/generate-haskell.sh
       - run:
-          name: Run Haskell tests
+          name: Run tests
           command: |
             cd haskell && stack test
+
 workflows:
   Build and test:
     jobs:
       - daml
+      - haskell
