@@ -25,6 +25,7 @@ jobs:
   haskell:
     steps:
       - checkout
+      - setup_remote_docker
       - run:
           name: Install libtinfo
           command: sudo apt-get update && sudo apt-get install -y libtinfo-dev
