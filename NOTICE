@@ -1,0 +1,59 @@
+Copyright (c) 2019, Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved.
+
+ISDA CDM                ISDA CDM 1.0 License
+Decimal                 BSD3
+HUnit                   BSD3
+QuickCheck              BSD3
+ansi-terminal           BSD3
+array                   BSD-3
+base                    BSD-3
+binary                  BSD-3
+bytestring              BSD-3
+call-stack              MIT
+clock                   BSD3
+colour                  MIT
+containers              BSD-3
+decimal-arithmetic      BSD-3
+deepseq                 BSD-3
+directory               BSD3
+erf                     BSD3
+extra                   BSD3
+filepath                BSD-3
+ghc-boot-th             BSD-3
+ghc-prim                BSD-3
+hspec                   MIT
+hspec-core              MIT
+hspec-discover          MIT
+hspec-expectations      MIT
+hspec-megaparsec        BSD-3
+integer-gmp             BSD-3
+megaparsec              BSD-2
+pretty                  BSD-3
+primitive               BSD3
+process                 BSD3
+quickcheck-io           MIT
+random                  BSD3
+record-dot-preprocessor BSD3, Apache License 2.0
+record-hasfield         BSD3
+rts                     BSD-3
+setenv                  MIT
+stm                     BSD3
+template-haskell        BSD-3
+text                    BSD2
+tf-random               BSD3
+time                    BSD3
+transformers            BSD-3
+unix                    BSD3
+
+The full text for licences:
+ISDA CDM 1.0 License    http://www.isda.org/isda-cdm-1/
+BSD 2 Clause License    https://opensource.org/licenses/bsd-license.html
+BSD 3 Clause License    https://opensource.org/licenses/BSD-3-Clause
+MIT License             https://opensource.org/licenses/MIT
+Apache 2.0 Licence      http://www.apache.org/licenses/LICENSE-2.0.html
+
+ISDA CDM 1.0 License
+====================
+* The ISDA CDMTM portions of this document are subject to the ISDA CDMTM License Version 1 (the “License”); you may not use the ISDA CDM except in compliance with that License. You may obtain a copy of the License at http://www.isda.org/isda-cdm-1/.
+* The portions of the ISDA CDMTM distributed under the License are distributed on an “AS IS” basis, WITHOUT WARRANTY OF ANY KIND, either express or implied. See the License for the specific language governing rights and limitations under the License. You may obtain a copy of the License at http://www.isda.org/isda-cdm-1/.
+* The Licensor of the ISDA CDM is the International Swaps and Derivatives Association, Inc., 10 East 53rd Street, 9th Floor, New York, NY 10022, ATTN: Office of the General Counsel. All Rights Reserved.
