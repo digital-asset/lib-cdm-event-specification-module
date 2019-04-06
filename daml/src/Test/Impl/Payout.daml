@@ -101,7 +101,7 @@ testBasisSwap = scenario do
         , emptyLineage { interestRatePayoutReference = [referenceWithEmptyMeta "Leg2"], eventReference = [referenceWithEmptyMeta "Test_0"] }
         , emptyLineage { interestRatePayoutReference = [referenceWithEmptyMeta "Leg2"] }
         , emptyLineage { interestRatePayoutReference = [referenceWithEmptyMeta "Leg2"] }
-        , emptyLineage { interestRatePayoutReference = [referenceWithEmptyMeta "Leg1", referenceWithEmptyMeta "Leg2"], eventReference = [referenceWithEmptyMeta "Test_0"] }
+        , emptyLineage { interestRatePayoutReference = [referenceWithEmptyMeta "Leg10", referenceWithEmptyMeta "Leg2"], eventReference = [referenceWithEmptyMeta "Test_0"] }
         ]
 
   res <- buildEvents None None [(head res) { rosettaKey = "Test_0" }] payoutBasisSwap
