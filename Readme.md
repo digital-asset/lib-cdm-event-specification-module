@@ -5,9 +5,9 @@
     Copyright (c) 2019, Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved.
     SPDX-License-Identifier: Apache-2.0
 
-The **CDM Event Specification Module** is an extension to the CDM schema that standardizes the process of generating valid CDM event messages by adding a machine readable specification of the required business logic to the CDM.
+The **CDM Event Specification Module** is an extension to the ISDA Common Domain Model (CDM) schema that standardizes the process of generating valid CDM event messages by adding a machine readable specification of the required business logic to the CDM.
 
-If you are not familiar with the ISDA Common Domain Model (CDM) already, we recommend to read the [documentation of the CDM](https://portal.cdm.rosetta-technology.io) first. For reference, the set of [CDM types](docs/autogen/CdmTypes.md) are documented as well.
+If you are not familiar with the CDM already, we recommend to read the [documentation of the CDM](https://portal.cdm.rosetta-technology.io) first. For reference, the set of [CDM types](docs/autogen/CdmTypes.md) are documented as well.
 
 ## How to use
 
