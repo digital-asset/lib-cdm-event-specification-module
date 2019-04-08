@@ -1,22 +1,22 @@
 # Module Org.Isda.Cdm.EventSpecificationModule.Types.ReferenceData.Fetch
-============
 
 
 
-## Typeclasses
+## Data Types
 
-### `class` `(` `Action` `f` `)` => Fetch f where
+### `data` `RefData`
 
-  Instances of `Fetch` allow to fetch reference data. This can, e.g. be a database connection, a connection to a distributed ledger, or even a fixed set of reference data (for testing purposes).
-  * `fetchHolidayCalendar` : `HolidayCalendarKey` `->` `f` `(` `Optional` `HolidayCalendarData` `)`  
-    Fetch holiday calendar by key.
-  * `fetchObservation` : `ObservationKey` `->` `f` `(` `Optional` `ObservationPrimitive` `)`  
-    Fetch observation by key.
+  Collection of reference data
+* `RefData`
+
+  | Field              | Type/Description |
+  | :----------------- | :----------------
+  | `holidayCalendars` | `[` `HolidayCalendarData` `]` |
+  | `observations`     | `[` `ObservationPrimitive` `]` |
 
 
 
 # Module Org.Isda.Cdm.EventSpecificationModule.Types.ReferenceData.HolidayCalendar
-============
 
 
 
@@ -29,12 +29,12 @@
 
   | Field      | Type/Description |
   | :--------- | :----------------
-  | `label`    | `Text`
-  |            | The label of the holiday calendar.
-  | `weekend`  | `[` `DayOfWeek` `]`
-  |            | A list of weekend days (e.g. Sunday, Saturday) that are holidays.
-  | `holidays` | `[` `Date` `]`
-  |            | An explicit list of holiday dates.
+  | `label`    | `Text` |
+  |            | The label of the holiday calendar. |
+  | `weekend`  | `[` `DayOfWeek` `]` |
+  |            | A list of weekend days (e.g. Sunday, Saturday) that are holidays. |
+  | `holidays` | `[` `Date` `]` |
+  |            | An explicit list of holiday dates. |
 
 ### `data` `HolidayCalendarKey`
 
@@ -43,13 +43,12 @@
 
   | Field   | Type/Description |
   | :------ | :----------------
-  | `label` | `Text`
-  |         | The label of the holiday calendar.
+  | `label` | `Text` |
+  |         | The label of the holiday calendar. |
 
 
 
 # Module Org.Isda.Cdm.EventSpecificationModule.Types.ReferenceData.Key
-============
 
 
 
@@ -64,7 +63,6 @@
 
 
 # Module Org.Isda.Cdm.EventSpecificationModule.Types.ReferenceData.Observation
-============
 
 
 
@@ -77,12 +75,12 @@
 
   | Field    | Type/Description |
   | :------- | :----------------
-  | `source` | `ObservationSource`
-  |          | The observation source.
-  | `date`   | `Date`
-  |          | The date of the observation.
-  | `side`   | `Optional` `QuotationSideEnum`
-  |          | The side (bid/mid/ask) of the observation.
+  | `source` | `ObservationSource` |
+  |          | The observation source. |
+  | `date`   | `Date` |
+  |          | The date of the observation. |
+  | `side`   | `Optional` `QuotationSideEnum` |
+  |          | The side (bid/mid/ask) of the observation. |
 
 
 
