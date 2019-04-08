@@ -1,5 +1,3 @@
-# How to use
+# How to use the DAML module
 
-In order to use this library, copy the source code into the application.
-
-An example how to extend `Update` to be an instance of `Fetch` can be found [here](src/Example.daml).
+Given that the specification is written in DAML, it can be used as is if you are a DAML developer. Note that the module is not packaged into an own library currently. To use this library and its functions, copy the source code into your DAML application.
