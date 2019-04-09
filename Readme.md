@@ -9,6 +9,11 @@ The **CDM Event Specification Module** is an extension to the ISDA Common Domain
 
 If you are not familiar with the CDM already, we recommend to read the [documentation of the CDM](https://portal.cdm.rosetta-technology.io) first. For reference, the set of [CDM types](docs/autogen/CdmTypes.md) are documented as well.
 
+## Prerequisites
+
+* [DAML SDK](https://daml.com/) for building the DAML code
+* [stack](https://docs.haskellstack.org/en/stable/README/) for building the Haskell code
+
 ## How to use
 
 The CDM Event Specification Module provides a set of pure (deterministic, side-effect-free with no IO) "builder" functions that can be used to build valid CDM events. The concept of a function exists in almost any program language - it takes some values as input and returns a result. The specification is written in [DAML](daml) and translated into other languages. Currently, [Haskell](haskell) is available.
