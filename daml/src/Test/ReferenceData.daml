@@ -1,0 +1,66 @@
+-- Copyright (c) 2019, Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved.
+-- SPDX-License-Identifier: Apache-2.0
+
+daml 1.2
+module Test.ReferenceData where
+
+import DA.Date as D
+import Org.Isda.Cdm.EventSpecificationModule.Impl.Utils
+import Org.Isda.Cdm.EventSpecificationModule.Types.All hiding (length)
+
+instance Fetch Scenario where
+  fetchHolidayCalendar key = return $ fmap snd $ find ((== key) . fst) cals
+  fetchObservation key = return $ fmap snd $ find ((== key) . fst) obs
+
+cals : [(HolidayCalendarKey, HolidayCalendarData)]
+cals =
+  map (\d -> (getKey d, d))
+    [ HolidayCalendarData {
+        label = "USNY",
+        weekend = [Saturday, Sunday],
+        holidays = [D.date 2019 Dec 19]
+      }
+    ]
+
+obs : [(ObservationKey, ObservationPrimitive)]
+obs =
+    map (\d -> (getKey d, d))
+      [  ObservationPrimitive {
+          source =
+            ObservationSource {
+              curve = Some
+                Curve {
+                  commodityCurve = None,
+                  interestRateCurve = Some
+                    InterestRateCurve {
+                      floatingRateIndex = fieldWithEmptyMeta FloatingRateIndexEnum_USD_LIBOR_BBA,
+                      tenor = Period { period = PeriodEnum_M, periodMultiplier = 3, id = None }
+                    }
+                },
+              informationSource = None
+            },
+          date = D.date 2018 Nov 23,
+          observation = 0.03,
+          time = None,
+          side = None
+         }
+      ,  ObservationPrimitive {
+          source =
+            ObservationSource {
+              curve = Some
+                Curve {
+                  commodityCurve = None,
+                  interestRateCurve = Some
+                    InterestRateCurve {
+                      floatingRateIndex = fieldWithEmptyMeta FloatingRateIndexEnum_USD_LIBOR_BBA,
+                      tenor = Period { period = PeriodEnum_M, periodMultiplier = 1, id = None }
+                    }
+                },
+              informationSource = None
+            },
+          date = D.date 2018 Nov 23,
+          observation = 0.01,
+          time = None,
+          side = None
+        }
+      ]

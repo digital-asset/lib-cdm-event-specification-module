@@ -1,0 +1,25 @@
+-- Copyright (c) 2019, Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved.
+-- SPDX-License-Identifier: Apache-2.0
+
+daml 1.2
+module Org.Isda.Cdm.EventSpecificationModule.Types.All
+  ( module Org.Isda.Cdm.Classes
+  , module Org.Isda.Cdm.Enums
+  , module Org.Isda.Cdm.EventSpecificationModule.Types.EventSpec
+  , module Org.Isda.Cdm.MetaClasses
+  , module Org.Isda.Cdm.MetaFields
+  , module Org.Isda.Cdm.EventSpecificationModule.Types.ReferenceData.Fetch
+  , module Org.Isda.Cdm.EventSpecificationModule.Types.ReferenceData.HolidayCalendar
+  , module Org.Isda.Cdm.EventSpecificationModule.Types.ReferenceData.Key
+  , module Org.Isda.Cdm.EventSpecificationModule.Types.ReferenceData.Observation
+  ) where
+
+import Org.Isda.Cdm.Classes
+import Org.Isda.Cdm.Enums
+import Org.Isda.Cdm.EventSpecificationModule.Types.EventSpec
+import Org.Isda.Cdm.MetaClasses
+import Org.Isda.Cdm.MetaFields
+import Org.Isda.Cdm.EventSpecificationModule.Types.ReferenceData.Fetch
+import Org.Isda.Cdm.EventSpecificationModule.Types.ReferenceData.HolidayCalendar
+import Org.Isda.Cdm.EventSpecificationModule.Types.ReferenceData.Key
+import Org.Isda.Cdm.EventSpecificationModule.Types.ReferenceData.Observation

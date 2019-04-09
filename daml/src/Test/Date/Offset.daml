@@ -1,0 +1,43 @@
+-- Copyright (c) 2019, Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved.
+-- SPDX-License-Identifier: Apache-2.0
+
+daml 1.2
+module Test.Date.Offset where
+
+import DA.Assert
+import DA.Date as D
+import Org.Isda.Cdm.EventSpecificationModule.Impl.Date.Offset
+import Org.Isda.Cdm.EventSpecificationModule.Impl.Utils
+import Org.Isda.Cdm.EventSpecificationModule.Types.All hiding (length)
+import Test.ReferenceData()
+
+main = scenario do
+  let o1 = Offset { dayType = None, period = PeriodEnum_Y, periodMultiplier = 1, id = None }
+  res <- applyOffset o1 None (D.date 2017 Dec 31)
+  res === (D.date 2018 Dec 31)
+
+  let o2 = Offset { dayType = None, period = PeriodEnum_D, periodMultiplier = 0, id = None }
+  res <- applyOffset o2 None (D.date 2017 Dec 31)
+  res === (D.date 2017 Dec 31)
+
+  let o3 = Offset { dayType = Some DayTypeEnum_Calendar, period = PeriodEnum_D, periodMultiplier = -1, id = None }
+  res <- applyOffset o3 None (D.date 2017 Dec 31)
+  res === (D.date 2017 Dec 30)
+
+  let o4 = Offset { dayType = Some DayTypeEnum_Business, period = PeriodEnum_D, periodMultiplier = -6, id = None }
+  let bcs = BusinessCenters {
+              id = None,
+              businessCenter = [fieldWithEmptyMeta BusinessCenterEnum_USNY],
+              businessCentersReference = None
+            }
+  res <- applyOffset o4 (Some bcs) (D.date 2017 Dec 31)
+  res === (D.date 2017 Dec 22)
+
+  let o5 = Offset { dayType = Some DayTypeEnum_Business, period = PeriodEnum_D, periodMultiplier = 6, id = None }
+  let bcs = BusinessCenters {
+              id = None,
+              businessCenter = [fieldWithEmptyMeta BusinessCenterEnum_USNY],
+              businessCentersReference = None
+            }
+  res <- applyOffset o5 (Some bcs) (D.date 2017 Dec 31)
+  res === (D.date 2018 Jan 8)

@@ -1,0 +1,21 @@
+-- Copyright (c) 2019, Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved.
+-- SPDX-License-Identifier: Apache-2.0
+
+daml 1.2
+module Org.Isda.Cdm.EventSpecificationModule.Auxiliary.Event where
+
+import DA.Optional
+import Org.Isda.Cdm.EventSpecificationModule.Types.All
+
+-- | Get all 'after' contracts from event
+getAfterContracts : Event -> [Contract]
+getAfterContracts event =
+  let pe = event.primitive
+      termsChange = optionalToList pe.termsChange
+      exe = optionalToList pe.exercise
+
+  in concatMap (\a -> a.after.contract) pe.allocation
+      ++ map (\e -> e.after.contract) exe
+      ++ map (\i -> i.after.contract) pe.inception
+      ++ mapOptional (\qc -> qc.after.contract) pe.quantityChange
+      ++ mapOptional (\tc -> tc.after.contract) termsChange

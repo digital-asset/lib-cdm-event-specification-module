@@ -1,0 +1,5 @@
+resolver: lts-13.13
+packages:
+  - .
+extra-deps:
+  - record-dot-preprocessor-0.2

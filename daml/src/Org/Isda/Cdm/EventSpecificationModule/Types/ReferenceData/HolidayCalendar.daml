@@ -1,0 +1,30 @@
+-- Copyright (c) 2019, Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved.
+-- SPDX-License-Identifier: Apache-2.0
+
+daml 1.2
+module Org.Isda.Cdm.EventSpecificationModule.Types.ReferenceData.HolidayCalendar where
+
+import Org.Isda.Cdm.EventSpecificationModule.Types.ReferenceData.Key
+import DA.Date
+import Prelude hiding (Key)
+
+-- | Key to an holiday calendar.
+data HolidayCalendarKey = HolidayCalendarKey
+  with
+    label : Text
+      -- ^ The label of the holiday calendar.
+  deriving (Eq, Show)
+
+-- | Holiday calendar reference data.
+data HolidayCalendarData = HolidayCalendarData
+  with
+    label : Text
+      -- ^ The label of the holiday calendar.
+    weekend : [DayOfWeek]
+      -- ^ A list of weekend days (e.g. Sunday, Saturday) that are holidays.
+    holidays : [Date]
+      -- ^ An explicit list of holiday dates.
+  deriving (Eq, Show)
+
+instance Key HolidayCalendarData HolidayCalendarKey where
+  getKey HolidayCalendarData{..} = HolidayCalendarKey with ..

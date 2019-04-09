@@ -1,0 +1,13 @@
+-- Copyright (c) 2019, Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved.
+-- SPDX-License-Identifier: Apache-2.0
+
+daml 1.2
+module Test.Date.DayCountFraction where
+
+import DA.Assert
+import DA.Date as D
+import Org.Isda.Cdm.EventSpecificationModule.Impl.Date.DayCountFraction
+import Org.Isda.Cdm.EventSpecificationModule.Types.All hiding (length)
+
+main = scenario do
+  calcDayCountFraction DayCountFractionEnum__30E_360 (D.date 2018 Feb 28) (D.date 2018 May 30) === (intToDecimal 92 / 360.0)

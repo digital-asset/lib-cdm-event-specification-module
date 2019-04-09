@@ -1,0 +1,122 @@
+-- Copyright (c) 2019, Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved.
+-- SPDX-License-Identifier: Apache-2.0
+
+daml 1.2
+module Org.Isda.Cdm.EventSpecificationModule.EventBuilder.Novation where
+
+import DA.List
+import Org.Isda.Cdm.EventSpecificationModule.Impl.Contract
+import Org.Isda.Cdm.EventSpecificationModule.Impl.Contract.Payout.ContractualQuantity
+import Org.Isda.Cdm.EventSpecificationModule.Impl.Event
+import Org.Isda.Cdm.EventSpecificationModule.Impl.Identifier
+import Org.Isda.Cdm.EventSpecificationModule.Impl.Utils
+import Org.Isda.Cdm.EventSpecificationModule.Types.All
+import Prelude hiding (Party)
+
+-- | Build Novation event
+buildNovationEvent : NovationSpec -> Event
+buildNovationEvent spec =
+  -- Quantity Change
+  let closedState = ClosedState
+                      { state = ClosedStateEnum_Novated
+                      , activityDate = spec.base.eventDate
+                      , effectiveDate = spec.base.effectiveDate
+                      , lastPaymentDate = None
+                      }
+      quantity = getContractualQuantity spec.contract
+      quantityChange = buildQuantityChangePrimitive quantity (Some closedState) spec.contract
+
+  -- Inception
+      inception = buildInception spec.contractNew
+
+  -- Combine
+      primitive = emptyPrimitiveEvent { quantityChange = [quantityChange], inception = [inception], transfer = spec.base.transfer }
+      lineage = emptyLineage { contractReference = [referenceWithEmptyMeta spec.contract.rosettaKey] }
+      eventEffect = buildEventEffect primitive
+
+  in Event
+      { id = spec.base.id
+      , rosettaKey = ""
+      , account = spec.base.account
+      , action = spec.base.action
+      , effectiveDate = spec.base.effectiveDate
+      , eventDate = spec.base.eventDate
+      , eventEffect = Some eventEffect
+      , eventIdentifier = spec.base.eventIdentifier
+      , eventQualifier = Some "Novation"
+      , functionCall = None
+      , intent = None
+      , lineage = Some lineage
+      , messageInformation = spec.base.messageInformation
+      , party = dedup $ spec.contract.party ++ spec.contractNew.party
+      , primitive = primitive
+      , timestamp = spec.base.timestamp
+      , eventWorkflow = None
+      }
+
+-- | Build Partial Novation event
+buildPartialNovationEvent : PartialNovationSpec -> Event
+buildPartialNovationEvent spec =
+  -- Quantity Change
+  let quantityChange = buildQuantityChangePrimitive spec.change None spec.contract
+
+  -- Inception
+      inception = buildInception spec.contractNew
+
+  -- Combine
+      primitive = emptyPrimitiveEvent { quantityChange = [quantityChange], inception = [inception], transfer = spec.base.transfer }
+      lineage = emptyLineage { contractReference = [referenceWithEmptyMeta spec.contract.rosettaKey] }
+      eventEffect = buildEventEffect primitive
+
+  in Event
+      { id = spec.base.id
+      , rosettaKey = ""
+      , account = spec.base.account
+      , action = spec.base.action
+      , effectiveDate = spec.base.effectiveDate
+      , eventDate = spec.base.eventDate
+      , eventEffect = Some eventEffect
+      , eventIdentifier = spec.base.eventIdentifier
+      , eventQualifier = Some "PartialNovation"
+      , functionCall = None
+      , intent = None
+      , lineage = Some lineage
+      , messageInformation = spec.base.messageInformation
+      , party = dedup $ spec.contract.party ++ spec.contractNew.party
+      , primitive = primitive
+      , timestamp = spec.base.timestamp
+      , eventWorkflow = None
+      }
+
+-- | HIDE
+buildQuantityChangePrimitive : [ContractualQuantity] -> Optional ClosedState -> Contract -> QuantityChangePrimitive
+buildQuantityChangePrimitive change closedState contract =
+  let identifierNew = map increaseVersion contract.contractIdentifier
+
+      quantity = getContractualQuantity contract
+      quantityNew = zipWith subtract quantity change
+
+      afterContract = (setContractualQuantity quantityNew contract) { contractIdentifier = identifierNew, closedState = closedState }
+
+  in QuantityChangePrimitive
+      { before = Trade
+        { execution = None
+        , contract = Some contract
+        }
+      , after = Trade
+        { execution = None
+        , contract = Some afterContract
+        }
+      }
+
+-- | HIDE
+buildInception : Contract -> Inception
+buildInception contract =
+  Inception
+    { after = PostInceptionState
+        { creditLimitInformation = None
+        , tradeWarehouseWorkflow = None
+        , contract = contract
+        }
+    , before = []
+    }

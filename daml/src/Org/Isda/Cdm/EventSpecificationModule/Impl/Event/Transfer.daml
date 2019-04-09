@@ -1,0 +1,14 @@
+-- Copyright (c) 2019, Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved.
+-- SPDX-License-Identifier: Apache-2.0
+
+daml 1.2
+module Org.Isda.Cdm.EventSpecificationModule.Impl.Event.Transfer where
+
+import Org.Isda.Cdm.EventSpecificationModule.Impl.Utils
+import Org.Isda.Cdm.EventSpecificationModule.Types.All
+
+-- Check TransferPrimitive for non-supported features
+checkTransferPrimitive : TransferPrimitive -> TransferPrimitive
+checkTransferPrimitive transfer | not $ null transfer.securityTransfer = throwNotSupportedError "TransferPrimitive.securityTransfer"
+checkTransferPrimitive transfer | not $ null transfer.commodityTransfer = throwNotSupportedError "TransferPrimitive.commodityTransfer"
+checkTransferPrimitive transfer = transfer

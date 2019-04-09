@@ -1,0 +1,37 @@
+-- Copyright (c) 2019, Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved.
+-- SPDX-License-Identifier: Apache-2.0
+
+daml 1.2
+module Org.Isda.Cdm.EventSpecificationModule.EventBuilder.NewTrade where
+
+import Org.Isda.Cdm.EventSpecificationModule.Impl.Event
+import Org.Isda.Cdm.EventSpecificationModule.Types.All
+
+-- | Build NewTrade event
+buildNewTradeEvent :  NewTradeSpec -> Event
+buildNewTradeEvent spec =
+  let primitive = emptyPrimitiveEvent
+                    { inception = [ Inception { after = spec.after, before = [] } ]
+                    , transfer = spec.base.transfer
+                    }
+      eventEffect = buildEventEffect primitive
+
+  in Event
+      { id = spec.base.id
+      , rosettaKey = ""
+      , account = spec.base.account
+      , action = spec.base.action
+      , effectiveDate = spec.base.effectiveDate
+      , eventDate = spec.base.eventDate
+      , eventEffect = Some eventEffect
+      , eventIdentifier = spec.base.eventIdentifier
+      , eventQualifier = Some "NewTrade"
+      , functionCall = None
+      , intent = None
+      , lineage = None
+      , messageInformation = spec.base.messageInformation
+      , party = spec.after.contract.party
+      , primitive = primitive
+      , timestamp = spec.base.timestamp
+      , eventWorkflow = None
+      }

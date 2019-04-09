@@ -1,0 +1,152 @@
+-- Copyright (c) 2019, Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved.
+-- SPDX-License-Identifier: Apache-2.0
+
+daml 1.2
+module Org.Isda.Cdm.EventSpecificationModule.Impl.Event where
+
+import DA.Date as D
+import DA.Optional
+import Org.Isda.Cdm.EventSpecificationModule.Types.All hiding (length)
+
+emptyEvent : Event
+emptyEvent = Event
+              { id = None
+              , rosettaKey = ""
+              , account = []
+              , action = ActionEnum_New
+              , effectiveDate = None
+              , eventDate = D.date 1970 Jan 1
+              , eventEffect = None
+              , eventIdentifier = []
+              , eventQualifier = None
+              , functionCall = None
+              , intent = None
+              , lineage = None
+              , messageInformation = None
+              , party = []
+              , primitive = emptyPrimitiveEvent
+              , timestamp = []
+              , eventWorkflow = None
+              }
+
+emptyEventEffect : EventEffect
+emptyEventEffect =
+  EventEffect
+    { effectedContract = []
+    , effectedExecution = []
+    , contract = []
+    , execution = []
+    , transfer = []
+    , productIdentifier = []
+    }
+
+-- | Merge two of event effects
+mergeEventEffects : EventEffect -> EventEffect -> EventEffect
+mergeEventEffects ef1 ef2 =
+  EventEffect
+    { effectedContract = ef1.effectedContract ++ ef2.effectedContract
+    , effectedExecution = ef1.effectedExecution ++ ef2.effectedExecution
+    , contract = ef1.contract ++ ef2.contract
+    , execution = ef1.execution ++ ef2.execution
+    , transfer = ef1.transfer ++ ef2.transfer
+    , productIdentifier = ef1.productIdentifier ++ ef2.productIdentifier
+    }
+
+-- | Build EventEffect from PrimitiveEvent
+buildEventEffect : PrimitiveEvent -> EventEffect
+buildEventEffect pe =
+  let termsChange = optionalToList pe.termsChange
+      exe = optionalToList pe.exercise
+
+      effectedExecution =
+        map (\a -> a.before.execution.rosettaKey) pe.allocation
+        ++ mapOptional (\qc -> fmap (\c -> c.rosettaKey) qc.before.execution) pe.quantityChange
+        ++ mapOptional (\tc -> fmap  (\c -> c.rosettaKey) tc.before.execution) termsChange
+
+      effectedContract =
+        mapOptional (\qc -> fmap (\c -> c.rosettaKey) qc.before.contract) pe.quantityChange
+        ++ mapOptional (\tc -> fmap  (\c -> c.rosettaKey) tc.before.contract) termsChange
+
+      contract =
+        concatMap (\a -> map (\c -> c.rosettaKey) a.after.contract) pe.allocation
+        ++ map (\e -> e.after.contract.rosettaKey) exe
+        ++ map (\i -> i.after.contract.rosettaKey) pe.inception
+        ++ mapOptional (\qc -> fmap (\c -> c.rosettaKey) qc.after.contract) pe.quantityChange
+        ++ mapOptional (\tc -> fmap (\c -> c.rosettaKey) tc.after.contract) termsChange
+
+      execution =
+        map (\a -> a.after.execution.rosettaKey) pe.allocation
+        ++ mapOptional (\qc -> fmap (\c -> c.rosettaKey) qc.after.execution) pe.quantityChange
+        ++ mapOptional (\tc -> fmap (\c -> c.rosettaKey) tc.after.execution) termsChange
+
+  in EventEffect
+      { productIdentifier = []
+      , transfer = []
+      , effectedExecution = effectedExecution
+      , effectedContract = effectedContract
+      , contract = contract
+      , execution = execution
+      }
+
+emptyPrimitiveEvent : PrimitiveEvent
+emptyPrimitiveEvent = PrimitiveEvent
+                        { allocation      = []
+                        , exercise        = None
+                        , inception       = []
+                        , observation     = []
+                        , quantityChange  = []
+                        , reset           = []
+                        , termsChange     = None
+                        , transfer        = []
+                        }
+
+-- | Merge two primitive events
+mergePrimitives : PrimitiveEvent -> PrimitiveEvent -> PrimitiveEvent
+mergePrimitives pe1 pe2
+  | isSome pe1.exercise || isSome pe2.exercise = error "cannot merge 'exercise' primitive event"
+  | isSome pe1.termsChange || isSome pe2.termsChange = error "cannot merge 'termsChange' primitive event"
+  | otherwise =
+      PrimitiveEvent
+        { exercise        = None
+        , termsChange     = None
+        , allocation      = pe1.allocation ++ pe2.allocation
+        , inception       = pe1.inception ++ pe2.inception
+        , observation     = pe1.observation ++ pe2.observation
+        , quantityChange  = pe1.quantityChange ++ pe2.quantityChange
+        , reset           = pe1.reset ++ pe2.reset
+        , transfer        = pe1.transfer ++ pe2.transfer
+        }
+
+emptyLineage : Lineage
+emptyLineage = Lineage
+                { contractReference = []
+                , cashflowReference = []
+                , creditDefaultPayoutReference = []
+                , interestRatePayoutReference = []
+                , optionPayoutReference = []
+                , equityPayoutReference = []
+                , eventReference = []
+                , legalDocument = []
+                }
+
+-- | Merge two lineages
+mergeLineages : Lineage -> Lineage -> Lineage
+mergeLineages l1 l2 =
+  Lineage
+    { contractReference             = l1.contractReference ++ l2.contractReference
+    , cashflowReference             = l1.cashflowReference ++ l2.cashflowReference
+    , creditDefaultPayoutReference  = l1.creditDefaultPayoutReference ++ l2.creditDefaultPayoutReference
+    , interestRatePayoutReference   = l1.interestRatePayoutReference ++ l2.interestRatePayoutReference
+    , optionPayoutReference         = l1.optionPayoutReference ++ l2.optionPayoutReference
+    , equityPayoutReference         = l1.equityPayoutReference ++ l2.equityPayoutReference
+    , eventReference                = l1.eventReference ++ l2.eventReference
+    , legalDocument                 = l1.legalDocument ++ l2.legalDocument
+    }
+
+-- | Get list of cashflow references from event
+getCashflowReferences : Event -> [Text]
+getCashflowReferences event = optional [] (\l -> mapOptional (\ref -> ref.reference) l.cashflowReference) event.lineage
+
+-- | Get list of interestRatePayout references from event
+getInterestRatePayoutReferences : Event -> [Text]
+getInterestRatePayoutReferences event = optional [] (\l -> mapOptional (\ref -> ref.reference) l.interestRatePayoutReference) event.lineage

@@ -1,0 +1,112 @@
+cabal-version: 2.0
+name:           cdm
+version:        0.0.0
+build-type:     Simple
+
+library
+  exposed-modules:
+      Org.Isda.Cdm.Classes
+      Org.Isda.Cdm.Enums
+      Org.Isda.Cdm.EventSpecificationModule
+      Org.Isda.Cdm.MetaClasses
+      Org.Isda.Cdm.MetaFields
+      Org.Isda.Cdm.ZonedDateTime
+      Org.Isda.Cdm.EventSpecificationModule.Auxiliary.Event
+      Org.Isda.Cdm.EventSpecificationModule.Auxiliary.Netting
+      Org.Isda.Cdm.EventSpecificationModule.EventBuilder.Derived
+      Org.Isda.Cdm.EventSpecificationModule.EventBuilder.NewTrade
+      Org.Isda.Cdm.EventSpecificationModule.EventBuilder.Novation
+      Org.Isda.Cdm.EventSpecificationModule.EventBuilder.Termination
+      Org.Isda.Cdm.EventSpecificationModule.Impl.Contract
+      Org.Isda.Cdm.EventSpecificationModule.Impl.Contract.Payout.Cashflow
+      Org.Isda.Cdm.EventSpecificationModule.Impl.Contract.Payout.ContractualQuantity
+      Org.Isda.Cdm.EventSpecificationModule.Impl.Contract.Payout.InterestRatePayout.FloatingRate
+      Org.Isda.Cdm.EventSpecificationModule.Impl.Contract.Payout.InterestRatePayout
+      Org.Isda.Cdm.EventSpecificationModule.Impl.Contract.Payout.InterestRatePayout.PaymentCalculationPeriod
+      Org.Isda.Cdm.EventSpecificationModule.Impl.Contract.Payout.InterestRatePayout.Schedule.CalculationPeriodDates
+      Org.Isda.Cdm.EventSpecificationModule.Impl.Contract.Payout.InterestRatePayout.Schedule.PaymentDates
+      Org.Isda.Cdm.EventSpecificationModule.Impl.Contract.Payout.InterestRatePayout.Schedule.ResetDates
+      Org.Isda.Cdm.EventSpecificationModule.Impl.Contract.Payout
+      Org.Isda.Cdm.EventSpecificationModule.Impl.Date.AdjustableDate
+      Org.Isda.Cdm.EventSpecificationModule.Impl.Date.AdjustableOrAdjustedOrRelativeDate
+      Org.Isda.Cdm.EventSpecificationModule.Impl.Date.AdjustableOrRelativeDate
+      Org.Isda.Cdm.EventSpecificationModule.Impl.Date.Base
+      Org.Isda.Cdm.EventSpecificationModule.Impl.Date.BusinessCenters
+      Org.Isda.Cdm.EventSpecificationModule.Impl.Date.BusinessDayAdjustments
+      Org.Isda.Cdm.EventSpecificationModule.Impl.Date.DayCountFraction
+      Org.Isda.Cdm.EventSpecificationModule.Impl.Date.Offset
+      Org.Isda.Cdm.EventSpecificationModule.Impl.Date.Period
+      Org.Isda.Cdm.EventSpecificationModule.Impl.Date.RollConvention
+      Org.Isda.Cdm.EventSpecificationModule.Impl.Event
+      Org.Isda.Cdm.EventSpecificationModule.Impl.Event.Transfer
+      Org.Isda.Cdm.EventSpecificationModule.Impl.Identifier
+      Org.Isda.Cdm.EventSpecificationModule.Impl.Utils
+      Org.Isda.Cdm.EventSpecificationModule.Types.All
+      Org.Isda.Cdm.EventSpecificationModule.Types.EventSpec
+      Org.Isda.Cdm.EventSpecificationModule.Types.ReferenceData.Fetch
+      Org.Isda.Cdm.EventSpecificationModule.Types.ReferenceData.HolidayCalendar
+      Org.Isda.Cdm.EventSpecificationModule.Types.ReferenceData.Key
+      Org.Isda.Cdm.EventSpecificationModule.Types.ReferenceData.Observation
+  hs-source-dirs: src
+  default-extensions:
+      DuplicateRecordFields
+      DisambiguateRecordFields
+      MultiParamTypeClasses
+      NamedFieldPuns
+      OverloadedStrings
+      RecordWildCards
+      ScopedTypeVariables
+      ViewPatterns
+
+      RebindableSyntax
+      ImplicitPrelude
+  ghc-options: -O0
+  build-depends:
+      daml-stdlib
+    , record-hasfield
+  default-language: Haskell2010
+
+test-suite tests
+  type: exitcode-stdio-1.0
+  main-is: Main.hs
+  other-modules:
+      Test.Date.AdjustableDate
+      Test.Date.Base
+      Test.Date.BusinessDayAdjustments
+      Test.Date.DayCountFraction
+      Test.Date.Offset
+      Test.Date.Period
+      Test.Date.RollConvention
+      Test.Examples
+      Test.Main
+      Test.Impl.Payout.Cashflow
+      Test.Impl.Payout.ContractualQuantity
+      Test.Impl.Payout.InterestRatePayout.FloatingRate
+      Test.Impl.Payout.InterestRatePayout
+      Test.Impl.Payout
+      Test.ReferenceData
+      Test.Impl.Payout.InterestRatePayout.Schedule.CalculationPeriodDates
+      Test.Impl.Payout.InterestRatePayout.Schedule.PaymentDates
+      Test.Impl.Payout.InterestRatePayout.Schedule.ResetDates
+  hs-source-dirs: test
+  default-extensions:
+      BlockArguments
+      DuplicateRecordFields
+      DisambiguateRecordFields
+      MultiParamTypeClasses
+      NamedFieldPuns
+      OverloadedStrings
+      RecordWildCards
+      ScopedTypeVariables
+      Strict
+      StrictData
+      ViewPatterns
+      RebindableSyntax
+      ImplicitPrelude
+  ghc-options: -O0
+  build-depends:
+      cdm
+    , daml-stdlib
+    , record-hasfield
+    , hspec
+  default-language: Haskell2010

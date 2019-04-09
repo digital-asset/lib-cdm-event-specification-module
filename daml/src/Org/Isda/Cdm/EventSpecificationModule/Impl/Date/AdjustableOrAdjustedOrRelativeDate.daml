@@ -1,0 +1,31 @@
+-- Copyright (c) 2019, Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved.
+-- SPDX-License-Identifier: Apache-2.0
+
+daml 1.2
+module Org.Isda.Cdm.EventSpecificationModule.Impl.Date.AdjustableOrAdjustedOrRelativeDate where
+
+import DA.Optional
+import Org.Isda.Cdm.EventSpecificationModule.Impl.Date.BusinessDayAdjustments
+import Org.Isda.Cdm.EventSpecificationModule.Impl.Utils
+import Org.Isda.Cdm.EventSpecificationModule.Types.All
+
+-- | Check AdjustableOrAdjustedOrRelativeDate for non-supported features
+checkAdjustableOrAdjustedOrRelativeDate : AdjustableOrAdjustedOrRelativeDate -> AdjustableOrAdjustedOrRelativeDate
+checkAdjustableOrAdjustedOrRelativeDate aar | isSome aar.relativeDate = throwNotSupportedError "AdjustableOrAdjustedOrRelativeDate.relativeDate"
+checkAdjustableOrAdjustedOrRelativeDate aar = aar
+
+-- | Get adjusted date from AdjustableOrAdjustedOrRelativeDate
+getAdjustedDate : (Fetch f) => AdjustableOrAdjustedOrRelativeDate -> f Date
+getAdjustedDate (checkAdjustableOrAdjustedOrRelativeDate -> aar)
+  | Some adjustedDate <- aar.adjustedDate = return adjustedDate.value
+  | otherwise = adjustDate (fromOptional defaultAdj aar.dateAdjustments) $ getUnadjustedDate aar
+      where
+        defaultAdj = BusinessDayAdjustments
+                      { id = None
+                      , businessCenters = None
+                      , businessDayConvention = BusinessDayConventionEnum_NONE
+                      }
+
+-- | Get unadjusted date from AdjustableOrAdjustedOrRelativeDate
+getUnadjustedDate : AdjustableOrAdjustedOrRelativeDate -> Date
+getUnadjustedDate aar = get "unadjustedDate" aar.unadjustedDate

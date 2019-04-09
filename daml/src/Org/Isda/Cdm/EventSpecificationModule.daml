@@ -1,0 +1,23 @@
+-- Copyright (c) 2019, Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved.
+-- SPDX-License-Identifier: Apache-2.0
+
+daml 1.2
+module Org.Isda.Cdm.EventSpecificationModule
+  ( buildDerivedEvents
+  , buildNewTradeEvent
+  , buildPartialTerminationEvent
+  , buildPartialNovationEvent
+  , buildNovationEvent
+  , buildTerminationEvent
+  , getAfterContracts
+  , netTransfers
+  , module Org.Isda.Cdm.EventSpecificationModule.Types.All
+  ) where
+
+import Org.Isda.Cdm.EventSpecificationModule.Auxiliary.Event
+import Org.Isda.Cdm.EventSpecificationModule.Auxiliary.Netting
+import Org.Isda.Cdm.EventSpecificationModule.EventBuilder.Derived
+import Org.Isda.Cdm.EventSpecificationModule.EventBuilder.NewTrade
+import Org.Isda.Cdm.EventSpecificationModule.EventBuilder.Novation
+import Org.Isda.Cdm.EventSpecificationModule.EventBuilder.Termination
+import Org.Isda.Cdm.EventSpecificationModule.Types.All

@@ -1,0 +1,10 @@
+-- Copyright (c) 2019, Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved.
+-- SPDX-License-Identifier: Apache-2.0
+
+daml 1.2
+module Org.Isda.Cdm.EventSpecificationModule.Types.ReferenceData.Key where
+
+-- | A class for types that have a corresponding key.
+class Key v k where
+  -- | Obtain the corresponding key.
+  getKey : v -> k

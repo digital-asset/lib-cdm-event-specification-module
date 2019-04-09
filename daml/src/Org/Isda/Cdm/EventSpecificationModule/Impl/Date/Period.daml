@@ -1,0 +1,35 @@
+-- Copyright (c) 2019, Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved.
+-- SPDX-License-Identifier: Apache-2.0
+
+daml 1.2
+module Org.Isda.Cdm.EventSpecificationModule.Impl.Date.Period where
+
+import DA.Date
+import Org.Isda.Cdm.EventSpecificationModule.Impl.Date.Base
+import Org.Isda.Cdm.EventSpecificationModule.Types.All
+
+-- | PeriodEnum to PeriodExtendedEnum
+toExtended : PeriodEnum -> PeriodExtendedEnum
+toExtended PeriodEnum_D = PeriodExtendedEnum_D
+toExtended PeriodEnum_W = PeriodExtendedEnum_W
+toExtended PeriodEnum_M = PeriodExtendedEnum_M
+toExtended PeriodEnum_Y = PeriodExtendedEnum_Y
+
+-- | PeriodExtendedEnum to PeriodEnum
+fromExtended : PeriodExtendedEnum -> Optional PeriodEnum
+fromExtended PeriodExtendedEnum_D = Some PeriodEnum_D
+fromExtended PeriodExtendedEnum_W = Some PeriodEnum_W
+fromExtended PeriodExtendedEnum_M = Some PeriodEnum_M
+fromExtended PeriodExtendedEnum_Y = Some PeriodEnum_Y
+fromExtended PeriodExtendedEnum_T = None
+
+-- | Add Period to date
+addPeriod : Date -> Period -> Date
+addPeriod date Period{periodMultiplier, period = PeriodEnum_D} = addDays date periodMultiplier
+addPeriod date Period{periodMultiplier, period = PeriodEnum_W} = addDays date (7 * periodMultiplier)
+addPeriod date Period{periodMultiplier, period = PeriodEnum_M} = addMonths date periodMultiplier
+addPeriod date Period{periodMultiplier, period = PeriodEnum_Y} = addYears date periodMultiplier
+
+-- | Revert Period (i.e. negate periodMultiplier)
+revert : Period -> Period
+revert period = period { periodMultiplier = -(period.periodMultiplier) }

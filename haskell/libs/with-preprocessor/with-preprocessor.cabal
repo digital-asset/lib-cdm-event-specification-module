@@ -1,0 +1,28 @@
+cabal-version: 2.2
+name:           with-preprocessor
+version:        0.0.0
+build-type:     Simple
+
+library
+  exposed-modules:
+      Lib
+  hs-source-dirs:
+      src
+  build-depends:
+      base
+    , megaparsec
+    , text
+  default-language: Haskell2010
+
+executable with-preprocessor
+  main-is: exe/Main.hs
+  other-modules:
+      Paths_with_preprocessor
+  build-depends:
+      base
+    , hspec
+    , hspec-megaparsec
+    , megaparsec
+    , text
+    , with-preprocessor
+  default-language: Haskell2010

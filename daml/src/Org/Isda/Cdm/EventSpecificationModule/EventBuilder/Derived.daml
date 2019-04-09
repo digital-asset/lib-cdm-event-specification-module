@@ -1,0 +1,37 @@
+-- Copyright (c) 2019, Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved.
+-- SPDX-License-Identifier: Apache-2.0
+
+daml 1.2
+module Org.Isda.Cdm.EventSpecificationModule.EventBuilder.Derived where
+
+import DA.List as L
+import Org.Isda.Cdm.EventSpecificationModule.Impl.Contract as Contract
+import Org.Isda.Cdm.EventSpecificationModule.Impl.Identifier
+import Org.Isda.Cdm.EventSpecificationModule.Impl.Utils
+import Org.Isda.Cdm.EventSpecificationModule.Types.All
+
+-- | HIDE
+-- Build derived events with a generic fetch-able context
+buildDerivedEventsWithFetch : (Fetch f) => DerivedSpec -> f [Event]
+buildDerivedEventsWithFetch spec =
+  map finalize <$> Contract.buildEvents spec.fromDate spec.toDate spec.pastEvents spec.contract
+
+  where
+    finalize : Event -> Event
+    finalize event =
+      let eventId = (get "eventQualifier" event.eventQualifier) <> "_" <> (show event.eventDate)
+          eventIdentifier = map (suffixIdentifier eventId) spec.contract.contractIdentifier
+          lineage = fmap (\l -> l { contractReference = [referenceWithEmptyMeta spec.contract.rosettaKey] }) event.lineage
+          account = if L.length event.primitive.transfer > 0 then spec.contract.account else []
+      in event
+          { eventIdentifier = eventIdentifier
+          , account = account
+          , party = spec.contract.party
+          , lineage = lineage
+          }
+
+-- | Build derived events (e.g. interest rate payments, resets, etc.). Returns all events that
+-- have not been applied yet. If the event is not fully known yet (e.g. an observation for a reset is not
+-- available yet or a reset for a floating rate coupon), then an empty primitive is returned.
+buildDerivedEvents : RefData -> DerivedSpec -> [Event]
+buildDerivedEvents refData spec = fst $ run (buildDerivedEventsWithFetch spec) refData

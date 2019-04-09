@@ -1,0 +1,24 @@
+-- Copyright (c) 2019, Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved.
+-- SPDX-License-Identifier: Apache-2.0
+
+daml 1.2
+module Org.Isda.Cdm.EventSpecificationModule.Types.ReferenceData.Observation where
+
+import Org.Isda.Cdm.Classes
+import Org.Isda.Cdm.Enums
+import Org.Isda.Cdm.EventSpecificationModule.Types.ReferenceData.Key
+import Prelude hiding (Key)
+
+-- | Key to an holiday calendar.
+data ObservationKey = ObservationKey
+  with
+    source : ObservationSource
+      -- ^ The observation source.
+    date : Date
+      -- ^ The date of the observation.
+    side : Optional QuotationSideEnum
+      -- ^ The side (bid/mid/ask) of the observation.
+  deriving (Eq, Show)
+
+instance Key ObservationPrimitive ObservationKey where
+  getKey ObservationPrimitive{..} = ObservationKey with ..

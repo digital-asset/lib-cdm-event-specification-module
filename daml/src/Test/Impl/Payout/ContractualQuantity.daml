@@ -1,0 +1,16 @@
+-- Copyright (c) 2019, Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved.
+-- SPDX-License-Identifier: Apache-2.0
+
+daml 1.2
+module Test.Impl.Payout.ContractualQuantity where
+
+import DA.Assert
+import DA.Date as D
+import Org.Isda.Cdm.EventSpecificationModule.Impl.Contract.Payout.ContractualQuantity
+import Test.Examples
+import Test.ReferenceData()
+
+main = scenario do
+  let quantity = calcQuantity (D.date 1900 Jan 01) cq1m
+  quantity === (Some 1000000.0, None)
+  getCurrency cq1m === "USD"

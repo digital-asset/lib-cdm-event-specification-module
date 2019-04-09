@@ -1,0 +1,41 @@
+-- Copyright (c) 2019, Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved.
+-- SPDX-License-Identifier: Apache-2.0
+
+daml 1.2
+module Org.Isda.Cdm.EventSpecificationModule.Impl.Date.AdjustableOrRelativeDate where
+
+import DA.Optional
+import Org.Isda.Cdm.EventSpecificationModule.Impl.Date.AdjustableDate as AD
+import Org.Isda.Cdm.EventSpecificationModule.Impl.Utils
+import Org.Isda.Cdm.EventSpecificationModule.Types.All
+
+-- | Check AdjustableOrRelativeDate for non-supported features
+checkAdjustableOrRelativeDate : AdjustableOrRelativeDate -> AdjustableOrRelativeDate
+checkAdjustableOrRelativeDate ar | isSome ar.relativeDate = throwNotSupportedError "AdjustableOrRelativeDate.relativeDate"
+checkAdjustableOrRelativeDate ar = ar
+
+-- | Get adjusted date from AdjustableOrRelativeDate
+getAdjustedDate : (Fetch f) => AdjustableOrRelativeDate -> f Date
+getAdjustedDate (checkAdjustableOrRelativeDate -> ar)
+  | Some ad <- ar.adjustableDate = AD.getAdjustedDate ad
+  | otherwise = error "either 'relativeDate' or 'adjustableDate' required for AdjustableOrRelativeDate"
+
+-- | Get unadjusted date from AdjustableOrRelativeDate
+getUnadjustedDate : AdjustableOrRelativeDate -> Date
+getUnadjustedDate (checkAdjustableOrRelativeDate -> ar)
+  | Some ad <- ar.adjustableDate = AD.getUnadjustedDate ad
+  | otherwise = error "either 'relativeDate' or 'adjustableDate' required for AdjustableOrRelativeDate"
+
+-- | AdjustableOrRelativeDate to AdjustableOrAdjustedOrRelativeDate
+toAdjustableOrAdjustedOrRelativeDate : AdjustableOrRelativeDate -> AdjustableOrAdjustedOrRelativeDate
+toAdjustableOrAdjustedOrRelativeDate (checkAdjustableOrRelativeDate -> ar)
+  | Some (checkAdjustableDate -> ad) <- ar.adjustableDate = do
+      AdjustableOrAdjustedOrRelativeDate
+        { id = None
+        , unadjustedDate =  Some ad.unadjustedDate
+        , dateAdjustments = ad.dateAdjustments
+        , adjustedDate = ad.adjustedDate
+        , relativeDate = None
+        }
+
+  | otherwise = error "either 'relativeDate' or 'adjustableDate' required for AdjustableOrRelativeDate"

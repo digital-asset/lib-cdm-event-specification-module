@@ -1,0 +1,51 @@
+-- Copyright (c) 2019, Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved.
+-- SPDX-License-Identifier: Apache-2.0
+
+daml 1.2
+module Org.Isda.Cdm.EventSpecificationModule.Impl.Contract.Payout.Cashflow
+  ( buildEvent
+  ) where
+
+import Org.Isda.Cdm.EventSpecificationModule.Impl.Date.AdjustableOrAdjustedOrRelativeDate
+import Org.Isda.Cdm.EventSpecificationModule.Impl.Event
+import Org.Isda.Cdm.EventSpecificationModule.Impl.Utils
+import Org.Isda.Cdm.EventSpecificationModule.Types.All
+
+-- | Build corresponding cash transfer (payment) event
+buildEvent : (Fetch f) => Optional Date -> Optional Date -> Cashflow -> f (Optional Event)
+buildEvent fromDate toDate cf = do
+  let cashflowDate = get "cashflowDate" cf.cashflowDate
+  let uDate = getUnadjustedDate cashflowDate
+  if fallsWithin fromDate toDate uDate
+  then do
+    aDate <- getAdjustedDate cashflowDate
+    let transfer = TransferPrimitive
+                    { cashTransfer =
+                        [ CashTransferComponent
+                            { amount = cf.cashflowAmount
+                            , breakdown = []
+                            , payerReceiver = cf.payerReceiver
+                            , cashflowType = cf.cashflowType
+                            , identifier = None
+                            , transferCalculation = None
+                            }
+                        ]
+                    , commodityTransfer = []
+                    , securityTransfer = []
+                    , settlementDate = cashflowDate
+                    , settlementReference = None
+                    , status = None
+                    , settlementType = None
+                    , identifier = None
+                    , rosettaKey = ""
+                    }
+
+    return $ Some $ emptyEvent
+                      { eventDate = uDate
+                      , effectiveDate = Some aDate
+                      , eventQualifier = Some "CashTransfer"
+                      , lineage = Some emptyLineage { cashflowReference = [referenceWithEmptyMeta cf.rosettaKey] }
+                      , primitive = emptyPrimitiveEvent { transfer = [transfer] }
+                      }
+  else
+    return None

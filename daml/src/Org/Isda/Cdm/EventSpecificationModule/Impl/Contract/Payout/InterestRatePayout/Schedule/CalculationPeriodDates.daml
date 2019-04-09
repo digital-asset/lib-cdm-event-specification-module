@@ -1,0 +1,155 @@
+-- Copyright (c) 2019, Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved.
+-- SPDX-License-Identifier: Apache-2.0
+
+daml 1.2
+module Org.Isda.Cdm.EventSpecificationModule.Impl.Contract.Payout.InterestRatePayout.Schedule.CalculationPeriodDates
+  ( generateCalculationPeriods
+  ) where
+
+import DA.List
+import DA.Optional
+import Org.Isda.Cdm.EventSpecificationModule.Impl.Date.AdjustableOrRelativeDate
+import Org.Isda.Cdm.EventSpecificationModule.Impl.Date.BusinessDayAdjustments
+import Org.Isda.Cdm.EventSpecificationModule.Impl.Date.Period
+import Org.Isda.Cdm.EventSpecificationModule.Impl.Date.RollConvention
+import Org.Isda.Cdm.EventSpecificationModule.Impl.Utils
+import Org.Isda.Cdm.EventSpecificationModule.Types.All hiding (length)
+
+-- | Check CalculationPeriodDates for non-supported features
+checkCalculationPeriodDates : CalculationPeriodDates -> CalculationPeriodDates
+checkCalculationPeriodDates cpds | isSome cpds.firstPeriodStartDate = throwNotSupportedError "CalculationPeriodDates.firstPeriodStartDate"
+checkCalculationPeriodDates cpds | isSome cpds.firstCompoundingPeriodEndDate = throwNotSupportedError "CalculationPeriodDates.firstCompoundingPeriodEndDate"
+checkCalculationPeriodDates cpds | fmap (\f -> f.period) cpds.calculationPeriodFrequency == Some PeriodExtendedEnum_T = throwNotSupportedError "PeriodExtendedEnum_T"
+checkCalculationPeriodDates cpds = cpds
+
+-- | Generate CalculationPeriods from CalculationPeriodDates
+generateCalculationPeriods : (Fetch f) => CalculationPeriodDates -> f [CalculationPeriod]
+generateCalculationPeriods (checkCalculationPeriodDates -> cpds) = do
+  let effectiveDate = get "effectiveDate" cpds.effectiveDate
+  let uEffectiveDate = getUnadjustedDate effectiveDate
+  aEffectiveDate <- getAdjustedDate effectiveDate
+
+  let terminationDate = get "terminationDate" cpds.terminationDate
+  let uTerminationDate = getUnadjustedDate terminationDate
+  aTerminationDate <- getAdjustedDate terminationDate
+
+  if (aEffectiveDate >= uTerminationDate) then error "expecting dates to be in correct order" else pure ()
+
+  let frequency = get "calculationPeriodFrequency" cpds.calculationPeriodFrequency
+  let adj = get "calculationPeriodDatesAdjustments" cpds.calculationPeriodDatesAdjustments
+
+  let hasExplicitInitStub = isSome cpds.firstRegularPeriodStartDate && (Some aEffectiveDate) /= cpds.firstRegularPeriodStartDate
+  let hasExplicitFinalStub = isSome cpds.lastRegularPeriodEndDate && (Some uTerminationDate) /= cpds.lastRegularPeriodEndDate
+
+  let stubType = getImplicitStubType cpds.stubPeriodType hasExplicitInitStub hasExplicitFinalStub
+  let period = frequencyToPeriod frequency
+  dates <-
+    -- Roll backwards for implicit initial stub
+    case stubType of
+      Some stubType | isInitialStub stubType -> do
+        let dates = rollBackwards frequency.rollConvention period aEffectiveDate uTerminationDate []
+        -- No Stub
+        if head dates == aEffectiveDate then return dates
+        -- Has Stub
+        else do
+          let relevantDates = if (isLongStub stubType && length dates > 1) then tail dates else dates
+          return (aEffectiveDate::relevantDates)
+
+      -- Roll forward for implicit final stub
+      Some stubType | isFinalStub stubType -> do
+        let dates = rollForward frequency.rollConvention period aEffectiveDate uTerminationDate []
+        -- No Stub
+        if head dates == uTerminationDate then return $ reverse dates
+        -- Has Stub
+        else do
+          let relevantDates = if (isLongStub stubType && length dates > 1) then tail dates else dates
+          return $ reverse (uTerminationDate::relevantDates)
+
+      -- Roll backwards for explicit stubs
+      otherwise -> do
+        let firstRegStartDate = fromOptional aEffectiveDate cpds.firstRegularPeriodStartDate
+        let lastRegEndDate = fromOptional uTerminationDate cpds.lastRegularPeriodEndDate
+        if (aEffectiveDate > firstRegStartDate || firstRegStartDate > lastRegEndDate || lastRegEndDate > uTerminationDate)
+        then error "expecting dates to be in correct order" else pure ()
+
+        -- Final Stub
+        let finalStub = if hasExplicitFinalStub then [lastRegEndDate, uTerminationDate] else [lastRegEndDate]
+        -- Regular Periods
+        let dates = rollBackwards frequency.rollConvention period firstRegStartDate lastRegEndDate finalStub
+        if (head dates /= firstRegStartDate) then error "expecting regular schedule between regular dates" else pure ()
+        -- Initial Stub
+        if hasExplicitInitStub then return (aEffectiveDate::dates) else return dates
+
+  let uDates = uEffectiveDate::(tail dates)
+  aDates <- do
+    adjRegDates <- mapA (adjustDate adj) $ (tail . init) uDates
+    return $ aEffectiveDate::adjRegDates++[aTerminationDate]
+
+  return $ defineCalculationPeriods uDates aDates
+
+isInitialStub : StubPeriodTypeEnum -> Bool
+isInitialStub stubType = stubType == StubPeriodTypeEnum_ShortInitial || stubType == StubPeriodTypeEnum_LongInitial
+
+isFinalStub : StubPeriodTypeEnum -> Bool
+isFinalStub stubType = stubType == StubPeriodTypeEnum_ShortFinal || stubType == StubPeriodTypeEnum_LongFinal
+
+isLongStub : StubPeriodTypeEnum -> Bool
+isLongStub stubType = stubType == StubPeriodTypeEnum_LongInitial || stubType == StubPeriodTypeEnum_LongFinal
+
+getImplicitStubType : Optional StubPeriodTypeEnum -> Bool -> Bool -> Optional StubPeriodTypeEnum
+getImplicitStubType None _ _ = None
+getImplicitStubType (Some stubType) hasExplInitStub hasExplFinalStub
+  | (isInitialStub stubType) && hasExplFinalStub = error "explicit final stub implied, but initial stub set"
+  | (isInitialStub stubType) = if hasExplInitStub then None else Some stubType
+  | (isFinalStub stubType) && hasExplInitStub = error "explicit initial stub implied, but final stub set"
+  | (isFinalStub stubType) = if hasExplFinalStub then None else Some stubType
+
+frequencyToPeriod : CalculationPeriodFrequency -> Period
+frequencyToPeriod frequency = do
+  let period = fromSomeTry "expecting proper 'frequency'" $ fromExtended frequency.period
+  Period { period = period, periodMultiplier = frequency.periodMultiplier, id = None }
+
+-- | Roll backwards (until previous date would be strictly before start date)
+rollBackwards : RollConventionEnum -> Period -> Date -> Date -> [Date] -> [Date]
+rollBackwards rc period start end dates
+  | currEnd < start = tail datesNonEmpty
+  | otherwise =
+      let prev = previousDate rc period currEnd
+      in rollBackwards rc period start end (prev::datesNonEmpty)
+  where
+    datesNonEmpty = if dates == [] then [end] else dates
+    currEnd = head datesNonEmpty
+
+-- | Roll forward (until next date would be strictly after end date)
+rollForward : RollConventionEnum -> Period -> Date -> Date -> [Date] -> [Date]
+rollForward rc period start end dates
+  | currStart > end = tail datesNonEmpty
+  | otherwise =
+      let next = nextDate rc period currStart
+      in rollForward rc period start end (next::datesNonEmpty)
+  where
+    datesNonEmpty = if dates == [] then [start] else dates
+    currStart = head datesNonEmpty
+
+-- | Define CalculationPeriods based on unadjusted and adjusted dates
+defineCalculationPeriods : [Date] -> [Date] -> [CalculationPeriod]
+defineCalculationPeriods uDates aDates =
+  let uaDates = zip uDates aDates
+  in zipWith definePeriod (init uaDates) (tail uaDates)
+  where
+    definePeriod (unadjustedStartDate, adjustedStartDate) (unadjustedEndDate, adjustedEndDate) =
+      CalculationPeriod
+        { id = None
+        , adjustedEndDate = Some adjustedEndDate
+        , adjustedStartDate = Some adjustedStartDate
+        , calculationPeriodNumberOfDays = None
+        , dayCountYearFraction = None
+        , fixedRate = None
+        , floatingRateDefinition = None
+        , forecastAmount = None
+        , forecastRate = None
+        , fxLinkedNotionalAmount = None
+        , notionalAmount = None
+        , unadjustedEndDate = Some unadjustedEndDate
+        , unadjustedStartDate = Some unadjustedStartDate
+        }

@@ -1,0 +1,158 @@
+-- Copyright (c) 2019, Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved.
+-- SPDX-License-Identifier: Apache-2.0
+
+daml 1.2
+module Org.Isda.Cdm.EventSpecificationModule.Impl.Contract.Payout.InterestRatePayout.PaymentCalculationPeriod where
+
+import DA.List as L
+import DA.Optional
+import Org.Isda.Cdm.EventSpecificationModule.Impl.Contract.Payout.InterestRatePayout.FloatingRate as FR
+import Org.Isda.Cdm.EventSpecificationModule.Impl.Event
+import Org.Isda.Cdm.EventSpecificationModule.Impl.Utils
+import Org.Isda.Cdm.EventSpecificationModule.Types.All
+
+-- | Check PaymentCalculationPeriod for non-supported features
+checkPaymentCalculationPeriod : PaymentCalculationPeriod -> PaymentCalculationPeriod
+checkPaymentCalculationPeriod pcp | L.length pcp.calculationPeriod > 1 = throwNotSupportedError "multiple PaymentCalculationPeriod.calculationPeriod(s)"
+checkPaymentCalculationPeriod pcp | isSome pcp.fixedPaymentAmount = throwNotSupportedError "PaymentCalculationPeriod.fixedPaymentAmount"
+checkPaymentCalculationPeriod pcp = let _ = map checkCalculationPeriod pcp.calculationPeriod in pcp
+
+-- | Check CalculationPeriod for non-supported features
+checkCalculationPeriod : CalculationPeriod -> CalculationPeriod
+checkCalculationPeriod cp | isSome cp.fxLinkedNotionalAmount = throwNotSupportedError "CalculationPeriod.fxLinkedNotionalAmount"
+checkCalculationPeriod cp = let _ = fmap checkFloatingRateDefinition cp.floatingRateDefinition in cp
+
+-- | Build reset events which haven't been processed yet
+buildResetEvents :
+  (Fetch f)
+    => Optional Date
+    -> Optional Date
+    -> Lineage
+    -> [ResetPrimitive]
+    -> FloatingRateSpecification
+    -> PaymentCalculationPeriod
+    -> f [Event]
+buildResetEvents fromDate toDate lineage existingResets frSpec pcp = concatMapC generatePerCP pcp.calculationPeriod
+  where
+    generatePerCP : (Fetch f) => CalculationPeriod -> f [Event]
+    generatePerCP cp = do
+      let frDef = get "floatingRateDefinition" cp.floatingRateDefinition
+      resets <- FR.buildResetEvents fromDate toDate lineage existingResets frSpec frDef
+      return $ map (\r -> r { lineage = Some lineage } : Event) resets
+
+-- | Build interest rate payment event from PaymentCalculationPeriod (features which are not added yet:
+-- discountingMethod, settlementProvision, compounding)
+buildPaymentEvent :
+     Optional Date
+  -> Optional Date
+  -> Lineage
+  -> Text
+  -> Optional BusinessDayAdjustments
+  -> PayerReceiver
+  -> PaymentCalculationPeriod
+  -> Optional Event
+buildPaymentEvent fromDate toDate lineage ccy dateAdjustments payerReceiver pcp =
+  let uPayDate = get "unadjustedPaymentDate" pcp.unadjustedPaymentDate
+      aPayDate = get "adjustedPaymentDate" pcp.adjustedPaymentDate
+
+  in
+    if not $ fallsWithin fromDate toDate uPayDate
+    then None
+    else
+      if (not . isPcpFixed) pcp
+      then Some emptyEvent
+                  { eventDate = uPayDate
+                  , effectiveDate = Some aPayDate
+                  , eventQualifier = Some "CashTransfer"
+                  , lineage = Some lineage
+                  , primitive = emptyPrimitiveEvent
+                  }
+      else
+        let calcPeriod = getOne "calculationPeriod" pcp.calculationPeriod
+
+            dcf = get "dayCountYearFraction" calcPeriod.dayCountYearFraction
+            notional = get "notionalAmount" calcPeriod.notionalAmount
+
+            rate =
+              case (calcPeriod.fixedRate, calcPeriod.floatingRateDefinition) of
+                (Some fixed, None) -> fixed
+                (None, Some floating) ->
+                  let spread = get "floatingRateDefinition.spread" floating.spread
+                      rate = get "floatingRateDefinition.calculatedRate" floating.calculatedRate
+                  in spread + rate
+                otherwise -> error "expecting fixed or floating rate"
+
+            amount = notional * dcf * rate
+
+            (amountNonNegative, payerReceiverFinal) =
+                if (amount > 0.0) then (amount, payerReceiver)
+                else
+                  (-amount
+                  , PayerReceiver
+                      { payerPartyReference = payerReceiver.receiverPartyReference
+                      , payerAccountReference = payerReceiver.receiverAccountReference
+                      , receiverPartyReference = payerReceiver.payerPartyReference
+                      , receiverAccountReference = payerReceiver.payerAccountReference
+                      }
+                  )
+
+            paymentAmount = Money
+                              { id = None
+                              , amount = amountNonNegative
+                              , currency = fieldWithEmptyMeta ccy
+                              }
+
+            paymentDate = AdjustableOrAdjustedOrRelativeDate
+                            { id = None
+                            , adjustedDate = fmap fieldWithEmptyMeta pcp.adjustedPaymentDate
+                            , dateAdjustments = dateAdjustments
+                            , relativeDate = None
+                            , unadjustedDate = pcp.unadjustedPaymentDate
+                            }
+
+            transfer = TransferPrimitive
+                        { cashTransfer =
+                            [ CashTransferComponent
+                                { amount = paymentAmount
+                                , breakdown = []
+                                , payerReceiver = payerReceiverFinal
+                                , cashflowType = Some CashflowTypeEnum_Interest
+                                , identifier = None
+                                , transferCalculation = None
+                                }
+                            ]
+                        , commodityTransfer = []
+                        , securityTransfer = []
+                        , settlementDate = paymentDate
+                        , settlementReference = None
+                        , status = None
+                        , settlementType = None
+                        , identifier = None
+                        , rosettaKey = ""
+                        }
+
+        in Some emptyEvent
+                  { eventDate = uPayDate
+                  , effectiveDate = Some aPayDate
+                  , eventQualifier = Some "CashTransfer"
+                  , lineage = Some lineage
+                  , primitive = emptyPrimitiveEvent { transfer = [transfer] }
+                  }
+  where
+    isPcpFixed : PaymentCalculationPeriod -> Bool
+    isPcpFixed pcp = all isCpFixed pcp.calculationPeriod
+
+    isCpFixed : CalculationPeriod -> Bool
+    isCpFixed cp = isCpNotionalFixed cp && isCpRateFixed cp
+
+    isCpNotionalFixed : CalculationPeriod -> Bool
+    isCpNotionalFixed cp
+      | Some notionalAmount <- cp.notionalAmount = True
+      | Some fxLinkedNotionalAmount <- cp.fxLinkedNotionalAmount = isSome fxLinkedNotionalAmount.observedFxSpotRate
+      | otherwise = error "expecting 'notionalAmount' or 'fxLinkedNotionalAmount' in CalculationPeriod"
+
+    isCpRateFixed : CalculationPeriod -> Bool
+    isCpRateFixed cp
+      | Some fixedRate <- cp.fixedRate = True
+      | Some floatingRateDefinition <- cp.floatingRateDefinition = isSome floatingRateDefinition.calculatedRate
+      | otherwise = error "expecting 'fixedRate' or 'floatingRateDefinition' in CalculationPeriod"

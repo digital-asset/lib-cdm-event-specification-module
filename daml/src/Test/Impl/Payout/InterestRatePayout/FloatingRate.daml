@@ -1,0 +1,95 @@
+-- Copyright (c) 2019, Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved.
+-- SPDX-License-Identifier: Apache-2.0
+
+daml 1.2
+module Test.Impl.Payout.InterestRatePayout.FloatingRate where
+
+import DA.Assert
+import DA.Date as D
+import DA.Optional
+import Org.Isda.Cdm.EventSpecificationModule.Impl.Contract.Payout.InterestRatePayout.FloatingRate
+import Org.Isda.Cdm.EventSpecificationModule.Impl.Event
+import Org.Isda.Cdm.EventSpecificationModule.Types.All hiding (length)
+import Test.Examples
+import Test.ReferenceData()
+import Test.Impl.Payout.InterestRatePayout.Schedule.ResetDates
+
+testCaseFrd0 : FloatingRateDefinition
+testCaseFrd0 = emptyFloatingRateDefinition {
+                rateObservation =
+                  [ emptyRateObservation {
+                      adjustedFixingDate = Some $ D.date 2018 Nov 24,
+                      resetDate = Some $ D.date 2018 Nov 30
+                    }
+                  ]
+               }
+
+testCaseFrd1 : FloatingRateDefinition
+testCaseFrd1 = emptyFloatingRateDefinition {
+                rateObservation =
+                  [ emptyRateObservation {
+                      adjustedFixingDate = Some $ D.date 2018 Nov 23,
+                      resetDate = Some $ D.date 2018 Nov 30
+                    }
+                  ]
+               }
+
+testImplyInitialReset = scenario do
+  let expectedResult = ResetPrimitive { date = D.date 2018 Nov 30, resetValue = 0.03, cashflow = None }
+  getInitialReset 0.03 testCaseFrd1 === expectedResult
+
+testGenerateResets = scenario do
+  -- reset does not exist
+  res <- buildResetEvents None None emptyLineage [] frc3M testCaseFrd0
+  map (\r -> r.eventDate) res             === [D.date 2018 Nov 24]
+  mapOptional (\r -> r.effectiveDate) res === [D.date 2018 Nov 30]
+  map (\r -> r.primitive) res             === [emptyPrimitiveEvent]
+
+  -- reset exists
+  let reset = ResetPrimitive { date = D.date 2018 Nov 30, resetValue = 0.03, cashflow = None }
+  res <- buildResetEvents None None emptyLineage [] frc3M testCaseFrd1
+  map (\r -> r.eventDate) res               === [D.date 2018 Nov 23]
+  mapOptional (\r -> r.effectiveDate) res   === [D.date 2018 Nov 30]
+  map (\r -> r.primitive) res               === [emptyPrimitiveEvent { reset = [reset] }]
+
+  -- reset exists already
+  res <- buildResetEvents None None emptyLineage [reset] frc3M testCaseFrd1
+  map (\r -> r.eventDate) res === []
+
+testCalcFloatingRate = scenario do
+  -- Reset does not exist
+  let resets = []
+  let expectedResult = emptyFloatingRateDefinition {
+                          spread = Some 0.02,
+                          rateObservation =
+                            [ emptyRateObservation {
+                                adjustedFixingDate = Some $ D.date 2018 Nov 23,
+                                resetDate = Some $ D.date 2018 Nov 30
+                              }
+                            ]
+                       }
+  let res = calcFloatingRate resets frc3M testCaseFrd0
+  expectedResult === expectedResult
+
+  -- Reset exists
+  let resets =  [ (Some "Reset", ResetPrimitive { date = D.date 2018 Nov 30, resetValue = 0.05, cashflow = None }) ]
+  let expectedResult = ( ["Reset"]
+                       , emptyFloatingRateDefinition {
+                          spread = Some 0.02,
+                          calculatedRate = Some 0.05,
+                          rateObservation =
+                            [ emptyRateObservation {
+                                adjustedFixingDate = Some $ D.date 2018 Nov 23,
+                                resetDate = Some $ D.date 2018 Nov 30,
+                                observedRate = Some 0.05
+                              }
+                            ]
+                         }
+                       )
+  let res = calcFloatingRate resets frc3M testCaseFrd1
+  res === expectedResult
+
+main = scenario do
+  testImplyInitialReset
+  testGenerateResets
+  testCalcFloatingRate

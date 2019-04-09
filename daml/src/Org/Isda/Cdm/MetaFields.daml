@@ -1,0 +1,14 @@
+daml 1.2
+
+-- | This file is auto-generated from the ISDA Common
+--   Domain Model, do not edit.
+--   @version 2.0.31
+module Org.Isda.Cdm.MetaFields
+  ( module Org.Isda.Cdm.MetaFields ) where
+
+data MetaFields = MetaFields with
+  reference : Optional Text
+  scheme : Optional Text
+  id : Optional Text
+    deriving (Eq, Ord, Show)
+

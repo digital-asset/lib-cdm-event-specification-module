@@ -1,0 +1,25 @@
+-- Copyright (c) 2019, Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved.
+-- SPDX-License-Identifier: Apache-2.0
+
+daml 1.2
+module Org.Isda.Cdm.EventSpecificationModule.Impl.Identifier where
+
+import DA.Optional
+import Org.Isda.Cdm.EventSpecificationModule.Types.All
+
+-- | Add suffix to all assigned identifier
+suffixIdentifier : Text -> Identifier -> Identifier
+suffixIdentifier suffix idt = idt { assignedIdentifier = map (suffixAssignedIdentifier suffix) idt.assignedIdentifier }
+
+-- | Add suffix to assigned identifier
+suffixAssignedIdentifier : Text -> AssignedIdentifier -> AssignedIdentifier
+suffixAssignedIdentifier suffix aidt = aidt { identifier = aidt.identifier { value =  aidt.identifier.value <> "_" <> suffix } }
+
+-- | Increase version number
+increaseVersion : Identifier -> Identifier
+increaseVersion idt = idt { assignedIdentifier = map increaseAssignedIdentifier idt.assignedIdentifier }
+  where
+    increaseAssignedIdentifier : AssignedIdentifier -> AssignedIdentifier
+    increaseAssignedIdentifier aidt =
+      let version = fromOptional 0 aidt.version
+      in aidt { version = Some $ version + 1 }

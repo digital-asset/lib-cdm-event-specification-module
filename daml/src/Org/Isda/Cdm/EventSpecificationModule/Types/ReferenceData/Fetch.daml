@@ -1,0 +1,53 @@
+-- Copyright (c) 2019, Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved.
+-- SPDX-License-Identifier: Apache-2.0
+
+daml 1.2
+module Org.Isda.Cdm.EventSpecificationModule.Types.ReferenceData.Fetch where
+
+import Org.Isda.Cdm.EventSpecificationModule.Types.ReferenceData.HolidayCalendar
+import Org.Isda.Cdm.EventSpecificationModule.Types.ReferenceData.Observation
+import Org.Isda.Cdm.EventSpecificationModule.Types.ReferenceData.Key
+import Org.Isda.Cdm.Classes
+
+-- | Collection of reference data
+data RefData = RefData
+  with
+    holidayCalendars : [HolidayCalendarData]
+    observations     : [ObservationPrimitive]
+  deriving (Eq, Show)
+
+-- | HIDE
+-- Instances of `Fetch` allow to fetch reference data. This can, e.g. be a database connection,
+-- a connection to a distributed ledger, or even a fixed set of reference data as used below.
+class (Action f) => Fetch f where
+  -- | Fetch holiday calendar by key.
+  fetchHolidayCalendar : HolidayCalendarKey -> f (Optional HolidayCalendarData)
+  -- | Fetch observation by key.
+  fetchObservation : ObservationKey -> f (Optional ObservationPrimitive)
+
+-- | HIDE
+newtype State s a = State { run : s -> (a, s) }
+
+-- | HIDE
+instance Functor (State s) where
+    fmap f x = State $ \s0 -> let (a, s1) = x.run s0 in (f a, s1)
+
+-- | HIDE
+instance Applicative (State s) where
+    pure x = State $ \s -> (x,s)
+    f <*> x = State $ \s0 -> let (fn, s1) = f.run s0
+                                 (a, s2) = x.run s1
+                             in (fn a, s2)
+
+-- | HIDE
+instance Action (State s) where
+    x >>= f = State $ \s0 -> let (a, s1) = x.run s0
+                                 fn = f a
+                             in fn.run s1
+
+-- | HIDE
+instance Fetch (State RefData) where
+    fetchHolidayCalendar (key: HolidayCalendarKey) = State $ \(refData: RefData) ->
+      (find ((== key) . getKey) refData.holidayCalendars, refData)
+    fetchObservation (key: ObservationKey) = State $ \(refData: RefData) ->
+      (find ((== key) . getKey) refData.observations, refData)

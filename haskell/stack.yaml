@@ -1,0 +1,9 @@
+resolver: lts-13.13
+packages:
+  - .
+  - libs/daml-stdlib
+extra-deps:
+  - decimal-arithmetic-0.5.1.0
+  - record-hasfield-1.0
+  - time-1.9.2
+allow-newer: True

@@ -1,0 +1,35 @@
+-- Copyright (c) 2019, Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved.
+-- SPDX-License-Identifier: Apache-2.0
+
+daml 1.2
+module Test.Date.BusinessDayAdjustments where
+
+import DA.Assert
+import DA.Date as D
+import Org.Isda.Cdm.EventSpecificationModule.Impl.Date.BusinessDayAdjustments
+import Org.Isda.Cdm.EventSpecificationModule.Impl.Utils
+import Org.Isda.Cdm.EventSpecificationModule.Types.All hiding (length)
+import Test.ReferenceData()
+
+main = scenario do
+  let bcs = BusinessCenters { businessCenter = [fieldWithEmptyMeta BusinessCenterEnum_USNY], businessCentersReference = None, id = None }
+
+  let adjNone = BusinessDayAdjustments {businessCenters = Some bcs, businessDayConvention = BusinessDayConventionEnum_NONE, id = None}
+  res <- adjustDate adjNone (D.date 2018 Mar 31)
+  res === (D.date 2018 Mar 31)
+
+  let adjFollowing = adjNone { businessDayConvention = BusinessDayConventionEnum_FOLLOWING } : BusinessDayAdjustments
+  res <- adjustDate adjFollowing (D.date 2018 Mar 31)
+  res === (D.date 2018 Apr 02)
+
+  let adjModFollowing = adjNone { businessDayConvention = BusinessDayConventionEnum_MODFOLLOWING } : BusinessDayAdjustments
+  res <- adjustDate adjModFollowing (D.date 2018 Mar 31)
+  res === (D.date 2018 Mar 30)
+
+  let adjPreceeding = adjNone { businessDayConvention = BusinessDayConventionEnum_PRECEDING } : BusinessDayAdjustments
+  res <- adjustDate adjPreceeding (D.date 2018 Apr 01)
+  res === (D.date 2018 Mar 30)
+
+  let adjModPreceeding = adjNone { businessDayConvention = BusinessDayConventionEnum_MODPRECEDING } : BusinessDayAdjustments
+  res <- adjustDate adjModPreceeding (D.date 2018 Apr 01)
+  res === (D.date 2018 Apr 02)

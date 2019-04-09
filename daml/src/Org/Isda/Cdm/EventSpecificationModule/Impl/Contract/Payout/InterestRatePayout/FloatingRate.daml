@@ -1,0 +1,119 @@
+-- Copyright (c) 2019, Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved.
+-- SPDX-License-Identifier: Apache-2.0
+
+daml 1.2
+module Org.Isda.Cdm.EventSpecificationModule.Impl.Contract.Payout.InterestRatePayout.FloatingRate where
+
+import DA.List
+import DA.Optional
+import Org.Isda.Cdm.EventSpecificationModule.Impl.Event
+import Org.Isda.Cdm.EventSpecificationModule.Impl.Utils
+import Org.Isda.Cdm.EventSpecificationModule.Types.All hiding (length)
+
+-- | Check FloatingRateSpecification for non-supported features
+checkFloatingRateSpecification : FloatingRateSpecification -> FloatingRateSpecification
+checkFloatingRateSpecification frSpec | not $ null frSpec.capRateSchedule = throwNotSupportedError "FloatingRateSpecification.capRateSchedule"
+checkFloatingRateSpecification frSpec | not $ null frSpec.floorRateSchedule = throwNotSupportedError "FloatingRateSpecification.floorRateSchedule"
+checkFloatingRateSpecification frSpec | isSome frSpec.finalRateRounding = throwNotSupportedError "FloatingRateSpecification.finalRateRounding"
+checkFloatingRateSpecification frSpec | isSome frSpec.rateTreatment = throwNotSupportedError "FloatingRateSpecification.rateTreatment"
+checkFloatingRateSpecification frSpec | isSome frSpec.floatingRateMultiplierSchedule = throwNotSupportedError "FloatingRateSpecification.floatingRateMultiplierSchedule"
+checkFloatingRateSpecification frSpec | isSome frSpec.averagingMethod = throwNotSupportedError "FloatingRateSpecification.averagingMethod"
+checkFloatingRateSpecification frSpec | isSome frSpec.negativeInterestRateTreatment = throwNotSupportedError "FloatingRateSpecification.negativeInterestRateTreatment"
+checkFloatingRateSpecification frSpec | length frSpec.spreadSchedule > 1 = throwNotSupportedError "multiple FloatingRateSpecification.spreadSchedule(s)"
+checkFloatingRateSpecification frSpec | any (\sched -> isSome sched._type) frSpec.spreadSchedule = throwNotSupportedError "FloatingRateSpecification.spreadSchedule._type"
+checkFloatingRateSpecification frSpec | any (\sched -> not $ null sched.step) frSpec.spreadSchedule = throwNotSupportedError "FloatingRateSpecification.spreadSchedule.step"
+checkFloatingRateSpecification frSpec = frSpec
+
+-- | Check FloatingRateDefinition for non-supported features
+checkFloatingRateDefinition : FloatingRateDefinition -> FloatingRateDefinition
+checkFloatingRateDefinition frDef | length frDef.rateObservation > 1 =  throwNotSupportedError "multiple FloatingRateDefinition.rateObservation(s)"
+checkFloatingRateDefinition frDef | not $ null frDef.capRate = throwNotSupportedError "FloatingRateDefinition.capRate"
+checkFloatingRateDefinition frDef | not $ null frDef.floorRate = throwNotSupportedError "FloatingRateDefinition.floorRate"
+checkFloatingRateDefinition frDef | isSome frDef.floatingRateMultiplier = throwNotSupportedError "FloatingRateDefinition.floatingRateMultiplier"
+checkFloatingRateDefinition frDef = frDef
+
+-- | Get reset for initial reset date with given rate
+getInitialReset : Decimal -> FloatingRateDefinition -> ResetPrimitive
+getInitialReset initialRate frDef =
+  let rateObs = getFirst "rateObservation" frDef.rateObservation
+      date = get "resetDate" rateObs.resetDate
+  in ResetPrimitive
+      { date = date
+      , resetValue = initialRate
+      , cashflow = None
+      }
+
+-- | Build reset events for a given floating rate definition
+buildResetEvents :
+  (Fetch f)
+  => Optional Date
+  -> Optional Date
+  -> Lineage
+  -> [ResetPrimitive]
+  -> FloatingRateSpecification
+  -> FloatingRateDefinition
+  -> f [Event]
+buildResetEvents fromDate toDate lineage existingResets frSpec frDef = mapA tryGetReset $ filter filterPred frDef.rateObservation
+  where
+    filterPred : RateObservation -> Bool
+    filterPred rateObs =
+      let hasFixedAlready = optional False (\rd -> any (\r -> r.date == rd) existingResets) rateObs.resetDate
+          isKnown = isSome rateObs.observedRate
+          isInScope = fallsWithin fromDate toDate (get "adjustedFixingDate" rateObs.adjustedFixingDate)
+      in not hasFixedAlready && not isKnown && isInScope
+
+    tryGetReset : (Fetch f) => RateObservation -> f Event
+    tryGetReset rateObs = do
+      let obsDate = get "adjustedFixingDate" rateObs.adjustedFixingDate
+      let resetDate = get "resetDate" rateObs.resetDate
+      let tenor = get "indexTenor" frSpec.indexTenor
+      -- TODO: Look up correct observation e.g. in MasterAgreement reference data
+      let obsKey = ObservationKey
+                      { date = obsDate
+                      , side = None
+                      , source = ObservationSource
+                          { curve = Some Curve
+                            { commodityCurve = None
+                            , interestRateCurve = Some InterestRateCurve
+                                { floatingRateIndex = frSpec.floatingRateIndex
+                                , tenor = tenor
+                                }
+                            }
+                          , informationSource = None
+                          }
+                      }
+      obsOpt <- fetchObservation obsKey
+      case obsOpt of
+        None ->
+          return $ emptyEvent
+                    { eventDate = obsDate
+                    , effectiveDate = Some resetDate
+                    , eventQualifier = Some "Reset"
+                    , lineage = Some lineage
+                    , primitive = emptyPrimitiveEvent
+                    }
+        Some obs -> do
+          let reset = ResetPrimitive { date = resetDate, resetValue = obs.observation, cashflow = None }
+          return $ emptyEvent
+                    { eventDate = obsDate
+                    , effectiveDate = Some resetDate
+                    , eventQualifier = Some "Reset"
+                    , lineage = Some lineage
+                    , primitive = emptyPrimitiveEvent { reset = [reset] }
+                    }
+-- | Calculate and set floating rate for a given floating rate definition if possible
+calcFloatingRate : [(Optional Text, ResetPrimitive)] -> FloatingRateSpecification -> FloatingRateDefinition -> ([Text], FloatingRateDefinition)
+calcFloatingRate resets (checkFloatingRateSpecification -> frSpec) (checkFloatingRateDefinition -> frDef) = do
+  let spreadSchedule = getOne "spreadSchedule" frSpec.spreadSchedule
+  let spread = spreadSchedule.initialValue
+  let rateObs = getOne "rateObservation" frDef.rateObservation
+  let resetDate = get "resetDate" rateObs.resetDate
+  case find (\r -> (snd r).date == resetDate) resets of
+    None       -> ([], frDef)
+    Some reset -> ( optionalToList $ fst reset
+                  , frDef
+                      { calculatedRate = Some (snd reset).resetValue
+                      , spread = Some spread
+                      , rateObservation = [ rateObs { observedRate = Some (snd reset).resetValue } ]
+                      }
+                  )

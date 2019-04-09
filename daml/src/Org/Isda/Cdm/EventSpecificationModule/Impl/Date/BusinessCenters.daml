@@ -1,0 +1,39 @@
+-- Copyright (c) 2019, Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved.
+-- SPDX-License-Identifier: Apache-2.0
+
+daml 1.2
+module Org.Isda.Cdm.EventSpecificationModule.Impl.Date.BusinessCenters where
+
+import DA.List
+import DA.Optional
+import DA.Text as Text
+import Org.Isda.Cdm.EventSpecificationModule.Impl.Utils
+import Org.Isda.Cdm.EventSpecificationModule.Types.All as A
+
+-- | Check BusinessCenters for non-supported features
+checkBusinessCenters : BusinessCenters -> BusinessCenters
+checkBusinessCenters bcs | isSome bcs.businessCentersReference = throwNotSupportedError "BusinessCenters.businessCentersReference"
+checkBusinessCenters bcs = bcs
+
+-- | Fetch HolidayCalendar for BusinessCenters
+fetchHolidayCalendar : (Fetch f) => BusinessCenters -> f HolidayCalendarData
+fetchHolidayCalendar (checkBusinessCenters -> bcs) = do
+  let calKeys = map (\bc -> HolidayCalendarKey { label = showShort bc }) bcs.businessCenter
+  cals <- mapA A.fetchHolidayCalendar calKeys
+  if any isNone cals then error "not all holiday calendars found"
+  else return $ fromSomeTry "expecting at least one calendar" $ mergeHCs $ catOptionals cals
+
+  where
+    showShort : FieldWithMeta BusinessCenterEnum -> Text
+    showShort bc = Text.dropPrefix "BusinessCenterEnum_" $ show bc.value
+
+    mergeHCs : [HolidayCalendarData] -> Optional HolidayCalendarData
+    mergeHCs [] = None
+    mergeHCs cals = Some $ foldl1 mergeImpl cals
+      where
+        mergeImpl : HolidayCalendarData -> HolidayCalendarData -> HolidayCalendarData
+        mergeImpl cal1 cal2 = HolidayCalendarData
+                                { label = cal1.label <> "," <> cal2.label
+                                , weekend = dedup $ cal1.weekend ++ cal2.weekend
+                                , holidays = dedup $ cal1.holidays ++ cal2.holidays
+                                }

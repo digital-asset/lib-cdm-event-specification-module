@@ -1,0 +1,96 @@
+-- Copyright (c) 2019, Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved.
+-- SPDX-License-Identifier: Apache-2.0
+
+daml 1.2
+module Org.Isda.Cdm.EventSpecificationModule.EventBuilder.Termination where
+
+import Org.Isda.Cdm.EventSpecificationModule.Impl.Contract
+import Org.Isda.Cdm.EventSpecificationModule.Impl.Contract.Payout.ContractualQuantity
+import Org.Isda.Cdm.EventSpecificationModule.Impl.Event
+import Org.Isda.Cdm.EventSpecificationModule.Impl.Identifier
+import Org.Isda.Cdm.EventSpecificationModule.Impl.Utils
+import Org.Isda.Cdm.EventSpecificationModule.Types.All
+
+-- | Build Termination event
+buildTerminationEvent : TerminationSpec -> Event
+buildTerminationEvent spec =
+  let closedState = ClosedState
+                      { state = ClosedStateEnum_Terminated
+                      , activityDate = spec.base.eventDate
+                      , effectiveDate = spec.base.effectiveDate
+                      , lastPaymentDate = None
+                      }
+      quantity = getContractualQuantity spec.contract
+      quantityChange = buildQuantityChangePrimitive quantity (Some closedState) spec.contract
+      primitive = emptyPrimitiveEvent { quantityChange = [quantityChange], transfer = spec.base.transfer }
+      lineage = emptyLineage { contractReference = [referenceWithEmptyMeta spec.contract.rosettaKey] }
+      eventEffect = buildEventEffect primitive
+
+  in Event
+      { id = spec.base.id
+      , rosettaKey = ""
+      , account = spec.base.account
+      , action = spec.base.action
+      , effectiveDate = spec.base.effectiveDate
+      , eventDate = spec.base.eventDate
+      , eventEffect = Some eventEffect
+      , eventIdentifier = spec.base.eventIdentifier
+      , eventQualifier = Some "Termination"
+      , functionCall = None
+      , intent = Some IntentEnum_Termination
+      , lineage = Some lineage
+      , messageInformation = spec.base.messageInformation
+      , party = spec.contract.party
+      , primitive = primitive
+      , timestamp = spec.base.timestamp
+      , eventWorkflow = None
+      }
+
+-- | Build PartialTermination event
+buildPartialTerminationEvent : PartialTerminationSpec -> Event
+buildPartialTerminationEvent spec =
+  let quantityChange = buildQuantityChangePrimitive spec.change None spec.contract
+      primitive = emptyPrimitiveEvent { quantityChange = [quantityChange], transfer = spec.base.transfer }
+      lineage = emptyLineage { contractReference = [referenceWithEmptyMeta spec.contract.rosettaKey] }
+      eventEffect = buildEventEffect primitive
+
+  in Event
+      { id = spec.base.id
+      , rosettaKey = ""
+      , account = spec.base.account
+      , action = spec.base.action
+      , effectiveDate = spec.base.effectiveDate
+      , eventDate = spec.base.eventDate
+      , eventEffect = Some eventEffect
+      , eventIdentifier = spec.base.eventIdentifier
+      , eventQualifier = Some "PartialTermination"
+      , functionCall = None
+      , intent = Some IntentEnum_PartialTermination
+      , lineage = Some lineage
+      , messageInformation = spec.base.messageInformation
+      , party = spec.contract.party
+      , primitive = primitive
+      , timestamp = spec.base.timestamp
+      , eventWorkflow = None
+      }
+
+-- | HIDE
+buildQuantityChangePrimitive : [ContractualQuantity] -> Optional ClosedState -> Contract -> QuantityChangePrimitive
+buildQuantityChangePrimitive change closedState contract =
+  let identifierNew = map increaseVersion contract.contractIdentifier
+
+      quantity = getContractualQuantity contract
+      quantityNew = zipWith subtract quantity change
+
+      afterContract = (setContractualQuantity quantityNew contract) { contractIdentifier = identifierNew, closedState = closedState }
+
+  in QuantityChangePrimitive
+      { before = Trade
+        { execution = None
+        , contract = Some contract
+        }
+      , after = Trade
+        { execution = None
+        , contract = Some afterContract
+        }
+      }

@@ -1,0 +1,41 @@
+-- Copyright (c) 2019, Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved.
+-- SPDX-License-Identifier: Apache-2.0
+
+daml 1.2
+module Org.Isda.Cdm.EventSpecificationModule.Impl.Date.BusinessDayAdjustments where
+
+import Org.Isda.Cdm.EventSpecificationModule.Impl.Date.Base
+import Org.Isda.Cdm.EventSpecificationModule.Impl.Date.BusinessCenters as BC
+import Org.Isda.Cdm.EventSpecificationModule.Impl.Utils
+import Org.Isda.Cdm.EventSpecificationModule.Types.All
+
+-- | Adjust date for BusinessDayAdjustments
+adjustDate : (Fetch f) => BusinessDayAdjustments -> Date -> f Date
+adjustDate bdAdj date =
+  case bdAdj.businessDayConvention of
+    BusinessDayConventionEnum_FOLLOWING       -> do
+      let bcs = get "businessCenters" bdAdj.businessCenters
+      cal <- BC.fetchHolidayCalendar bcs
+      return $ nextOrSameBusinessDay cal date
+
+    BusinessDayConventionEnum_MODFOLLOWING    -> do
+      let bcs = get "businessCenters" bdAdj.businessCenters
+      cal <- BC.fetchHolidayCalendar bcs
+      return $ nextSameOrLastInMonthBusinessDay cal date
+
+    BusinessDayConventionEnum_PRECEDING       -> do
+      let bcs = get "businessCenters" bdAdj.businessCenters
+      cal <- BC.fetchHolidayCalendar bcs
+      return $ previousOrSameBusinessDay cal date
+
+    BusinessDayConventionEnum_MODPRECEDING    -> do
+      let bcs = get "businessCenters" bdAdj.businessCenters
+      cal <- BC.fetchHolidayCalendar bcs
+      return $ previousSameOrFirstInMonthBusinessDay cal date
+
+    BusinessDayConventionEnum_NONE            -> return date
+
+    BusinessDayConventionEnum_NotApplicable   -> error "cannot adjust for 'NotApplicable'"
+
+    BusinessDayConventionEnum_NEAREST         -> throwNotSupportedError "businessDayConvention 'NEAREST'"
+    BusinessDayConventionEnum_FRN             -> throwNotSupportedError "businessDayConvention 'FRN'"

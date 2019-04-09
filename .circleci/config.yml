@@ -1,0 +1,43 @@
+# Copyright (c) 2019, Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved.
+# SPDX-License-Identifier: Apache-2.0
+version: 2.1
+
+jobs:
+  daml:
+    docker:
+      - image: digitalasset/daml-sdk:0.11.23-circleci-master
+    steps:
+      - checkout
+      - setup_remote_docker
+      - run:
+          name: Test Dar
+          command: make test-dar
+      - run:
+          name: Build Dar
+          command: make build-dar
+      - run:
+          name: Save test results
+          command: |
+            mkdir -pv ~/test-results/daml
+            find . -type f -regex ".*/target/.*DarTests.xml" -exec cp {} ~/test-results/daml/ \;
+      - store_test_results:
+          path: ~/test-results
+  haskell:
+    docker:
+      - image: fpco/stack-build:lts
+    steps:
+      - checkout
+      - run:
+          name: Generate Haskell
+          command: |
+            ./haskell/scripts/generate-haskell.sh
+      - run:
+          name: Run tests
+          command: |
+            cd haskell && stack test
+
+workflows:
+  Build and test:
+    jobs:
+      - daml
+      - haskell

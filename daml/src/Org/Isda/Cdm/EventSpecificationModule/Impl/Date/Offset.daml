@@ -1,0 +1,55 @@
+-- Copyright (c) 2019, Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved.
+-- SPDX-License-Identifier: Apache-2.0
+
+daml 1.2
+module Org.Isda.Cdm.EventSpecificationModule.Impl.Date.Offset where
+
+import DA.Optional
+import Org.Isda.Cdm.EventSpecificationModule.Impl.Date.Base
+import Org.Isda.Cdm.EventSpecificationModule.Impl.Date.BusinessCenters as BC
+import Org.Isda.Cdm.EventSpecificationModule.Impl.Date.BusinessDayAdjustments
+import Org.Isda.Cdm.EventSpecificationModule.Impl.Date.Period
+import Org.Isda.Cdm.EventSpecificationModule.Impl.Utils
+import Org.Isda.Cdm.EventSpecificationModule.Types.All
+
+-- | Apply Offset to date
+applyOffset : (Fetch f) => Offset -> Optional BusinessCenters -> Date -> f Date
+applyOffset Offset{..} bcs date
+  | useDayType && dayType == Some DayTypeEnum_Calendar =
+      return $ addPeriod date (Period { id = None, periodMultiplier = periodMultiplier, period = period })
+
+  | useDayType && isSome dayType = do
+      cal <- BC.fetchHolidayCalendar $ fromSomeTry "expecting 'BusinessCenters' to be provided for adjusted date" bcs
+      return $ addBusinessDays cal periodMultiplier date
+
+  | useDayType && isNone dayType = error "expecting 'dayType' to be set if date is offset by a number of days"
+
+  | otherwise = return $ addPeriod date (Period { id = None, periodMultiplier = periodMultiplier, period = period })
+
+  where
+    useDayType = period == PeriodEnum_D && periodMultiplier /= 0
+
+-- | Check RelativeDateOffset for non-supported features
+checkRelativeDateOffset : RelativeDateOffset -> RelativeDateOffset
+checkRelativeDateOffset relOffset | isSome relOffset.businessCentersReference = throwNotSupportedError "RelativeDateOffset.businessCentersReference"
+checkRelativeDateOffset relOffset | isSome relOffset.dateRelativeTo = throwNotSupportedError "RelativeDateOffset.dateRelativeTo"
+checkRelativeDateOffset relOffset = relOffset
+
+-- | Apply RelativeDateOffset to date
+applyRelativeDateOffset : (Fetch f) => RelativeDateOffset -> Date -> f Date
+applyRelativeDateOffset (checkRelativeDateOffset -> RelativeDateOffset{..}) date = do
+  offsettedDate <- applyOffset offset adj.businessCenters date
+  adjustDate adj offsettedDate
+
+  where
+    offset = Offset
+              { id = None
+              , dayType = dayType
+              , periodMultiplier = periodMultiplier
+              , period = period
+              }
+    adj = BusinessDayAdjustments
+            { id = None
+            , businessDayConvention = businessDayConvention
+            , businessCenters = businessCenters
+            }

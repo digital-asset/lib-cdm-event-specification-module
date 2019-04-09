@@ -1,0 +1,59 @@
+-- Copyright (c) 2019, Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved.
+-- SPDX-License-Identifier: Apache-2.0
+
+daml 1.2
+module Org.Isda.Cdm.EventSpecificationModule.Impl.Contract.Payout.ContractualQuantity
+  ( getCurrency
+  , calcQuantity
+  , subtract
+  )
+  where
+
+import DA.Optional
+import Org.Isda.Cdm.EventSpecificationModule.Impl.Utils
+import Org.Isda.Cdm.EventSpecificationModule.Types.All
+
+-- | Check ContractualQuantity for non-supported features
+checkContractualQuantity : ContractualQuantity -> ContractualQuantity
+checkContractualQuantity cQuantity | isSome cQuantity.quantity = throwNotSupportedError "ContractualQuantity.quantity"
+checkContractualQuantity cQuantity | isSome cQuantity.futureValueNotional = throwNotSupportedError "ContractualQuantity.futureValueNotional"
+checkContractualQuantity cQuantity | isSome cQuantity.fxLinkedNotional = throwNotSupportedError "ContractualQuantity.fxLinkedNotional"
+checkContractualQuantity cQuantity | isSome cQuantity.notionalReset = throwNotSupportedError "ContractualQuantity.notionalReset"
+checkContractualQuantity cQuantity | isSome cQuantity.notionalAdjustments = throwNotSupportedError "ContractualQuantity.notionalAdjustments"
+checkContractualQuantity cQuantity | isSome cQuantity.notionalAmount = throwNotSupportedError "ContractualQuantity.notionalAmount"
+checkContractualQuantity cQuantity | Some (checkNotionalSchedule -> ns) <- cQuantity.notionalSchedule = cQuantity
+  where
+    checkNotionalSchedule : NotionalSchedule -> NotionalSchedule
+    checkNotionalSchedule ns | isSome ns.notionalStepParameters = throwNotSupportedError "NotionalSchedule.notionalStepParameters"
+    checkNotionalSchedule ns | not $ null ns.notionalStepSchedule.step = throwNotSupportedError "NotionalSchedule.notionalStepSchedule.step"
+    checkNotionalSchedule ns = ns
+checkContractualQuantity cQuantity = cQuantity
+
+-- | Get currency from ContractualQuantity
+getCurrency : ContractualQuantity -> Text
+getCurrency (checkContractualQuantity -> cQuantity)
+  | Some ns <- cQuantity.notionalSchedule = ns.notionalStepSchedule.currency.value
+  | otherwise = error "expecting some quantity in ContractualQuantity"
+
+-- | Calculate quantity from ContractualQuantity
+calcQuantity : Date -> ContractualQuantity -> (Optional Decimal, Optional FxLinkedNotionalAmount)
+calcQuantity baseDate (checkContractualQuantity -> cQuantity)
+  | Some ns <- cQuantity.notionalSchedule = fromNotionalSchedule ns baseDate
+  | otherwise = error "expecting some quantity in ContractualQuantity"
+
+  where
+    fromNotionalSchedule : NotionalSchedule -> Date -> (Optional Decimal, Optional FxLinkedNotionalAmount)
+    fromNotionalSchedule ns baseDate = (Some ns.notionalStepSchedule.initialValue, None)
+
+-- | Subtract two ContractualQuantity values
+subtract : ContractualQuantity -> ContractualQuantity -> ContractualQuantity
+subtract (checkContractualQuantity -> qc1) (checkContractualQuantity -> qc2) = do
+  let n1 = get "qc1.notionalSchedule" qc1.notionalSchedule
+  let ns1 = n1.notionalStepSchedule
+
+  let n2 = get "qc2.notionalSchedule" qc2.notionalSchedule
+  let ns2 = n2.notionalStepSchedule
+
+  let ns1New : NonNegativeAmountSchedule = ns1 { initialValue = ns1.initialValue - ns2.initialValue }
+  let n1New = n1 { notionalStepSchedule = ns1New }
+  qc1 { notionalSchedule = Some n1New }

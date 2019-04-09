@@ -1,0 +1,59 @@
+-- Copyright (c) 2019, Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved.
+-- SPDX-License-Identifier: Apache-2.0
+
+daml 1.2
+module Org.Isda.Cdm.EventSpecificationModule.Impl.Date.DayCountFraction (calcDayCountFraction) where
+
+import DA.Date
+import Org.Isda.Cdm.EventSpecificationModule.Impl.Utils
+import Org.Isda.Cdm.EventSpecificationModule.Types.All
+
+-- | Calculate day count fraction
+calcDayCountFraction : DayCountFractionEnum -> Date -> Date -> Decimal
+calcDayCountFraction DayCountFractionEnum__30E_360 startDate endDate = calc30E_360 startDate endDate
+calcDayCountFraction DayCountFractionEnum__30_360 startDate endDate = calc30_360 startDate endDate
+calcDayCountFraction DayCountFractionEnum_ACT_360 startDate endDate = calcAct_360 startDate endDate
+calcDayCountFraction dcf _ _ = throwNotSupportedError (show dcf)
+
+-- | Calculate 30E_360 day count fraction
+calc30E_360 : Date -> Date -> Decimal
+calc30E_360 startDate endDate =
+  let start = toGregorian startDate
+      end = toGregorian endDate
+
+      startYear = year start
+      endYear = year end
+      startMonth = month start
+      endMonth = month end
+      startDay = min (day start) 30
+      endDay = min (day end) 30
+
+  in intToDecimal (360 * (endYear - startYear) + 30 * (endMonth - startMonth) + (endDay - startDay)) / 360.0
+
+  where
+    year (y, _, _) = y
+    month (_, m, _) = fromEnum m
+    day (_, _, d) = d
+
+calc30_360 : Date -> Date -> Decimal
+calc30_360 startDate endDate =
+  let start = toGregorian startDate
+      end = toGregorian endDate
+
+      startYear = year start
+      endYear = year end
+      startMonth = month start
+      endMonth = month end
+      startDay = min (day start) 30
+      endDay = if day start > 29 then min (day end) 30 else day end
+
+  in intToDecimal (360 * (endYear - startYear) + 30 * (endMonth - startMonth) + (endDay - startDay)) / 360.0
+
+  where
+    year (y, _, _) = y
+    month (_, m, _) = fromEnum m
+    day (_, _, d) = d
+
+-- | Calculate Act_360 day count fraction
+calcAct_360 : Date -> Date -> Decimal
+calcAct_360 startDate endDate = intToDecimal (subDate endDate startDate) / 360.0

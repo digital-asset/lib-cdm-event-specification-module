@@ -1,0 +1,23 @@
+-- Copyright (c) 2019, Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved.
+-- SPDX-License-Identifier: Apache-2.0
+
+daml 1.2
+module Test.Date.Base where
+
+import DA.Assert
+import DA.Date
+import Org.Isda.Cdm.EventSpecificationModule.Impl.Date.Base
+import Org.Isda.Cdm.EventSpecificationModule.Types.ReferenceData.HolidayCalendar
+
+main = scenario do
+  let hc = HolidayCalendarData { label = "USNY", weekend = [Saturday, Sunday], holidays = [date 2018 Jan 02, date 2018 Jan 31, date 2018 Feb 1] }
+
+  isHoliday hc (date 2018 Jan 02) === True
+  isBusinessDay hc (date 2018 Jan 02) === False
+  nextBusinessDay hc (date 2018 Jan 01) === date 2018 Jan 03
+  previousBusinessDay hc (date 2018 Jan 03) === date 2018 Jan 01
+  nextOrSameBusinessDay hc (date 2018 Jan 01) === date 2018 Jan 01
+  previousOrSameBusinessDay hc (date 2018 Jan 03) === date 2018 Jan 03
+  nextSameOrLastInMonthBusinessDay hc (date 2018 Jan 31) === date 2018 Jan 30
+  addBusinessDays hc 5 (date 2018 Jan 01) === date 2018 Jan 09
+  addBusinessDays hc (-5) (date 2018 Feb 05) === date 2018 Jan 25
