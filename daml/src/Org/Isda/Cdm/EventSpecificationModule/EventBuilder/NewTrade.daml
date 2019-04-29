@@ -8,7 +8,7 @@ import Org.Isda.Cdm.EventSpecificationModule.Impl.Event
 import Org.Isda.Cdm.EventSpecificationModule.Types.All
 
 -- | Build NewTrade event
-buildNewTradeEvent :  NewTradeSpec -> Event
+buildNewTradeEvent : NewTradeSpec -> Event
 buildNewTradeEvent spec =
   let primitive = emptyPrimitiveEvent
                     { inception = [ Inception { after = spec.after, before = [] } ]

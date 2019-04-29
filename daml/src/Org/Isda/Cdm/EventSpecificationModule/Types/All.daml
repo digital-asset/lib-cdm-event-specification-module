@@ -12,6 +12,7 @@ module Org.Isda.Cdm.EventSpecificationModule.Types.All
   , module Org.Isda.Cdm.EventSpecificationModule.Types.ReferenceData.HolidayCalendar
   , module Org.Isda.Cdm.EventSpecificationModule.Types.ReferenceData.Key
   , module Org.Isda.Cdm.EventSpecificationModule.Types.ReferenceData.Observation
+  , module Org.Isda.Cdm.ZonedDateTime
   ) where
 
 import Org.Isda.Cdm.Classes
@@ -23,3 +24,4 @@ import Org.Isda.Cdm.EventSpecificationModule.Types.ReferenceData.Fetch
 import Org.Isda.Cdm.EventSpecificationModule.Types.ReferenceData.HolidayCalendar
 import Org.Isda.Cdm.EventSpecificationModule.Types.ReferenceData.Key
 import Org.Isda.Cdm.EventSpecificationModule.Types.ReferenceData.Observation
+import Org.Isda.Cdm.ZonedDateTime

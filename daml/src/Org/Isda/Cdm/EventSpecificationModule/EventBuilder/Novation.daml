@@ -96,7 +96,11 @@ buildQuantityChangePrimitive change closedState contract =
       quantity = getContractualQuantity contract
       quantityNew = zipWith subtract quantity change
 
-      afterContract = (setContractualQuantity quantityNew contract) { contractIdentifier = identifierNew, closedState = closedState }
+      afterContract = (setContractualQuantity quantityNew contract)
+                        { contractIdentifier = identifierNew
+                        , closedState = closedState
+                        , rosettaKey = ""
+                        }
 
   in QuantityChangePrimitive
       { before = Trade

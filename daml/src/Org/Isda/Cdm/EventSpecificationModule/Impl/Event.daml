@@ -79,9 +79,11 @@ buildEventEffect pe =
         ++ mapOptional (\qc -> fmap (\c -> c.rosettaKey) qc.after.execution) pe.quantityChange
         ++ mapOptional (\tc -> fmap (\c -> c.rosettaKey) tc.after.execution) termsChange
 
+      transfer = map (\t -> t.rosettaKey) pe.transfer
+
   in EventEffect
       { productIdentifier = []
-      , transfer = []
+      , transfer = transfer
       , effectedExecution = effectedExecution
       , effectedContract = effectedContract
       , contract = contract
