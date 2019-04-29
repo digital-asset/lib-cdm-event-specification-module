@@ -27,7 +27,7 @@ buildEvents fromDate toDate pastEvents (checkContract -> contract) = do
   Payout.buildEvents fromDate toDate pastEvents payout
 
 -- | Get list of ContractualQuantity(s) from Contract
-getContractualQuantity :  Contract -> [ContractualQuantity]
+getContractualQuantity : Contract -> [ContractualQuantity]
 getContractualQuantity contract =
   let payout = contract.contractualProduct.economicTerms.payout
   in case payout.creditDefaultPayout of
