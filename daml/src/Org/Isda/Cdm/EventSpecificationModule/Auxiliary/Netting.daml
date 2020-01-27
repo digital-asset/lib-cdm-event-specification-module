@@ -112,7 +112,7 @@ netTransfers (map checkTransferPrimitive -> transfers) = combineOn (\t -> (t.set
                 normalize : (PayerReceiver, Money) -> (PayerReceiver, Money)
                 normalize (pr, a)
                   | a.amount >= 0.0 = (pr, a)
-                  | a.amount < 0.0 =
+                  | otherwise =
                       let prNew = PayerReceiver
                                     { payerAccountReference     = pr.receiverAccountReference
                                     , receiverAccountReference  = pr.payerAccountReference

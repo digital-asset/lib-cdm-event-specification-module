@@ -67,6 +67,7 @@ generatePaymentCalculationPeriods cpds rds (fmap (checkPaymentDates cpds) -> pds
                         (get "adjustedStartDate" . (\cp -> cp.adjustedStartDate) . head) cps
                       PayRelativeToEnum_CalculationPeriodEndDate ->
                         (get "adjustedEndDate" . (\cp -> cp.adjustedEndDate) . last) $ cps
+                      otherwise -> error (show payRelativeTo <> " not supported.")
 
       uPayDate <- optional (pure baseDate) (\o -> applyOffset o adj.businessCenters baseDate) offset
       aPayDate <- adjustDate adj uPayDate

@@ -132,7 +132,7 @@ testCDS = scenario do
         , emptyPrimitiveEvent { transfer = [genPayment 2527.777778 (D.date 2019 Dec 20) (Some $ D.date 2019 Dec 20) (Some CashflowTypeEnum_Interest)] } : PrimitiveEvent
         ]
 
-  res <- buildEvents None None [] cds
+  res <- buildEvents None None [] cdsPayout
 
   map (\r -> r.eventDate) res                 === expectedED
   mapOptional (\r -> r.effectiveDate) res     === expectedED

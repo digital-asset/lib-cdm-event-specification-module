@@ -1,0 +1,116 @@
+-- Copyright (c) 2019, Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved.
+-- SPDX-License-Identifier: Apache-2.0
+
+daml 1.2
+module Test.EventBuilder.Termination where
+
+import DA.Date as D
+import DA.Time as T
+import Org.Isda.Cdm.EventSpecificationModule
+import Org.Isda.Cdm.EventSpecificationModule.Impl.Utils
+import Test.Examples
+
+termination = scenario do
+  let baseEvent = BaseEvent
+        { account = []
+        , action = ActionEnum_New
+        , effectiveDate = Some $ D.date 2019 Jan 3
+        , eventDate = D.date 2019 Jan 1
+        , eventIdentifier =
+            [ Identifier
+                { id = None
+                , issuerReference = Some $ referenceWithEmptyMeta "Party1"
+                , issuer = None
+                , assignedIdentifier =
+                    [ AssignedIdentifier
+                        { version = Some 1
+                        , identifier = fieldWithEmptyMeta "ABC"
+                        }
+                    ]
+                }
+            ]
+        , id = None
+        , messageInformation = None
+        , transfer = []
+        , timestamp =
+            [ EventTimestamp
+                { dateTime = ZonedDateTime
+                    { dateTime = T.time (D.date 2019 Jan 1) 0 0 0
+                    , timezone = "UTC"
+                    }
+                , qualification = EventTimeStampQualificationEnum_eventCreationDateTime
+
+                }
+            ]
+        }
+
+  let spec = TerminationSpec
+        { base = baseEvent
+        , contract = cdsContract
+        }
+
+  let terminationEvent = buildTerminationEvent spec
+  return terminationEvent
+
+partialTermination = scenario do
+  let baseEvent = BaseEvent
+        { account = []
+        , action = ActionEnum_New
+        , effectiveDate = Some $ D.date 2019 Jan 3
+        , eventDate = D.date 2019 Jan 1
+        , eventIdentifier =
+            [ Identifier
+                { id = None
+                , issuerReference = Some $ referenceWithEmptyMeta "Party1"
+                , issuer = None
+                , assignedIdentifier =
+                    [ AssignedIdentifier
+                        { version = Some 1
+                        , identifier = fieldWithEmptyMeta "ABC"
+                        }
+                    ]
+                }
+            ]
+        , id = None
+        , messageInformation = None
+        , transfer = []
+        , timestamp =
+            [ EventTimestamp
+                { dateTime = ZonedDateTime
+                    { dateTime = T.time (D.date 2019 Jan 1) 0 0 0
+                    , timezone = "UTC"
+                    }
+                , qualification = EventTimeStampQualificationEnum_eventCreationDateTime
+
+                }
+            ]
+        }
+
+  let spec = PartialTerminationSpec
+        { base = baseEvent
+        , contract = cdsContract
+        , change =
+            [ ContractualQuantity
+                { futureValueNotional = None
+                , fxLinkedNotional = None
+                , notionalAmount = None
+                , notionalReset = None
+                , notionalAdjustments = None
+                , notionalSchedule = Some
+                    NotionalSchedule
+                      { id = None
+                      , notionalStepParameters = None
+                      , notionalStepSchedule = NonNegativeAmountSchedule
+                          { id = None
+                          , currency = fieldWithEmptyMeta "USD"
+                          , initialValue = 300000.0
+                          , step = []
+                          }
+                      }
+                , quantity = None
+                }
+            ]
+        }
+
+  let partialTerminationEvent = buildPartialTerminationEvent spec
+  return partialTerminationEvent

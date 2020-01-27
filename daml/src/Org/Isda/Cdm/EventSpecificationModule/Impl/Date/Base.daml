@@ -75,4 +75,4 @@ addBusinessDays : HolidayCalendarData -> Int -> Date -> Date
 addBusinessDays cal n date
  | n == 0 = date
  | n < 0 = addBusinessDays cal (n + 1) $ previousBusinessDay cal date
- | n > 0 = addBusinessDays cal (n - 1) $ nextBusinessDay cal date
+ | otherwise = addBusinessDays cal (n - 1) $ nextBusinessDay cal date
