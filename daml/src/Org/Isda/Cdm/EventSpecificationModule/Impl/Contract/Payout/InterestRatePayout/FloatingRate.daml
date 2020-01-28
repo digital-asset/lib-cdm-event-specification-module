@@ -4,7 +4,6 @@
 daml 1.2
 module Org.Isda.Cdm.EventSpecificationModule.Impl.Contract.Payout.InterestRatePayout.FloatingRate where
 
-import DA.List
 import DA.Optional
 import Org.Isda.Cdm.EventSpecificationModule.Impl.Event
 import Org.Isda.Cdm.EventSpecificationModule.Impl.Utils

@@ -24,6 +24,7 @@ module Prelude
     , fromString
     , mapA
     , find
+    , length
 
     , Scenario
     , scenario
@@ -51,7 +52,7 @@ import Data.Word
 import DA.Assert
 import DA.Date
 import DA.Internal.Prelude
-import DA.List hiding (length)
+import DA.List
 
 import qualified Data.Decimal
 

@@ -92,7 +92,7 @@ setContractualQuantity qc contract =
                 cdpNew = cdp { protectionTerms = map (setCdpQuantity notionalAmountNew) cdp.protectionTerms }
             in payout { creditDefaultPayout = Some cdpNew }
 
-      payoutIrp = payout { interestRatePayout = map (setIrpQuantity qcSingle) payout.interestRatePayout }
+      payoutIrp = payoutCdp { interestRatePayout = map (setIrpQuantity qcSingle) payout.interestRatePayout }
 
       economicTermsNew = contract.contractualProduct.economicTerms { payout = payoutIrp }
       contractualProductNew = contract.contractualProduct { economicTerms = economicTermsNew }

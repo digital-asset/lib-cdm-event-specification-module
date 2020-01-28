@@ -496,8 +496,8 @@ payoutBasisSwap = Payout {
                       ]
                   }
 
-cds : Payout
-cds = Payout {
+cdsPayout : Payout
+cdsPayout = Payout {
         cashflow =
           [ Cashflow {
               rosettaKey = "w46sfdh34",
@@ -671,4 +671,83 @@ cds = Payout {
         optionPayout = [],
         equityPayout = [],
         forwardPayout = []
+      }
+
+cdsContract : Contract
+cdsContract =
+  Contract
+    { id = None
+    , clearedDate = None
+    , closedState = None
+    , governingLaw = None
+    , partyContractInformation = []
+    , account = []
+    , contractualProduct = ContractualProduct
+        { productTaxonomy = []
+        , economicTerms = EconomicTerms
+            { extendibleProvision = None
+            , cancelableProvision = None
+            , earlyTerminationProvision = None
+            , quantity = []
+            , extraordinaryEvents = None
+            , rosettaKeyValue = ""
+            , payout = cdsPayout
+            }
+        , productIdentification = Some ProductIdentification
+            { secondaryAssetClass = []
+            , productType = []
+            , primaryAssetClass = Some $ fieldWithEmptyMeta AssetClassEnum_Credit
+            , productQualifier = Some "Credit_Default_Swap_Index"
+            , productId = []
+            }
+        }
+    , documentation = None
+    , partyRole = []
+    , tradeDate = TradeDate
+        { id = None
+        , date = D.date 2018 Nov 13
+        }
+    , rosettaKey = ""
+    , calculationAgent = None
+    , collateral = None
+    , party =
+        [ Party
+            { account = None
+            , id = Some "Party1"
+            , name = None
+            , partyId = [fieldWithEmptyMeta "Party1"]
+            , person = []
+            }
+        , Party
+            { account = None
+            , id = Some "Party2"
+            , name = None
+            , partyId = [fieldWithEmptyMeta "Party2"]
+            , person = []
+            }
+        ]
+    , contractIdentifier =
+        [ Identifier
+            { id = None
+            , issuerReference = Some $ referenceWithEmptyMeta "Party1"
+            , issuer = None
+            , assignedIdentifier =
+                [ AssignedIdentifier
+                    { version = Some 1
+                    , identifier = fieldWithEmptyMeta "ABC"
+                    }
+                ]
+            }
+        , Identifier
+            { id = None
+            , issuerReference = Some $ referenceWithEmptyMeta "Party2"
+            , issuer = None
+            , assignedIdentifier =
+                [ AssignedIdentifier
+                    { version = Some 1
+                    , identifier = fieldWithEmptyMeta "ABC"
+                    }
+                ]
+            }
+        ]
       }

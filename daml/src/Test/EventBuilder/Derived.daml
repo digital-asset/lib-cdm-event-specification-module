@@ -1,0 +1,39 @@
+-- Copyright (c) 2019, Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved.
+-- SPDX-License-Identifier: Apache-2.0
+
+daml 1.2
+module Test.EventBuilder.Derived where
+
+import DA.Assert
+import DA.List as L
+import Org.Isda.Cdm.EventSpecificationModule
+import Test.Examples
+import Test.ReferenceData
+
+cds_all_periods = scenario do
+  let spec = DerivedSpec
+        { fromDate = None
+        , toDate = None
+        , pastEvents = []
+        , contract = cdsContract
+        }
+
+  let events = buildDerivedEvents refData spec
+
+  return events
+
+cds_last_period = scenario do
+  eventsAll <- cds_all_periods
+
+  let spec = DerivedSpec
+        { fromDate = None
+        , toDate = None
+        , pastEvents = init eventsAll
+        , contract = cdsContract
+        }
+
+  let events = buildDerivedEvents refData spec
+
+  events === [last eventsAll]
+  return events
+

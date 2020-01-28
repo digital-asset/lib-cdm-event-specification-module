@@ -12,6 +12,12 @@ instance Fetch Scenario where
   fetchHolidayCalendar key = return $ fmap snd $ find ((== key) . fst) cals
   fetchObservation key = return $ fmap snd $ find ((== key) . fst) obs
 
+refData : RefData
+refData = RefData
+  { holidayCalendars = map snd cals
+  , observations     = map snd obs
+  }
+
 cals : [(HolidayCalendarKey, HolidayCalendarData)]
 cals =
   map (\d -> (getKey d, d))
