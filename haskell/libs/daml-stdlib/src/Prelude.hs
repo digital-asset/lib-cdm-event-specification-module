@@ -26,8 +26,8 @@ module Prelude
     , find
     , length
 
-    , Scenario
-    , scenario
+    , Script
+    , script
     , describe
     ) where
 
@@ -114,4 +114,4 @@ return = pure
 mapA :: (Applicative f, Traversable t) => (a -> f b) -> t a -> f (t b)
 mapA = traverse
 
-type Scenario = IO
+type Script = IO

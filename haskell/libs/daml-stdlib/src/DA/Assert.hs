@@ -2,7 +2,7 @@
 -- SPDX-License-Identifier: Apache-2.0
 
 module DA.Assert
-  ( scenario
+  ( script
   , (===)
   , describe
   ) where
@@ -13,8 +13,8 @@ import "base" Control.Exception
 import Data.Text (Text)
 import Test.Hspec
 
-scenario :: String -> Expectation -> SpecWith ()
-scenario = it
+script :: String -> Expectation -> SpecWith ()
+script = it
 
 (===) :: (HasCallStack, Eq a, Show a) => a -> a -> Expectation
 (===) = shouldBe
