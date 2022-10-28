@@ -1,7 +1,6 @@
 -- Copyright (c) 2019, Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved.
 -- SPDX-License-Identifier: Apache-2.0
 
-daml 1.2
 module Test.Impl.Payout.Cashflow where
 
 import DA.Assert
@@ -13,8 +12,9 @@ import Org.Isda.Cdm.EventSpecificationModule.Impl.Utils
 import Org.Isda.Cdm.EventSpecificationModule.Types.All
 import Test.Examples
 import Test.ReferenceData()
+import Daml.Script (script)
 
-main = scenario do
+main = script do
   let payment = TransferPrimitive {
                   cashTransfer =
                     [ CashTransferComponent {

@@ -1,7 +1,6 @@
 -- Copyright (c) 2019, Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved.
 -- SPDX-License-Identifier: Apache-2.0
 
-daml 1.2
 module Org.Isda.Cdm.EventSpecificationModule.Impl.Contract where
 
 import DA.List as L
@@ -33,9 +32,8 @@ getContractualQuantity contract =
   in case payout.creditDefaultPayout of
       Some cdp ->
         let cdpQuantities = map getCdpQuantity cdp.protectionTerms
-            irpQuantities = map (fromOptional cdpQuantity . getIrpQuantity) payout.interestRatePayout
-
             cdpQuantity = getFirst "protectionTerms" cdpQuantities
+            irpQuantities = map (fromOptional cdpQuantity . getIrpQuantity) payout.interestRatePayout
         in if any (/= cdpQuantity) cdpQuantities || any (/= cdpQuantity) irpQuantities
             then throwNotSupportedError "non-unique quantity"
             else [cdpQuantity]

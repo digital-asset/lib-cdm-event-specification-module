@@ -1,7 +1,6 @@
 -- Copyright (c) 2019, Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved.
 -- SPDX-License-Identifier: Apache-2.0
 
-daml 1.2
 module Test.Date.BusinessDayAdjustments where
 
 import DA.Assert
@@ -10,8 +9,9 @@ import Org.Isda.Cdm.EventSpecificationModule.Impl.Date.BusinessDayAdjustments
 import Org.Isda.Cdm.EventSpecificationModule.Impl.Utils
 import Org.Isda.Cdm.EventSpecificationModule.Types.All hiding (length)
 import Test.ReferenceData()
+import Daml.Script (script)
 
-main = scenario do
+main = script do
   let bcs = BusinessCenters { businessCenter = [fieldWithEmptyMeta BusinessCenterEnum_USNY], businessCentersReference = None, id = None }
 
   let adjNone = BusinessDayAdjustments {businessCenters = Some bcs, businessDayConvention = BusinessDayConventionEnum_NONE, id = None}

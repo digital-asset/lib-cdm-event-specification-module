@@ -1,7 +1,6 @@
 -- Copyright (c) 2019, Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved.
 -- SPDX-License-Identifier: Apache-2.0
 
-daml 1.2
 module Test.Main where
 
 import Test.Date.AdjustableDate
@@ -19,8 +18,9 @@ import Test.Impl.Payout
 import Test.Impl.Payout.InterestRatePayout.Schedule.CalculationPeriodDates
 import Test.Impl.Payout.InterestRatePayout.Schedule.PaymentDates
 import Test.Impl.Payout.InterestRatePayout.Schedule.ResetDates
+import Daml.Script (script)
 
-main = scenario do
+main = script do
   Test.Date.AdjustableDate.main
   Test.Date.Base.main
   Test.Date.BusinessDayAdjustments.main

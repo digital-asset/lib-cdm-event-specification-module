@@ -1,4 +1,4 @@
-sdk-version: 0.13.46
+sdk-version: 2.4.0
 name: cdm-event-specification-module
 source: src
 version: 2.0.31.0
@@ -7,3 +7,4 @@ exposed-modules:
 dependencies:
 - daml-prim
 - daml-stdlib
+- daml-script

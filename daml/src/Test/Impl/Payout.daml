@@ -1,7 +1,6 @@
 -- Copyright (c) 2019, Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved.
 -- SPDX-License-Identifier: Apache-2.0
 
-daml 1.2
 module Test.Impl.Payout where
 
 import DA.Assert
@@ -14,6 +13,7 @@ import Org.Isda.Cdm.EventSpecificationModule.Impl.Event
 import Org.Isda.Cdm.EventSpecificationModule.Types.All hiding (length)
 import Test.Examples
 import Test.ReferenceData()
+import Daml.Script (script)
 
 genPayment : Decimal -> Date -> Optional Date -> Optional CashflowTypeEnum -> TransferPrimitive
 genPayment amount unadjustedDate adjustedDate cfType =
@@ -56,7 +56,7 @@ genPayment amount unadjustedDate adjustedDate cfType =
     rosettaKey = ""
  }
 
-testBasisSwap = scenario do
+testBasisSwap = script do
   -- Calculate Events
   let reset1M_1 = ResetPrimitive { date = D.date 2018 Nov 30, resetValue = 0.01, cashflow = None }
   let payment1M_1 = genPayment 2499.999999 (D.date 2018 Dec 31) (Some $ D.date 2018 Dec 31) (Some CashflowTypeEnum_Interest)
@@ -112,7 +112,7 @@ testBasisSwap = scenario do
   map (\p -> p.primitive) res               === expectedP
 
 
-testCDS = scenario do
+testCDS = script do
   let expectedED = [D.date 2018 Nov 15, D.date 2018 Dec 19, D.date 2019 Mar 19, D.date 2019 Jun 19, D.date 2019 Sep 19, D.date 2019 Dec 20]
   let expectedQ  = ["CashTransfer", "CashTransfer", "CashTransfer", "CashTransfer", "CashTransfer", "CashTransfer"]
   let expectedL  =
@@ -141,6 +141,6 @@ testCDS = scenario do
   map (\p -> p.primitive) res                 === expectedP
 
 
-main = scenario do
+main = script do
   testBasisSwap
   testCDS

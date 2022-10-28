@@ -1,12 +1,11 @@
 -- Copyright (c) 2019, Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved.
 -- SPDX-License-Identifier: Apache-2.0
 
-daml 1.2
 module Org.Isda.Cdm.EventSpecificationModule.EventBuilder.Novation where
 
 import DA.List
 import Org.Isda.Cdm.EventSpecificationModule.Impl.Contract
-import Org.Isda.Cdm.EventSpecificationModule.Impl.Contract.Payout.ContractualQuantity
+import Org.Isda.Cdm.EventSpecificationModule.Impl.Contract.Payout.ContractualQuantity as CQ
 import Org.Isda.Cdm.EventSpecificationModule.Impl.Event
 import Org.Isda.Cdm.EventSpecificationModule.Impl.Identifier
 import Org.Isda.Cdm.EventSpecificationModule.Impl.Utils
@@ -94,7 +93,7 @@ buildQuantityChangePrimitive change closedState contract =
   let identifierNew = map increaseVersion contract.contractIdentifier
 
       quantity = getContractualQuantity contract
-      quantityNew = zipWith subtract quantity change
+      quantityNew = zipWith CQ.subtract quantity change
 
       afterContract = (setContractualQuantity quantityNew contract)
                         { contractIdentifier = identifierNew
