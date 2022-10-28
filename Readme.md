@@ -11,12 +11,12 @@ If you are not familiar with the CDM already, we recommend to read the [document
 
 ## Prerequisites
 
-* [DAML SDK](https://daml.com/) for building the DAML code
+* [Daml SDK](https://daml.com/) for building the Daml code
 * [stack](https://docs.haskellstack.org/en/stable/README/) for building the Haskell code
 
 ## How to use
 
-The CDM Event Specification Module provides a set of pure (deterministic, side-effect-free with no IO) "builder" functions that can be used to build valid CDM events. The concept of a function exists in almost any program language - it takes some values as input and returns a result. The specification is written in [DAML](daml) and translated into other languages. Currently, [Haskell](haskell) is available.
+The CDM Event Specification Module provides a set of pure (deterministic, side-effect-free with no IO) "builder" functions that can be used to build valid CDM events. The concept of a function exists in almost any program language - it takes some values as input and returns a result. The specification is written in [Daml](daml) and translated into other languages. Currently, [Haskell](haskell) is available.
 
 
 ### Example: Termination
@@ -76,4 +76,4 @@ Traditionally, standards have focused on data representation only. The task of g
 
 **What is meant by specification?**
 
-Essentially, it's a reference implementation that can be translated into other languages. The specification is written in DAML and can directly be used in DAML applications. The important point is that it is also translated into other languages. Haskell is currently available but other languages like Java or C# will follow.
+Essentially, it's a reference implementation that can be translated into other languages. The specification is written in Daml and can directly be used in Daml applications. The important point is that it is also translated into other languages. Haskell is currently available but other languages like Java or C# will follow.

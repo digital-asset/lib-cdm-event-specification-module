@@ -1,14 +1,14 @@
 -- Copyright (c) 2019, Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved.
 -- SPDX-License-Identifier: Apache-2.0
 
-daml 1.2
 module Test.ReferenceData where
 
 import DA.Date as D
 import Org.Isda.Cdm.EventSpecificationModule.Impl.Utils
 import Org.Isda.Cdm.EventSpecificationModule.Types.All hiding (length)
+import Daml.Script (Script)
 
-instance Fetch Scenario where
+instance Fetch Script where
   fetchHolidayCalendar key = return $ fmap snd $ find ((== key) . fst) cals
   fetchObservation key = return $ fmap snd $ find ((== key) . fst) obs
 

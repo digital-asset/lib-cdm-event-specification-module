@@ -14,10 +14,10 @@ rm "$HS_FILE.bak"
 MODULE_NAME="${HS_FILE#haskell/test/}"
 MODULE_NAME="${MODULE_NAME%.hs}"
 MODULE_NAME="${MODULE_NAME////.}"
-if grep 'scenario' "$HS_FILE" | grep -q -v "main" || [[ "$HS_FILE" == *Main.hs ]]; then
-    sed -i.bak "s|main = scenario|main = describe \"${MODULE_NAME}\"|" "$HS_FILE"
+if grep 'script' "$HS_FILE" | grep -q -v "main" || [[ "$HS_FILE" == *Main.hs ]]; then
+    sed -i.bak "s|main = script|main = describe \"${MODULE_NAME}\"|" "$HS_FILE"
 else
-    sed -i.bak "s|main = scenario|main = scenario \"${MODULE_NAME}\"|" "$HS_FILE"
+    sed -i.bak "s|main = script|main = script \"${MODULE_NAME}\"|" "$HS_FILE"
 fi
 rm "$HS_FILE".bak
 stack exec --stack-yaml haskell/libs/with-preprocessor/stack.yaml with-preprocessor "$HS_FILE" "$HS_FILE"

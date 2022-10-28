@@ -5,7 +5,7 @@ version: 2.1
 jobs:
   daml:
     docker:
-      - image: digitalasset/daml-sdk:0.13.46
+      - image: digitalasset/daml-sdk:2.4.0
     steps:
       - checkout
       - setup_remote_docker

@@ -1,15 +1,15 @@
 -- Copyright (c) 2019, Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved.
 -- SPDX-License-Identifier: Apache-2.0
 
-daml 1.2
 module Test.Date.RollConvention where
 
 import DA.Assert
 import DA.Date as D
 import Org.Isda.Cdm.EventSpecificationModule.Impl.Date.RollConvention
 import Org.Isda.Cdm.EventSpecificationModule.Types.All hiding (length)
+import Daml.Script (script)
 
-testNextDate = scenario do
+testNextDate = script do
   nextDate RollConventionEnum_EOM (Period {periodMultiplier = 1, period = PeriodEnum_M, id = None}) (D.date 2018 Oct 31) === (D.date 2018 Nov 30)
   nextDate RollConventionEnum__1  (Period {periodMultiplier = 1, period = PeriodEnum_M, id = None}) (D.date 2018 Oct 01) === (D.date 2018 Nov 01)
   nextDate RollConventionEnum__30 (Period {periodMultiplier = 3, period = PeriodEnum_M, id = None}) (D.date 2018 Feb 28) === (D.date 2018 May 30)
@@ -17,11 +17,11 @@ testNextDate = scenario do
   nextDate RollConventionEnum_EOM (Period {periodMultiplier = 2, period = PeriodEnum_M, id = None}) (D.date 2018 Feb 28) === (D.date 2018 Apr 30)
   nextDate RollConventionEnum__30 (Period {periodMultiplier = 3, period = PeriodEnum_M, id = None}) (D.date 2018 Nov 30) === (D.date 2019 Feb 28)
 
-testImplyRollConvention = scenario do
+testImplyRollConvention = script do
   implyRollConvention False (D.date 2018 Jan 1) === RollConventionEnum__1
   implyRollConvention False (D.date 2018 Feb 28) === RollConventionEnum__28
   implyRollConvention True (D.date 2018 Feb 28) === RollConventionEnum_EOM
 
-main = scenario do
+main = script do
   testNextDate
   testImplyRollConvention

@@ -1,15 +1,15 @@
 -- Copyright (c) 2019, Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved.
 -- SPDX-License-Identifier: Apache-2.0
 
-daml 1.2
 module Test.Date.Period where
 
 import DA.Assert
 import DA.Date as D
 import Org.Isda.Cdm.EventSpecificationModule.Impl.Date.Period
 import Org.Isda.Cdm.EventSpecificationModule.Types.All hiding (length)
+import Daml.Script (script)
 
-main = scenario do
+main = script do
   (addPeriod (D.date 2018 Oct 01) (Period {periodMultiplier = 1, period = PeriodEnum_D, id = None}) === D.date 2018 Oct 02)
   (addPeriod (D.date 2018 Oct 01) (Period {periodMultiplier = 1, period = PeriodEnum_W, id = None}) === D.date 2018 Oct 08)
   (addPeriod (D.date 2018 Oct 01) (Period {periodMultiplier = 1, period = PeriodEnum_M, id = None}) === D.date 2018 Nov 01)

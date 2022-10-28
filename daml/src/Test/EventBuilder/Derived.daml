@@ -1,7 +1,6 @@
 -- Copyright (c) 2019, Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved.
 -- SPDX-License-Identifier: Apache-2.0
 
-daml 1.2
 module Test.EventBuilder.Derived where
 
 import DA.Assert
@@ -9,8 +8,9 @@ import DA.List as L
 import Org.Isda.Cdm.EventSpecificationModule
 import Test.Examples
 import Test.ReferenceData
+import Daml.Script (script)
 
-cds_all_periods = scenario do
+cds_all_periods = script do
   let spec = DerivedSpec
         { fromDate = None
         , toDate = None
@@ -22,7 +22,7 @@ cds_all_periods = scenario do
 
   return events
 
-cds_last_period = scenario do
+cds_last_period = script do
   eventsAll <- cds_all_periods
 
   let spec = DerivedSpec

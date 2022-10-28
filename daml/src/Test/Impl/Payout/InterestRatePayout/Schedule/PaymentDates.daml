@@ -1,7 +1,6 @@
 -- Copyright (c) 2019, Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved.
 -- SPDX-License-Identifier: Apache-2.0
 
-daml 1.2
 module Test.Impl.Payout.InterestRatePayout.Schedule.PaymentDates where
 
 import DA.Assert
@@ -12,6 +11,7 @@ import Test.Examples
 import Test.ReferenceData()
 import Test.Impl.Payout.InterestRatePayout.Schedule.CalculationPeriodDates
 import Test.Impl.Payout.InterestRatePayout.Schedule.ResetDates
+import Daml.Script (script)
 
 emptyPaymentCalculationPeriod : PaymentCalculationPeriod
 emptyPaymentCalculationPeriod = PaymentCalculationPeriod {
@@ -156,6 +156,6 @@ expectedResultPcps =
     }
   ]
 
-main = scenario do
+main = script do
   res <- generatePaymentCalculationPeriods cpdsBothStub3M (Some rds3M) (Some pds3M)
   res === expectedResultPcps

@@ -1,7 +1,6 @@
 -- Copyright (c) 2019, Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved.
 -- SPDX-License-Identifier: Apache-2.0
 
-daml 1.2
 module Test.Impl.Payout.InterestRatePayout.Schedule.ResetDates where
 
 import DA.Assert
@@ -11,6 +10,7 @@ import Org.Isda.Cdm.EventSpecificationModule.Types.All hiding (length)
 import Test.Examples
 import Test.ReferenceData()
 import Test.Impl.Payout.InterestRatePayout.Schedule.CalculationPeriodDates
+import Daml.Script (script)
 
 emptyFloatingRateDefinition : FloatingRateDefinition
 emptyFloatingRateDefinition = FloatingRateDefinition {
@@ -35,7 +35,7 @@ emptyRateObservation = RateObservation {
                         treatedRate = None
                       }
 
-main = scenario do
+main = script do
   let expectedResult =
         [ emptyCalculationPeriod {
             unadjustedStartDate = Some $ D.date 2018 Nov 15,

@@ -1,7 +1,6 @@
 -- Copyright (c) 2019, Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved.
 -- SPDX-License-Identifier: Apache-2.0
 
-daml 1.2
 module Test.Impl.Payout.InterestRatePayout.FloatingRate where
 
 import DA.Assert
@@ -13,6 +12,7 @@ import Org.Isda.Cdm.EventSpecificationModule.Types.All hiding (length)
 import Test.Examples
 import Test.ReferenceData()
 import Test.Impl.Payout.InterestRatePayout.Schedule.ResetDates
+import Daml.Script (script)
 
 testCaseFrd0 : FloatingRateDefinition
 testCaseFrd0 = emptyFloatingRateDefinition {
@@ -34,11 +34,11 @@ testCaseFrd1 = emptyFloatingRateDefinition {
                   ]
                }
 
-testImplyInitialReset = scenario do
+testImplyInitialReset = script do
   let expectedResult = ResetPrimitive { date = D.date 2018 Nov 30, resetValue = 0.03, cashflow = None }
   getInitialReset 0.03 testCaseFrd1 === expectedResult
 
-testGenerateResets = scenario do
+testGenerateResets = script do
   -- reset does not exist
   res <- buildResetEvents None None emptyLineage [] frc3M testCaseFrd0
   map (\r -> r.eventDate) res             === [D.date 2018 Nov 24]
@@ -56,7 +56,7 @@ testGenerateResets = scenario do
   res <- buildResetEvents None None emptyLineage [reset] frc3M testCaseFrd1
   map (\r -> r.eventDate) res === []
 
-testCalcFloatingRate = scenario do
+testCalcFloatingRate = script do
   -- Reset does not exist
   let resets = []
   let expectedResult = emptyFloatingRateDefinition {
@@ -89,7 +89,7 @@ testCalcFloatingRate = scenario do
   let res = calcFloatingRate resets frc3M testCaseFrd1
   res === expectedResult
 
-main = scenario do
+main = script do
   testImplyInitialReset
   testGenerateResets
   testCalcFloatingRate

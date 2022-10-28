@@ -1,7 +1,6 @@
 -- Copyright (c) 2019, Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved.
 -- SPDX-License-Identifier: Apache-2.0
 
-daml 1.2
 module Test.Impl.Payout.InterestRatePayout.Schedule.CalculationPeriodDates where
 
 import DA.Assert
@@ -11,6 +10,7 @@ import Org.Isda.Cdm.EventSpecificationModule.Impl.Contract.Payout.InterestRatePa
 import Org.Isda.Cdm.EventSpecificationModule.Types.All hiding (length)
 import Test.Examples
 import Test.ReferenceData()
+import Daml.Script (script)
 
 emptyCalculationPeriod : CalculationPeriod
 emptyCalculationPeriod = CalculationPeriod {
@@ -42,7 +42,7 @@ setStubType : StubPeriodTypeEnum -> CalculationPeriodDates -> CalculationPeriodD
 setStubType stubType calcPeriodDates =
   calcPeriodDates { stubPeriodType = Some stubType }
 
-main = scenario do
+main = script do
   -- Explicit stubs
   let expectedResultBothStub =
         [ emptyCalculationPeriod {

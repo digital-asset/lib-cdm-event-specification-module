@@ -1,7 +1,6 @@
 -- Copyright (c) 2019, Digital Asset (Switzerland) GmbH and/or its affiliates. All rights reserved.
 -- SPDX-License-Identifier: Apache-2.0
 
-daml 1.2
 module Test.Impl.Payout.InterestRatePayout where
 
 import DA.Assert
@@ -14,6 +13,7 @@ import Org.Isda.Cdm.EventSpecificationModule.Impl.Utils
 import Org.Isda.Cdm.EventSpecificationModule.Types.All hiding (length)
 import Test.Examples
 import Test.ReferenceData()
+import Daml.Script (script)
 
 genPayment : Decimal -> Date -> Date -> TransferPrimitive
 genPayment amount unadjustedDate adjustedDate =
@@ -66,7 +66,7 @@ genPayment amount unadjustedDate adjustedDate =
     rosettaKey = ""
   }
 
-testFloating = scenario do
+testFloating = script do
   let irp = irpFloating3M { rosettaKey = "Test" } : InterestRatePayout
   let payment1 = genPayment 2916.666669 (D.date 2018 Dec 5) (D.date 2018 Dec 5)
   let reset2 = ResetPrimitive { date = D.date 2018 Nov 30, resetValue = 0.03, cashflow = None }
@@ -118,7 +118,7 @@ testFloating = scenario do
   mapOptional (\r -> r.lineage) res         === tail expectedL
   map (\p -> p.primitive) res               === tail expectedP
 
-testFixed = scenario do
+testFixed = script do
   let expectedP =
         [ emptyPrimitiveEvent { transfer = [genPayment 833.333334 (D.date 2018 Dec 5) (D.date 2018 Dec 5)] } : PrimitiveEvent
         , emptyPrimitiveEvent { transfer = [genPayment 4888.888888 (D.date 2019 Mar 5) (D.date 2019 Mar 5)] } : PrimitiveEvent
@@ -132,6 +132,6 @@ testFixed = scenario do
 
   map (\p -> p.primitive) res === expectedP
 
-main = scenario do
+main = script do
   testFloating
   testFixed
